@@ -40,8 +40,6 @@ public class ModClientEvents {
     }
 
 
-
-
     @SubscribeEvent
     public void chat(ClientChatEvent event) {
         Minecraft instance = Minecraft.getInstance();

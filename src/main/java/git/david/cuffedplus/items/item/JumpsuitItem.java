@@ -39,13 +39,13 @@ public class JumpsuitItem extends Item {
     public boolean isFoil(@NotNull ItemStack pStack) {
         return false;
     }
-/*
+
     @SubscribeEvent
     public static void onPlayerTick(TickEvent.PlayerTickEvent event) {
         if (event.player.getItemBySlot(EquipmentSlot.CHEST).getItem() instanceof JumpsuitItem) {
             event.player.addEffect(new MobEffectInstance(MobEffects.GLOWING, 1, 1, false, false));
         }
-    } */
+    }
 
 
 
