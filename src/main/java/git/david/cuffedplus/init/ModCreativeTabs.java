@@ -55,12 +55,12 @@ public class ModCreativeTabs {
                         output.accept(ModItems.CAN_BE_BROKEN_OUT_OF_MODIFIER.get());
                         output.accept(ModItems.IS_LOCKPICKABLE_MODIFIER.get());
 
-                         /* WORKING ON A CUFF TABLE RIGHT NOW WHERE YOOU WILL BE ABLE TO MODIFY JUMPSUITS */
+                         /* WORKING ON A CUFF TABLE RIGHT NOW WHERE YOU WILL BE ABLE TO MODIFY JUMPSUITS */
                         output.accept(ModItems.CUFF_TABLE.get());
                         output.accept(ModItems.ANKLE_MONITOR.get());
                         output.accept(ModItems.ANKLE_MONITOR_TRACKER.get());
 
-                        output.accept(ModItems.LOCKED_MODIFIER.get());
+                        output.accept(ModItems.LOCK_MODIFIER.get());
                         output.accept(ModItems.HIGH_VISIBILITY_MODIFIER.get());
 
 

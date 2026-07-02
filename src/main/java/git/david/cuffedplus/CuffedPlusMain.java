@@ -4,11 +4,9 @@ import com.lazrproductions.cuffed.items.base.AbstractRestraintItem;
 import com.lazrproductions.cuffed.restraints.RestraintAPI;
 import com.lazrproductions.cuffed.restraints.base.AbstractRestraint;
 import git.david.cuffedplus.command.RoleCommand;
-import git.david.cuffedplus.config.CuffedPlusServerConfig;
 import git.david.cuffedplus.init.*;
-import git.david.cuffedplus.items.item.JumpsuitItem;
-import git.david.cuffedplus.misc.JumpsuitEvent;
-import git.david.cuffedplus.misc.RolesLogic;
+import git.david.cuffedplus.logic.JumpsuitLogic;
+import git.david.cuffedplus.logic.RolesLogic;
 import net.minecraft.core.BlockSource;
 import net.minecraft.core.dispenser.DispenseItemBehavior;
 import net.minecraft.core.dispenser.OptionalDispenseItemBehavior;
@@ -21,7 +19,6 @@ import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.ForgeRegistries.Keys;
@@ -90,7 +87,7 @@ public class CuffedPlusMain {
         ModRecipes.SERIALIZERS.register(FMLJavaModLoadingContext.get().getModEventBus());
 
         MinecraftForge.EVENT_BUS.register(new RolesLogic());
-        MinecraftForge.EVENT_BUS.register(new JumpsuitEvent());
+        MinecraftForge.EVENT_BUS.register(new JumpsuitLogic());
 
         modEventBus.addListener(this::onRegister);
         //modEventBus.register(new Ro);

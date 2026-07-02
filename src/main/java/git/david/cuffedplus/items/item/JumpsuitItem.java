@@ -1,5 +1,7 @@
 package git.david.cuffedplus.items.item;
 
+import com.lazrproductions.cuffed.CuffedMod;
+import git.david.cuffedplus.config.ICuffedPlusServerConfigMixin;
 import git.david.cuffedplus.data.WorldSavedData;
 import git.david.cuffedplus.utils.GeneralUtils;
 import net.minecraft.ChatFormatting;
@@ -29,6 +31,8 @@ import java.util.List;
 
 
 public class JumpsuitItem extends Item {
+
+    ICuffedPlusServerConfigMixin config = (ICuffedPlusServerConfigMixin) CuffedMod.SERVER_CONFIG;
 
     public JumpsuitItem(Properties Item) {
         super(Item);
@@ -103,7 +107,7 @@ public class JumpsuitItem extends Item {
             assert server != null;
             WorldSavedData data = WorldSavedData.get(server);
 
-            if (player.getTags().contains("prisoner") && !data.getCanPrisonersPutJumpsuitsOn()) {
+            if (player.getTags().contains("prisoner") && !config.canPrisonersPutOnJumpsuits()) {
                 player.displayClientMessage(Component.literal("You are a Prisoner!  Prisoners can't put on jumpsuits by themselves").withStyle(ChatFormatting.GOLD).withStyle(ChatFormatting.BOLD), true);
                 return InteractionResultHolder.fail(itemInHand);
             }
@@ -120,7 +124,7 @@ public class JumpsuitItem extends Item {
 
             //jumpsuit.hideTooltipPart(ItemStack.TooltipPart.ENCHANTMENTS);
             if (!(currentChest.getItem() instanceof JumpsuitItem)) {
-                if (player.getTags().contains("prisoner") && !data.getCanPrisonersPutJumpsuitsOn()) {
+                if (player.getTags().contains("prisoner") && !config.canPrisonersPutOnJumpsuits()) {
                     player.displayClientMessage(Component.literal("You are a Prisoner!  Prisoners can't put on jumpsuits by themselves").withStyle(ChatFormatting.GOLD).withStyle(ChatFormatting.BOLD), true);
                     return InteractionResultHolder.fail(itemInHand);
                 } else {
@@ -132,7 +136,7 @@ public class JumpsuitItem extends Item {
                     }
                 }
             } else {
-                if (player.getTags().contains("prisoner") && !data.getCanPrisonersTakeJumpsuitsOff()) {
+                if (player.getTags().contains("prisoner") && !config.canPrisonersTakeOffJumpsuits()) {
                     player.displayClientMessage(Component.literal("You are a Prisoner!  Prisoners can't put on jumpsuits by themselves").withStyle(ChatFormatting.GOLD).withStyle(ChatFormatting.BOLD), true);
                     return InteractionResultHolder.fail(itemInHand);
                 } else {
@@ -172,8 +176,8 @@ public class JumpsuitItem extends Item {
             assert server != null;
             WorldSavedData data = WorldSavedData.get(server);
 
-            if (user.getTags().contains("prisoner") && data.getCanPrisonersPutJumpsuitsOnOthers()) {
-                user.displayClientMessage(Component.literal("Prisoners can't put jumpsuits on others").withStyle(ChatFormatting.GOLD).withStyle(ChatFormatting.BOLD), true);
+            if (user.getTags().contains("prisoner") && !config.canPrisonersPutJumpsuitsOnOthers()) {
+                user.displayClientMessage(Component.literal("You are a prisoner!  Prisoners can't put jumpsuits on others").withStyle(ChatFormatting.GOLD).withStyle(ChatFormatting.BOLD), true);
                 return InteractionResult.FAIL;
             }
             if (!target.hasItemInSlot(EquipmentSlot.CHEST)) {
@@ -188,6 +192,7 @@ public class JumpsuitItem extends Item {
                 if (!user.getAbilities().instabuild) {
                     stack.shrink(1);
                 }
+                // TODO: Add/Rework system for taking jumpsuits off others
             } else if (chest.getItem() instanceof JumpsuitItem) {
 
                 ItemStack suit = target.getItemBySlot(EquipmentSlot.CHEST).copyAndClear();

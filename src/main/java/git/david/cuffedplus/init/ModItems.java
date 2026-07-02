@@ -140,10 +140,10 @@ public class ModItems {
     /* JUMPSUIT MODIFICATORS */
 
     // TODO: add textures to the jumpsuit modifiers
-    public static final RegistryObject<Item> LOCKED_MODIFIER = ITEMS.register("locked_modifier",
+    public static final RegistryObject<Item> LOCK_MODIFIER = ITEMS.register("lock_modifier",
             () -> new JumpsuitModifierItem(new Item.Properties().stacksTo(16).rarity(Rarity.UNCOMMON)));
 
-    public static final RegistryObject<Item> HIGH_VISIBILITY_MODIFIER = ITEMS.register("high_visibility_modifer",
+    public static final RegistryObject<Item> HIGH_VISIBILITY_MODIFIER = ITEMS.register("high_visibility_modifier",
             () -> new JumpsuitModifierItem(new Item.Properties().stacksTo(16).rarity(Rarity.UNCOMMON)));
 
 
