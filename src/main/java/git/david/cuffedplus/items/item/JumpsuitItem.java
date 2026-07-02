@@ -22,7 +22,6 @@ import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
@@ -47,6 +46,43 @@ public class JumpsuitItem extends Item {
         }
     }
 
+    /**
+     * public static void setNumber(ItemStack stack, byte number) {
+     * Item item = stack.getItem();
+     * if (!(item instanceof JumpsuitItem)) {return;}
+     * stack.getOrCreateTag().putByte("number", number);
+     * }
+     * <p>
+     * public static byte getNumber(ItemStack stack) {
+     * Item item = stack.getItem();
+     * return stack.getOrCreateTag().getByte("number");
+     * }
+     */
+
+    public static void setNumber(ItemStack stack, byte number) {
+        stack.getOrCreateTag().putByte("JumpsuitNumber", number);
+    }
+
+    public static byte getNumber(ItemStack stack) {
+        return stack.getOrCreateTag().getByte("JumpsuitNumber");
+    }
+
+    public static void setLocked(ItemStack stack, boolean value) {
+        stack.getOrCreateTag().putBoolean("Locked", value);
+    }
+
+    public static boolean getLocked(ItemStack stack) {
+        return stack.getOrCreateTag().getBoolean("Locked");
+    }
+
+    public static void setHighVisibility(ItemStack stack, boolean value) {
+        stack.getOrCreateTag().putBoolean("HighVisibility", value);
+    }
+
+    public static boolean getHighVisibility(ItemStack stack) {
+        return stack.getOrCreateTag().getBoolean("HighVisibility");
+    }
+
     @Override
     public boolean isFoil(@NotNull ItemStack pStack) {
         return false;
@@ -54,38 +90,58 @@ public class JumpsuitItem extends Item {
 
     @Override
     public @NotNull InteractionResultHolder<ItemStack> use(@NotNull Level level, Player player, @NotNull InteractionHand hand) {
-        ItemStack stack = player.getItemInHand(hand);
+        ItemStack itemInHand = player.getItemInHand(hand);
         ItemStack currentChest = player.getItemBySlot(EquipmentSlot.CHEST);
         assert Minecraft.getInstance().player != null;
 
         if (player.isCrouching()) {
-            return InteractionResultHolder.fail(stack);
+            return InteractionResultHolder.fail(itemInHand);
         }
 
         if (!level.isClientSide) {
             MinecraftServer server = player.getServer();
             assert server != null;
             WorldSavedData data = WorldSavedData.get(server);
+
             if (player.getTags().contains("prisoner") && !data.getCanPrisonersPutJumpsuitsOn()) {
-                player.displayClientMessage(Component.literal("You are a Prisoner | Prisoners can't put on jumpsuits by themselves").withStyle(ChatFormatting.GOLD).withStyle(ChatFormatting.BOLD), true);
-                return InteractionResultHolder.fail(stack);
+                player.displayClientMessage(Component.literal("You are a Prisoner!  Prisoners can't put on jumpsuits by themselves").withStyle(ChatFormatting.GOLD).withStyle(ChatFormatting.BOLD), true);
+                return InteractionResultHolder.fail(itemInHand);
             }
-            ItemStack jumpsuit = stack.copy();
+
+
+            ItemStack jumpsuit = itemInHand.copy();
             jumpsuit.setCount(1);
             //jumpsuit.enchant();
             //jumpsuit.setCount(1);
             //CompoundTag data = player.getPersistentData();
-            if (stack.getOrCreateTag().getBoolean("Locked")) {
+            if (itemInHand.getOrCreateTag().getBoolean("Locked")) {
                 jumpsuit.enchant(Enchantments.BINDING_CURSE, 1);
             }
 
             //jumpsuit.hideTooltipPart(ItemStack.TooltipPart.ENCHANTMENTS);
-
-
-            if (!currentChest.isEmpty()) {
-                boolean added = player.getInventory().add(currentChest);
-                if (!added) {
-                    player.drop(currentChest, false);
+            if (!(currentChest.getItem() instanceof JumpsuitItem)) {
+                if (player.getTags().contains("prisoner") && !data.getCanPrisonersPutJumpsuitsOn()) {
+                    player.displayClientMessage(Component.literal("You are a Prisoner!  Prisoners can't put on jumpsuits by themselves").withStyle(ChatFormatting.GOLD).withStyle(ChatFormatting.BOLD), true);
+                    return InteractionResultHolder.fail(itemInHand);
+                } else {
+                    if (!currentChest.isEmpty()) {
+                        boolean added = player.getInventory().add(currentChest);
+                        if (!added) {
+                            player.drop(currentChest, false);
+                        }
+                    }
+                }
+            } else {
+                if (player.getTags().contains("prisoner") && !data.getCanPrisonersTakeJumpsuitsOff()) {
+                    player.displayClientMessage(Component.literal("You are a Prisoner!  Prisoners can't put on jumpsuits by themselves").withStyle(ChatFormatting.GOLD).withStyle(ChatFormatting.BOLD), true);
+                    return InteractionResultHolder.fail(itemInHand);
+                } else {
+                    if (!currentChest.isEmpty()) {
+                        boolean added = player.getInventory().add(currentChest);
+                        if (!added) {
+                            player.drop(currentChest, false);
+                        }
+                    }
                 }
             }
 
@@ -93,11 +149,11 @@ public class JumpsuitItem extends Item {
             player.setItemSlot(EquipmentSlot.CHEST, jumpsuit);
 
             if (!player.getAbilities().instabuild) {
-                stack.shrink(1);
+                itemInHand.shrink(1);
             }
-        }
 
-        return InteractionResultHolder.success(stack);
+        }
+        return InteractionResultHolder.success(itemInHand);
     }
 
 
@@ -139,7 +195,7 @@ public class JumpsuitItem extends Item {
                 suit.setCount(1);
                 boolean added = user.getInventory().add(suit);
                 target.getItemBySlot(EquipmentSlot.CHEST).setCount(0);
-            //    target.removeTag("prisoner");
+                //    target.removeTag("prisoner");
                 if (!added) {
                     user.drop(chest, false);
                 }
@@ -150,53 +206,17 @@ public class JumpsuitItem extends Item {
         return InteractionResult.FAIL;
     }
 
-
-  /**  public static void setNumber(ItemStack stack, byte number) {
-        Item item = stack.getItem();
-        if (!(item instanceof JumpsuitItem)) {return;}
-       stack.getOrCreateTag().putByte("number", number);
-    }
-
-    public static byte getNumber(ItemStack stack) {
-        Item item = stack.getItem();
-        return stack.getOrCreateTag().getByte("number");
-    }
-  */
-
-    public static void setNumber(ItemStack stack, byte number) {
-        stack.getOrCreateTag().putByte("JumpsuitNumber", number);
-    }
-
-    public static byte getNumber(ItemStack stack) {
-        return stack.getOrCreateTag().getByte("JumpsuitNumber");
-    }
-
-    public static void setLocked(ItemStack stack, boolean value) {
-        stack.getOrCreateTag().putBoolean("Locked", value);
-    }
-
-    public static boolean getLocked(ItemStack stack) {
-        return stack.getOrCreateTag().getBoolean("Locked");
-    }
-
-    public static void setHighVisibility(ItemStack stack, boolean value) {
-        stack.getOrCreateTag().putBoolean("HighVisibility", value);
-    }
-
-    public static boolean getHighVisiblity(ItemStack stack) {
-        return stack.getOrCreateTag().getBoolean("HighVisibility");
-    }
-
-
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
         byte number = getNumber(stack);
         Item item = stack.getItem();
-        if (!(item instanceof JumpsuitItem)) {return;}
+        if (!(item instanceof JumpsuitItem)) {
+            return;
+        }
 
-       // System.out.println("Number: " + number);
-       // System.out.println(String.valueOf(getNumber(stack)));
-            tooltip.add(Component.literal("Number: " + number).withStyle(ChatFormatting.GRAY));
+        // System.out.println("Number: " + number);
+        // System.out.println(String.valueOf(getNumber(stack)));
+        tooltip.add(Component.literal("Number: " + number).withStyle(ChatFormatting.GRAY));
         super.appendHoverText(stack, level, tooltip, flag);
     }
 }

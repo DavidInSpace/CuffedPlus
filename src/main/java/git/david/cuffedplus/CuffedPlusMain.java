@@ -4,8 +4,10 @@ import com.lazrproductions.cuffed.items.base.AbstractRestraintItem;
 import com.lazrproductions.cuffed.restraints.RestraintAPI;
 import com.lazrproductions.cuffed.restraints.base.AbstractRestraint;
 import git.david.cuffedplus.command.RoleCommand;
+import git.david.cuffedplus.config.CuffedPlusServerConfig;
 import git.david.cuffedplus.init.*;
 import git.david.cuffedplus.items.item.JumpsuitItem;
+import git.david.cuffedplus.misc.JumpsuitEvent;
 import git.david.cuffedplus.misc.RolesLogic;
 import net.minecraft.core.BlockSource;
 import net.minecraft.core.dispenser.DispenseItemBehavior;
@@ -19,6 +21,7 @@ import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.ForgeRegistries.Keys;
@@ -70,12 +73,13 @@ import javax.annotation.Nonnull;
 public class CuffedPlusMain {
     public static final String MODID = "cuffedplus";
     public static final Logger LOGGER = LogManager.getLogger(CuffedPlusMain.MODID);
-
+    //public static final CuffedPlusServerConfig SERVER_CONFIG = new CuffedPlusServerConfig(MODID, ModConfig.Type.SERVER);
 
     public CuffedPlusMain() {
         LOGGER.info("Cuffed Plus: Running CuffedPlusMain");
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
         MinecraftForge.EVENT_BUS.register(this);
+
 
         ModCreativeTabs.register(modEventBus);
         ModItems.register(modEventBus);
@@ -86,11 +90,13 @@ public class CuffedPlusMain {
         ModRecipes.SERIALIZERS.register(FMLJavaModLoadingContext.get().getModEventBus());
 
         MinecraftForge.EVENT_BUS.register(new RolesLogic());
+        MinecraftForge.EVENT_BUS.register(new JumpsuitEvent());
 
         modEventBus.addListener(this::onRegister);
         //modEventBus.register(new Ro);
         modEventBus.addListener(this::commonSetup);
 
+        //SERVER_CONFIG.registerConfig(FMLJavaModLoadingContext.get());
     }
 
     private void commonSetup(final FMLCommonSetupEvent event) {

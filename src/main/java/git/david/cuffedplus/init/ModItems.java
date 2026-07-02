@@ -139,6 +139,7 @@ public class ModItems {
 
     /* JUMPSUIT MODIFICATORS */
 
+    // TODO: add textures to the jumpsuit modifiers
     public static final RegistryObject<Item> LOCKED_MODIFIER = ITEMS.register("locked_modifier",
             () -> new JumpsuitModifierItem(new Item.Properties().stacksTo(16).rarity(Rarity.UNCOMMON)));
 
@@ -165,7 +166,7 @@ public class ModItems {
             () -> new AbstractRestraintKeyItem(new Item.Properties().stacksTo(4).rarity(Rarity.COMMON)));
      */
 
-    //TODO: Fix ankle monitor texture because right now it is taking the texture of the Armor Material
+
    public static final RegistryObject<Item> ANKLE_MONITOR = ITEMS.register("ankle_monitor",
            () -> new AnkleMonitorItem(ModArmorMaterials.ANKLE_MONITOR, ArmorItem.Type.BOOTS, new Item.Properties()));
 

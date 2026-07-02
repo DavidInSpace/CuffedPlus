@@ -39,18 +39,6 @@ public class RolesLogic {
 
 
     @SubscribeEvent
-    public static void onPlayerTick(TickEvent.PlayerTickEvent event) {
-        GeneralUtils.displayClientMessage(event.player, "Tick Player", ChatFormatting.WHITE);
-        if (event.side.isServer() && event.phase == TickEvent.Phase.START) {
-            if (event.player.getItemBySlot(EquipmentSlot.CHEST).getItem() instanceof JumpsuitItem) {
-
-            }
-            GeneralUtils.displayClientMessage(event.player, "glowing jumpsuit", ChatFormatting.GREEN);
-            event.player.addEffect(new MobEffectInstance(MobEffects.GLOWING, 1, 1, false, false));
-        }
-    }
-
-    @SubscribeEvent
     public void onNameFormat(PlayerEvent.NameFormat event) {
         Player player = event.getEntity();
         player.displayClientMessage(Component.literal("On Name Format"), false);

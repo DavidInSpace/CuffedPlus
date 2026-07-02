@@ -36,7 +36,7 @@ public class WorldSavedData extends SavedData {
         tag.putBoolean("can_prisoners_put_jumpsuits_on_others", CanPrisonersPutJumpsuitsOnOthers);
         return tag;
     }
-
+    // TODO: Figure out how to get values of the settings from the client side when there is no access to the server
     public static WorldSavedData get(MinecraftServer server) {
         return server.overworld().getDataStorage().computeIfAbsent(
                 WorldSavedData::load,

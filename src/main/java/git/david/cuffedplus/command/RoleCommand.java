@@ -2,10 +2,8 @@ package git.david.cuffedplus.command;
 
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.BoolArgumentType;
-import com.mojang.brigadier.builder.ArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
-import com.mojang.brigadier.tree.RootCommandNode;
 import git.david.cuffedplus.data.WorldSavedData;
 import net.minecraft.ChatFormatting;
 import net.minecraft.commands.CommandBuildContext;
@@ -18,40 +16,41 @@ import net.minecraft.server.level.ServerPlayer;
 
 public class RoleCommand extends WorldSavedData {
     public RoleCommand(CommandDispatcher<CommandSourceStack> dispatcher, CommandBuildContext ctx) {
-       dispatcher.register(
+        dispatcher.register(
                 Commands.literal("cuffed").requires((source) -> {
                             return source.hasPermission(2) || !source.isPlayer();
-                        }).then(Commands.literal("settings")
-                        /* TODO: Rework how the command settings updates are named and grouped/ordered/organized*/
-                                .then(Commands.literal("get")
-                                        .executes(this::executeGetSettings))
-                                .then(Commands.literal("ShowRolePrefix")
-                                        .then(Commands.argument("state", BoolArgumentType.bool())
-                                                .executes(this::executeShowRolePrefix)))
-                                .then(Commands.literal("RolePrefixBold")
-                                        .then(Commands.argument("state", BoolArgumentType.bool())
-                                                .executes(this::executeRolePrefixBold)))
-                                .then(Commands.literal("CanPrisonersTakeJumpsuitsOff")
-                                        .then(Commands.argument("state", BoolArgumentType.bool())
-                                                .executes(this::executeCanPrisonersTakeJumpsuitsOff)))
-                                .then(Commands.literal("CanPrisonersPutJumpsuitsOn")
-                                        .then(Commands.argument("state", BoolArgumentType.bool())
-                                                .executes(this::executeCanPrisonersPutJumpsuitsOn)))
-                                .then(Commands.literal("CanPrisonersTakeJumpsuitsOffOthers")
-                                        .then(Commands.argument("state", BoolArgumentType.bool())
-                                                .executes(this::executeCanPrisonersTakeJumpsuitsOffOthers)))
-                                .then(Commands.literal("CanPrisonersPutJumpsuitsOnOthers")
-                                        .then(Commands.argument("state", BoolArgumentType.bool())
-                                                .executes(this::executeCanPrisonersPutJumpsuitsOnOthers))))
+                        }).then(Commands.literal("cuffedplus")
+                                .then(Commands.literal("settings"))
+                                /* TODO: Fix command structure (merged with "/cuffed" command) */
+                                .then(Commands.literal("get"))
+                                .executes(this::executeGetSettings))
+                        .then(Commands.literal("ShowRolePrefix")
+                                .then(Commands.argument("state", BoolArgumentType.bool())
+                                        .executes(this::executeShowRolePrefix)))
+                        .then(Commands.literal("RolePrefixBold")
+                                .then(Commands.argument("state", BoolArgumentType.bool())
+                                        .executes(this::executeRolePrefixBold)))
+                        .then(Commands.literal("CanPrisonersTakeJumpsuitsOff")
+                                .then(Commands.argument("state", BoolArgumentType.bool())
+                                        .executes(this::executeCanPrisonersTakeJumpsuitsOff)))
+                        .then(Commands.literal("CanPrisonersPutJumpsuitsOn")
+                                .then(Commands.argument("state", BoolArgumentType.bool())
+                                        .executes(this::executeCanPrisonersPutJumpsuitsOn)))
+                        .then(Commands.literal("CanPrisonersTakeJumpsuitsOffOthers")
+                                .then(Commands.argument("state", BoolArgumentType.bool())
+                                        .executes(this::executeCanPrisonersTakeJumpsuitsOffOthers)))
+                        .then(Commands.literal("CanPrisonersPutJumpsuitsOnOthers")
+                                .then(Commands.argument("state", BoolArgumentType.bool())
+                                        .executes(this::executeCanPrisonersPutJumpsuitsOnOthers)))
 
-                        .then(Commands.literal("set")
-                                .then(Commands.argument("player", EntityArgument.player())
-                                        .then(Commands.literal("prisoner")
-                                                .executes(this::executeApplyPrisonerRole))
-                                        .then(Commands.literal("officer")
-                                                .executes(this::executeApplyOfficerRole))
-                                        .then(Commands.literal("none")
-                                                .executes(this::executeApplyNoneRole))))
+                        .then(Commands.literal("set"))
+                        .then(Commands.argument("player", EntityArgument.player())
+                                .then(Commands.literal("prisoner")
+                                        .executes(this::executeApplyPrisonerRole))
+                                .then(Commands.literal("officer")
+                                        .executes(this::executeApplyOfficerRole))
+                                .then(Commands.literal("none")
+                                        .executes(this::executeApplyNoneRole)))
 
                         .then(Commands.literal("get")
                                 .then(Commands.argument("player", EntityArgument.player())

@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "cuffedplus:item/high_visibility_modifer"
+    "layer0": "cuffedplus:item/high_visibility_modifier"
   }
 }
