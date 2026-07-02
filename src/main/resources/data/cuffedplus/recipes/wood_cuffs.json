@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "NIN"
+  ],
+  "key": {
+    "I": {
+      "item": "minecraft:stick"
+    },
+    "N": {
+      "item": "minecraft:oak_log"
+    }
+  },
+  "result": {
+    "item": "cuffedplus:wood_cuffs",
+    "count": 1
+  }
+}

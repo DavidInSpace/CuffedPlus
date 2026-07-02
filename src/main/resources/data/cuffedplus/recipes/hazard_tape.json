@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "minecraft:black_dye"
+    },
+    {
+      "item": "minecraft:yellow_dye"
+    },
+    {
+      "item": "cuffed:duck_tape"
+    }
+  ],
+  "result": {
+    "item": "cuffedplus:hazard_tape",
+    "count": 1
+  }
+}

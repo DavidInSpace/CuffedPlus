@@ -1,0 +1,6 @@
+{
+    "parent": "minecraft:item/generated",
+    "textures": {
+      "layer0": "cuffedplus:item/can_be_broken_out_of"
+    }
+}

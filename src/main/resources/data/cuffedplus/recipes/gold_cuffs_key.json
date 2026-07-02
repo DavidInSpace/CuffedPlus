@@ -1,0 +1,17 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+      "  N",
+      " NN",
+      "N  "
+    ],
+    "key": {
+      "N": {
+        "item": "minecraft:gold_ingot"
+      }
+    },
+    "result": {
+      "item": "cuffedplus:gold_cuffs_key",
+      "count": 1
+    }
+  }

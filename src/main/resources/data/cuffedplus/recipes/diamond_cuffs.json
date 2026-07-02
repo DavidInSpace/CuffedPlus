@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "NIN"
+  ],
+  "key": {
+    "I": {
+      "item": "minecraft:chain"
+    },
+    "N": {
+      "item": "minecraft:diamond"
+    }
+  },
+  "result": {
+    "item": "cuffedplus:diamond_cuffs",
+    "count": 1
+  }
+}

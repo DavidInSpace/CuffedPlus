@@ -1,0 +1,6 @@
+{
+    "parent": "minecraft:item/generated",
+    "textures": {
+      "layer0": "cuffedplus:item/allow_item_use"
+    }
+}

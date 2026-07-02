@@ -1,0 +1,6 @@
+{
+    "parent": "minecraft:item/generated",
+    "textures": {
+      "layer0": "cuffedplus:item/gold_cuffs_key"
+    }
+}

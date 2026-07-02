@@ -1,0 +1,7 @@
+{
+  "type": "cuffedplus:jumpsuit_modifier",
+  "template": { "tag": "cuffedplus:jumpsuit_modifiers"  },
+  "base": { "tag": "cuffedplus:jumpsuits" },
+  "addition": { "tag": "cuffedplus:modifier_trigger" },
+  "result": {"item": "minecraft:air"}
+}

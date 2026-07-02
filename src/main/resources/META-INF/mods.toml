@@ -1,0 +1,50 @@
+modLoader="javafml" #mandatory
+loaderVersion="${loader_version_range}" #mandatory 
+license="${mod_license}"
+
+[[mods]] #mandatory
+modId="${mod_id}" #mandatory
+version="${mod_version}" #mandatory
+displayName="${mod_name}" #mandatory
+authors="${mod_authors}" #optional
+description='''${mod_description}'''
+
+
+[[dependencies.forge]] #optional
+
+    modId="forge" #mandatory
+    mandatory=true #mandatory
+    versionRange="${forge_version_range}" #mandatory
+    ordering="NONE"
+    side="BOTH"
+
+# Here's another dependency
+[[dependencies.${mod_id}]]
+    modId="minecraft"
+    mandatory=true
+    versionRange="${minecraft_version_range}"
+    ordering="NONE"
+    side="BOTH"
+
+
+
+
+
+
+# Cuffed
+[[dependencies.cuffedplus]]
+modId="cuffed"
+mandatory=true
+versionRange="${cuffed_version_range}" # If using build expansion
+ordering="NONE"
+side="BOTH"
+
+# Lazr's Lib
+[[dependencies.cuffedplus]]
+modId="lazrslib"
+mandatory=true
+versionRange="${lazrslib_version_range}" # Same here
+ordering="NONE"
+side="BOTH"
+
+

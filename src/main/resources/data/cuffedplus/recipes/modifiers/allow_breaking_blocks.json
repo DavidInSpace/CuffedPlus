@@ -1,0 +1,32 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "CNC",
+    "DGD",
+    "CNC"
+  ],
+  "key": {
+    "C": {
+      "item": "minecraft:copper_ingot"
+    },
+    "N": {
+      "item": "minecraft:netherite_ingot"
+    },
+    "D": {
+      "item": "minecraft:diamond"
+    },
+    "G": [
+      {"item": "minecraft:grass_block"},
+      {"item": "minecraft:dirt"},
+      {"item": "minecraft:mycelium"},
+      {"item": "minecraft:podzol"},
+      {"item": "minecraft:coarse_dirt"},
+      {"item": "minecraft:rooted_dirt"}
+    ]
+
+  },
+  "result": {
+    "item": "cuffedplus:allow_breaking_blocks",
+    "count": 2
+  }
+}

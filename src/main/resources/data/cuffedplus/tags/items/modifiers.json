@@ -1,0 +1,11 @@
+{
+  "replace": false,
+  "values": [
+    "cuffedplus:allow_breaking_blocks",
+    "cuffedplus:allow_item_use",
+    "cuffedplus:allow_jumping",
+    "cuffedplus:allow_movement",
+    "cuffedplus:can_be_broken_out_of",
+    "cuffedplus:is_lockpickable"
+  ]
+}

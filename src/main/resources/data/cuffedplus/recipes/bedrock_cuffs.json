@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "NIN"
+  ],
+  "key": {
+    "I": {
+      "item": "minecraft:netherite_ingot"
+    },
+    "N": {
+      "item": "minecraft:bedrock"
+    }
+  },
+  "result": {
+    "item": "cuffedplus:bedrock_cuffs",
+    "count": 1
+  }
+}

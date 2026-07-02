@@ -1,0 +1,62 @@
+{
+    "itemGroup.cuffedplus": "Cuffed+",
+
+
+  "item.cuffedplus.wood_cuffs_key": "Wooden Handcuffs Key",
+  "item.cuffedplus.wood_cuffs": "Wooden Handcuffs",
+
+  "item.cuffedplus.gold_cuffs_key": "Golden Handcuffs Key",
+  "item.cuffedplus.gold_cuffs": "Golden Handcuffs",
+
+  "item.cuffedplus.emerald_cuffs_key": "Emerald Handcuffs Key",
+  "item.cuffedplus.emerald_cuffs": "Emerald Handcuffs",
+
+  "item.cuffedplus.diamond_cuffs_key": "Diamond Handcuffs Key",
+  "item.cuffedplus.diamond_cuffs": "Diamond Handcuffs",
+
+  "item.cuffedplus.netherite_cuffs_key": "Netherite Handcuffs Key",
+  "item.cuffedplus.netherite_cuffs": "Netherite Handcuffs",
+
+  "item.cuffedplus.bedrock_cuffs_key": "Bedrock Handcuffs Key",
+  "item.cuffedplus.bedrock_cuffs": "Bedrock Handcuffs",
+
+  "item.cuffedplus.hazard_tape": "Hazard Tape",
+
+  "item.cuffedplus.ankle_monitor": "Ankle Monitor",
+  "item.cuffedplus.ankle_monitor_tracker": "Ankle Monitor Tracker",
+
+
+  "item.cuffedplus.dclass_jumpsuit": "D-Class Jumpsuit",
+  "item.cuffedplus.prison_jumpsuit_1": "Prison Jumpsuit 1",
+  "item.cuffedplus.prison_jumpsuit_2": "Prison Jumpsuit 2",
+  "item.cuffedplus.prison_jumpsuit_3": "Prison Jumpsuit 3",
+
+
+
+  "item.cuffedplus.allow_breaking_blocks": "Breaking Blocks Modifier",
+  "item.cuffedplus.allow_item_use": "Item Use Modifier ",
+  "item.cuffedplus.allow_movement": "Movement Modifier",
+  "item.cuffedplus.allow_jumping": "Jump Modifier",
+  "item.cuffedplus.can_be_broken_out_of": "Breakable Modifier",
+  "item.cuffedplus.is_lockpickable": "Lockpickable Modifier",
+
+  "item.cuffedplus.locked": "Locked Modifier",
+  "item.cuffedplus.high_visibility": "Highlighted Modifier",
+
+  "block.cuffedplus.cuff_table_block": "Cuffs Table",
+
+  "container.cuffedplus.cuff_table_block": "Cuffs Table",
+
+
+
+
+
+  "info.cuffedplus.restraints.head.name": "",
+  "info.cuffedplus.restraints.head.action_bar": "",
+
+  "info.cuffedplus.restraints.legcuffs.name":"Your legs are restrained!",
+  "info.cuffedplus.restraints.legcuffs.action_bar": "Your legs are restrained!",
+
+  "info.cuffedplus.restraints.handcuffs.name":"Your hands are restrained!",
+  "info.cuffedplus.restraints.handcuffs.action_bar": "Your hands are restrained!"
+}

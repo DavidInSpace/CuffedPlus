@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "CNC",
+    "DGD",
+    "CNC"
+  ],
+  "key": {
+    "C": {
+      "item": "minecraft:copper_ingot"
+    },
+    "N": {
+      "item": "minecraft:netherite_ingot"
+    },
+    "D": {
+      "item": "minecraft:diamond"
+    },
+    "G":
+      {
+        "item": "minecraft:chain"
+      }
+  },
+  "result": {
+    "item": "cuffedplus:can_be_broken_out_of",
+    "count": 2
+  }
+}

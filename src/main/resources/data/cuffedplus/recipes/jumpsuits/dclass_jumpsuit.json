@@ -1,0 +1,91 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " C ",
+    "HLO",
+    " B "
+  ],
+  "key": {
+    "C": [
+      {
+        "item": "minecraft:leather_chestplate"
+      },
+      {
+        "item": "minecraft:chainmail_chestplate"
+      },
+      {
+        "item": "minecraft:iron_chestplate"
+      },
+      {
+        "item": "minecraft:golden_chestplate"
+      },
+      {
+        "item": "minecraft:diamond_chestplate"
+      }
+    ],
+    "L": [
+      {
+        "item": "minecraft:leather_leggings"
+      },
+      {
+        "item": "minecraft:chainmail_leggings"
+      },
+      {
+        "item": "minecraft:iron_leggings"
+      },
+      {
+        "item": "minecraft:golden_leggings"
+      },
+      {
+        "item": "minecraft:diamond_leggings"
+      }
+    ],
+    "B": [
+      {
+        "item": "minecraft:leather_boots"
+      },
+      {
+        "item": "minecraft:chainmail_boots"
+      },
+      {
+        "item": "minecraft:iron_boots"
+      },
+      {
+        "item": "minecraft:golden_boots"
+      },
+      {
+        "item": "minecraft:diamond_boots"
+      }
+    ],
+    "H": [
+      {
+        "item": "minecraft:skeleton_skull"
+      },
+      {
+        "item": "minecraft:wither_skeleton_skull"
+      },
+      {
+        "item": "minecraft:player_head"
+      },
+      {
+        "item": "minecraft:zombie_head"
+      },
+      {
+        "item": "minecraft:creeper_head"
+      },
+      {
+        "item": "minecraft:piglin_head"
+      },
+      {
+        "item": "minecraft:dragon_head"
+      }
+    ],
+    "O": {
+      "item": "minecraft:orange_dye"
+    }
+  },
+    "result": {
+      "item": "cuffedplus:dclass_jumpsuit",
+      "count": 2
+    }
+  }

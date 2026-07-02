@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "  N",
+    " NN",
+    "N  "
+  ],
+  "key": {
+    "N": {
+      "item": "minecraft:emerald"
+    }
+  },
+  "result": {
+    "item": "cuffedplus:emerald_cuffs_key",
+    "count": 1
+  }
+}
