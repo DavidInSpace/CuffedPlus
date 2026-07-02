@@ -26,7 +26,7 @@ public class ModClientEvents {
             var renderer = event.getSkin(skin);
 
             if (renderer instanceof PlayerRenderer playerRenderer) {
-                //playerRenderer.addLayer(new JumpsuitLayer(playerRenderer));
+                playerRenderer.addLayer(new JumpsuitLayer(playerRenderer));
             }
         }
     }
@@ -34,11 +34,9 @@ public class ModClientEvents {
 
     @SubscribeEvent
     public static void onClientSetup(FMLClientSetupEvent event) {
-
         event.enqueueWork(() -> {
             MenuScreens.register(ModMenuTypes.CUFF_TABLE_MENU.get(), CuffTableMenuScreen::new);
         });
-
     }
 
 
