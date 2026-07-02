@@ -1,6 +1,7 @@
 package git.david.cuffedplus.items.item;
 
 import git.david.cuffedplus.data.WorldSavedData;
+import git.david.cuffedplus.utils.GeneralUtils;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
@@ -21,6 +22,7 @@ import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
@@ -29,25 +31,26 @@ import java.util.List;
 
 public class JumpsuitItem extends Item {
 
-
     public JumpsuitItem(Properties Item) {
         super(Item);
     }
 
+    @SubscribeEvent
+    public static void onPlayerTick(TickEvent.PlayerTickEvent event) {
+        GeneralUtils.displayClientMessage(event.player, "Tick Player", ChatFormatting.WHITE);
+        if (event.side.isServer() && event.phase == TickEvent.Phase.START) {
+            if (event.player.getItemBySlot(EquipmentSlot.CHEST).getItem() instanceof JumpsuitItem) {
+
+            }
+            GeneralUtils.displayClientMessage(event.player, "glowing jumpsuit", ChatFormatting.GREEN);
+            event.player.addEffect(new MobEffectInstance(MobEffects.GLOWING, 1, 1, false, false));
+        }
+    }
 
     @Override
     public boolean isFoil(@NotNull ItemStack pStack) {
         return false;
     }
-
-    @SubscribeEvent
-    public static void onPlayerTick(TickEvent.PlayerTickEvent event) {
-        if (event.player.getItemBySlot(EquipmentSlot.CHEST).getItem() instanceof JumpsuitItem) {
-            event.player.addEffect(new MobEffectInstance(MobEffects.GLOWING, 1, 1, false, false));
-        }
-    }
-
-
 
     @Override
     public @NotNull InteractionResultHolder<ItemStack> use(@NotNull Level level, Player player, @NotNull InteractionHand hand) {

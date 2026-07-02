@@ -22,10 +22,6 @@ public class JumpsuitModifierItem extends Item {
         return String.valueOf(stack.getItem());
     }
 
-
-
-
-
     // Optional: Show properties in tooltip for debugging
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {

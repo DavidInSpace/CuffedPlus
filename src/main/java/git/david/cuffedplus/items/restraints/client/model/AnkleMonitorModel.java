@@ -3,8 +3,11 @@ package git.david.cuffedplus.items.restraints.client.model;// Made with Blockben
 // Paste this class into your mod and generate all required imports
 
 
+import com.lazrproductions.cuffed.restraints.client.RestraintModelInterface;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import git.david.cuffedplus.CuffedPlusMain;
+import git.david.cuffedplus.init.ModModelLayers;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.ModelPart;
@@ -12,13 +15,15 @@ import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
 import javax.annotation.Nonnull;
 
 public class AnkleMonitorModel<T extends LivingEntity> extends HumanoidModel<T> {
 	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
     public static final ModelLayerLocation LAYER =
-            new ModelLayerLocation(new ResourceLocation("cuffedplus", "ankle_monitor"), "main");
+            new ModelLayerLocation(new ResourceLocation(CuffedPlusMain.MODID, "textures/entity/ankle_monitor.png"), "main");
     private final ModelPart _root;
 
     public AnkleMonitorModel(ModelPart root) {

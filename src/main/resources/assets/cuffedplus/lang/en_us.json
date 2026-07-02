@@ -31,8 +31,6 @@
   "item.cuffedplus.prison_jumpsuit_2": "Prison Jumpsuit 2",
   "item.cuffedplus.prison_jumpsuit_3": "Prison Jumpsuit 3",
 
-
-
   "item.cuffedplus.allow_breaking_blocks": "Breaking Blocks Modifier",
   "item.cuffedplus.allow_item_use": "Item Use Modifier ",
   "item.cuffedplus.allow_movement": "Movement Modifier",
@@ -40,8 +38,8 @@
   "item.cuffedplus.can_be_broken_out_of": "Breakable Modifier",
   "item.cuffedplus.is_lockpickable": "Lockpickable Modifier",
 
-  "item.cuffedplus.locked": "Locked Modifier",
-  "item.cuffedplus.high_visibility": "Highlighted Modifier",
+  "item.cuffedplus.locked_modifier": "Locked Modifier",
+  "item.cuffedplus.high_visibility_modifier": "Highlighted Modifier",
 
   "block.cuffedplus.cuff_table_block": "Cuffs Table",
 

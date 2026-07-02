@@ -5,6 +5,7 @@ import com.lazrproductions.cuffed.restraints.RestraintAPI;
 import com.lazrproductions.cuffed.restraints.base.AbstractRestraint;
 import git.david.cuffedplus.command.RoleCommand;
 import git.david.cuffedplus.init.*;
+import git.david.cuffedplus.items.item.JumpsuitItem;
 import git.david.cuffedplus.misc.RolesLogic;
 import net.minecraft.core.BlockSource;
 import net.minecraft.core.dispenser.DispenseItemBehavior;
@@ -75,17 +76,19 @@ public class CuffedPlusMain {
         LOGGER.info("Cuffed Plus: Running CuffedPlusMain");
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
         MinecraftForge.EVENT_BUS.register(this);
+
         ModCreativeTabs.register(modEventBus);
         ModItems.register(modEventBus);
         ModRestraints.register(modEventBus);
         ModBlockEntity.register(modEventBus);
         ModBlock.register(modEventBus);
         ModMenuTypes.register(modEventBus);
-
+        ModRecipes.SERIALIZERS.register(FMLJavaModLoadingContext.get().getModEventBus());
 
         MinecraftForge.EVENT_BUS.register(new RolesLogic());
+
         modEventBus.addListener(this::onRegister);
-        ModRecipes.SERIALIZERS.register(FMLJavaModLoadingContext.get().getModEventBus());
+        //modEventBus.register(new Ro);
         modEventBus.addListener(this::commonSetup);
 
     }

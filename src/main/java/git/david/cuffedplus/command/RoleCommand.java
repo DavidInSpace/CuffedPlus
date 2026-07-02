@@ -244,8 +244,12 @@ public class RoleCommand extends WorldSavedData {
                     sender.displayClientMessage(Component.literal(tag).withStyle(ChatFormatting.YELLOW), false);
                 }
             } else {
-                sender.displayClientMessage(Component.literal(player.getDisplayName() + " doesn't have any tags").withStyle(ChatFormatting.YELLOW), false);
+                sender.displayClientMessage(Component.literal(player.getDisplayName() + " doesn't have any roles").withStyle(ChatFormatting.YELLOW), false);
             }
+
+            player.refreshDisplayName();
+            player.refreshTabListName();
+
             return 1;
         } catch (CommandSyntaxException e) {
             return 0;
@@ -268,6 +272,9 @@ public class RoleCommand extends WorldSavedData {
                 player.displayClientMessage(Component.literal("You are now a prisoner").withStyle(ChatFormatting.GOLD), false);
             }
 
+            player.refreshDisplayName();
+            player.refreshTabListName();
+
             return 1;
         } catch (CommandSyntaxException e) {
             return 0;
@@ -289,6 +296,9 @@ public class RoleCommand extends WorldSavedData {
                 player.displayClientMessage(Component.literal("You are now an officer").withStyle(ChatFormatting.BLUE), false);
             }
 
+            player.refreshDisplayName();
+            player.refreshTabListName();
+
             return 1;
         } catch (CommandSyntaxException e) {
             return 0;
@@ -309,6 +319,9 @@ public class RoleCommand extends WorldSavedData {
                 sender.displayClientMessage(Component.literal(player.getDisplayName() + " doesn't have any role now").withStyle(ChatFormatting.GREEN), false);
                 player.displayClientMessage(Component.literal("you don't have any role now").withStyle(ChatFormatting.GOLD), false);
             }
+
+            player.refreshDisplayName();
+            player.refreshTabListName();
 
             return 1;
         } catch (CommandSyntaxException e) {

@@ -139,10 +139,10 @@ public class ModItems {
 
     /* JUMPSUIT MODIFICATORS */
 
-    public static final RegistryObject<Item> LOCKED_MODIFIER = ITEMS.register("locked",
+    public static final RegistryObject<Item> LOCKED_MODIFIER = ITEMS.register("locked_modifier",
             () -> new JumpsuitModifierItem(new Item.Properties().stacksTo(16).rarity(Rarity.UNCOMMON)));
 
-    public static final RegistryObject<Item> HIGH_VISIBILITY_MODIFIER = ITEMS.register("high_visibility",
+    public static final RegistryObject<Item> HIGH_VISIBILITY_MODIFIER = ITEMS.register("high_visibility_modifer",
             () -> new JumpsuitModifierItem(new Item.Properties().stacksTo(16).rarity(Rarity.UNCOMMON)));
 
 
@@ -164,8 +164,10 @@ public class ModItems {
     public static final RegistryObject<Item> ANKLE_MONITOR_DIRTY = ITEMS.register("ankle_monitor_dirty",
             () -> new AbstractRestraintKeyItem(new Item.Properties().stacksTo(4).rarity(Rarity.COMMON)));
      */
+
+    //TODO: Fix ankle monitor texture because right now it is taking the texture of the Armor Material
    public static final RegistryObject<Item> ANKLE_MONITOR = ITEMS.register("ankle_monitor",
-           () -> new AnkleMonitorItem(ArmorMaterials.LEATHER, ArmorItem.Type.BOOTS, new Item.Properties()));
+           () -> new AnkleMonitorItem(ModArmorMaterials.ANKLE_MONITOR, ArmorItem.Type.BOOTS, new Item.Properties()));
 
     public static final RegistryObject<Item> ANKLE_MONITOR_TRACKER = ITEMS.register("ankle_monitor_tracker",
             () -> new TrackerItem(new Item.Properties().stacksTo(1)));

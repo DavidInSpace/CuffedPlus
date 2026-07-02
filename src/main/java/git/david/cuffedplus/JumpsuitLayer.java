@@ -64,7 +64,6 @@ public class JumpsuitLayer extends RenderLayer<AbstractClientPlayer, PlayerModel
     public void render(@NotNull PoseStack poseStack, @NotNull MultiBufferSource buffer, int packedLight,
                        @NotNull AbstractClientPlayer player, float limbSwing, float limbSwingAmount,
                        float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
-        GeneralUtils.displayClientMessage(player, "Rendering Jumpsuit", ChatFormatting.BLUE);
 
         ItemStack chest = player.getItemBySlot(EquipmentSlot.CHEST);
         boolean slim = "slim".equals(player.getModelName());

@@ -29,7 +29,7 @@ public class CuffsModifierRecipe implements SmithingRecipe {
     }
 
     @Override
-    public boolean matches(Container container, Level level) {
+    public boolean matches(Container container, @NotNull Level level) {
         return template.test(container.getItem(0)) &&
                 base.test(container.getItem(1)) &&
                 addition.test(container.getItem(2));

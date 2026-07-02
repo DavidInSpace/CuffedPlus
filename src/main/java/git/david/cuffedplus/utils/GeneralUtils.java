@@ -11,4 +11,10 @@ public class GeneralUtils {
         player.displayClientMessage(Component.literal(text).withStyle(color), false);
     }
 
+    static final String regex1 = "literal{";
+    static final String regex2 = "}";
+    public static String extractPlayerName(String Name) {
+        return Name.replace(regex1, "").replace(regex2, "");
+    }
+
 }
