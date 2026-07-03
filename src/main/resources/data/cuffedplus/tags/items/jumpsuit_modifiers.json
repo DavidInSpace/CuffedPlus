@@ -1,7 +1,8 @@
 {
   "replace": false,
   "values": [
-    "cuffedplus:locked",
-    "cuffedplus:high_visiblity"
+    "cuffedplus:lock_modifier",
+    "cuffedplus:high_visibility_modifier",
+    "cuffedplus:glow_modifier"
   ]
 }

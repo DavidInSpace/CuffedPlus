@@ -26,11 +26,14 @@ public class JumpsuitModifierItem extends Item {
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
         switch (getJumpsuitModifierName(stack)) {
-            case "locked_modifier":
-                tooltip.add(Component.literal("Stops the jumpsuit from being taken off").withStyle(ChatFormatting.GRAY));
+            case "lock_modifier":
+                tooltip.add(Component.literal("Jumpsuit can be locked using the jumpsuit key").withStyle(ChatFormatting.GRAY));
                 break;
             case "high_visibility_modifier":
-                tooltip.add(Component.literal("Highlights the jumpsuit wearer").withStyle(ChatFormatting.GRAY));
+                tooltip.add(Component.literal("Highlights the wearer").withStyle(ChatFormatting.GRAY));
+                break;
+            case "glow_modifier":
+                tooltip.add(Component.literal("Make the wearer emit light").withStyle(ChatFormatting.GRAY));
                 break;
             default:
                 tooltip.add(Component.literal("Unknown jumpsuit modifier").withStyle(ChatFormatting.RED));

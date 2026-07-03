@@ -56,15 +56,19 @@ public class ModCreativeTabs {
                         output.accept(ModItems.IS_LOCKPICKABLE_MODIFIER.get());
 
                          /* WORKING ON A CUFF TABLE RIGHT NOW WHERE YOU WILL BE ABLE TO MODIFY JUMPSUITS */
-                        output.accept(ModItems.CUFF_TABLE.get());
+                        //output.accept(ModItems.CUFF_TABLE.get());
                         output.accept(ModItems.ANKLE_MONITOR.get());
                         output.accept(ModItems.ANKLE_MONITOR_TRACKER.get());
 
                         output.accept(ModItems.LOCK_MODIFIER.get());
                         output.accept(ModItems.HIGH_VISIBILITY_MODIFIER.get());
+                        output.accept(ModItems.GLOW_MODIFIER.get());
+
+                        output.accept(ModItems.JUMPSUIT_KEY.get());
+                        output.accept(ModItems.ANKLE_MONITOR_KEY.get());
 
 
-                        //  output.accept(ModItems.ANKLE_MONITOR_CLEAN.get());
+                        // output.accept(ModItems.ANKLE_MONITOR_CLEAN.get());
                         // output.accept(ModItems.ANKLE_MONITOR_DIRTY.get());
 
 

@@ -133,17 +133,21 @@ public class ModItems {
     public static final RegistryObject<Item> IS_LOCKPICKABLE_MODIFIER = ITEMS.register("is_lockpickable",
             () -> new ModifierItem(new Item.Properties().stacksTo(16).rarity(Rarity.UNCOMMON)));
 
-    public static final RegistryObject<Item> TIMER_MODIFIER = ITEMS.register("timer",
+    public static final RegistryObject<Item> TIMER_MODIFIER = ITEMS.register("timer_modifier",
             () -> new ModifierItem(new Item.Properties().stacksTo(16).rarity(Rarity.UNCOMMON)));
 
 
     /* JUMPSUIT MODIFICATORS */
 
-    // TODO: add textures to the jumpsuit modifiers
+    // TODO: Make all the modifiers functional
+
     public static final RegistryObject<Item> LOCK_MODIFIER = ITEMS.register("lock_modifier",
             () -> new JumpsuitModifierItem(new Item.Properties().stacksTo(16).rarity(Rarity.UNCOMMON)));
 
     public static final RegistryObject<Item> HIGH_VISIBILITY_MODIFIER = ITEMS.register("high_visibility_modifier",
+            () -> new JumpsuitModifierItem(new Item.Properties().stacksTo(16).rarity(Rarity.UNCOMMON)));
+
+    public static final RegistryObject<Item> GLOW_MODIFIER = ITEMS.register("glow_modifier",
             () -> new JumpsuitModifierItem(new Item.Properties().stacksTo(16).rarity(Rarity.UNCOMMON)));
 
 
@@ -152,7 +156,7 @@ public class ModItems {
             () -> new BlockItem(ModBlock.CUFF_TABLE_BLOCK.get(), new Item.Properties()));
 
 
-    /* ANKLE MONITORS */
+    /* ANKLE MONITOR */
 
     /**    public static final RegistryObject<Item> ANKLE_MONITOR_CLEAN = ITEMS.register("ankle_monitor_clean",
             () -> new RestraintItem(new Item.Properties().stacksTo(4).rarity(Rarity.COMMON)));
@@ -172,6 +176,17 @@ public class ModItems {
 
     public static final RegistryObject<Item> ANKLE_MONITOR_TRACKER = ITEMS.register("ankle_monitor_tracker",
             () -> new TrackerItem(new Item.Properties().stacksTo(1)));
+
+
+    /* KEYS */
+
+    public static final RegistryObject<Item> ANKLE_MONITOR_KEY = ITEMS.register("ankle_monitor_key",
+            () -> new AnkleMonitorKey(new Item.Properties().stacksTo(1)));
+
+
+    public static final RegistryObject<Item> JUMPSUIT_KEY = ITEMS.register("jumpsuit_key",
+            () -> new JumpsuitKey(new Item.Properties().stacksTo(1)));
+
 
 
 

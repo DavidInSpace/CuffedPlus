@@ -38,11 +38,14 @@
   "item.cuffedplus.can_be_broken_out_of": "Breakable Modifier",
   "item.cuffedplus.is_lockpickable": "Lockpickable Modifier",
 
-  "item.cuffedplus.locked_modifier": "Locked Modifier",
+  "item.cuffedplus.lock_modifier": "Locked Modifier",
   "item.cuffedplus.high_visibility_modifier": "Highlighted Modifier",
+  "item.cuffedplus.glow_modifier": "Glow Modifier",
+
+  "item.cuffedplus.jumpsuit_key": "Jumpsuit Key",
+  "item.cuffedplus.ankle_monitor_key": "Ankle Monitor Key",
 
   "block.cuffedplus.cuff_table_block": "Cuffs Table",
-
   "container.cuffedplus.cuff_table_block": "Cuffs Table",
 
 

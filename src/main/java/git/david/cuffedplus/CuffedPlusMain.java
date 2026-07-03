@@ -66,6 +66,15 @@ import javax.annotation.Nonnull;
     
  */
 
+
+// TODO: Add police uniforms
+// TODO: Make so a text/number/image can be put on the back of prison jumpsuits
+// TODO: Add more prison jumpsuits
+// TODO: Rework crafting
+
+
+
+
 @Mod(CuffedPlusMain.MODID)
 public class CuffedPlusMain {
     public static final String MODID = "cuffedplus";
