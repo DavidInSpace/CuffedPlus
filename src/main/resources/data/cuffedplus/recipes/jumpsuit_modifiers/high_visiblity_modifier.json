@@ -10,18 +10,18 @@
       "item": "minecraft:copper_ingot"
     },
     "N": {
-      "item": "minecraft:iron_ingot"
+      "item": "minecraft:netherite_ingot"
     },
     "D": {
       "item": "minecraft:diamond"
     },
     "G":
-    {
-      "item": "cuffed:lockpick"
-    }
+      {
+        "item": "minecraft:chain"
+      }
   },
   "result": {
-    "item": "cuffedplus:is_lockpickable",
+    "item": "cuffedplus:can_be_broken_out_of",
     "count": 2
   }
 }
