@@ -16,12 +16,13 @@
       "item": "minecraft:diamond"
     },
     "G":
-      {
-        "item": "minecraft:chain"
-      }
+    [
+      {"item": "minecraft:glowstone"},
+      {"item": "minecraft:glow_ink_sac"}
+    ]
   },
   "result": {
-    "item": "cuffedplus:can_be_broken_out_of",
+    "item": "cuffedplus:high_visibility_modifier",
     "count": 2
   }
 }

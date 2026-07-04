@@ -15,18 +15,13 @@
     "D": {
       "item": "minecraft:diamond"
     },
-    "G": [
-      {"item": "minecraft:grass_block"},
-      {"item": "minecraft:dirt"},
-      {"item": "minecraft:mycelium"},
-      {"item": "minecraft:podzol"},
-      {"item": "minecraft:coarse_dirt"},
-      {"item": "minecraft:rooted_dirt"}
-    ]
+    "G": {
+     "item": "cuffed:padlock"
+    }
 
   },
   "result": {
-    "item": "cuffedplus:allow_breaking_blocks",
+    "item": "cuffedplus:lock_modifier",
     "count": 2
   }
 }

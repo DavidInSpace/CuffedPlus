@@ -16,12 +16,15 @@
       "item": "minecraft:diamond"
     },
     "G":
-    {
-      "item": "cuffed:lockpick"
-    }
+    [
+      {"item": "minecraft:torch"},
+      {"item": "minecraft:lantern"},
+      {"item": "minecraft:sea_lantern"},
+      {"item": "minecraft:shroom_light"}
+    ]
   },
   "result": {
-    "item": "cuffedplus:is_lockpickable",
+    "item": "cuffedplus:glow_modifier",
     "count": 2
   }
 }

@@ -1,32 +1,32 @@
 {
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    "CNC",
-    "DGD",
-    "CNC"
+    "IEI",
+    "GCG",
+    "ITI"
   ],
   "key": {
-    "C": {
-      "item": "minecraft:copper_ingot"
+    "I": {
+      "item": "minecraft:iron_ingot"
     },
-    "N": {
-      "item": "minecraft:netherite_ingot"
-    },
-    "D": {
-      "item": "minecraft:diamond"
+    "E": {
+      "item": "minecraft:emerald"
     },
     "G": [
-      {"item": "minecraft:grass_block"},
-      {"item": "minecraft:dirt"},
-      {"item": "minecraft:mycelium"},
-      {"item": "minecraft:podzol"},
-      {"item": "minecraft:coarse_dirt"},
-      {"item": "minecraft:rooted_dirt"}
-    ]
-
+      {"item": "minecraft:blue_stained_glass"},
+      {"item": "minecraft:light_blue_stained_glass"},
+      {"item": "minecraft:blue_stained_glass_pane"},
+      {"item": "minecraft:light_blue_stained_glass_pane"}
+    ],
+    "C": {
+      "item": "minecraft:calibrated_sculk_sensor"
+    },
+    "T": {
+      "item": "minecraft:redstone_torch"
+    }
   },
   "result": {
-    "item": "cuffedplus:allow_breaking_blocks",
-    "count": 2
+    "item": "cuffedplus:ankle_monitor_tracker",
+    "count": 1
   }
 }
