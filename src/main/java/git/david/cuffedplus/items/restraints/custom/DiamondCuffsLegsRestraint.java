@@ -372,6 +372,9 @@ public class DiamondCuffsLegsRestraint extends AbstractLegRestraint implements I
     }
 
     @Override
+    public boolean AllowSprinting() {return getBooleanTag("AllowSprinting", false);}
+
+    @Override
     public boolean AllowJumping() {
         return getBooleanTag("AllowJumping", false);
     }

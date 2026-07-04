@@ -95,6 +95,9 @@ public class HazardTapeHeadRestraint extends AbstractHeadRestraint {
     public boolean AllowMovement() {
         return true;
     }
+
+    public boolean AllowSprinting() {return true;}
+
     public boolean AllowJumping() {
         return true;
     }

@@ -93,6 +93,10 @@ public class ExampleHeadRestraint extends AbstractHeadRestraint {
     public boolean AllowMovement() {
         return true;
     }
+
+    @Override
+    public boolean AllowSprinting() {return true;}
+
     public boolean AllowJumping() {
         return true;
     }

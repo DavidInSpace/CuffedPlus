@@ -375,6 +375,9 @@ public class HazardTapeArmsRestraint extends AbstractArmRestraint implements IBr
     }
 
     @Override
+    public boolean AllowSprinting() {return getBooleanTag("AllowSprinting", false);}
+
+    @Override
     public boolean canBeBrokenOutOf() {
         return getBooleanTag("CanBeBrokenOutOf", true);
     }

@@ -39,6 +39,37 @@ public class AnkleMonitorItem extends ArmorItem {
         super(material, type, properties);
     }
 
+    public static void setNumber(ItemStack stack, byte number) {
+        stack.getOrCreateTag().putByte("JumpsuitNumber", number);
+    }
+
+    public static byte getNumber(ItemStack stack) {
+        return stack.getOrCreateTag().getByte("JumpsuitNumber");
+    }
+
+    public static void setCanBeLocked(ItemStack stack, boolean value) {
+        stack.getOrCreateTag().putBoolean("CanBeLocked", value);
+    }
+
+    public static void canBeLocked(ItemStack stack) {
+        stack.getOrCreateTag().getBoolean("CanBeLocked");
+    }
+
+    public static void setLocked(ItemStack stack, boolean value) {
+        stack.getOrCreateTag().putBoolean("Locked", value);
+    }
+
+    public static boolean getLocked(ItemStack stack) {
+        return stack.getOrCreateTag().getBoolean("Locked");
+    }
+
+    public static void setHighVisibility(ItemStack stack, boolean value) {
+        stack.getOrCreateTag().putBoolean("HighVisibility", value);
+    }
+
+    public static boolean getHighVisibility(ItemStack stack) {
+        return stack.getOrCreateTag().getBoolean("HighVisibility");
+    }
 
     // TODO: Add a way to unbind ankle monitors
 

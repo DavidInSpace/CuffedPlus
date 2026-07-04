@@ -140,9 +140,7 @@ public class TrackerItem extends Item {
     public void appendHoverText(@NotNull ItemStack stack, @Nullable Level level, @NotNull List<Component> tooltip, @NotNull TooltipFlag flag) {
         if (stack.getItem() instanceof TrackerItem) {
         String targetPlayerName = stack.getOrCreateTag().getString("targetName");
-
-        tooltip.add(Component.literal("Bound To: ").withStyle(ChatFormatting.GRAY));
-        tooltip.add(Component.literal(targetPlayerName).withStyle(ChatFormatting.YELLOW));
+            tooltip.add(Component.literal("Bound to: ").withStyle(ChatFormatting.GRAY).append(Component.literal(targetPlayerName).withStyle(ChatFormatting.YELLOW)));
 
         super.appendHoverText(stack, level, tooltip, flag);
         }

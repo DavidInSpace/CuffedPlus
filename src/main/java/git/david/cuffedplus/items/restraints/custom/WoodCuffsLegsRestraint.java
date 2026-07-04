@@ -368,7 +368,10 @@ public class WoodCuffsLegsRestraint extends AbstractLegRestraint implements IBre
     @Override
     public boolean AllowMovement() {
         return getBooleanTag("AllowMovement", false);
-    }
+   }
+
+    @Override
+    public boolean AllowSprinting() {return getBooleanTag("AllowSprinting", false);}
 
     @Override
     public boolean AllowJumping() {

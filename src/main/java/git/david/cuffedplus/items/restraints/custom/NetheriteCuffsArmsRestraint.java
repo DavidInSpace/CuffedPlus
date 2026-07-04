@@ -370,6 +370,8 @@ public class NetheriteCuffsArmsRestraint extends AbstractArmRestraint implements
         return getBooleanTag("AllowMovement", true);
     }
 
+    public boolean AllowSprinting() {return getBooleanTag("AllowSprinting", false);}
+
     @Override
     public boolean AllowJumping() {
         return getBooleanTag("AllowJumping", true);

@@ -92,7 +92,7 @@ dependencies {
 
     def curseMapping = "mapped_official_${mapping_version}"
 
-    implementation fg.deobf("curse.maven:cuffed-899770:6485971")
+    implementation fg.deobf("curse.maven:cuffed-899770:8094298")
     implementation fg.deobf("curse.maven:lazrs-lib-1048285:5654672")
     implementation fg.deobf("curse.maven:quick-skin-1323980:7718934")
     implementation fg.deobf("curse.maven:architectury-api-419699:5137938")

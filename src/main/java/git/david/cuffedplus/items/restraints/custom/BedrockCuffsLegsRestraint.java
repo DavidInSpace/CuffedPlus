@@ -370,6 +370,10 @@ public class BedrockCuffsLegsRestraint extends AbstractLegRestraint implements I
         return getBooleanTag("AllowMovement", false);
     }
 
+
+    @Override
+    public boolean AllowSprinting() {return getBooleanTag("AllowSprinting", false);}
+
     @Override
     public boolean AllowJumping() {
         return getBooleanTag("AllowJumping", false);

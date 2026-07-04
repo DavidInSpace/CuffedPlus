@@ -373,6 +373,9 @@ public class NetheriteCuffsLegsRestraint extends AbstractLegRestraint implements
     }
 
     @Override
+    public boolean AllowSprinting() {return getBooleanTag("AllowSprinting", false);}
+
+    @Override
     public boolean AllowJumping() {
         return getBooleanTag("AllowJumping", false);
     }

@@ -376,6 +376,9 @@ public class EmeraldCuffsLegsRestraint extends AbstractLegRestraint implements I
     public boolean AllowJumping() {
         return getBooleanTag("AllowJumping", false);
     }
+    @Override
+    public boolean AllowSprinting() {return getBooleanTag("AllowSprinting", false);}
+
 
     @Override
     public boolean canBeBrokenOutOf() {
