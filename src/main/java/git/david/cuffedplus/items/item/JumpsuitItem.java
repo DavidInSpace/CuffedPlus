@@ -18,6 +18,7 @@ import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
@@ -101,15 +102,20 @@ public class JumpsuitItem extends Item {
         }
 
         if (!level.isClientSide) {
+
+            if (itemInHand.getItem() instanceof ArmorItem && ((ArmorItem)itemInHand.getItem()).getType() == ArmorItem.Type.CHESTPLATE && currentChest.getOrCreateTag().getBoolean("CanBeLocked") && currentChest.getOrCreateTag().getBoolean("Locked")) {
+                return InteractionResultHolder.fail(itemInHand);
+            }
+
             ItemStack jumpsuit = itemInHand.copy();
             jumpsuit.setCount(1);
 
             if (!(currentChest.getItem() instanceof JumpsuitItem)) {
                 if (currentChest.getOrCreateTag().getBoolean("CanBeLocked") && currentChest.getOrCreateTag().getBoolean("Locked")) {
                     player.playSound(SoundEvents.CHAIN_FALL, 1, (float) Math.random() * 1.5F);
-                    player.displayClientMessage(Component.literal("Your jumpsuit is locked!  You can not take it off").withStyle(ChatFormatting.RED), true);
+                    player.displayClientMessage(Component.literal("Your jumpsuit is locked!").withStyle(ChatFormatting.RED), true);
                     return InteractionResultHolder.fail(itemInHand);
-                } else {
+                } else if (currentChest.getOrCreateTag().getBoolean("CanBeLocked") && !currentChest.getOrCreateTag().getBoolean("Locked")) {
                     if (!currentChest.isEmpty()) {
                         boolean added = player.getInventory().add(currentChest);
                         if (!added) {
@@ -120,9 +126,9 @@ public class JumpsuitItem extends Item {
             } else {
                 if (currentChest.getOrCreateTag().getBoolean("CanBeLocked") && currentChest.getOrCreateTag().getBoolean("Locked")) {
                     player.playSound(SoundEvents.CHAIN_FALL, 1, (float) Math.random() * 1.5F);
-                    player.displayClientMessage(Component.literal("Your jumpsuit is locked!  You can not take it off").withStyle(ChatFormatting.RED), true);
+                    player.displayClientMessage(Component.literal("Your jumpsuit is locked!").withStyle(ChatFormatting.RED), true);
                     return InteractionResultHolder.fail(itemInHand);
-                } else {
+                } else if (currentChest.getOrCreateTag().getBoolean("CanBeLocked") && !currentChest.getOrCreateTag().getBoolean("Locked")) {
                     if (!currentChest.isEmpty()) {
                         boolean added = player.getInventory().add(currentChest);
                         if (!added) {

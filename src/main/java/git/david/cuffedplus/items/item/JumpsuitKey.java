@@ -48,7 +48,7 @@ public class JumpsuitKey extends Item {
                     player.displayClientMessage(Component.literal("× You can not unlock your own jumpsuit ×").withStyle(ChatFormatting.RED), true);
                     return InteractionResultHolder.fail(itemInHand);
                 }
-
+                player.playSound(SoundEvents.ARMOR_EQUIP_CHAIN, 1, 1.5F);
                 currentChest.getOrCreateTag().putBoolean("Locked", false);
 
 
@@ -59,7 +59,7 @@ public class JumpsuitKey extends Item {
                     player.displayClientMessage(Component.literal("× You can not lock your own jumpsuit ×").withStyle(ChatFormatting.RED), true);
                     return InteractionResultHolder.fail(itemInHand);
                 }
-
+                player.playSound(SoundEvents.ARMOR_EQUIP_CHAIN, 1, 0.8F);
                 currentChest.getOrCreateTag().putBoolean("Locked", true);
             }
         }

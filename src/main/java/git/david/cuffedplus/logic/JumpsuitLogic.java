@@ -3,6 +3,7 @@ package git.david.cuffedplus.logic;
 import com.lazrproductions.cuffed.CuffedMod;
 import git.david.cuffedplus.config.ICuffedPlusServerConfigMixin;
 import git.david.cuffedplus.items.item.JumpsuitItem;
+import git.david.cuffedplus.utils.GeneralUtils;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.sounds.Sound;
@@ -31,12 +32,10 @@ public class JumpsuitLogic {
 
     @SubscribeEvent
     public void onPlayerTick(TickEvent.PlayerTickEvent event) {
-        if (event.side.isServer() && event.phase == TickEvent.Phase.START) {
             ItemStack itemInChest = event.player.getItemBySlot(EquipmentSlot.CHEST);
             if (itemInChest.getItem() instanceof JumpsuitItem && itemInChest.getOrCreateTag().getBoolean("HighVisibility")) {;
                     event.player.addEffect(new MobEffectInstance(MobEffects.GLOWING, 5, 0, false, false));
             }
-        }
     }
 
     @SubscribeEvent
@@ -52,7 +51,7 @@ public class JumpsuitLogic {
         Player player = Minecraft.getInstance().player;
         Slot slotUnderMouse = event.getContainerScreen().getSlotUnderMouse();
         if (player != null) {
-            if (slotUnderMouse  != null && slotUnderMouse .getItem().getOrCreateTag().getBoolean("Locked")){
+            if (slotUnderMouse  != null){
                 hoveringSlot = slotUnderMouse.getSlotIndex();
                 hoveringItem = slotUnderMouse.getItem();
             }
@@ -60,11 +59,12 @@ public class JumpsuitLogic {
     }
 
     @SubscribeEvent
-    public void inputEvent(InputEvent.MouseButton event) {
+    public void inputEvent(InputEvent.MouseButton.Pre event) {
         Player player = Minecraft.getInstance().player;
         if ((event.getButton() == 0 || event.getButton() == 1) && player != null) {
             if (hoveringItem != null && hoveringItem.getItem() instanceof JumpsuitItem && hoveringSlot == 38 && hoveringItem.getOrCreateTag().getBoolean("CanBeLocked") && hoveringItem.getOrCreateTag().getBoolean("Locked")) {
-                player.playSound(SoundEvents.CHAIN_FALL, 1, (float) Math.random());
+                GeneralUtils.displayClientMessage(player, String.valueOf(hoveringItem) + " " + hoveringItem.getItem() + " " + hoveringSlot + hoveringItem.getOrCreateTag().getBoolean("CanBeLocked") + " " + hoveringItem.getOrCreateTag().getBoolean("Locked"), ChatFormatting.WHITE);
+                player.playSound(SoundEvents.CHAIN_FALL, 1, (float) Math.random() * 1.5F);
                 player.displayClientMessage(Component.literal("Your jumpsuit is locked!  You can not take it off").withStyle(ChatFormatting.RED), true);
                 event.setCanceled(true);
             }

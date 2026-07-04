@@ -17,10 +17,10 @@ public class RolesLogic {
     public static Component getFormattedName(Player player, Component originalName) {
         MutableComponent prefix;
         if (player.getTags().contains("prisoner")) {
-            prefix = Component.literal(config.getPrisonerRolePrefix()).setStyle(Style.EMPTY.withColor(TextColor.fromRgb(0xff8800)).withBold(true));
+            prefix = Component.literal(config.getPrisonerRolePrefix() + " ").setStyle(Style.EMPTY.withColor(TextColor.fromRgb(0xff8800)).withBold(true));
             return prefix.append(originalName);
         } else if (player.getTags().contains("officer")) {
-            prefix = Component.literal(config.getOfficerRolePrefix()).setStyle(Style.EMPTY.withColor(TextColor.fromRgb(0x5050ff)).withBold(true));
+            prefix = Component.literal(config.getOfficerRolePrefix() + " ").setStyle(Style.EMPTY.withColor(TextColor.fromRgb(0x5050ff)).withBold(true));
             return prefix.append(originalName);
         } else {
             return originalName;

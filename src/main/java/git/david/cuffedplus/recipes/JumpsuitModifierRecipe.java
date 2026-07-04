@@ -42,7 +42,7 @@ public record JumpsuitModifierRecipe(ResourceLocation id, Ingredient template, I
             switch (Objects.requireNonNull(modKey).toString()) {
                 case "cuffedplus:lock_modifier":
                     JumpsuitItem.setCanBeLocked(baseItem, true);
-                    JumpsuitItem.setHighVisibility(baseItem, false);
+                    JumpsuitItem.setLocked(baseItem, false);
                 case "cuffedplus:high_visibility_modifier":
                     JumpsuitItem.setHighVisibility(baseItem, true);
                 default:
@@ -53,7 +53,7 @@ public record JumpsuitModifierRecipe(ResourceLocation id, Ingredient template, I
             switch (Objects.requireNonNull(modKey).toString()) {
                 case "cuffedplus:lock_modifier":
                     JumpsuitItem.setCanBeLocked(baseItem, false);
-                    JumpsuitItem.setHighVisibility(baseItem, false);
+                    JumpsuitItem.setLocked(baseItem, false);
                 case "cuffedplus:high_visibility_modifier":
                     JumpsuitItem.setHighVisibility(baseItem, false);
                 default:
