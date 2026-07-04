@@ -84,8 +84,8 @@
       "item": "minecraft:orange_dye"
     }
   },
-    "result": {
-      "item": "cuffedplus:dclass_jumpsuit",
-      "count": 1
-    }
+  "result": {
+    "item": "cuffedplus:dclass_jumpsuit",
+    "count": 1
   }
+}
