@@ -6,26 +6,44 @@ public interface ICuffedPlusServerConfigMixin {
     // TODO: Maybe add a config whether prisoners can lock jumpsuits and ankle monitors of others
     // TODO: Make use of all these config settings
 
+    /** Options: "lock" canOnl, "unlock", "both"
+
+
+    /** PREFIXES **/
     boolean showRolePrefixes();
     boolean rolePrefixesBold();
 
-    String getPrisonerRolePrefix();
-    String getPrisonerRolePrefixColor();
-
-    String getOfficerRolePrefix();
-    String getOfficerRolePrefixColor();
+    // [1] String prefix [2] Color
+    String[] getPrisonerRolePrefix();
+    String[] getOfficerRolePrefix();
 
 
-    boolean canPlayersUnlockOwnJumpsuits();
-    boolean canPlayersLockOwnJumpsuits();
-    boolean canPlayersUnlockOwnAnkleMonitors();
-    boolean canPlayersLockOwnAnkleMonitors();
+
+    /** PLAYERS GEAR BEHAVIOR **/
+
+    // OPTIONS: "onlyPutOn", "onlyTakeOff", "both",
+    String[] getPlayersJumpsuitBehavior();
+    String[] getPlayersAnkleMonitorBehavior();
+
+    // -- LOCK BEHAVIOR -- //
+    // OPTIONS: "onlyLock", "onlyUnlock", "both"
+    String[] getPlayersJumpsuitLockBehavior();
+    String[] getPlayersAnkleMonitorLockBehavior();
 
 
-    boolean canPrisonersTakeAnkleMonitorsOffOthers();
-    boolean canPrisonersPutAnkleMonitorsOnOthers();
+    /** PRISONERS GEAR BEHAVIOR **/
 
-    boolean canPrisonersTakeJumpsuitsOffOthers();
-    boolean canPrisonersPutJumpsuitsOnOthers();
+    // OPTIONS: "onlyPutOn", "onlyTakeOff", "both",
+    String[] getPrisonersJumpsuitBehavior();
+    String[] getPrisonersAnkleMonitorBehavior();
+
+    // -- LOCK BEHAVIOR -- //
+    // OPTIONS: "onlyLock", "onlyUnlock", "both"
+    String[] getPrisonersJumpsuitLockBehavior();
+    String[] getPrisonersAnkleMonitorLockBehavior();
+
+
+    /** BLOCKS **/
+    int increaseReinforcedBlockStrength();
 
 }

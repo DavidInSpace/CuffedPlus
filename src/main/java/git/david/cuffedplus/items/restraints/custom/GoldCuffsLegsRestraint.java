@@ -372,7 +372,6 @@ public class GoldCuffsLegsRestraint extends AbstractLegRestraint implements IBre
         return getBooleanTag("AllowMovement", false);
     }
 
-    @Override
     public boolean AllowSprinting() {return getBooleanTag("AllowSprinting", false);}
 
     @Override

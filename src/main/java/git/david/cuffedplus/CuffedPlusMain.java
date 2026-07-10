@@ -73,8 +73,8 @@ import javax.annotation.Nonnull;
 // TODO: Rework crafting
 // TODO: Make reinforced blocks from cuffed actually reinforced
 
-
-
+// CUFFED GITHUB REPOSETORY PAGE:
+// https://github.com/LazrProductions/cuffed
 
 @Mod(CuffedPlusMain.MODID)
 public class CuffedPlusMain {

@@ -370,7 +370,6 @@ public class GoldCuffsArmsRestraint extends AbstractArmRestraint implements IBre
         return getBooleanTag("AllowMovement", true);
     }
 
-    @Override
     public boolean AllowSprinting() {return getBooleanTag("AllowSprinting", false);}
 
     @Override

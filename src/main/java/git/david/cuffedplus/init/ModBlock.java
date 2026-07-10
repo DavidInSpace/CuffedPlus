@@ -15,7 +15,7 @@ public class ModBlock {
 
 
     public static final RegistryObject<CuffTableBlock> CUFF_TABLE_BLOCK = BLOCKS.register("cuff_table_block",
-            () -> new CuffTableBlock(BlockBehaviour.Properties.of()));
+            () -> new CuffTableBlock(BlockBehaviour.Properties.of().strength(3.0F, 3.0F)));
 
     public static void register(IEventBus bus) {
         BLOCKS.register(bus);

@@ -17,29 +17,33 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public abstract class CuffedServerConfigMixin extends LazrConfig implements ICuffedPlusServerConfigMixin {
 
     ConfigCategory CUFFED_PLUS_SETTINGS;
-
+    ConfigCategory PREFIX_SETTINGS;
+    ConfigCategory PLAYERS_JUMPSUIT_AND_ANKLE_MONITOR_BEHAVIOR_SETTINGS;
+    ConfigCategory PRISONERS_JUMPSUIT_AND_ANKLE_MONITOR_BEHAVIOR_SETTINGS;
+    ConfigCategory BLOCKS_SETTINGS;
 
     ConfigProperty<Boolean> SHOW_ROLE_PREFIX;
     ConfigProperty<Boolean> ROLE_PREFIX_BOLD;
 
-    ConfigProperty<String> PRISONER_ROLE_PREFIX;
-    ConfigProperty<String> PRISONER_ROLE_PREFIX_COLOR;
-
-    ConfigProperty<String> POLICE_ROLE_PREFIX;
-    ConfigProperty<String> POLICE_ROLE_PREFIX_COLOR;
+    ConfigProperty<String[]> PRISONER_ROLE_PREFIX;
+    ConfigProperty<String[]> POLICE_ROLE_PREFIX;
 
 
-    ConfigProperty<Boolean> CAN_PLAYERS_UNLOCK_OWN_JUMPSUITS;
-    ConfigProperty<Boolean> CAN_PLAYERS_LOCK_OWN_JUMPSUITS;
-    ConfigProperty<Boolean> CAN_PLAYERS_UNLOCK_OWN_ANKLE_MONITORS;
-    ConfigProperty<Boolean> CAN_PLAYERS_LOCK_OWN_ANKLE_MONITORS;
+    ConfigProperty<String[]> GET_PLAYERS_JUMPSUIT_BEHAVIOR;
+    ConfigProperty<String[]> GET_PLAYERS_ANKLE_MONITOR_BEHAVIOR;
+
+    ConfigProperty<String[]> GET_PLAYERS_JUMPSUIT_LOCK_BEHAVIOR;
+    ConfigProperty<String[]> GET_PLAYERS_ANKLE_MONITOR_LOCK_BEHAVIOR;
 
 
-    ConfigProperty<Boolean> CAN_PRISONERS_TAKE_ANKLE_MONITORS_OFF_OTHERS;
-    ConfigProperty<Boolean> CAN_PRISONERS_PUT_ANKLE_MONITORS_ON_OTHERS;
+    ConfigProperty<String[]> GET_PRISONERS_JUMPSUIT_BEHAVIOR;
+    ConfigProperty<String[]> GET_PRISONERS_ANKLE_MONITOR_BEHAVIOR;
 
-    ConfigProperty<Boolean> CAN_PRISONERS_TAKE_JUMPSUITS_OFF_OTHERS;
-    ConfigProperty<Boolean> CAN_PRISONERS_PUT_JUMPSUITS_ON_OTHERS;
+    ConfigProperty<String[]> GET_PRISONERS_JUMPSUIT_LOCK_BEHAVIOR;
+    ConfigProperty<String[]> GET_PRISONERS_ANKLE_MONITOR_LOCK_BEHAVIOR;
+
+
+    ConfigProperty<String[]> INCREASE_REINFORCED_BLOCKS_STRENGTH;
 
 
     public CuffedServerConfigMixin(String name, ModConfig.Type type) {
@@ -48,16 +52,21 @@ public abstract class CuffedServerConfigMixin extends LazrConfig implements ICuf
 
     @Inject(method = "registerProperties", at = @At("HEAD"), remap = false)
     public void addRegisterProperties(CallbackInfo ci) {
-        CUFFED_PLUS_SETTINGS = createCategory(new ConfigCategory(this, "Cuffed Plus Settings"), (c) -> {
+        CUFFED_PLUS_SETTINGS = createCategory(new ConfigCategory(this, "Cuffed Plus Settings"), (c1) -> {
 
-            SHOW_ROLE_PREFIX = c.putProperty(new ConfigProperty<Boolean>(this, "Show Role Prefixes", "Whether to show role prefixes like [INMATE] or [OFFICER].", true));
-            ROLE_PREFIX_BOLD = c.putProperty(new ConfigProperty<Boolean>(this, "Make Role Prefixes Bold", "Whether to make role prefixes like [INMATE] or [OFFICER] bold.", true));
+            PREFIX_SETTINGS = createCategory(new ConfigCategory(this, "Prefix Settings"), (c2) -> {
+                SHOW_ROLE_PREFIX = c2.putProperty(new ConfigProperty<Boolean>(this, "Show Role Prefixes", "Whether to show role prefixes like [INMATE] or [OFFICER].", true));
+                ROLE_PREFIX_BOLD = c2.putProperty(new ConfigProperty<Boolean>(this, "Make Role Prefixes Bold", "Whether to make role prefixes like [INMATE] or [OFFICER] bold.", true));
 
-            PRISONER_ROLE_PREFIX = c.putProperty(new ConfigProperty<String>(this, "Prisoner Role Prefix", "How will the prisoner role prefix look like.", "[INMATE]"));
-            PRISONER_ROLE_PREFIX_COLOR = c.putProperty(new ConfigProperty<String>(this, "Prisoner Role Prefix Color", "What color will the prisoner role prefix have (eg. GOLD, GREEN, DARK_GREEN, AQUA, RED, BLUE, WHITE)", "GOLD"));
+                PRISONER_ROLE_PREFIX = c2.putProperty(new ConfigProperty<String[]>(this, "Prisoner Role Prefix", "How will the prisoner role prefix look like.", new String[]{"[INMATE]", "#ff234D"}));
+                POLICE_ROLE_PREFIX = c2.putProperty(new ConfigProperty<String[]>(this, "Police Role Prefix", "How will the police role prefix look like.", new String[]{"[OFFICER]", "#ff234D"}));
+            });
 
-            POLICE_ROLE_PREFIX = c.putProperty(new ConfigProperty<String>(this, "Police Role Prefix", "How will the police role prefix look like.", "[OFFICER]"));
-            POLICE_ROLE_PREFIX_COLOR = c.putProperty(new ConfigProperty<String>(this, "Police Role Prefix", "What color will the prisoner role prefix have (eg. GOLD, GREEN, DARK_GREEN, AQUA, RED, BLUE, WHITE)", "BLUE"));
+            PLAYERS_JUMPSUIT_AND_ANKLE_MONITOR_BEHAVIOR_SETTINGS  = createCategory(new ConfigCategory(this, "Players Jumpsuit & Ankle Monitor Behavior"), (c3) -> {});
+            PRISONERS_JUMPSUIT_AND_ANKLE_MONITOR_BEHAVIOR_SETTINGS = createCategory(new ConfigCategory(this, "Prisoners Jumpsuit & Ankle Monitor Behavior"), (c4) -> {});
+            BLOCKS_SETTINGS = createCategory(new ConfigCategory(this, "Blocks Settings"), (c5) -> {});
+
+
 
 
             CAN_PLAYERS_UNLOCK_OWN_JUMPSUITS = c.putProperty(new ConfigProperty<Boolean>(this, "Can Players Unlock Their Own Jumpsuit", "Whether players will be able to lock jumpsuits with the lock modifier on themselves using a key", true));
