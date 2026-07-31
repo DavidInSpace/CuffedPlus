@@ -53,7 +53,7 @@ public abstract class CuffedServerConfigMixin extends LazrConfig implements ICuf
     public CuffedServerConfigMixin(String name, ModConfig.Type type) {
         super(name, type);
     }
-// TODO: Change the descriptions to always start with "whether..." and put options
+    // TODO: Change the descriptions to always start with "whether..." and put options
     @Inject(method = "registerProperties", at = @At("HEAD"), remap = false)
     public void addRegisterProperties(CallbackInfo ci) {
         CUFFED_PLUS_SETTINGS = createCategory(new ConfigCategory(this, "Cuffed Plus Settings"), (c1) -> {

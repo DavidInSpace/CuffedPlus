@@ -20,7 +20,7 @@
       {"item": "minecraft:torch"},
       {"item": "minecraft:lantern"},
       {"item": "minecraft:sea_lantern"},
-      {"item": "minecraft:shroom_light"}
+      {"item": "minecraft:shroomlight"}
     ]
   },
   "result": {
