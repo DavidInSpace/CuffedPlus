@@ -20,7 +20,6 @@ import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 import java.util.List;
-import java.util.Objects;
 
 
 public class JumpsuitKey extends Item {
@@ -39,23 +38,37 @@ public class JumpsuitKey extends Item {
 
         if (player.isCrouching()) return InteractionResultHolder.fail(itemInHand);
         if (level.isClientSide) return InteractionResultHolder.fail(itemInHand);
+        if (!(currentChest.getItem() instanceof JumpsuitItem) || !currentChest.getOrCreateTag().getBoolean("CanBeLocked")) return InteractionResultHolder.fail(itemInHand);
 
-        if (currentChest.getItem() instanceof JumpsuitItem && currentChest.getOrCreateTag().getBoolean("CanBeLocked") && currentChest.getOrCreateTag().getBoolean("Locked")) {
+        if (currentChest.getOrCreateTag().getBoolean("Locked")) {
 
 
-            if (Objects.equals(config.getPlayersOwnJumpsuitLockBehavior(), "onlyLock") || Objects.equals(config.getPlayersOwnJumpsuitLockBehavior(), "none")) {
+            // TODO: Make a helper function to check whether players can do a certain action instead of reusing code
+            if (config.getPlayersOwnJumpsuitLockBehavior().equals("onlyLock") || config.getPlayersOwnJumpsuitLockBehavior().equals("none")) {
                 player.playSound(SoundEvents.IRON_DOOR_CLOSE, 1, (float) Math.random() * 1.5F);
-                player.displayClientMessage(Component.literal("× You can not unlock your own jumpsuit ×").withStyle(ChatFormatting.RED), true);
+                player.displayClientMessage(Component.literal("🔒 You can not unlock your own jumpsuit 🔒").withStyle(ChatFormatting.RED), true);
+                return InteractionResultHolder.fail(itemInHand);
+            }
+
+            // TODO: Make a helper function to check whether prisoners can do a certain action instead of reusing code
+            if (player.getTags().contains("prisoner") && config.getPrisonersOwnJumpsuitLockBehavior().equals("onlyLock".toLowerCase()) || (config.getPrisonersOwnJumpsuitLockBehavior().equals("none"))) {
+                player.playSound(SoundEvents.IRON_DOOR_CLOSE, 1, (float) Math.random() * 1.5F);
+                player.displayClientMessage(Component.literal("🔒 You are a prisoner!  Prisoners can not unlock their own jumpsuit 🔒").withStyle(ChatFormatting.RED), true);
                 return InteractionResultHolder.fail(itemInHand);
             }
 
             player.playSound(SoundEvents.ARMOR_EQUIP_CHAIN, 1, 1.5F);
             currentChest.getOrCreateTag().putBoolean("Locked", false);
 
-        } else if (currentChest.getItem() instanceof JumpsuitItem && currentChest.getOrCreateTag().getBoolean("CanBeLocked") && !currentChest.getOrCreateTag().getBoolean("Locked")) {
+        } else if (!currentChest.getOrCreateTag().getBoolean("Locked")) {
 
-            if (Objects.equals(config.getPlayersOwnJumpsuitLockBehavior(), "onlyUnlock") || Objects.equals(config.getPlayersOwnJumpsuitLockBehavior(), "none")) {
+            if (config.getPlayersOwnJumpsuitLockBehavior().equals("onlyUnlock".toLowerCase()) || config.getPlayersOwnJumpsuitLockBehavior().equals("none")) {
                 player.displayClientMessage(Component.literal("× You can not lock your own jumpsuit ×").withStyle(ChatFormatting.RED), true);
+                return InteractionResultHolder.fail(itemInHand);
+            }
+
+            if (player.getTags().contains("prisoner") && config.getPrisonersOwnJumpsuitLockBehavior().equals("onlyUnlock".toLowerCase()) || (config.getPrisonersOwnJumpsuitLockBehavior().equals("none"))) {
+                player.displayClientMessage(Component.literal("× ️️You are a prisoner!  Prisoners can not lock their own jumpsuit ×").withStyle(ChatFormatting.RED), true);
                 return InteractionResultHolder.fail(itemInHand);
             }
 
@@ -70,26 +83,53 @@ public class JumpsuitKey extends Item {
 
     @Override
     public @NotNull InteractionResult interactLivingEntity(@NotNull ItemStack stack, Player user, @NotNull LivingEntity target, @NotNull InteractionHand hand) {
+        ItemStack targetChest = target.getItemBySlot(EquipmentSlot.CHEST);
 
         if (!user.isCrouching()) return InteractionResult.FAIL;
         if (user.level().isClientSide && !(target instanceof Player)) return InteractionResult.FAIL;
-        ItemStack targetChest = target.getItemBySlot(EquipmentSlot.CHEST);
+        if (!(targetChest.getItem() instanceof JumpsuitItem) || !(targetChest.getOrCreateTag().getBoolean("CanBeLocked"))) return InteractionResult.FAIL;
 
+        if (targetChest.getOrCreateTag().getBoolean("Locked")) {
 
-        if (targetChest.getItem() instanceof JumpsuitItem && targetChest.getOrCreateTag().getBoolean("CanBeLocked")) {
-            if (targetChest.getOrCreateTag().getBoolean("Locked")) {
-                targetChest.getOrCreateTag().putBoolean("Locked", false);
-            } else if (!targetChest.getOrCreateTag().getBoolean("Locked")) {
-                targetChest.getOrCreateTag().putBoolean("Locked", true);
+            if (config.getOtherPlayersJumpsuitLockBehavior().equals("onlyLock") || config.getOtherPlayersJumpsuitLockBehavior().equals("none")) {
+                user.playSound(SoundEvents.IRON_DOOR_CLOSE, 1, (float) Math.random() * 1.5F);
+                user.displayClientMessage(Component.literal("🔒 You can not unlock other players jumpsuit 🔒").withStyle(ChatFormatting.RED), true);
+                return InteractionResult.FAIL;
             }
+
+            if (user.getTags().contains("prisoner") && config.getOtherPrisonersJumpsuitLockBehavior().equals("onlyLock".toLowerCase()) || (config.getOtherPrisonersJumpsuitLockBehavior().equals("none"))) {
+                user.playSound(SoundEvents.IRON_DOOR_CLOSE, 1, (float) Math.random() * 1.5F);
+                user.displayClientMessage(Component.literal("🔒 You are a prisoner!  Prisoners can not unlock other players jumpsuit 🔒").withStyle(ChatFormatting.RED), true);
+                return InteractionResult.FAIL;
+            }
+
+            targetChest.getOrCreateTag().putBoolean("Locked", false);
+        } else if (!targetChest.getOrCreateTag().getBoolean("Locked")) {
+
+            if (config.getOtherPlayersJumpsuitLockBehavior().equals("onlyUnlock") || config.getOtherPlayersJumpsuitLockBehavior().equals("none")) {
+                user.playSound(SoundEvents.IRON_DOOR_CLOSE, 1, (float) Math.random() * 1.5F);
+                user.displayClientMessage(Component.literal("× You can not lock other players jumpsuit ×").withStyle(ChatFormatting.RED), true);
+                return InteractionResult.FAIL;
+            }
+
+            if (user.getTags().contains("prisoner") && config.getOtherPrisonersJumpsuitLockBehavior().equals("onlyUnlock".toLowerCase()) || (config.getOtherPrisonersJumpsuitLockBehavior().equals("none"))) {
+                user.playSound(SoundEvents.IRON_DOOR_CLOSE, 1, (float) Math.random() * 1.5F);
+                user.displayClientMessage(Component.literal(" You are a prisoner!  Prisoners can not lock other players jumpsuit ").withStyle(ChatFormatting.RED), true);
+                return InteractionResult.FAIL;
+            }
+
+
+
+            targetChest.getOrCreateTag().putBoolean("Locked", true);
         }
+
         return InteractionResult.SUCCESS;
 
     }
 
 
     @Override
-    public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
+    public void appendHoverText(@NotNull ItemStack stack, @Nullable Level level, List<Component> tooltip, @NotNull TooltipFlag flag) {
         tooltip.add(Component.literal("Used to lock and unlock jumpsuits with the lock modifier").withStyle(ChatFormatting.GRAY));
         super.appendHoverText(stack, level, tooltip, flag);
     }

@@ -9,7 +9,6 @@ import org.spongepowered.asm.mixin.injection.ModifyArg;
 @Mixin(ModBlocks.class)
 public class CuffedBlockInitMixin {
 
-
     @ModifyArg(
             method = "lambda$static$0",
             at = @At(
@@ -19,7 +18,7 @@ public class CuffedBlockInitMixin {
             index = 0
     )
     private static float modifyHardness(float original) {
-        return 5000.0F;
+        return 50000.0F;
     }
 
     @ModifyArg(
@@ -31,6 +30,6 @@ public class CuffedBlockInitMixin {
             index = 1
     )
     private static float modifyResistance(float original) {
-        return 12000.0F;
+        return 120000.0F;
     }
 }

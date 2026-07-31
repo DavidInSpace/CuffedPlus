@@ -21,7 +21,6 @@ import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 import java.util.List;
-import java.util.Objects;
 
 
 public class JumpsuitItem extends Item {
@@ -91,17 +90,15 @@ public class JumpsuitItem extends Item {
 
         if (player.isCrouching()) return InteractionResultHolder.fail(itemInHand);
         if (level.isClientSide) return InteractionResultHolder.fail(itemInHand);
-        if (itemInHand.getItem() instanceof ArmorItem && ((ArmorItem) itemInHand.getItem()).getType() == ArmorItem.Type.CHESTPLATE && currentChest.getOrCreateTag().getBoolean("CanBeLocked") && currentChest.getOrCreateTag().getBoolean("Locked"))
-            return InteractionResultHolder.fail(itemInHand);
-
+        //if (itemInHand.getItem() instanceof ArmorItem && ((ArmorItem) itemInHand.getItem()).getType() == ArmorItem.Type.CHESTPLATE && currentChest.getOrCreateTag().getBoolean("CanBeLocked") && currentChest.getOrCreateTag().getBoolean("Locked")) return InteractionResultHolder.fail(itemInHand);
 
         ItemStack jumpsuit = itemInHand.copy();
         jumpsuit.setCount(1);
 
-        if (!(currentChest.getItem() instanceof JumpsuitItem)) {
+        if (currentChest.getItem() instanceof JumpsuitItem) {
             if (currentChest.getOrCreateTag().getBoolean("CanBeLocked") && currentChest.getOrCreateTag().getBoolean("Locked")) {
                 player.playSound(SoundEvents.CHAIN_FALL, 1, (float) Math.random() * 1.5F);
-                player.displayClientMessage(Component.literal("Your jumpsuit is locked!").withStyle(ChatFormatting.RED), true);
+                player.displayClientMessage(Component.literal("🔒 Your jumpsuit is locked! 🔒").withStyle(ChatFormatting.RED), true);
                 return InteractionResultHolder.fail(itemInHand);
             } else if (currentChest.getOrCreateTag().getBoolean("CanBeLocked") && !currentChest.getOrCreateTag().getBoolean("Locked")) {
                 if (!currentChest.isEmpty()) {
@@ -110,23 +107,9 @@ public class JumpsuitItem extends Item {
                 }
             }
         } else {
-            if (currentChest.getOrCreateTag().getBoolean("CanBeLocked") && currentChest.getOrCreateTag().getBoolean("Locked")) {
-                player.playSound(SoundEvents.CHAIN_FALL, 1, (float) Math.random() * 1.5F);
-                player.displayClientMessage(Component.literal("Your jumpsuit is locked!").withStyle(ChatFormatting.RED), true);
-                return InteractionResultHolder.fail(itemInHand);
-            } else if (currentChest.getOrCreateTag().getBoolean("CanBeLocked") && !currentChest.getOrCreateTag().getBoolean("Locked")) {
-                if (!currentChest.isEmpty()) {
-                    boolean added = player.getInventory().add(currentChest);
-                    if (!added) player.drop(currentChest, false);
-                }
-            }
+            player.setItemSlot(EquipmentSlot.CHEST, jumpsuit);
+            if (!player.getAbilities().instabuild) itemInHand.shrink(1);
         }
-
-        player.setItemSlot(EquipmentSlot.CHEST, jumpsuit);
-
-        if (!player.getAbilities().instabuild) itemInHand.shrink(1);
-
-
 
         return InteractionResultHolder.success(itemInHand);
     }
@@ -139,42 +122,59 @@ public class JumpsuitItem extends Item {
         if (!user.isCrouching()) return InteractionResult.FAIL;
         if (user.level().isClientSide && !(target instanceof Player)) return InteractionResult.FAIL;
 
-        if (user.getTags().contains("prisoner") && Objects.equals(config.getOtherPrisonersJumpsuitBehavior(), "onlyTakeOff") || Objects.equals(config.getOtherPrisonersJumpsuitBehavior(), "none")) {
-            user.displayClientMessage(Component.literal("You are a prisoner!  Prisoners can't put jumpsuits on others").withStyle(ChatFormatting.GOLD).withStyle(ChatFormatting.BOLD), true);
-            return InteractionResult.FAIL;
-        }
-
         if (!target.hasItemInSlot(EquipmentSlot.CHEST)) {
 
-            ItemStack jumpsuit = stack.copy();
-            target.setItemSlot(EquipmentSlot.CHEST, jumpsuit);
-
-
-            if (!user.getAbilities().instabuild) stack.shrink(1);
-
-            // TODO: Add/Rework system for taking jumpsuits off others
-        } else if (chest.getItem() instanceof JumpsuitItem) {
-
-            if (stack.getOrCreateTag().getBoolean("CanBeLocked") && stack.getOrCreateTag().getBoolean("Locked")) {
-                user.displayClientMessage(Component.literal("You are a prisoner!  Prisoners can't put jumpsuits on others").withStyle(ChatFormatting.GOLD).withStyle(ChatFormatting.BOLD), true);
+            if (config.getOtherPlayersJumpsuitBehavior().equals("onlyTakeOff".toLowerCase()) || (config.getOtherPlayersJumpsuitBehavior().equals("none"))) {
+                user.displayClientMessage(Component.literal("× You can't put jumpsuits on others ×").withStyle(ChatFormatting.GOLD).withStyle(ChatFormatting.BOLD), true);
                 return InteractionResult.FAIL;
             }
 
-            ItemStack suit = target.getItemBySlot(EquipmentSlot.CHEST).copyAndClear();
+            if (user.getTags().contains("prisoner") && config.getOtherPrisonersJumpsuitBehavior().equals("onlyTakeOff".toLowerCase()) || config.getOtherPrisonersJumpsuitBehavior().equals("none")) {
+                user.displayClientMessage(Component.literal("× You are a prisoner!  Prisoners can't put jumpsuits on others ×").withStyle(ChatFormatting.GOLD).withStyle(ChatFormatting.BOLD), true);
+                return InteractionResult.FAIL;
+            }
 
-            suit.setCount(1);
-            boolean added = user.getInventory().add(suit);
-            target.getItemBySlot(EquipmentSlot.CHEST).setCount(0);
+            ItemStack jumpsuit = stack.copy();
+            jumpsuit.setCount(1);
+            target.setItemSlot(EquipmentSlot.CHEST, jumpsuit);
 
-            if (!added) user.drop(chest, false);
+            if (!user.getAbilities().instabuild) stack.shrink(1);
 
+        } else if (chest.getItem() instanceof JumpsuitItem) {
+
+            user.displayClientMessage(Component.literal("Trying to take off"), false);
+            if (chest.getOrCreateTag().getBoolean("CanBeLocked") && chest.getOrCreateTag().getBoolean("Locked")) {
+                user.displayClientMessage(Component.literal("🔒 " + target.getDisplayName() + "'s jumpsuit is locked on him! 🔒").withStyle(ChatFormatting.RED), true);
+                return InteractionResult.FAIL;
+            }
+
+            if (user.getItemInHand(hand).isEmpty()) {
+            if (config.getOtherPlayersJumpsuitBehavior().equals("onlyPutOn".toLowerCase()) || (config.getOtherPlayersJumpsuitBehavior().equals("none"))) {
+                user.displayClientMessage(Component.literal("× You can not put jumpsuits on other players ×").withStyle(ChatFormatting.RED), true);
+                return InteractionResult.FAIL;
+            }
+
+            if (user.getTags().contains("prisoner") && config.getOtherPrisonersJumpsuitBehavior().equals("onlyPutOn".toLowerCase()) || config.getOtherPrisonersJumpsuitBehavior().equals("none")) {
+                return InteractionResult.FAIL;
+            }
+
+
+            } else {
+                ItemStack suit = target.getItemBySlot(EquipmentSlot.CHEST).copyAndClear();
+
+                suit.setCount(1);
+                boolean added = user.getInventory().add(suit);
+                target.getItemBySlot(EquipmentSlot.CHEST).setCount(0);
+
+                if (!added) user.drop(chest, false);
+            }
 
         }
         return InteractionResult.SUCCESS;
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
+    public void appendHoverText(@NotNull ItemStack stack, @Nullable Level level, @NotNull List<Component> tooltip, @NotNull TooltipFlag flag) {
         byte number = getNumber(stack);
 
         if (stack.getOrCreateTag().getBoolean("CanBeLocked") && stack.getOrCreateTag().getBoolean("Locked")) {

@@ -65,7 +65,7 @@ public class JumpsuitLogic {
             if (hoveringItem != null && hoveringItem.getItem() instanceof JumpsuitItem && hoveringSlot == 38 && hoveringItem.getOrCreateTag().getBoolean("CanBeLocked") && hoveringItem.getOrCreateTag().getBoolean("Locked")) {
                 GeneralUtils.displayClientMessage(player, String.valueOf(hoveringItem) + " " + hoveringItem.getItem() + " " + hoveringSlot + hoveringItem.getOrCreateTag().getBoolean("CanBeLocked") + " " + hoveringItem.getOrCreateTag().getBoolean("Locked"), ChatFormatting.WHITE);
                 player.playSound(SoundEvents.CHAIN_FALL, 1, (float) Math.random() * 1.5F);
-                player.displayClientMessage(Component.literal("Your jumpsuit is locked!  You can not take it off").withStyle(ChatFormatting.RED), true);
+                player.displayClientMessage(Component.literal("🔒 Your jumpsuit is locked!  You can not take it off 🔒").withStyle(ChatFormatting.RED), true);
                 event.setCanceled(true);
             }
         }

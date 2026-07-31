@@ -73,30 +73,6 @@ public class AnkleMonitorItem extends ArmorItem {
         ItemStack ankle_monitor = itemInHand.copy();
         ankle_monitor.setCount(1);
 
-        if (!(currentChest.getItem() instanceof JumpsuitItem)) {
-            if (currentChest.getOrCreateTag().getBoolean("CanBeLocked") && currentChest.getOrCreateTag().getBoolean("Locked")) {
-                player.playSound(SoundEvents.CHAIN_FALL, 1, (float) Math.random() * 1.5F);
-                player.displayClientMessage(Component.literal("Your jumpsuit is locked").withStyle(ChatFormatting.RED), true);
-                return InteractionResultHolder.fail(itemInHand);
-            } else {
-                if (!currentChest.isEmpty()) {
-                    boolean added = player.getInventory().add(currentChest);
-                    if (!added) player.drop(currentChest, false);
-                }
-            }
-        } else {
-            if (currentChest.getOrCreateTag().getBoolean("CanBeLocked") && currentChest.getOrCreateTag().getBoolean("Locked")) {
-                player.playSound(SoundEvents.CHAIN_FALL, 1, (float) Math.random() * 1.5F);
-                player.displayClientMessage(Component.literal("Your jumpsuit is locked").withStyle(ChatFormatting.RED), true);
-                return InteractionResultHolder.fail(itemInHand);
-            } else {
-                if (!currentChest.isEmpty()) {
-                    boolean added = player.getInventory().add(currentChest);
-                    if (!added) player.drop(currentChest, false);
-                }
-            }
-        }
-
         player.setItemSlot(EquipmentSlot.FEET, ankle_monitor);
 
         if (!player.getAbilities().instabuild) {
