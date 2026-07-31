@@ -112,10 +112,10 @@ public abstract class CuffedServerConfigMixin extends LazrConfig implements ICuf
     @Override public boolean showRolePrefixes() {return SHOW_ROLE_PREFIX.get();}
     @Override public boolean rolePrefixesBold() {return ROLE_PREFIX_BOLD.get();}
 
-    @Override public String getPrisonerRolePrefix() {return PRISONER_ROLE_PREFIX.get().toLowerCase();}
-    @Override public String getOfficerRolePrefix() {return POLICE_ROLE_PREFIX.get().toLowerCase();}
-    @Override public String getPrisonerRolePrefixColor() {return PRISONER_ROLE_PREFIX.get().toLowerCase();}
-    @Override public String getOfficerRolePrefixColor() {return POLICE_ROLE_PREFIX.get().toLowerCase();}
+    @Override public String getPrisonerRolePrefix() {return PRISONER_ROLE_PREFIX.get();}
+    @Override public String getOfficerRolePrefix() {return POLICE_ROLE_PREFIX.get();}
+    @Override public String getPrisonerRolePrefixColor() {return PRISONER_ROLE_PREFIX.get();}
+    @Override public String getOfficerRolePrefixColor() {return POLICE_ROLE_PREFIX.get();}
 
 
     @Override public String getOtherPlayersJumpsuitBehavior() {return GET_OWN_PLAYERS_JUMPSUIT_BEHAVIOR.get().toLowerCase();}
