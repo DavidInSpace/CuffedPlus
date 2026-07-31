@@ -7,8 +7,8 @@ public interface ICuffedPlusServerConfigMixin {
     // TODO: Make use of all these config settings
 
     // (Options: "none", "onlyPutOn", "onlyTakeOff", "both")
-    // (Options: "none", "onlyPutOn", "onlyTakeOff", "both")
-
+    // (Options: "none", "onlyLock", "onlyUnlock", "both")
+    // (Options: "none", "onlyBind", "onlyUnbind", "both")
 
     /** PREFIXES **/
     boolean showRolePrefixes();
@@ -17,7 +17,8 @@ public interface ICuffedPlusServerConfigMixin {
     // [1] String prefix [2] Color
     String getPrisonerRolePrefix();
     String getOfficerRolePrefix();
-
+    String getPrisonerRolePrefixColor();
+    String getOfficerRolePrefixColor();
 
 
     /** PLAYERS GEAR BEHAVIOR **/
@@ -27,11 +28,15 @@ public interface ICuffedPlusServerConfigMixin {
     String getOtherPlayersAnkleMonitorBehavior();
 
     // -- LOCK BEHAVIOR -- //
-    // OPTIONS: "onlyLock", "onlyUnlock", "both"
+    // OPTIONS: "none", "onlyLock", "onlyUnlock", "both"
     String getPlayersOwnJumpsuitLockBehavior();
     String getPlayersOwnAnkleMonitorLockBehavior();
     String getOtherPlayersJumpsuitLockBehavior();
     String getOtherPlayersAnkleMonitorLockBehavior();
+
+    String getPlayersOwnTrackerBindingBehavior();
+    String getOtherPlayersTrackerBindingBehavior();
+
 
     /** PRISONERS GEAR BEHAVIOR **/
 
@@ -46,6 +51,8 @@ public interface ICuffedPlusServerConfigMixin {
     String getOtherPrisonersJumpsuitLockBehavior();
     String getOtherPrisonersAnkleMonitorLockBehavior();
 
+    String getPrisonersOwnTrackerBindingBehavior();
+    String getOtherPrisonersTrackerBindingBehavior();
 
     /** BLOCKS **/
     int increaseReinforcedBlockStrength();

@@ -2,7 +2,6 @@ package git.david.cuffedplus.items.item;
 
 import com.lazrproductions.cuffed.CuffedMod;
 import git.david.cuffedplus.config.ICuffedPlusServerConfigMixin;
-import git.david.cuffedplus.data.WorldSavedData;
 import git.david.cuffedplus.init.ModModelLayers;
 import git.david.cuffedplus.items.restraints.client.model.AnkleMonitorModel;
 import net.minecraft.ChatFormatting;
@@ -10,7 +9,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.network.chat.Component;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
@@ -21,14 +19,12 @@ import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ArmorMaterial;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
-import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 import java.util.List;
-import java.util.UUID;
 import java.util.function.Consumer;
 
 public class AnkleMonitorItem extends ArmorItem {
@@ -75,46 +71,41 @@ public class AnkleMonitorItem extends ArmorItem {
             return InteractionResultHolder.fail(itemInHand);
         }
 
-        if (!level.isClientSide) {
+        if (level.isClientSide) return InteractionResultHolder.pass(itemInHand);
 
+        ItemStack ankle_monitor = itemInHand.copy();
+        ankle_monitor.setCount(1);
 
-            ItemStack ankle_monitor = itemInHand.copy();
-            ankle_monitor.setCount(1);
-
-            if (!(currentChest.getItem() instanceof JumpsuitItem)) {
-                if (currentChest.getOrCreateTag().getBoolean("CanBeLocked") && currentChest.getOrCreateTag().getBoolean("Locked")) {
-                    player.playSound(SoundEvents.CHAIN_FALL, 1, (float) Math.random() * 1.5F);
-                    player.displayClientMessage(Component.literal("Your jumpsuit is locked").withStyle(ChatFormatting.RED), true);
-                    return InteractionResultHolder.fail(itemInHand);
-                } else {
-                    if (!currentChest.isEmpty()) {
-                        boolean added = player.getInventory().add(currentChest);
-                        if (!added) {
-                            player.drop(currentChest, false);
-                        }
-                    }
-                }
+        if (!(currentChest.getItem() instanceof JumpsuitItem)) {
+            if (currentChest.getOrCreateTag().getBoolean("CanBeLocked") && currentChest.getOrCreateTag().getBoolean("Locked")) {
+                player.playSound(SoundEvents.CHAIN_FALL, 1, (float) Math.random() * 1.5F);
+                player.displayClientMessage(Component.literal("Your jumpsuit is locked").withStyle(ChatFormatting.RED), true);
+                return InteractionResultHolder.fail(itemInHand);
             } else {
-                if (currentChest.getOrCreateTag().getBoolean("CanBeLocked") && currentChest.getOrCreateTag().getBoolean("Locked")) {
-                    player.playSound(SoundEvents.CHAIN_FALL, 1, (float) Math.random() * 1.5F);
-                    player.displayClientMessage(Component.literal("Your jumpsuit is locked").withStyle(ChatFormatting.RED), true);
-                    return InteractionResultHolder.fail(itemInHand);
-                } else {
-                    if (!currentChest.isEmpty()) {
-                        boolean added = player.getInventory().add(currentChest);
-                        if (!added) {
-                            player.drop(currentChest, false);
-                        }
-                    }
+                if (!currentChest.isEmpty()) {
+                    boolean added = player.getInventory().add(currentChest);
+                    if (!added) player.drop(currentChest, false);
                 }
             }
-
-            player.setItemSlot(EquipmentSlot.FEET, ankle_monitor );
-
-            if (!player.getAbilities().instabuild) {
-                itemInHand.shrink(1);
+        } else {
+            if (currentChest.getOrCreateTag().getBoolean("CanBeLocked") && currentChest.getOrCreateTag().getBoolean("Locked")) {
+                player.playSound(SoundEvents.CHAIN_FALL, 1, (float) Math.random() * 1.5F);
+                player.displayClientMessage(Component.literal("Your jumpsuit is locked").withStyle(ChatFormatting.RED), true);
+                return InteractionResultHolder.fail(itemInHand);
+            } else {
+                if (!currentChest.isEmpty()) {
+                    boolean added = player.getInventory().add(currentChest);
+                    if (!added) player.drop(currentChest, false);
+                }
             }
         }
+
+        player.setItemSlot(EquipmentSlot.FEET, ankle_monitor);
+
+        if (!player.getAbilities().instabuild) {
+            itemInHand.shrink(1);
+        }
+
 
         return InteractionResultHolder.success(itemInHand);
     }
@@ -151,7 +142,6 @@ public class AnkleMonitorItem extends ArmorItem {
             }
         });
     }
-
 
 
     @Override
