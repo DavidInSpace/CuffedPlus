@@ -38,33 +38,32 @@ public class JumpsuitKey extends Item {
         assert Minecraft.getInstance().player != null;
 
         if (player.isCrouching()) return InteractionResultHolder.fail(itemInHand);
+        if (level.isClientSide) return InteractionResultHolder.fail(itemInHand);
 
-        if (!level.isClientSide) {
-
-            if (currentChest.getItem() instanceof JumpsuitItem && currentChest.getOrCreateTag().getBoolean("CanBeLocked") && currentChest.getOrCreateTag().getBoolean("Locked")) {
+        if (currentChest.getItem() instanceof JumpsuitItem && currentChest.getOrCreateTag().getBoolean("CanBeLocked") && currentChest.getOrCreateTag().getBoolean("Locked")) {
 
 
-         if (Objects.equals(config.getPlayersOwnJumpsuitLockBehavior(), "onlyLock") || Objects.equals(config.getPlayersOwnJumpsuitLockBehavior(), "none")) {
-                    player.playSound(SoundEvents.IRON_DOOR_CLOSE, 1, (float) Math.random() * 1.5F);
-                    player.displayClientMessage(Component.literal("× You can not unlock your own jumpsuit ×").withStyle(ChatFormatting.RED), true);
-                    return InteractionResultHolder.fail(itemInHand);
-                }
-
-                player.playSound(SoundEvents.ARMOR_EQUIP_CHAIN, 1, 1.5F);
-                currentChest.getOrCreateTag().putBoolean("Locked", false);
-
-            } else if (currentChest.getItem() instanceof JumpsuitItem && currentChest.getOrCreateTag().getBoolean("CanBeLocked") && !currentChest.getOrCreateTag().getBoolean("Locked")) {
-
-                if (Objects.equals(config.getPlayersOwnJumpsuitLockBehavior(), "onlyUnlock") || Objects.equals(config.getPlayersOwnJumpsuitLockBehavior(), "none")) {
-                    player.displayClientMessage(Component.literal("× You can not lock your own jumpsuit ×").withStyle(ChatFormatting.RED), true);
-                    return InteractionResultHolder.fail(itemInHand);
-                }
-
-                player.playSound(SoundEvents.ARMOR_EQUIP_CHAIN, 1, 0.8F);
-                currentChest.getOrCreateTag().putBoolean("Locked", true);
-
+            if (Objects.equals(config.getPlayersOwnJumpsuitLockBehavior(), "onlyLock") || Objects.equals(config.getPlayersOwnJumpsuitLockBehavior(), "none")) {
+                player.playSound(SoundEvents.IRON_DOOR_CLOSE, 1, (float) Math.random() * 1.5F);
+                player.displayClientMessage(Component.literal("× You can not unlock your own jumpsuit ×").withStyle(ChatFormatting.RED), true);
+                return InteractionResultHolder.fail(itemInHand);
             }
+
+            player.playSound(SoundEvents.ARMOR_EQUIP_CHAIN, 1, 1.5F);
+            currentChest.getOrCreateTag().putBoolean("Locked", false);
+
+        } else if (currentChest.getItem() instanceof JumpsuitItem && currentChest.getOrCreateTag().getBoolean("CanBeLocked") && !currentChest.getOrCreateTag().getBoolean("Locked")) {
+
+            if (Objects.equals(config.getPlayersOwnJumpsuitLockBehavior(), "onlyUnlock") || Objects.equals(config.getPlayersOwnJumpsuitLockBehavior(), "none")) {
+                player.displayClientMessage(Component.literal("× You can not lock your own jumpsuit ×").withStyle(ChatFormatting.RED), true);
+                return InteractionResultHolder.fail(itemInHand);
+            }
+
+            player.playSound(SoundEvents.ARMOR_EQUIP_CHAIN, 1, 0.8F);
+            currentChest.getOrCreateTag().putBoolean("Locked", true);
+
         }
+
         return InteractionResultHolder.success(itemInHand);
     }
 
@@ -73,23 +72,21 @@ public class JumpsuitKey extends Item {
     public @NotNull InteractionResult interactLivingEntity(@NotNull ItemStack stack, Player user, @NotNull LivingEntity target, @NotNull InteractionHand hand) {
 
         if (!user.isCrouching()) return InteractionResult.FAIL;
+        if (user.level().isClientSide && !(target instanceof Player)) return InteractionResult.FAIL;
+        ItemStack targetChest = target.getItemBySlot(EquipmentSlot.CHEST);
 
-        if (!user.level().isClientSide && target instanceof Player targetPlayer) {
-            ItemStack targetChest = target.getItemBySlot(EquipmentSlot.CHEST);
 
-
-            if (targetChest.getItem() instanceof JumpsuitItem && targetChest.getOrCreateTag().getBoolean("CanBeLocked")) {
-                if (targetChest.getOrCreateTag().getBoolean("Locked")) {
-                    targetChest.getOrCreateTag().putBoolean("Locked", false);
-                } else if (!targetChest.getOrCreateTag().getBoolean("Locked")) {
-                    targetChest.getOrCreateTag().putBoolean("Locked", true);
-                }
+        if (targetChest.getItem() instanceof JumpsuitItem && targetChest.getOrCreateTag().getBoolean("CanBeLocked")) {
+            if (targetChest.getOrCreateTag().getBoolean("Locked")) {
+                targetChest.getOrCreateTag().putBoolean("Locked", false);
+            } else if (!targetChest.getOrCreateTag().getBoolean("Locked")) {
+                targetChest.getOrCreateTag().putBoolean("Locked", true);
+            }
         }
-            return InteractionResult.SUCCESS;
+        return InteractionResult.SUCCESS;
 
-        }
-        return InteractionResult.FAIL;
     }
+
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {

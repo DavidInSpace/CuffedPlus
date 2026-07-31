@@ -67,10 +67,7 @@ public class AnkleMonitorItem extends ArmorItem {
         ItemStack currentChest = player.getItemBySlot(EquipmentSlot.FEET);
         assert Minecraft.getInstance().player != null;
 
-        if (player.isCrouching()) {
-            return InteractionResultHolder.fail(itemInHand);
-        }
-
+        if (player.isCrouching()) return InteractionResultHolder.fail(itemInHand);
         if (level.isClientSide) return InteractionResultHolder.pass(itemInHand);
 
         ItemStack ankle_monitor = itemInHand.copy();
