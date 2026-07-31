@@ -41,7 +41,7 @@ public class AnkleMonitorKey extends Item {
 
         if (currentChest.getItem() instanceof AnkleMonitorItem && currentChest.getOrCreateTag().getBoolean("CanBeLocked") && currentChest.getOrCreateTag().getBoolean("Locked")) {
             // UNLOCKING
-            if (Objects.equals(config.getPlayersOwnAnkleMonitorLockBehavior(), "onlyLock") || Objects.equals(config.getPlayersOwnAnkleMonitorLockBehavior(), "none")) {
+            if (Objects.equals(config.getPlayersOwnAnkleMonitorLockBehavior(), "onlyLock".toLowerCase()) || Objects.equals(config.getPlayersOwnAnkleMonitorLockBehavior(), "none")) {
                 player.playSound(SoundEvents.IRON_DOOR_CLOSE, 1, (float) Math.random() * 1.5F);
                 player.displayClientMessage(Component.literal("× You can not unlock your ankle monitor ×").withStyle(ChatFormatting.RED), true);
                 return InteractionResultHolder.fail(itemInHand);

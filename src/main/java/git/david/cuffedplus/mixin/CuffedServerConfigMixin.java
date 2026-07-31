@@ -71,8 +71,8 @@ public abstract class CuffedServerConfigMixin extends LazrConfig implements ICuf
                 PRISONER_ROLE_PREFIX = c2.putProperty(new ConfigProperty<String>(this, "Prisoner Role Prefix", "The prefix displayed for prisoners.", "[INMATE]"));
                 POLICE_ROLE_PREFIX = c2.putProperty(new ConfigProperty<String>(this, "Officer Role Prefix", "The prefix displayed for officers.", "[OFFICER]"));
 
-                PRISONER_ROLE_PREFIX_COLOR = c2.putProperty(new ConfigProperty<String>(this, "Prisoner Role Prefix", "What color the prisoner prefix is (in HEX).", "[INMATE]"));
-                POLICE_ROLE_PREFIX_COLOR = c2.putProperty(new ConfigProperty<String>(this, "Officer Role Prefix", "What color the officer prefix is (in HEX).", "[OFFICER]"));
+                PRISONER_ROLE_PREFIX_COLOR = c2.putProperty(new ConfigProperty<String>(this, "Prisoner Role Prefix", "What color the prisoner prefix is (in HEX).", "#ff8800"));
+                POLICE_ROLE_PREFIX_COLOR = c2.putProperty(new ConfigProperty<String>(this, "Officer Role Prefix", "What color the officer prefix is (in HEX).", "#5050ff"));
             });
 
             PLAYERS_JUMPSUIT_AND_ANKLE_MONITOR_BEHAVIOR_SETTINGS = createCategory(new ConfigCategory(this, "Players Jumpsuit & Ankle Monitor Behavior"), (c3) -> {
@@ -112,34 +112,34 @@ public abstract class CuffedServerConfigMixin extends LazrConfig implements ICuf
     @Override public boolean showRolePrefixes() {return SHOW_ROLE_PREFIX.get();}
     @Override public boolean rolePrefixesBold() {return ROLE_PREFIX_BOLD.get();}
 
-    @Override public String getPrisonerRolePrefix() {return PRISONER_ROLE_PREFIX.get();}
-    @Override public String getOfficerRolePrefix() {return POLICE_ROLE_PREFIX.get();}
-    @Override public String getPrisonerRolePrefixColor() {return PRISONER_ROLE_PREFIX.get();}
-    @Override public String getOfficerRolePrefixColor() {return POLICE_ROLE_PREFIX.get();}
+    @Override public String getPrisonerRolePrefix() {return PRISONER_ROLE_PREFIX.get().toLowerCase();}
+    @Override public String getOfficerRolePrefix() {return POLICE_ROLE_PREFIX.get().toLowerCase();}
+    @Override public String getPrisonerRolePrefixColor() {return PRISONER_ROLE_PREFIX.get().toLowerCase();}
+    @Override public String getOfficerRolePrefixColor() {return POLICE_ROLE_PREFIX.get().toLowerCase();}
 
 
-    @Override public String getOtherPlayersJumpsuitBehavior() {return GET_OWN_PLAYERS_JUMPSUIT_BEHAVIOR.get();}
-    @Override public String getOtherPlayersAnkleMonitorBehavior() {return GET_OWN_PLAYERS_ANKLE_MONITOR_BEHAVIOR.get();}
+    @Override public String getOtherPlayersJumpsuitBehavior() {return GET_OWN_PLAYERS_JUMPSUIT_BEHAVIOR.get().toLowerCase();}
+    @Override public String getOtherPlayersAnkleMonitorBehavior() {return GET_OWN_PLAYERS_ANKLE_MONITOR_BEHAVIOR.get().toLowerCase();}
 
-    @Override public String getPlayersOwnJumpsuitLockBehavior() {return GET_PLAYERS_OWN_JUMPSUIT_LOCK_BEHAVIOR.get();}
-    @Override public String getPlayersOwnAnkleMonitorLockBehavior() {return GET_PLAYERS_OWN_ANKLE_MONITOR_LOCK_BEHAVIOR.get();}
-    @Override public String getOtherPlayersJumpsuitLockBehavior() {return GET_OTHER_PLAYERS_JUMPSUIT_LOCK_BEHAVIOR.get();}
-    @Override public String getOtherPlayersAnkleMonitorLockBehavior() {return GET_OTHER_PLAYERS_ANKLE_MONITOR_LOCK_BEHAVIOR.get();}
+    @Override public String getPlayersOwnJumpsuitLockBehavior() {return GET_PLAYERS_OWN_JUMPSUIT_LOCK_BEHAVIOR.get().toLowerCase();}
+    @Override public String getPlayersOwnAnkleMonitorLockBehavior() {return GET_PLAYERS_OWN_ANKLE_MONITOR_LOCK_BEHAVIOR.get().toLowerCase();}
+    @Override public String getOtherPlayersJumpsuitLockBehavior() {return GET_OTHER_PLAYERS_JUMPSUIT_LOCK_BEHAVIOR.get().toLowerCase();}
+    @Override public String getOtherPlayersAnkleMonitorLockBehavior() {return GET_OTHER_PLAYERS_ANKLE_MONITOR_LOCK_BEHAVIOR.get().toLowerCase();}
 
-    @Override public String getPlayersOwnTrackerBindingBehavior() {return GET_PLAYERS_OWN_TRACKER_BINDING_BEHAVIOR.get();}
-    @Override public String getOtherPlayersTrackerBindingBehavior() {return GET_OTHER_PLAYERS_TRACKER_BINDING_BEHAVIOR.get();}
+    @Override public String getPlayersOwnTrackerBindingBehavior() {return GET_PLAYERS_OWN_TRACKER_BINDING_BEHAVIOR.get().toLowerCase();}
+    @Override public String getOtherPlayersTrackerBindingBehavior() {return GET_OTHER_PLAYERS_TRACKER_BINDING_BEHAVIOR.get().toLowerCase();}
 
 
-    @Override public String getOtherPrisonersJumpsuitBehavior() {return GET_OTHER_PRISONERS_JUMPSUIT_BEHAVIOR.get();}
-    @Override public String getOtherPrisonersAnkleMonitorBehavior() {return GET_OTHER_PRISONERS_OWN_ANKLE_MONITOR_BEHAVIOR.get();}
+    @Override public String getOtherPrisonersJumpsuitBehavior() {return GET_OTHER_PRISONERS_JUMPSUIT_BEHAVIOR.get().toLowerCase();}
+    @Override public String getOtherPrisonersAnkleMonitorBehavior() {return GET_OTHER_PRISONERS_OWN_ANKLE_MONITOR_BEHAVIOR.get().toLowerCase();}
 
-    @Override public String getPrisonersOwnJumpsuitLockBehavior() {return GET_PRISONERS_OWN_JUMPSUIT_LOCK_BEHAVIOR.get();}
-    @Override public String getPrisonersOwnAnkleMonitorLockBehavior() {return GET_PRISONERS_OWN_ANKLE_MONITOR_LOCK_BEHAVIOR.get();}
-    @Override public String getOtherPrisonersJumpsuitLockBehavior() {return GET_OTHER_PRISONERS_JUMPSUIT_LOCK_BEHAVIOR.get();}
-    @Override public String getOtherPrisonersAnkleMonitorLockBehavior() {return GET_OTHER_PRISONERS_ANKLE_MONITOR_LOCK_BEHAVIOR.get();}
+    @Override public String getPrisonersOwnJumpsuitLockBehavior() {return GET_PRISONERS_OWN_JUMPSUIT_LOCK_BEHAVIOR.get().toLowerCase();}
+    @Override public String getPrisonersOwnAnkleMonitorLockBehavior() {return GET_PRISONERS_OWN_ANKLE_MONITOR_LOCK_BEHAVIOR.get().toLowerCase();}
+    @Override public String getOtherPrisonersJumpsuitLockBehavior() {return GET_OTHER_PRISONERS_JUMPSUIT_LOCK_BEHAVIOR.get().toLowerCase();}
+    @Override public String getOtherPrisonersAnkleMonitorLockBehavior() {return GET_OTHER_PRISONERS_ANKLE_MONITOR_LOCK_BEHAVIOR.get().toLowerCase();}
 
-    @Override public String getPrisonersOwnTrackerBindingBehavior() {return GET_PRISONERS_OWN_TRACKER_BINDING_BEHAVIOR.get();}
-    @Override public String getOtherPrisonersTrackerBindingBehavior() {return GET_OTHER_PRISONERS_TRACKER_BINDING_BEHAVIOR.get();}
+    @Override public String getPrisonersOwnTrackerBindingBehavior() {return GET_PRISONERS_OWN_TRACKER_BINDING_BEHAVIOR.get().toLowerCase();}
+    @Override public String getOtherPrisonersTrackerBindingBehavior() {return GET_OTHER_PRISONERS_TRACKER_BINDING_BEHAVIOR.get().toLowerCase();}
 
 
     @Override public int increaseReinforcedBlockStrength() {return INCREASE_REINFORCED_BLOCKS_STRENGTH.get();}
