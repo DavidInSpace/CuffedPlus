@@ -6,9 +6,9 @@ import git.david.cuffedplus.items.item.JumpsuitItem;
 import git.david.cuffedplus.utils.GeneralUtils;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.resources.sounds.Sound;
+import net.minecraft.client.gui.screens.inventory.CreativeModeInventoryScreen;
+import net.minecraft.client.gui.screens.inventory.InventoryScreen;
 import net.minecraft.network.chat.Component;
-import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -16,7 +16,6 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ArmorItem;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.client.event.ContainerScreenEvent;
 import net.minecraftforge.client.event.InputEvent;
@@ -60,15 +59,30 @@ public class JumpsuitLogic {
 
     @SubscribeEvent
     public void inputEvent(InputEvent.MouseButton.Pre event) {
-        Player player = Minecraft.getInstance().player;
+
+        Minecraft minecraft = Minecraft.getInstance();
+        Player player = minecraft.player;
+
         if ((event.getButton() == 0 || event.getButton() == 1) && player != null) {
-            if (hoveringItem != null && hoveringItem.getItem() instanceof JumpsuitItem && hoveringSlot == 38 && hoveringItem.getOrCreateTag().getBoolean("CanBeLocked") && hoveringItem.getOrCreateTag().getBoolean("Locked")) {
-                GeneralUtils.displayClientMessage(player, String.valueOf(hoveringItem) + " " + hoveringItem.getItem() + " " + hoveringSlot + hoveringItem.getOrCreateTag().getBoolean("CanBeLocked") + " " + hoveringItem.getOrCreateTag().getBoolean("Locked"), ChatFormatting.WHITE);
+            // check whether the player has his inventory open
+            if ((minecraft.screen instanceof InventoryScreen || minecraft.screen instanceof CreativeModeInventoryScreen) && hoveringItem != null && hoveringItem.getItem() instanceof JumpsuitItem && hoveringSlot == 38 && hoveringItem.getOrCreateTag().getBoolean("CanBeLocked") && hoveringItem.getOrCreateTag().getBoolean("Locked")) {
+                GeneralUtils.displayClientMessage(player, String.valueOf(minecraft.screen) + String.valueOf(hoveringItem) + " " + hoveringItem.getItem() + " " + hoveringSlot + hoveringItem.getOrCreateTag().getBoolean("CanBeLocked") + " " + hoveringItem.getOrCreateTag().getBoolean("Locked"), ChatFormatting.WHITE);
                 player.playSound(SoundEvents.CHAIN_FALL, 1, (float) Math.random() * 1.5F);
                 player.displayClientMessage(Component.literal("🔒 Your jumpsuit is locked!  You can not take it off 🔒").withStyle(ChatFormatting.RED), true);
                 event.setCanceled(true);
             }
         }
     }
+
+    @SubscribeEvent
+    public static void onEntityInteract(PlayerInteractEvent.EntityInteract event) {
+        Player player = event.getEntity();
+
+        if (!player.getMainHandItem().isEmpty()) return;
+
+
+        System.out.println(player.getName().getString() + " interacted");
+    }
+
 
 }

@@ -82,6 +82,9 @@ public class JumpsuitItem extends Item {
         return false;
     }
 
+
+    // TODO: Fix players unable to take off others jumpsuits this happens because the interactLivingEntity event only fires when clicking an entity with a jumpsuit but I want the jumpsuit to be taken off using just an empty hand
+
     @Override
     public @NotNull InteractionResultHolder<ItemStack> use(@NotNull Level level, Player player, @NotNull InteractionHand hand) {
         ItemStack itemInHand = player.getItemInHand(hand);
@@ -117,7 +120,7 @@ public class JumpsuitItem extends Item {
 
     @Override
     public @NotNull InteractionResult interactLivingEntity(@NotNull ItemStack stack, Player user, @NotNull LivingEntity target, @NotNull InteractionHand hand) {
-        ItemStack chest = target.getItemBySlot(EquipmentSlot.CHEST);
+        ItemStack targetChest = target.getItemBySlot(EquipmentSlot.CHEST);
 
         if (!user.isCrouching()) return InteractionResult.FAIL;
         if (user.level().isClientSide && !(target instanceof Player)) return InteractionResult.FAIL;
@@ -140,10 +143,10 @@ public class JumpsuitItem extends Item {
 
             if (!user.getAbilities().instabuild) stack.shrink(1);
 
-        } else if (chest.getItem() instanceof JumpsuitItem) {
+        } else if (targetChest.getItem() instanceof JumpsuitItem) {
 
             user.displayClientMessage(Component.literal("Trying to take off"), false);
-            if (chest.getOrCreateTag().getBoolean("CanBeLocked") && chest.getOrCreateTag().getBoolean("Locked")) {
+            if (targetChest.getOrCreateTag().getBoolean("CanBeLocked") && targetChest.getOrCreateTag().getBoolean("Locked")) {
                 user.displayClientMessage(Component.literal("🔒 " + target.getDisplayName() + "'s jumpsuit is locked on him! 🔒").withStyle(ChatFormatting.RED), true);
                 return InteractionResult.FAIL;
             }
@@ -155,6 +158,7 @@ public class JumpsuitItem extends Item {
             }
 
             if (user.getTags().contains("prisoner") && config.getOtherPrisonersJumpsuitBehavior().equals("onlyPutOn".toLowerCase()) || config.getOtherPrisonersJumpsuitBehavior().equals("none")) {
+                user.displayClientMessage(Component.literal("× Your are a prisoner!  Prisoners can not take off other players jumpsuit ×").withStyle(ChatFormatting.RED), true);
                 return InteractionResult.FAIL;
             }
 
@@ -166,9 +170,8 @@ public class JumpsuitItem extends Item {
                 boolean added = user.getInventory().add(suit);
                 target.getItemBySlot(EquipmentSlot.CHEST).setCount(0);
 
-                if (!added) user.drop(chest, false);
+                if (!added) user.drop(targetChest, false);
             }
-
         }
         return InteractionResult.SUCCESS;
     }

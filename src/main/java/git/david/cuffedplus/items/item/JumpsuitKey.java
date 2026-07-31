@@ -72,7 +72,7 @@ public class JumpsuitKey extends Item {
                 return InteractionResultHolder.fail(itemInHand);
             }
 
-            player.playSound(SoundEvents.ARMOR_EQUIP_CHAIN, 1, 0.8F);
+            player.playSound(SoundEvents.ARMOR_EQUIP_CHAIN, 1, (float) (0.5F + Math.random() / 5));
             currentChest.getOrCreateTag().putBoolean("Locked", true);
 
         }
@@ -103,6 +103,8 @@ public class JumpsuitKey extends Item {
                 return InteractionResult.FAIL;
             }
 
+            target.playSound(SoundEvents.ARMOR_EQUIP_CHAIN, 1, 1.5F);
+            user.playSound(SoundEvents.ARMOR_EQUIP_CHAIN, 1, 1.5F);
             targetChest.getOrCreateTag().putBoolean("Locked", false);
         } else if (!targetChest.getOrCreateTag().getBoolean("Locked")) {
 
@@ -118,8 +120,8 @@ public class JumpsuitKey extends Item {
                 return InteractionResult.FAIL;
             }
 
-
-
+            target.playSound(SoundEvents.ARMOR_EQUIP_CHAIN, 1, (float) (0.5F + Math.random() / 5));
+            user.playSound(SoundEvents.ARMOR_EQUIP_CHAIN, 1, (float) (0.5F + Math.random() / 5));
             targetChest.getOrCreateTag().putBoolean("Locked", true);
         }
 
