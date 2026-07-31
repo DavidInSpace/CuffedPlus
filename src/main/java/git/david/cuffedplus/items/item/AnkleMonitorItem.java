@@ -39,14 +39,6 @@ public class AnkleMonitorItem extends ArmorItem {
         super(material, type, properties);
     }
 
-    public static void setNumber(ItemStack stack, byte number) {
-        stack.getOrCreateTag().putByte("JumpsuitNumber", number);
-    }
-
-    public static byte getNumber(ItemStack stack) {
-        return stack.getOrCreateTag().getByte("JumpsuitNumber");
-    }
-
     public static void setCanBeLocked(ItemStack stack, boolean value) {
         stack.getOrCreateTag().putBoolean("CanBeLocked", value);
     }

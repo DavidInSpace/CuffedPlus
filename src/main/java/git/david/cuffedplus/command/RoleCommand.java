@@ -19,42 +19,19 @@ public class RoleCommand extends WorldSavedData {
         dispatcher.register(
                 Commands.literal("cuffed").requires((source) -> {
                             return source.hasPermission(2) || !source.isPlayer();
-                        }).then(Commands.literal("cuffedplus")
-                                .then(Commands.literal("settings"))
-                                /* TODO: Fix command structure (merged with "/cuffed" command) */
-                                .then(Commands.literal("get"))
-                                .executes(this::executeGetSettings))
-                        .then(Commands.literal("ShowRolePrefix")
-                                .then(Commands.argument("state", BoolArgumentType.bool())
-                                        .executes(this::executeShowRolePrefix)))
-                        .then(Commands.literal("RolePrefixBold")
-                                .then(Commands.argument("state", BoolArgumentType.bool())
-                                        .executes(this::executeRolePrefixBold)))
-                        .then(Commands.literal("CanPrisonersTakeJumpsuitsOff")
-                                .then(Commands.argument("state", BoolArgumentType.bool())
-                                        .executes(this::executeCanPrisonersTakeJumpsuitsOff)))
-                        .then(Commands.literal("CanPrisonersPutJumpsuitsOn")
-                                .then(Commands.argument("state", BoolArgumentType.bool())
-                                        .executes(this::executeCanPrisonersPutJumpsuitsOn)))
-                        .then(Commands.literal("CanPrisonersTakeJumpsuitsOffOthers")
-                                .then(Commands.argument("state", BoolArgumentType.bool())
-                                        .executes(this::executeCanPrisonersTakeJumpsuitsOffOthers)))
-                        .then(Commands.literal("CanPrisonersPutJumpsuitsOnOthers")
-                                .then(Commands.argument("state", BoolArgumentType.bool())
-                                        .executes(this::executeCanPrisonersPutJumpsuitsOnOthers)))
-
-                        .then(Commands.literal("set"))
-                        .then(Commands.argument("player", EntityArgument.player())
-                                .then(Commands.literal("prisoner")
-                                        .executes(this::executeApplyPrisonerRole))
-                                .then(Commands.literal("officer")
-                                        .executes(this::executeApplyOfficerRole))
-                                .then(Commands.literal("none")
-                                        .executes(this::executeApplyNoneRole)))
-
-                        .then(Commands.literal("get")
-                                .then(Commands.argument("player", EntityArgument.player())
-                                        .executes(this::executeGetRole))));
+                        }).then(Commands.literal("cuffedplus"))
+                        .then(Commands.literal("roles")
+                                .then(Commands.literal("get")
+                                        .then(Commands.argument("player", EntityArgument.player())
+                                                .executes(this::executeGetRole)))
+                                .then(Commands.literal("set")
+                                        .then(Commands.argument("player", EntityArgument.player())
+                                                .then(Commands.literal("prisoner")
+                                                        .executes(this::executeApplyPrisonerRole))
+                                                .then(Commands.literal("officer")
+                                                        .executes(this::executeApplyOfficerRole))
+                                                .then(Commands.literal("none")
+                                                        .executes(this::executeApplyNoneRole))))));
     }
 
 

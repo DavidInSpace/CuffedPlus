@@ -30,6 +30,7 @@ import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 import java.util.List;
+import java.util.Objects;
 
 
 public class JumpsuitItem extends Item {
@@ -159,7 +160,7 @@ public class JumpsuitItem extends Item {
 
         if (!user.level().isClientSide && target instanceof Player targetPlayer) {
 
-            if (user.getTags().contains("prisoner") && !config.canPrisonersPutJumpsuitsOnOthers()) {
+            if (user.getTags().contains("prisoner") && Objects.equals(config.getOtherPrisonersJumpsuitBehavior(), "onlyTakeOff") || Objects.equals(config.getOtherPrisonersJumpsuitBehavior(), "none")) {
                 user.displayClientMessage(Component.literal("You are a prisoner!  Prisoners can't put jumpsuits on others").withStyle(ChatFormatting.GOLD).withStyle(ChatFormatting.BOLD), true);
                 return InteractionResult.FAIL;
             }

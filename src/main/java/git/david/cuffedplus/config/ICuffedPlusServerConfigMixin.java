@@ -6,7 +6,8 @@ public interface ICuffedPlusServerConfigMixin {
     // TODO: Maybe add a config whether prisoners can lock jumpsuits and ankle monitors of others
     // TODO: Make use of all these config settings
 
-    /** Options: "lock" canOnl, "unlock", "both"
+    // (Options: "none", "onlyPutOn", "onlyTakeOff", "both")
+    // (Options: "none", "onlyPutOn", "onlyTakeOff", "both")
 
 
     /** PREFIXES **/
@@ -14,33 +15,36 @@ public interface ICuffedPlusServerConfigMixin {
     boolean rolePrefixesBold();
 
     // [1] String prefix [2] Color
-    String[] getPrisonerRolePrefix();
-    String[] getOfficerRolePrefix();
+    String getPrisonerRolePrefix();
+    String getOfficerRolePrefix();
 
 
 
     /** PLAYERS GEAR BEHAVIOR **/
 
-    // OPTIONS: "onlyPutOn", "onlyTakeOff", "both",
-    String[] getPlayersJumpsuitBehavior();
-    String[] getPlayersAnkleMonitorBehavior();
+    // OPTIONS: "none", "onlyPutOn", "onlyTakeOff", "both"
+    String getOtherPlayersJumpsuitBehavior();
+    String getOtherPlayersAnkleMonitorBehavior();
 
     // -- LOCK BEHAVIOR -- //
     // OPTIONS: "onlyLock", "onlyUnlock", "both"
-    String[] getPlayersJumpsuitLockBehavior();
-    String[] getPlayersAnkleMonitorLockBehavior();
-
+    String getPlayersOwnJumpsuitLockBehavior();
+    String getPlayersOwnAnkleMonitorLockBehavior();
+    String getOtherPlayersJumpsuitLockBehavior();
+    String getOtherPlayersAnkleMonitorLockBehavior();
 
     /** PRISONERS GEAR BEHAVIOR **/
 
-    // OPTIONS: "onlyPutOn", "onlyTakeOff", "both",
-    String[] getPrisonersJumpsuitBehavior();
-    String[] getPrisonersAnkleMonitorBehavior();
+    // OPTIONS: "none", "onlyPutOn", "onlyTakeOff", "both"
+    String getOtherPrisonersJumpsuitBehavior();
+    String getOtherPrisonersAnkleMonitorBehavior();
 
     // -- LOCK BEHAVIOR -- //
-    // OPTIONS: "onlyLock", "onlyUnlock", "both"
-    String[] getPrisonersJumpsuitLockBehavior();
-    String[] getPrisonersAnkleMonitorLockBehavior();
+    // OPTIONS: "none", "onlyPutOn", "onlyTakeOff", "both"
+    String getPrisonersOwnJumpsuitLockBehavior();
+    String getPrisonersOwnAnkleMonitorLockBehavior();
+    String getOtherPrisonersJumpsuitLockBehavior();
+    String getOtherPrisonersAnkleMonitorLockBehavior();
 
 
     /** BLOCKS **/

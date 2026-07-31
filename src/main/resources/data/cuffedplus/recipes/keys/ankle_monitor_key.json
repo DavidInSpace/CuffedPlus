@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "  I",
+    " IN",
+    "B  "
+  ],
+  "key": {
+    "N": {
+      "item": "minecraft:iron_nugget"
+    },
+    "I": {
+      "item": "minecraft:iron_ingot"
+    },
+    "B": {
+      "item": "minecraft:iron_block"
+    }
+  },
+  "result": {
+    "item": "cuffedplus:jumpsuit_key",
+    "count": 1
+  }
+}

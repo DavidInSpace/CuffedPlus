@@ -24,6 +24,7 @@ import org.jetbrains.annotations.NotNull;
 import javax.annotation.Nullable;
 import javax.swing.text.JTextComponent;
 import java.util.List;
+import java.util.Objects;
 
 public class AnkleMonitorKey extends Item {
 
@@ -46,19 +47,19 @@ public class AnkleMonitorKey extends Item {
         if (!level.isClientSide) {
 
             if (currentChest.getItem() instanceof AnkleMonitorItem && currentChest.getOrCreateTag().getBoolean("CanBeLocked") && currentChest.getOrCreateTag().getBoolean("Locked")) {
-
-                if (!config.canPlayersUnlockOwnJumpsuits()) {
+                // UNLOCKING
+                if (Objects.equals(config.getPlayersOwnAnkleMonitorLockBehavior(), "onlyLock") || Objects.equals(config.getPlayersOwnAnkleMonitorLockBehavior(), "none")) {
                     player.playSound(SoundEvents.IRON_DOOR_CLOSE, 1, (float) Math.random() * 1.5F);
-                    player.displayClientMessage(Component.literal("× You can not unlock your own ankle monitor ×").withStyle(ChatFormatting.RED), true);
+                    player.displayClientMessage(Component.literal("× You can not unlock your ankle monitor ×").withStyle(ChatFormatting.RED), true);
                     return InteractionResultHolder.fail(itemInHand);
                 }
 
                 currentChest.getOrCreateTag().putBoolean("Locked", false);
 
             } else if (currentChest.getItem() instanceof AnkleMonitorItem && currentChest.getOrCreateTag().getBoolean("CanBeLocked") && !currentChest.getOrCreateTag().getBoolean("Locked")) {
-
-                if (!config.canPlayersLockOwnJumpsuits()) {
-                    player.displayClientMessage(Component.literal("× You can not lock your own ankle monitor ×").withStyle(ChatFormatting.RED), true);
+                // LOCKING
+                if (Objects.equals(config.getPlayersOwnAnkleMonitorLockBehavior(), "onlyUnlock") || Objects.equals(config.getPlayersOwnAnkleMonitorLockBehavior(), "none")) {
+                    player.displayClientMessage(Component.literal("× You can not lock your ankle monitor ×").withStyle(ChatFormatting.RED), true);
                     return InteractionResultHolder.fail(itemInHand);
                 }
 
@@ -78,14 +79,20 @@ public class AnkleMonitorKey extends Item {
 
         if (!user.level().isClientSide && target instanceof Player targetPlayer) {
 
-
             ItemStack targetChest = target.getItemBySlot(EquipmentSlot.CHEST);
 
             if (targetChest.getItem() instanceof AnkleMonitorItem && targetChest.getOrCreateTag().getBoolean("CanBeLocked") && targetChest.getOrCreateTag().getBoolean("Locked")) {
+                if (target.getTags().contains("prisoner") && (config.getOtherPrisonersAnkleMonitorLockBehavior().equals("onlyLock") || config.getOtherPrisonersAnkleMonitorLockBehavior().equals("none"))) return InteractionResult.FAIL;
+                if (config.getOtherPlayersAnkleMonitorLockBehavior().equals("onlyLock") || config.getOtherPlayersAnkleMonitorLockBehavior().equals("none")) return InteractionResult.FAIL;
+
                 targetChest.getOrCreateTag().putBoolean("Locked", false);
             } else if (targetChest.getItem() instanceof AnkleMonitorItem && targetChest.getOrCreateTag().getBoolean("CanBeLocked") && !targetChest.getOrCreateTag().getBoolean("Locked")) {
+                if (target.getTags().contains("prisoner") && (config.getOtherPrisonersAnkleMonitorLockBehavior().equals("onlyUnLock") || config.getOtherPrisonersAnkleMonitorLockBehavior().equals("none"))) return InteractionResult.FAIL;
+                if (config.getOtherPlayersAnkleMonitorLockBehavior().equals("onlyUnlock") || config.getOtherPlayersAnkleMonitorLockBehavior().equals("none")) return InteractionResult.FAIL;
+
                 targetChest.getOrCreateTag().putBoolean("Locked", true);
             }
+
             return InteractionResult.SUCCESS;
         }
         return InteractionResult.FAIL;
