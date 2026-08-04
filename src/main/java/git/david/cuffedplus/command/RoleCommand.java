@@ -4,7 +4,6 @@ import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.BoolArgumentType;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
-import git.david.cuffedplus.data.WorldSavedData;
 import net.minecraft.ChatFormatting;
 import net.minecraft.commands.CommandBuildContext;
 import net.minecraft.commands.CommandSourceStack;
@@ -14,7 +13,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 
-public class RoleCommand extends WorldSavedData {
+public class RoleCommand {
     public RoleCommand(CommandDispatcher<CommandSourceStack> dispatcher, CommandBuildContext ctx) {
         dispatcher.register(
                 Commands.literal("cuffed").requires((source) -> {
@@ -34,176 +33,6 @@ public class RoleCommand extends WorldSavedData {
                                                         .executes(this::executeApplyNoneRole)))))));
     }
 
-
-    private int executeShowRolePrefix(CommandContext<CommandSourceStack> ctx) {
-        boolean state = BoolArgumentType.getBool(ctx, "state");
-        ServerPlayer sender = ctx.getSource().getPlayer();
-        assert sender != null;
-
-        MinecraftServer server = sender.getServer();
-        assert server != null;
-        //WorldSavedData data = WorldSavedData.get(server);
-        //data.setCanPrisonersTakeJumpsuitsOff(state);
-
-        String message_state;
-        ChatFormatting message_color;
-        if (state) {
-            message_state = "visible";
-            message_color = ChatFormatting.GREEN;
-        } else {
-            message_state = "hidden";
-            message_color = ChatFormatting.RED;
-        }
-
-        sender.displayClientMessage(Component.literal("Setting Applied: Role prefixes are " + message_state + " now").withStyle(message_color).withStyle(ChatFormatting.BOLD), false);
-
-        return 1;
-    }
-
-
-    private int executeRolePrefixBold(CommandContext<CommandSourceStack> ctx) {
-        boolean state = BoolArgumentType.getBool(ctx, "state");
-        ServerPlayer sender = ctx.getSource().getPlayer();
-        assert sender != null;
-
-        MinecraftServer server = sender.getServer();
-        assert server != null;
-        //WorldSavedData data = WorldSavedData.get(server);
-        //data.setCanPrisonersTakeJumpsuitsOff(state);
-
-        String message_state;
-        ChatFormatting message_color;
-        if (state) {
-            message_state = "are";
-            message_color = ChatFormatting.GREEN;
-        } else {
-            message_state = "aren't";
-            message_color = ChatFormatting.RED;
-        }
-
-        sender.displayClientMessage(Component.literal("Setting Applied: Role prefixes " + message_state + " bold now").withStyle(message_color).withStyle(ChatFormatting.BOLD), false);
-
-        return 1;
-    }
-
-    private int executeCanPrisonersTakeJumpsuitsOff(CommandContext<CommandSourceStack> ctx) {
-        boolean state = BoolArgumentType.getBool(ctx, "state");
-        ServerPlayer sender = ctx.getSource().getPlayer();
-        assert sender != null;
-
-        MinecraftServer server = sender.getServer();
-        assert server != null;
-        WorldSavedData data = WorldSavedData.get(server);
-        data.setCanPrisonersTakeJumpsuitsOff(state);
-
-        String message_state;
-        ChatFormatting message_color;
-        if (state) {
-            message_state = "can";
-            message_color = ChatFormatting.GREEN;
-        } else {
-            message_state = "can't";
-            message_color = ChatFormatting.RED;
-        }
-
-        sender.displayClientMessage(Component.literal("Setting Applied: Prisoners " + message_state + " take of their jumpsuits by themselves now").withStyle(message_color).withStyle(ChatFormatting.BOLD), false);
-
-        return 1;
-    }
-
-    //TODO: Finish all settings appliers
-    private int executeCanPrisonersPutJumpsuitsOn(CommandContext<CommandSourceStack> ctx) {
-        boolean state = BoolArgumentType.getBool(ctx, "state");
-        ServerPlayer sender = ctx.getSource().getPlayer();
-        assert sender != null;
-
-        MinecraftServer server = sender.getServer();
-        assert server != null;
-        WorldSavedData data = WorldSavedData.get(server);
-        data.setCanPrisonersPutJumpsuitsOn(state);
-
-        String message_state;
-        ChatFormatting message_color;
-        if (state) {
-            message_state = "can";
-            message_color = ChatFormatting.GREEN;
-        } else {
-            message_state = "can't";
-            message_color = ChatFormatting.RED;
-        }
-
-        sender.displayClientMessage(Component.literal("Setting Applied: Prisoners " + message_state + " put on jumpsuits on themselves now").withStyle(message_color).withStyle(ChatFormatting.BOLD), false);
-        return 1;
-    }
-
-    private int executeCanPrisonersTakeJumpsuitsOffOthers(CommandContext<CommandSourceStack> ctx) {
-        boolean state = BoolArgumentType.getBool(ctx, "state");
-        ServerPlayer sender = ctx.getSource().getPlayer();
-        assert sender != null;
-
-        MinecraftServer server = sender.getServer();
-        assert server != null;
-        WorldSavedData data = WorldSavedData.get(server);
-        data.setCanPrisonersTakeJumpsuitsOffOthers(state);
-
-        String message_state;
-        ChatFormatting message_color;
-        if (state) {
-            message_state = "can";
-            message_color = ChatFormatting.GREEN;
-        } else {
-            message_state = "can't";
-            message_color = ChatFormatting.RED;
-        }
-
-        sender.displayClientMessage(Component.literal("Setting Applied: Prisoners " + message_state + " take jumpsuits off others now").withStyle(message_color).withStyle(ChatFormatting.BOLD), false);
-        return 1;
-    }
-
-    private int executeCanPrisonersPutJumpsuitsOnOthers(CommandContext<CommandSourceStack> ctx) {
-        boolean state = BoolArgumentType.getBool(ctx, "state");
-        ServerPlayer sender = ctx.getSource().getPlayer();
-        assert sender != null;
-
-        MinecraftServer server = sender.getServer();
-        assert server != null;
-        WorldSavedData data = WorldSavedData.get(server);
-        data.setCanPrisonersPutJumpsuitsOnOthers(state);
-
-        String message_state;
-        ChatFormatting message_color;
-        if (state) {
-            message_state = "can";
-            message_color = ChatFormatting.GREEN;
-        } else {
-            message_state = "can't";
-            message_color = ChatFormatting.RED;
-        }
-
-        sender.displayClientMessage(Component.literal("Setting Applied: Prisoners " + message_state + " put jumpsuits on others now").withStyle(message_color).withStyle(ChatFormatting.BOLD), false);
-        return 1;
-    }
-
-    private int executeGetSettings(CommandContext<CommandSourceStack> ctx) {
-
-        ServerPlayer sender = ctx.getSource().getPlayer();
-        assert sender != null;
-        MinecraftServer server = sender.getServer();
-        assert server != null;
-
-        WorldSavedData data = WorldSavedData.get(server);
-        boolean CanPrisonersTakeJumpsuitsOff = data.getCanPrisonersTakeJumpsuitsOff();
-        boolean CanPrisonersPutJumpsuitsOn = data.getCanPrisonersPutJumpsuitsOn();
-        boolean CanPrisonersTakeJumpsuitsOffOthers = data.getCanPrisonersTakeJumpsuitsOffOthers();
-        boolean CanPrisonersPutJumpsuitsOnOthers = data.getCanPrisonersPutJumpsuitsOnOthers();
-
-        sender.displayClientMessage(Component.literal("CanPrisonersTakeJumpsuitsOff: " + CanPrisonersTakeJumpsuitsOff).withStyle(ChatFormatting.YELLOW), false);
-        sender.displayClientMessage(Component.literal("CanPrisonersPutJumpsuitsOn: " + CanPrisonersPutJumpsuitsOn).withStyle(ChatFormatting.YELLOW), false);
-        sender.displayClientMessage(Component.literal("CanPrisonersTakeJumpsuitsOffOthers: " + CanPrisonersTakeJumpsuitsOffOthers).withStyle(ChatFormatting.YELLOW), false);
-        sender.displayClientMessage(Component.literal("CanPrisonersPutJumpsuitsOnOthers: " + CanPrisonersPutJumpsuitsOnOthers).withStyle(ChatFormatting.YELLOW), false);
-
-        return 1;
-    }
 
     private int executeGetRole(CommandContext<CommandSourceStack> ctx) {
         try {
@@ -257,6 +86,7 @@ public class RoleCommand extends WorldSavedData {
         }
     }
 
+
     private int executeApplyOfficerRole(CommandContext<CommandSourceStack> ctx) {
         try {
             ServerPlayer player = EntityArgument.getPlayer(ctx, "player");
@@ -281,6 +111,7 @@ public class RoleCommand extends WorldSavedData {
         }
     }
 
+
     private int executeApplyNoneRole(CommandContext<CommandSourceStack> ctx) {
         try {
             ServerPlayer player = EntityArgument.getPlayer(ctx, "player");
@@ -304,5 +135,6 @@ public class RoleCommand extends WorldSavedData {
             return 0;
         }
     }
+
 }
 

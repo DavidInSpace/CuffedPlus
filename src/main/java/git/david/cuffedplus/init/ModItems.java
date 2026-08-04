@@ -137,9 +137,8 @@ public class ModItems {
             () -> new ModifierItem(new Item.Properties().stacksTo(16).rarity(Rarity.UNCOMMON)));
 
 
-    /* JUMPSUIT MODIFICATORS */
+    /* JUMPSUIT & Ankle Monitor MODIFICATORS */
 
-    // TODO: Make all the modifiers functional
 
     public static final RegistryObject<Item> LOCK_MODIFIER = ITEMS.register("lock_modifier",
             () -> new JumpsuitModifierItem(new Item.Properties().stacksTo(16).rarity(Rarity.UNCOMMON)));
@@ -147,6 +146,8 @@ public class ModItems {
     public static final RegistryObject<Item> HIGH_VISIBILITY_MODIFIER = ITEMS.register("high_visibility_modifier",
             () -> new JumpsuitModifierItem(new Item.Properties().stacksTo(16).rarity(Rarity.UNCOMMON)));
 
+
+    // TODO: Finish this modifier. I want the player to emit actual light when wearing something with this modifier on
     public static final RegistryObject<Item> GLOW_MODIFIER = ITEMS.register("glow_modifier",
             () -> new JumpsuitModifierItem(new Item.Properties().stacksTo(16).rarity(Rarity.UNCOMMON)));
 

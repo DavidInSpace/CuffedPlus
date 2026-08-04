@@ -30,7 +30,6 @@ public class ModClientEvents {
         }
     }
 
-
     @SubscribeEvent
     public static void onClientSetup(FMLClientSetupEvent event) {
         event.enqueueWork(() -> {

@@ -75,7 +75,6 @@ import javax.annotation.Nonnull;
 // TODO: Make so a text/number/image can be put on the back of prison jumpsuits
 // TODO: Add more prison jumpsuits
 // TODO: Rework crafting
-// TODO: Make reinforced blocks from cuffed actually reinforced
 
 // CUFFED GITHUB REPOSETORY PAGE:
 // https://github.com/LazrProductions/cuffed

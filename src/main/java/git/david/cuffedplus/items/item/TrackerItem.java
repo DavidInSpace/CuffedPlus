@@ -1,6 +1,5 @@
 package git.david.cuffedplus.items.item;
 
-import git.david.cuffedplus.data.WorldSavedData;
 import git.david.cuffedplus.utils.GeneralUtils;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
@@ -44,12 +43,7 @@ public class TrackerItem extends Item {
 
         MinecraftServer server = player.getServer();
         assert server != null;
-        WorldSavedData data = WorldSavedData.get(server);
 
-        if (player.getTags().contains("prisoner") && !data.getCanPrisonersPutJumpsuitsOn()) {
-            player.displayClientMessage(Component.literal("Prisoners can't put on jumpsuits by themselves").withStyle(ChatFormatting.GOLD).withStyle(ChatFormatting.BOLD), true);
-            return InteractionResultHolder.fail(stack);
-        }
 
         ItemStack handItem = player.getItemInHand(hand);
 

@@ -167,7 +167,7 @@ public class JumpsuitItem extends Item {
         }
 
         tooltip.add(Component.literal(""));
-        tooltip.add(Component.literal("-- Modifiers --").withStyle(ChatFormatting.GRAY));
+        tooltip.add(Component.literal("Modifiers:").withStyle(ChatFormatting.DARK_GRAY));
 
         if (stack.getOrCreateTag().getBoolean("HighVisibility")) {
             tooltip.add(Component.literal("High Visibility").withStyle(ChatFormatting.YELLOW));

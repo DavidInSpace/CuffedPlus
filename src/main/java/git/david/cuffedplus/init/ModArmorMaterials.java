@@ -76,9 +76,6 @@ public enum ModArmorMaterials implements ArmorMaterial {
         return this.toughness;
     }
 
-    /**
-     * Gets the percentage of knockback resistance provided by armor of the material.
-     */
     public float getKnockbackResistance() {
         return this.knockbackResistance;
     }
