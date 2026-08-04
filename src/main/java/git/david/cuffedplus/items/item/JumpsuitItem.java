@@ -178,7 +178,7 @@ public class JumpsuitItem extends Item {
 
     @Override
     public void appendHoverText(@NotNull ItemStack stack, @Nullable Level level, @NotNull List<Component> tooltip, @NotNull TooltipFlag flag) {
-        byte number = getNumber(stack);
+        //byte number = getNumber(stack);
 
         if (stack.getOrCreateTag().getBoolean("CanBeLocked") && stack.getOrCreateTag().getBoolean("Locked")) {
             tooltip.add(Component.literal("Locked").withStyle(ChatFormatting.RED));
@@ -186,7 +186,7 @@ public class JumpsuitItem extends Item {
             tooltip.add(Component.literal("Unlocked").withStyle(ChatFormatting.GREEN));
         }
 
-        tooltip.add(Component.literal("Number: " + number).withStyle(ChatFormatting.GRAY));
+        //tooltip.add(Component.literal("Number: " + number).withStyle(ChatFormatting.GRAY));
         super.appendHoverText(stack, level, tooltip, flag);
     }
 }
