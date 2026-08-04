@@ -29,7 +29,6 @@ public class LockLogic {
 
     ItemStack hoveringItem;
     int hoveringSlot;
-
     @SubscribeEvent
     public void onPlayerTick(TickEvent.PlayerTickEvent event) {
         ItemStack itemInChest = event.player.getItemBySlot(EquipmentSlot.CHEST);
@@ -46,6 +45,7 @@ public class LockLogic {
             event.setCanceled(true);
         }
     }
+
 
     @SubscribeEvent
     public void containerEvent(ContainerScreenEvent event) {
@@ -74,6 +74,7 @@ public class LockLogic {
             }
         }
     }
+
 
     @SubscribeEvent
     public void ankleMonitorInputEvent(InputEvent.MouseButton.Pre event) {

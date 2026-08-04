@@ -19,7 +19,7 @@ public class RoleCommand extends WorldSavedData {
         dispatcher.register(
                 Commands.literal("cuffed").requires((source) -> {
                             return source.hasPermission(2) || !source.isPlayer();
-                        }).then(Commands.literal("cuffedplus"))
+                        }).then(Commands.literal("plus")
                         .then(Commands.literal("roles")
                                 .then(Commands.literal("get")
                                         .then(Commands.argument("player", EntityArgument.player())
@@ -31,7 +31,7 @@ public class RoleCommand extends WorldSavedData {
                                                 .then(Commands.literal("officer")
                                                         .executes(this::executeApplyOfficerRole))
                                                 .then(Commands.literal("none")
-                                                        .executes(this::executeApplyNoneRole))))));
+                                                        .executes(this::executeApplyNoneRole)))))));
     }
 
 

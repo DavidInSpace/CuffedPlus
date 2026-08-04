@@ -2,10 +2,6 @@ package git.david.cuffedplus.config;
 
 public interface ICuffedPlusServerConfigMixin {
 
-    // TODO: Add config settings to toggle whether prisoners can bind trackers to ankle monitors
-    // TODO: Maybe add a config whether prisoners can lock jumpsuits and ankle monitors of others
-    // TODO: Make use of all these config settings
-
     // (Options: "none", "onlyPutOn", "onlyTakeOff", "both")
     // (Options: "none", "onlyLock", "onlyUnlock", "both")
     // (Options: "none", "onlyBind", "onlyUnbind", "both")

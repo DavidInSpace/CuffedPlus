@@ -32,7 +32,7 @@ public class TakeOffLogic {
         if (currentChest.getOrCreateTag().getBoolean("CanBeLocked") && currentChest.getOrCreateTag().getBoolean("Locked")) {
             player.playSound(SoundEvents.CHAIN_FALL, 1, (float) Math.random() * 1.5F);
             player.displayClientMessage(Component.literal("🔒 Your jumpsuit is locked!  You can not take it off 🔒").withStyle(ChatFormatting.RED), true);
-        } else if (currentChest.getOrCreateTag().getBoolean("CanBeLocked") && !currentChest.getOrCreateTag().getBoolean("Locked")) {
+        } else if (!currentChest.getOrCreateTag().getBoolean("Locked")) {
             if (!currentChest.isEmpty()) {
                 boolean added = player.getInventory().add(currentChest);
                 if (!added) player.drop(currentChest, false);
@@ -88,7 +88,7 @@ public class TakeOffLogic {
 
         if (!(currentChest.getItem() instanceof AnkleMonitorItem)) return;
 
-        if (currentChest.getOrCreateTag().getBoolean("CanBeLocked") && currentChest.getOrCreateTag().getBoolean("Locked")) {
+        if (currentChest.getOrCreateTag().getBoolean("Locked")) {
             player.playSound(SoundEvents.CHAIN_FALL, 1, (float) Math.random() * 1.5F);
             player.displayClientMessage(Component.literal("🔒 Your jumpsuit is locked!  You can not take it off 🔒").withStyle(ChatFormatting.RED), true);
         } else if (currentChest.getOrCreateTag().getBoolean("CanBeLocked") && !currentChest.getOrCreateTag().getBoolean("Locked")) {

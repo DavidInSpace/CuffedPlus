@@ -38,7 +38,7 @@ public class JumpsuitKey extends Item {
         ItemStack currentChest = player.getItemBySlot(EquipmentSlot.CHEST);
         assert Minecraft.getInstance().player != null;
 
-        if (player.isCrouching()) return InteractionResultHolder.fail(itemInHand);
+        if (!player.isCrouching()) return InteractionResultHolder.fail(itemInHand);
         if (level.isClientSide) return InteractionResultHolder.fail(itemInHand);
         if (!(currentChest.getItem() instanceof JumpsuitItem) || !currentChest.getOrCreateTag().getBoolean("CanBeLocked")) return InteractionResultHolder.fail(itemInHand);
 
@@ -87,7 +87,7 @@ public class JumpsuitKey extends Item {
     public @NotNull InteractionResult interactLivingEntity(@NotNull ItemStack stack, Player user, @NotNull LivingEntity target, @NotNull InteractionHand hand) {
         ItemStack targetChest = target.getItemBySlot(EquipmentSlot.CHEST);
 
-        if (!user.isCrouching()) return InteractionResult.FAIL;
+        if (user.isCrouching()) return InteractionResult.FAIL;
         if (user.level().isClientSide && !(target instanceof Player)) return InteractionResult.FAIL;
         if (!(targetChest.getItem() instanceof JumpsuitItem) || !(targetChest.getOrCreateTag().getBoolean("CanBeLocked"))) return InteractionResult.FAIL;
 
@@ -130,10 +130,6 @@ public class JumpsuitKey extends Item {
         return InteractionResult.SUCCESS;
 
     }
-
-
-
-
 
     @Override
     public void appendHoverText(@NotNull ItemStack stack, @Nullable Level level, List<Component> tooltip, @NotNull TooltipFlag flag) {

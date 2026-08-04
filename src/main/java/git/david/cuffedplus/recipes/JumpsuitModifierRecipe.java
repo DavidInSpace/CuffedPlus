@@ -17,8 +17,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
-public record JumpsuitModifierRecipe(ResourceLocation id, Ingredient template, Ingredient base,
-                                     Ingredient addition) implements SmithingRecipe {
+public record JumpsuitModifierRecipe(ResourceLocation id, Ingredient template, Ingredient base, Ingredient addition) implements SmithingRecipe {
 
     @Override
     public boolean matches(Container container, @NotNull Level level) {
@@ -46,7 +45,6 @@ public record JumpsuitModifierRecipe(ResourceLocation id, Ingredient template, I
                 case "cuffedplus:high_visibility_modifier":
                     JumpsuitItem.setHighVisibility(baseItem, true);
                 default:
-                    // throw new IllegalStateException("Oh no! Unexpected value: " + modKey);
             }
 
         } else if (additionItem.is(Items.NETHERITE_SCRAP)) {

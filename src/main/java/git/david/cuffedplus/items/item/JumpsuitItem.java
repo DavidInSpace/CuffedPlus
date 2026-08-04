@@ -2,11 +2,9 @@ package git.david.cuffedplus.items.item;
 
 import com.lazrproductions.cuffed.CuffedMod;
 import git.david.cuffedplus.config.ICuffedPlusServerConfigMixin;
-import git.david.cuffedplus.utils.GeneralUtils;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
-import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionResultHolder;
@@ -17,8 +15,6 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.event.entity.player.PlayerInteractEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
@@ -107,8 +103,6 @@ public class JumpsuitItem extends Item {
     }
 
 
-
-
     @Override
     public @NotNull InteractionResult interactLivingEntity(@NotNull ItemStack stack, Player user, @NotNull LivingEntity target, @NotNull InteractionHand hand) {
         ItemStack targetChest = target.getItemBySlot(EquipmentSlot.CHEST);
@@ -162,15 +156,21 @@ public class JumpsuitItem extends Item {
     }
 
 
-
     @Override
     public void appendHoverText(@NotNull ItemStack stack, @Nullable Level level, @NotNull List<Component> tooltip, @NotNull TooltipFlag flag) {
         //byte number = getNumber(stack);
 
         if (stack.getOrCreateTag().getBoolean("CanBeLocked") && stack.getOrCreateTag().getBoolean("Locked")) {
-            tooltip.add(Component.literal("Locked").withStyle(ChatFormatting.RED));
+            tooltip.add(Component.literal("Locked 🔒").withStyle(ChatFormatting.RED));
         } else if (stack.getOrCreateTag().getBoolean("CanBeLocked") && !stack.getOrCreateTag().getBoolean("Locked")) {
-            tooltip.add(Component.literal("Unlocked").withStyle(ChatFormatting.GREEN));
+            tooltip.add(Component.literal("Unlocked 🔓").withStyle(ChatFormatting.GREEN));
+        }
+
+        tooltip.add(Component.literal(""));
+        tooltip.add(Component.literal("-- Modifiers --").withStyle(ChatFormatting.GRAY));
+
+        if (stack.getOrCreateTag().getBoolean("HighVisibility")) {
+            tooltip.add(Component.literal("High Visibility").withStyle(ChatFormatting.YELLOW));
         }
 
         //tooltip.add(Component.literal("Number: " + number).withStyle(ChatFormatting.GRAY));

@@ -17,12 +17,9 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
 public class CuffTableMenuScreen extends AbstractContainerScreen<CuffTableMenu> {
-    private static final ResourceLocation MENU_TEXTURE =
-            new ResourceLocation("cuffedplus", "textures/gui/menus/cuffs_menu.png");
-    private static final ResourceLocation DOWN_ARROW_TEXTURE =
-            new ResourceLocation("cuffedplus", "textures/gui/menus/buttons/arrow_down.png");
-
-    private static final ResourceLocation UP_ARROW_TEXTURE = new ResourceLocation("cuffedplus", "textures/gui/menus/buttons/arrow_up.png");
+    private static final ResourceLocation MENU_TEXTURE = ResourceLocation.fromNamespaceAndPath("cuffedplus", "textures/gui/menus/cuffs_menu.png");
+    private static final ResourceLocation DOWN_ARROW_TEXTURE = ResourceLocation.fromNamespaceAndPath("cuffedplus", "textures/gui/menus/buttons/arrow_down.png");
+    private static final ResourceLocation UP_ARROW_TEXTURE = ResourceLocation.fromNamespaceAndPath("cuffedplus", "textures/gui/menus/buttons/arrow_up.png");
 
     private static final String[] backTitle = {"Target", "Iron Bars", "Inmate Text", "Test Subject Text", "Letter A", "Letter B", "Letter C", "Letter D", "Letter E", "Letter F", "Letter G", "Letter H"};
 
@@ -44,31 +41,31 @@ public class CuffTableMenuScreen extends AbstractContainerScreen<CuffTableMenu> 
         // guiGraphics.drawString(this.font, "Slots: " + itemCount, this.leftPos + 10, this.topPos + 25, 0x404040, false);
 
         this.addRenderableWidget(new ImageButton(
-                this.leftPos + 25, // x position
-                this.topPos + 15,  // y position
-                8,                // width (adjust to match your arrow image)
-                10,                // height
-                0,                 // u (texture x)
-                0,                 // v (texture y)
-                0,                // vOffset on hover
-                UP_ARROW_TEXTURE, // your arrow texture
-                8,                // texture width
-                10,                // texture height (20 normal + 20 hover)
-                btn -> IncreaseNumber() // click action
+                this.leftPos + 25,
+                this.topPos + 15,
+                8,
+                10,
+                0,
+                0,
+                0,
+                UP_ARROW_TEXTURE,
+                8,
+                10,
+                btn -> IncreaseNumber()
         ));
 
         this.addRenderableWidget(new ImageButton(
-                this.leftPos + 25, // x position
-                this.topPos + 40,  // y position
-                8,                // width (adjust to match your arrow image)
-                10,                // height
-                0,                 // u (texture x)
-                0,                 // v (texture y)
-                0,                // vOffset on hover
-                DOWN_ARROW_TEXTURE, // your arrow texture
-                8,                // texture width
-                10,                // texture height (20 normal + 20 hover)
-                btn -> DecreaseNumber() // click action
+                this.leftPos + 25,
+                this.topPos + 40,
+                8,
+                10,
+                0,
+                0,
+                0,
+                DOWN_ARROW_TEXTURE,
+                8,
+                10,
+                btn -> DecreaseNumber()
         ));
 
 

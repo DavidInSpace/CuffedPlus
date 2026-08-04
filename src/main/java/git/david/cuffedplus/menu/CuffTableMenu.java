@@ -71,10 +71,6 @@ public class CuffTableMenu extends AbstractContainerMenu {
         }
     }
 
-
-
-
-
     @Override
     public @NotNull ItemStack quickMoveStack(@NotNull Player pPlayer, int pIndex) {
         Slot fromSlot = getSlot(pIndex);
