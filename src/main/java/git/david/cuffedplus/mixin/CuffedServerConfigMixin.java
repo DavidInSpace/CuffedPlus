@@ -17,10 +17,14 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public abstract class CuffedServerConfigMixin extends LazrConfig implements ICuffedPlusServerConfigMixin {
 
     ConfigCategory CUFFED_PLUS_SETTINGS;
+    ConfigCategory GENERAL_SETTINGS;
     ConfigCategory PREFIX_SETTINGS;
     ConfigCategory PLAYERS_JUMPSUIT_AND_ANKLE_MONITOR_BEHAVIOR_SETTINGS;
     ConfigCategory PRISONERS_JUMPSUIT_AND_ANKLE_MONITOR_BEHAVIOR_SETTINGS;
-    ConfigCategory BLOCKS_SETTINGS;
+
+    ConfigProperty<Integer> INCREASE_REINFORCED_BLOCKS_STRENGTH;
+    ConfigProperty<Boolean> KEEP_LOCKED_GEAR_ON_DEATH;
+
 
     ConfigProperty<Boolean> SHOW_ROLE_PREFIX;
     ConfigProperty<Boolean> ROLE_PREFIX_BOLD;
@@ -53,8 +57,6 @@ public abstract class CuffedServerConfigMixin extends LazrConfig implements ICuf
     ConfigProperty<String> GET_PRISONERS_OWN_TRACKER_BINDING_BEHAVIOR;
     ConfigProperty<String> GET_OTHER_PRISONERS_TRACKER_BINDING_BEHAVIOR;
 
-    ConfigProperty<Integer> INCREASE_REINFORCED_BLOCKS_STRENGTH;
-
 
     public CuffedServerConfigMixin(String name, ModConfig.Type type) {
         super(name, type);
@@ -63,6 +65,12 @@ public abstract class CuffedServerConfigMixin extends LazrConfig implements ICuf
     @Inject(method = "registerProperties", at = @At("HEAD"), remap = false)
     public void addRegisterProperties(CallbackInfo ci) {
         CUFFED_PLUS_SETTINGS = createCategory(new ConfigCategory(this, "Cuffed Plus Settings"), (c1) -> {
+
+            GENERAL_SETTINGS = createCategory(new ConfigCategory(this, "General Settings"), (c5) -> {
+                KEEP_LOCKED_GEAR_ON_DEATH = c5.putProperty(new ConfigProperty<Boolean>(this, "Keep Locked Gear On Death", "Locked jumpsuits and ankle monitors wont drop on death even if keepInventory gamerule is turned off", true));
+                INCREASE_REINFORCED_BLOCKS_STRENGTH = c5.putProperty(new ConfigProperty<Integer>(this, "Reinforced Blocks Strength Increase", "Blocks that should have increased reinforced strength.", 1000));
+            });
+
 
             PREFIX_SETTINGS = createCategory(new ConfigCategory(this, "Prefix Settings"), (c2) -> {
                 SHOW_ROLE_PREFIX = c2.putProperty(new ConfigProperty<Boolean>(this, "Show Role Prefixes", "Whether to show role prefixes in chat.", true));
@@ -101,12 +109,12 @@ public abstract class CuffedServerConfigMixin extends LazrConfig implements ICuf
                 GET_PRISONERS_OWN_TRACKER_BINDING_BEHAVIOR = c4.putProperty(new ConfigProperty<String>(this, "Own Tracker Binding", "Controls the interaction for binding and unbinding your own ankle monitor as a prisoner (Options: \"none\", \"onlyBind\", \"onlyUnbind\", \"both\")", "both"));
                 GET_OTHER_PRISONERS_TRACKER_BINDING_BEHAVIOR = c4.putProperty(new ConfigProperty<String>(this, "Other prisoners Tracker Binding Behavior", "Controls the interaction for binding and unbinding ankle monitor on other prisoners (Options: \"none\", \"onlyBind\", \"onlyUnbind\", \"both\")", "both"));
             });
-
-            BLOCKS_SETTINGS = createCategory(new ConfigCategory(this, "Blocks Settings"), (c5) -> {
-                INCREASE_REINFORCED_BLOCKS_STRENGTH = c5.putProperty(new ConfigProperty<Integer>(this, "Reinforced Blocks Strength Increase", "Blocks that should have increased reinforced strength.", 1000));
-            });
         });
     }
+
+
+    @Override public boolean keepLockedGearOnDeath() {return KEEP_LOCKED_GEAR_ON_DEATH.get();}
+    @Override public int increaseReinforcedBlockStrength() {return INCREASE_REINFORCED_BLOCKS_STRENGTH.get();}
 
 
     @Override public boolean showRolePrefixes() {return SHOW_ROLE_PREFIX.get();}
@@ -140,8 +148,5 @@ public abstract class CuffedServerConfigMixin extends LazrConfig implements ICuf
 
     @Override public String getPrisonersOwnTrackerBindingBehavior() {return GET_PRISONERS_OWN_TRACKER_BINDING_BEHAVIOR.get().toLowerCase();}
     @Override public String getOtherPrisonersTrackerBindingBehavior() {return GET_OTHER_PRISONERS_TRACKER_BINDING_BEHAVIOR.get().toLowerCase();}
-
-
-    @Override public int increaseReinforcedBlockStrength() {return INCREASE_REINFORCED_BLOCKS_STRENGTH.get();}
 
 }

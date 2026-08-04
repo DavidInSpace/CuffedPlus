@@ -10,6 +10,12 @@ public interface ICuffedPlusServerConfigMixin {
     // (Options: "none", "onlyLock", "onlyUnlock", "both")
     // (Options: "none", "onlyBind", "onlyUnbind", "both")
 
+
+    /** GENERAL **/
+    int increaseReinforcedBlockStrength();
+    boolean keepLockedGearOnDeath();
+
+
     /** PREFIXES **/
     boolean showRolePrefixes();
     boolean rolePrefixesBold();
@@ -53,8 +59,5 @@ public interface ICuffedPlusServerConfigMixin {
 
     String getPrisonersOwnTrackerBindingBehavior();
     String getOtherPrisonersTrackerBindingBehavior();
-
-    /** BLOCKS **/
-    int increaseReinforcedBlockStrength();
 
 }
