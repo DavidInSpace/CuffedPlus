@@ -4,8 +4,10 @@ import com.lazrproductions.cuffed.items.base.AbstractRestraintItem;
 import com.lazrproductions.cuffed.restraints.RestraintAPI;
 import com.lazrproductions.cuffed.restraints.base.AbstractRestraint;
 import git.david.cuffedplus.command.RoleCommand;
+import git.david.cuffedplus.logic.KeepLockedGearOnDeathLogic;
+import git.david.cuffedplus.events.ModClientEvents;
 import git.david.cuffedplus.init.*;
-import git.david.cuffedplus.logic.JumpsuitLogic;
+import git.david.cuffedplus.logic.LockLogic;
 import git.david.cuffedplus.logic.RolesLogic;
 import net.minecraft.core.BlockSource;
 import net.minecraft.core.dispenser.DispenseItemBehavior;
@@ -87,7 +89,6 @@ public class CuffedPlusMain {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
         MinecraftForge.EVENT_BUS.register(this);
 
-
         ModCreativeTabs.register(modEventBus);
         ModItems.register(modEventBus);
         ModRestraints.register(modEventBus);
@@ -96,8 +97,10 @@ public class CuffedPlusMain {
         ModMenuTypes.register(modEventBus);
         ModRecipes.SERIALIZERS.register(FMLJavaModLoadingContext.get().getModEventBus());
 
+        MinecraftForge.EVENT_BUS.register(new KeepLockedGearOnDeathLogic());
         MinecraftForge.EVENT_BUS.register(new RolesLogic());
-        MinecraftForge.EVENT_BUS.register(new JumpsuitLogic());
+        MinecraftForge.EVENT_BUS.register(new LockLogic());
+        MinecraftForge.EVENT_BUS.register(new ModClientEvents());
 
         modEventBus.addListener(this::onRegister);
         //modEventBus.register(new Ro);

@@ -19,7 +19,6 @@ import java.util.Random;
 @Mod.EventBusSubscriber(modid = CuffedPlusMain.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ModClientEvents {
 
-
     @SubscribeEvent
     public static void onAddLayers(EntityRenderersEvent.AddLayers event) {
         for (String skin : event.getSkins()) {

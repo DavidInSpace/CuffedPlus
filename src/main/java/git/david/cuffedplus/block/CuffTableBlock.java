@@ -1,7 +1,5 @@
 package git.david.cuffedplus.block;
 
-
-
 import git.david.cuffedplus.blockentitie.CuffTableBlockEntity;
 import git.david.cuffedplus.init.ModBlockEntity;
 import net.minecraft.core.BlockPos;
@@ -42,12 +40,11 @@ public class CuffTableBlock extends Block implements EntityBlock {
         if (level.isClientSide())
             return InteractionResult.SUCCESS;
 
-        // open screen
         if (player instanceof ServerPlayer sPlayer) {
             NetworkHooks.openScreen(
                     sPlayer,
                     blockEntity,
-                    (buf) -> buf.writeBlockPos(pos) // 👈 This ensures the client gets the BlockPos
+                    (buf) -> buf.writeBlockPos(pos)
             );
 
         }
