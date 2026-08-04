@@ -2,6 +2,7 @@ package git.david.cuffedplus.logic;
 
 import com.lazrproductions.cuffed.CuffedMod;
 import git.david.cuffedplus.config.ICuffedPlusServerConfigMixin;
+import git.david.cuffedplus.items.item.AnkleMonitorItem;
 import git.david.cuffedplus.items.item.JumpsuitItem;
 import git.david.cuffedplus.utils.GeneralUtils;
 import net.minecraft.ChatFormatting;
@@ -23,7 +24,7 @@ import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
-public class JumpsuitLogic {
+public class LockLogic {
     ICuffedPlusServerConfigMixin config = (ICuffedPlusServerConfigMixin) CuffedMod.SERVER_CONFIG;
 
     ItemStack hoveringItem;
@@ -31,16 +32,17 @@ public class JumpsuitLogic {
 
     @SubscribeEvent
     public void onPlayerTick(TickEvent.PlayerTickEvent event) {
-            ItemStack itemInChest = event.player.getItemBySlot(EquipmentSlot.CHEST);
-            if (itemInChest.getItem() instanceof JumpsuitItem && itemInChest.getOrCreateTag().getBoolean("HighVisibility")) {;
-                    event.player.addEffect(new MobEffectInstance(MobEffects.GLOWING, 5, 0, false, false));
-            }
+        ItemStack itemInChest = event.player.getItemBySlot(EquipmentSlot.CHEST);
+        if (itemInChest.getItem() instanceof JumpsuitItem && itemInChest.getOrCreateTag().getBoolean("HighVisibility")) {
+            event.player.addEffect(new MobEffectInstance(MobEffects.GLOWING, 5, 0, false, false));
+        }
     }
+
 
     @SubscribeEvent
     public void onPlayerInteraction(PlayerInteractEvent.RightClickItem event) {
         ItemStack itemInHand = event.getEntity().getItemInHand(event.getHand());
-        if (itemInHand.getItem() instanceof ArmorItem && !(itemInHand.getItem() instanceof JumpsuitItem) && itemInHand.getOrCreateTag().getBoolean("CanBeLocked") && itemInHand.getOrCreateTag().getBoolean("Locked")) {
+        if (itemInHand.getItem() instanceof ArmorItem && (!(itemInHand.getItem() instanceof JumpsuitItem) || !(itemInHand.getItem() instanceof AnkleMonitorItem)) && itemInHand.getOrCreateTag().getBoolean("CanBeLocked") && itemInHand.getOrCreateTag().getBoolean("Locked")) {
             event.setCanceled(true);
         }
     }
@@ -50,23 +52,22 @@ public class JumpsuitLogic {
         Player player = Minecraft.getInstance().player;
         Slot slotUnderMouse = event.getContainerScreen().getSlotUnderMouse();
         if (player != null) {
-            if (slotUnderMouse  != null){
+            if (slotUnderMouse != null) {
                 hoveringSlot = slotUnderMouse.getSlotIndex();
                 hoveringItem = slotUnderMouse.getItem();
             }
         }
     }
 
-    @SubscribeEvent
-    public void inputEvent(InputEvent.MouseButton.Pre event) {
 
+    @SubscribeEvent
+    public void jumpsuitLockInputEvent(InputEvent.MouseButton.Pre event) {
         Minecraft minecraft = Minecraft.getInstance();
         Player player = minecraft.player;
 
-        if ((event.getButton() == 0 || event.getButton() == 1) && player != null) {
-            // check whether the player has his inventory open
+        if (minecraft.screen != null && (event.getButton() == 0 || event.getButton() == 1) && player != null) {
             if ((minecraft.screen instanceof InventoryScreen || minecraft.screen instanceof CreativeModeInventoryScreen) && hoveringItem != null && hoveringItem.getItem() instanceof JumpsuitItem && hoveringSlot == 38 && hoveringItem.getOrCreateTag().getBoolean("CanBeLocked") && hoveringItem.getOrCreateTag().getBoolean("Locked")) {
-                GeneralUtils.displayClientMessage(player, String.valueOf(minecraft.screen) + String.valueOf(hoveringItem) + " " + hoveringItem.getItem() + " " + hoveringSlot + hoveringItem.getOrCreateTag().getBoolean("CanBeLocked") + " " + hoveringItem.getOrCreateTag().getBoolean("Locked"), ChatFormatting.WHITE);
+                GeneralUtils.displayClientMessage(player, String.valueOf(minecraft.screen) + hoveringItem + " " + hoveringItem.getItem() + " " + hoveringSlot + hoveringItem.getOrCreateTag().getBoolean("CanBeLocked") + " " + hoveringItem.getOrCreateTag().getBoolean("Locked"), ChatFormatting.WHITE);
                 player.playSound(SoundEvents.CHAIN_FALL, 1, (float) Math.random() * 1.5F);
                 player.displayClientMessage(Component.literal("🔒 Your jumpsuit is locked!  You can not take it off 🔒").withStyle(ChatFormatting.RED), true);
                 event.setCanceled(true);
@@ -75,13 +76,18 @@ public class JumpsuitLogic {
     }
 
     @SubscribeEvent
-    public static void onEntityInteract(PlayerInteractEvent.EntityInteract event) {
-        Player player = event.getEntity();
+    public void ankleMonitorInputEvent(InputEvent.MouseButton.Pre event) {
+        Minecraft minecraft = Minecraft.getInstance();
+        Player player = minecraft.player;
 
-        if (!player.getMainHandItem().isEmpty()) return;
-
-
-        System.out.println(player.getName().getString() + " interacted");
+        if (minecraft.screen != null && (event.getButton() == 0 || event.getButton() == 1) && player != null) {
+            if ((minecraft.screen instanceof InventoryScreen || minecraft.screen instanceof CreativeModeInventoryScreen) && hoveringItem != null && hoveringItem.getItem() instanceof AnkleMonitorItem && hoveringSlot == 40 && hoveringItem.getOrCreateTag().getBoolean("CanBeLocked") && hoveringItem.getOrCreateTag().getBoolean("Locked")) {
+                GeneralUtils.displayClientMessage(player, String.valueOf(minecraft.screen) + hoveringItem + " " + hoveringItem.getItem() + " " + hoveringSlot + hoveringItem.getOrCreateTag().getBoolean("CanBeLocked") + " " + hoveringItem.getOrCreateTag().getBoolean("Locked"), ChatFormatting.WHITE);
+                player.playSound(SoundEvents.CHAIN_FALL, 1, (float) Math.random() * 1.5F);
+                player.displayClientMessage(Component.literal("🔒 Your ankle monitor is locked!  You can not take it off 🔒").withStyle(ChatFormatting.RED), true);
+                event.setCanceled(true);
+            }
+        }
     }
 
 

@@ -4,11 +4,13 @@ import com.lazrproductions.cuffed.items.base.AbstractRestraintItem;
 import com.lazrproductions.cuffed.restraints.RestraintAPI;
 import com.lazrproductions.cuffed.restraints.base.AbstractRestraint;
 import git.david.cuffedplus.command.RoleCommand;
+import git.david.cuffedplus.items.item.JumpsuitItem;
 import git.david.cuffedplus.logic.KeepLockedGearOnDeathLogic;
 import git.david.cuffedplus.events.ModClientEvents;
 import git.david.cuffedplus.init.*;
 import git.david.cuffedplus.logic.LockLogic;
 import git.david.cuffedplus.logic.RolesLogic;
+import git.david.cuffedplus.logic.TakeOffLogic;
 import net.minecraft.core.BlockSource;
 import net.minecraft.core.dispenser.DispenseItemBehavior;
 import net.minecraft.core.dispenser.OptionalDispenseItemBehavior;
@@ -101,6 +103,7 @@ public class CuffedPlusMain {
         MinecraftForge.EVENT_BUS.register(new RolesLogic());
         MinecraftForge.EVENT_BUS.register(new LockLogic());
         MinecraftForge.EVENT_BUS.register(new ModClientEvents());
+        MinecraftForge.EVENT_BUS.register(new TakeOffLogic());
 
         modEventBus.addListener(this::onRegister);
         //modEventBus.register(new Ro);

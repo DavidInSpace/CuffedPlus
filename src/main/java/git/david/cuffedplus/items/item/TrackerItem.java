@@ -39,7 +39,7 @@ public class TrackerItem extends Item {
         ItemStack ankleMonitor = player.getItemBySlot(EquipmentSlot.FEET);
         assert Minecraft.getInstance().player != null;
 
-        if (player.isCrouching()) return InteractionResultHolder.fail(stack);
+        if (!player.isCrouching()) return InteractionResultHolder.fail(stack);
         if (level.isClientSide) InteractionResultHolder.fail(stack);
 
         MinecraftServer server = player.getServer();
@@ -96,7 +96,7 @@ public class TrackerItem extends Item {
     public @NotNull InteractionResult interactLivingEntity(@NotNull ItemStack stack, Player user, @NotNull LivingEntity target, @NotNull InteractionHand hand) {
         ItemStack ankleMonitor = target.getItemBySlot(EquipmentSlot.FEET);
 
-        if (!user.isCrouching()) return InteractionResult.FAIL;
+        if (user.isCrouching()) return InteractionResult.FAIL;
         if (user.level().isClientSide && !(target instanceof Player)) return InteractionResult.FAIL;
 
         if (ankleMonitor.getItem() instanceof AnkleMonitorItem) {

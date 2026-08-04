@@ -67,7 +67,7 @@ public class AnkleMonitorItem extends ArmorItem {
         ItemStack currentChest = player.getItemBySlot(EquipmentSlot.FEET);
         assert Minecraft.getInstance().player != null;
 
-        if (player.isCrouching()) return InteractionResultHolder.fail(itemInHand);
+        if (!player.isCrouching()) return InteractionResultHolder.fail(itemInHand);
         if (level.isClientSide) return InteractionResultHolder.pass(itemInHand);
 
         ItemStack ankle_monitor = itemInHand.copy();
@@ -124,7 +124,6 @@ public class AnkleMonitorItem extends ArmorItem {
             ownerName = stack.getOrCreateTag().getString("ownerName");
 
             tooltip.add(Component.literal("Owner: ").withStyle(ChatFormatting.GRAY).append(Component.literal(ownerName).withStyle(ChatFormatting.YELLOW)));
-
 
             super.appendHoverText(stack, level, tooltip, flag);
         }

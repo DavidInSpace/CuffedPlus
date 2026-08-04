@@ -2,6 +2,7 @@ package git.david.cuffedplus.items.item;
 
 import com.lazrproductions.cuffed.CuffedMod;
 import git.david.cuffedplus.config.ICuffedPlusServerConfigMixin;
+import git.david.cuffedplus.utils.GeneralUtils;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
@@ -12,11 +13,12 @@ import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
+import net.minecraftforge.event.entity.player.PlayerInteractEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
@@ -83,33 +85,20 @@ public class JumpsuitItem extends Item {
     }
 
 
-    // TODO: Fix players unable to take off others jumpsuits this happens because the interactLivingEntity event only fires when clicking an entity with a jumpsuit but I want the jumpsuit to be taken off using just an empty hand
-
     @Override
     public @NotNull InteractionResultHolder<ItemStack> use(@NotNull Level level, Player player, @NotNull InteractionHand hand) {
         ItemStack itemInHand = player.getItemInHand(hand);
         ItemStack currentChest = player.getItemBySlot(EquipmentSlot.CHEST);
         assert Minecraft.getInstance().player != null;
 
-        if (player.isCrouching()) return InteractionResultHolder.fail(itemInHand);
+        if (!player.isCrouching()) return InteractionResultHolder.fail(itemInHand); // Player must be crouching
         if (level.isClientSide) return InteractionResultHolder.fail(itemInHand);
         //if (itemInHand.getItem() instanceof ArmorItem && ((ArmorItem) itemInHand.getItem()).getType() == ArmorItem.Type.CHESTPLATE && currentChest.getOrCreateTag().getBoolean("CanBeLocked") && currentChest.getOrCreateTag().getBoolean("Locked")) return InteractionResultHolder.fail(itemInHand);
 
         ItemStack jumpsuit = itemInHand.copy();
         jumpsuit.setCount(1);
 
-        if (currentChest.getItem() instanceof JumpsuitItem) {
-            if (currentChest.getOrCreateTag().getBoolean("CanBeLocked") && currentChest.getOrCreateTag().getBoolean("Locked")) {
-                player.playSound(SoundEvents.CHAIN_FALL, 1, (float) Math.random() * 1.5F);
-                player.displayClientMessage(Component.literal("🔒 Your jumpsuit is locked! 🔒").withStyle(ChatFormatting.RED), true);
-                return InteractionResultHolder.fail(itemInHand);
-            } else if (currentChest.getOrCreateTag().getBoolean("CanBeLocked") && !currentChest.getOrCreateTag().getBoolean("Locked")) {
-                if (!currentChest.isEmpty()) {
-                    boolean added = player.getInventory().add(currentChest);
-                    if (!added) player.drop(currentChest, false);
-                }
-            }
-        } else {
+        if (!(currentChest.getItem() instanceof JumpsuitItem)) {
             player.setItemSlot(EquipmentSlot.CHEST, jumpsuit);
             if (!player.getAbilities().instabuild) itemInHand.shrink(1);
         }
@@ -118,11 +107,13 @@ public class JumpsuitItem extends Item {
     }
 
 
+
+
     @Override
     public @NotNull InteractionResult interactLivingEntity(@NotNull ItemStack stack, Player user, @NotNull LivingEntity target, @NotNull InteractionHand hand) {
         ItemStack targetChest = target.getItemBySlot(EquipmentSlot.CHEST);
 
-        if (!user.isCrouching()) return InteractionResult.FAIL;
+        if (user.isCrouching()) return InteractionResult.FAIL; // Player must not be crouching
         if (user.level().isClientSide && !(target instanceof Player)) return InteractionResult.FAIL;
 
         if (!target.hasItemInSlot(EquipmentSlot.CHEST)) {
@@ -151,30 +142,26 @@ public class JumpsuitItem extends Item {
                 return InteractionResult.FAIL;
             }
 
-            if (user.getItemInHand(hand).isEmpty()) {
-            if (config.getOtherPlayersJumpsuitBehavior().equals("onlyPutOn".toLowerCase()) || (config.getOtherPlayersJumpsuitBehavior().equals("none"))) {
-                user.displayClientMessage(Component.literal("× You can not put jumpsuits on other players ×").withStyle(ChatFormatting.RED), true);
-                return InteractionResult.FAIL;
-            }
+            ItemStack suit = target.getItemBySlot(EquipmentSlot.CHEST).copyAndClear();
 
-            if (user.getTags().contains("prisoner") && config.getOtherPrisonersJumpsuitBehavior().equals("onlyPutOn".toLowerCase()) || config.getOtherPrisonersJumpsuitBehavior().equals("none")) {
-                user.displayClientMessage(Component.literal("× Your are a prisoner!  Prisoners can not take off other players jumpsuit ×").withStyle(ChatFormatting.RED), true);
-                return InteractionResult.FAIL;
-            }
+            suit.setCount(1);
+            boolean added = user.getInventory().add(suit);
+            target.getItemBySlot(EquipmentSlot.CHEST).setCount(0);
+
+            if (!added) user.drop(targetChest, false);
+
+            ItemStack jumpsuit = stack.copy();
+
+            user.getItemInHand(hand).shrink(1);
+            if (!user.getAbilities().instabuild) stack.shrink(1);
+            target.setItemSlot(EquipmentSlot.CHEST, jumpsuit);
 
 
-            } else {
-                ItemStack suit = target.getItemBySlot(EquipmentSlot.CHEST).copyAndClear();
-
-                suit.setCount(1);
-                boolean added = user.getInventory().add(suit);
-                target.getItemBySlot(EquipmentSlot.CHEST).setCount(0);
-
-                if (!added) user.drop(targetChest, false);
-            }
         }
         return InteractionResult.SUCCESS;
     }
+
+
 
     @Override
     public void appendHoverText(@NotNull ItemStack stack, @Nullable Level level, @NotNull List<Component> tooltip, @NotNull TooltipFlag flag) {
