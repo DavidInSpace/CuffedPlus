@@ -356,35 +356,35 @@ public class HazardTapeArmsRestraint extends AbstractArmRestraint implements IBr
 
     @Override
     public boolean AllowBreakingBlocks() {
-        return getBooleanTag("AllowBreakingBlocks", false);
+        return false;
     }
 
     @Override
     public boolean AllowItemUse() {
-        return getBooleanTag("AllowItemUse", false);
+        return false;
     }
 
     @Override
     public boolean AllowMovement() {
-        return getBooleanTag("AllowMovement", true);
+        return true;
     }
 
     @Override
     public boolean AllowJumping() {
-        return getBooleanTag("AllowJumping", true);
+        return true;
     }
 
     @Override
-    public boolean AllowSprinting() {return getBooleanTag("AllowSprinting", false);}
+    public boolean AllowSprinting() {return false;}
 
     @Override
     public boolean canBeBrokenOutOf() {
-        return getBooleanTag("CanBeBrokenOutOf", true);
+        return true;
     }
 
     @Override
     public boolean getLockpickable() {
-        return getBooleanTag("Lockpickable", false);
+        return false;
     }
 
     public int getLockpickingProgressPerPick() {

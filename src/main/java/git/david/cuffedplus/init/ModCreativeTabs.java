@@ -42,11 +42,10 @@ public class ModCreativeTabs {
                         output.accept(ModItems.HAZARD_TAPE.get());
 
 
-                        output.accept(ModItems.ALLOW_BREAKING_BLOCKS_MODIFIER.get());
-                        output.accept(ModItems.ALLOW_ITEM_USE_MODIFIER.get());
-                        output.accept(ModItems.ALLOW_MOVEMENT_MODIFIER.get());
-                        output.accept(ModItems.ALLOW_JUMPING_MODIFIER.get());
-                        output.accept(ModItems.CAN_BE_BROKEN_OUT_OF_MODIFIER.get());
+                        output.accept(ModItems.SATURATION_MODIFIER.get());
+                        output.accept(ModItems.HUNGER_MODIFIER.get());
+                        output.accept(ModItems.PROTECTION_MODIFIER.get());
+                        output.accept(ModItems.JUMP_MODIFIER.get());
                         output.accept(ModItems.IS_LOCKPICKABLE_MODIFIER.get());
 
 

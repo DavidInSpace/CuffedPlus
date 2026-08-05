@@ -1,11 +1,19 @@
 package git.david.cuffedplus.items.item;
 
+import com.lazrproductions.cuffed.api.CuffedAPI;
+import com.lazrproductions.cuffed.cap.RestrainableCapability;
 import com.lazrproductions.cuffed.items.base.AbstractRestraintItem;
+import com.lazrproductions.cuffed.restraints.RestraintAPI;
+import com.lazrproductions.cuffed.restraints.base.AbstractArmRestraint;
+import com.lazrproductions.cuffed.restraints.base.RestraintType;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
+import net.minecraftforge.event.TickEvent;
+import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -21,44 +29,51 @@ public class RestraintItem extends AbstractRestraintItem {
     public static boolean getTimerEnabled(ItemStack stack) {return stack.getOrCreateTag().getBoolean("TimerEnabled");}
     public static void setTime(ItemStack stack, long value) {stack.getOrCreateTag().putLong("Time", value);}
     public static long getTime(ItemStack stack) {return stack.getOrCreateTag().getLong("Time");}
-    public static void setAllowBreakingBlocks(ItemStack stack, boolean value) {stack.getOrCreateTag().putBoolean("AllowBreakingBlocks", value);}
-    public static void setAllowItemUse(ItemStack stack, boolean value) {stack.getOrCreateTag().putBoolean("AllowItemUse", value);}
-    public static void setAllowMovement(ItemStack stack, boolean value) {stack.getOrCreateTag().putBoolean("AllowMovement", value);}
-    public static void setAllowJumping(ItemStack stack, boolean value) {stack.getOrCreateTag().putBoolean("AllowJumping", value);}
+    public static void setSaturationModifier(ItemStack stack, boolean value) {stack.getOrCreateTag().putBoolean("SaturationModifier", value);}
+    public static void setHungerModifier(ItemStack stack, boolean value) {stack.getOrCreateTag().putBoolean("HungerModifier", value);}
+    public static void setProtectionModifier(ItemStack stack, boolean value) {stack.getOrCreateTag().putBoolean("ProtectionModifier", value);}
+    public static void setJumpModifier(ItemStack stack, boolean value) {stack.getOrCreateTag().putBoolean("JumpModifier", value);}
     public static void setCanBeBrokenOutOf(ItemStack stack, boolean value) {stack.getOrCreateTag().putBoolean("CanBeBrokenOutOf", value);}
     public static void setLockpickable(ItemStack stack, boolean value) {stack.getOrCreateTag().putBoolean("Lockpickable", value);}
 
-    public static boolean allowBreakingBlocks(ItemStack stack) {return stack.getOrCreateTag().getBoolean("AllowBreakingBlocks");}
-    public static boolean allowItemUse(ItemStack stack) {return stack.getOrCreateTag().getBoolean("AllowItemUse");}
-    public static boolean allowMovement(ItemStack stack) {return stack.getOrCreateTag().getBoolean("AllowMovement");}
-    public static boolean allowJumping(ItemStack stack) {return stack.getOrCreateTag().getBoolean("AllowJumping");}
+    public static boolean getSaturationModifier(ItemStack stack) {return stack.getOrCreateTag().getBoolean("SaturationModifier");}
+    public static boolean getHungerModifier(ItemStack stack) {return stack.getOrCreateTag().getBoolean("HungerModifier");}
+    public static boolean getProtectionModifier(ItemStack stack) {return stack.getOrCreateTag().getBoolean("ProtectionModifier");}
+    public static boolean getJumpModifier(ItemStack stack) {return stack.getOrCreateTag().getBoolean("JumpModifier");}
     public static boolean canBeBrokenOutOf(ItemStack stack) {return stack.getOrCreateTag().getBoolean("CanBeBrokenOutOf");}
     public static boolean isLockpickable(ItemStack stack) {return stack.getOrCreateTag().getBoolean("isLockpickable");}
 
+    public void event(TickEvent.PlayerTickEvent event) {
+        System.out.println(event.player.getEntityData());
+    }
+
     @Override
-    public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
+    public void appendHoverText(@NotNull ItemStack stack, @Nullable Level level, List<Component> tooltip, @NotNull TooltipFlag flag) {
         tooltip.add(Component.literal("Arms Restraint").withStyle(ChatFormatting.GRAY));
         tooltip.add(Component.literal("Leg Restraint").withStyle(ChatFormatting.GRAY));
 
-        if (allowBreakingBlocks(stack)) {
-            tooltip.add(Component.literal("Breaking Blocks Disabled").withStyle(ChatFormatting.GRAY));
+
+        tooltip.add(Component.literal("Modifier:").withStyle(ChatFormatting.GRAY));
+
+        if (getSaturationModifier(stack)) {
+            tooltip.add(Component.literal("Saturation Modifier").withStyle(ChatFormatting.YELLOW));
         } else {
-            tooltip.remove(Component.literal("Breaking Blocks Disabled").withStyle(ChatFormatting.GRAY));
+            tooltip.remove(Component.literal("Breaking Blocks Disabled").withStyle(ChatFormatting.YELLOW));
         }
 
-        if (allowItemUse(stack)) {
-            tooltip.add(Component.literal("Using Items Disabled").withStyle(ChatFormatting.GRAY));
+        if (getHungerModifier(stack)) {
+            tooltip.add(Component.literal("Hunger Modifier").withStyle(ChatFormatting.DARK_GREEN));
         } else {
-            tooltip.remove(Component.literal("Using Items Disabled").withStyle(ChatFormatting.GRAY));
+            tooltip.remove(Component.literal("Hunger Modifier").withStyle(ChatFormatting.DARK_GREEN));
         }
 
-        if (allowMovement(stack)) {
-            tooltip.add(Component.literal("Movement Disabled").withStyle(ChatFormatting.GRAY));
+        if (getProtectionModifier(stack)) {
+            tooltip.add(Component.literal("Protection Modifier").withStyle(ChatFormatting.WHITE));
         } else {
-            tooltip.remove(Component.literal("Movement Disabled").withStyle(ChatFormatting.GRAY));
+            tooltip.remove(Component.literal("Protection Modifier").withStyle(ChatFormatting.WHITE));
         }
 
-        if (allowJumping(stack)) {
+        if (getJumpModifier(stack)) {
             tooltip.add(Component.literal("Jumping Disabled").withStyle(ChatFormatting.GRAY));
         } else {
             tooltip.remove(Component.literal("Jumping Disabled").withStyle(ChatFormatting.GRAY));

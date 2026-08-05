@@ -354,36 +354,17 @@ public class WoodCuffsArmsRestraint extends AbstractArmRestraint implements IBre
         return tag != null && tag.contains(key) ? tag.getBoolean(key) : defaultValue;
     }
 
-    @Override
-    public boolean AllowBreakingBlocks() {
+    @Override public boolean AllowBreakingBlocks() {
         return getBooleanTag("AllowBreakingBlocks", false);
     }
-
-    @Override
-    public boolean AllowItemUse() {
-        return getBooleanTag("AllowItemUse", false);
-    }
-
-    @Override
-    public boolean AllowMovement() {
-        return getBooleanTag("AllowMovement", true);
-    }
-
-    @Override
-    public boolean AllowSprinting() {return getBooleanTag("AllowSprinting", false);}
-
-    @Override
-    public boolean AllowJumping() {
-        return getBooleanTag("AllowJumping", true);
-    }
-
-    @Override
-    public boolean canBeBrokenOutOf() {
+    @Override public boolean AllowItemUse() {return false;}
+    @Override public boolean AllowMovement() {return true;}
+    @Override public boolean AllowSprinting() {return false;}
+    @Override public boolean AllowJumping() {return getBooleanTag("AllowJumping", true);}
+    @Override public boolean canBeBrokenOutOf() {
         return getBooleanTag("CanBeBrokenOutOf", true);
     }
-
-    @Override
-    public boolean getLockpickable() {
+    @Override public boolean getLockpickable() {
         return getBooleanTag("Lockpickable", true);
     }
 

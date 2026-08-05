@@ -357,37 +357,13 @@ public class GoldCuffsLegsRestraint extends AbstractLegRestraint implements IBre
         return tag != null && tag.contains(key) ? tag.getBoolean(key) : defaultValue;
     }
 
-    @Override
-    public boolean AllowBreakingBlocks() {
-        return getBooleanTag("AllowBreakingBlocks", true);
-    }
-
-    @Override
-    public boolean AllowItemUse() {
-        return getBooleanTag("AllowItemUse", true);
-    }
-
-    @Override
-    public boolean AllowMovement() {
-        return getBooleanTag("AllowMovement", false);
-    }
-
-    public boolean AllowSprinting() {return getBooleanTag("AllowSprinting", false);}
-
-    @Override
-    public boolean AllowJumping() {
-        return getBooleanTag("AllowJumping", false);
-    }
-
-    @Override
-    public boolean canBeBrokenOutOf() {
-        return getBooleanTag("CanBeBrokenOutOf", true);
-    }
-
-    @Override
-    public boolean getLockpickable() {
-        return getBooleanTag("Lockpickable", true);
-    }
+    @Override public boolean AllowBreakingBlocks() {return true;}
+    @Override public boolean AllowItemUse() {return true;}
+    @Override public boolean AllowMovement() {return false;}
+    public boolean AllowSprinting() {return false;}
+    @Override public boolean AllowJumping() {return getBooleanTag("AllowJumping", false);}
+    @Override public boolean canBeBrokenOutOf() {return getBooleanTag("CanBeBrokenOutOf", true);}
+    @Override public boolean getLockpickable() {return getBooleanTag("Lockpickable", true);}
 
     public int getLockpickingProgressPerPick() {
         return 3;

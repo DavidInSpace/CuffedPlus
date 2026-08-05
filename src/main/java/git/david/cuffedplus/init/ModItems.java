@@ -115,19 +115,16 @@ public class ModItems {
 
     /* RESTRAINTS MODIFICATORS */
 
-    public static final RegistryObject<Item> ALLOW_BREAKING_BLOCKS_MODIFIER = ITEMS.register("allow_breaking_blocks",
+    public static final RegistryObject<Item> SATURATION_MODIFIER = ITEMS.register("saturation_modifier",
             () -> new ModifierItem(new Item.Properties().stacksTo(16).rarity(Rarity.UNCOMMON)));
 
-    public static final RegistryObject<Item> ALLOW_ITEM_USE_MODIFIER= ITEMS.register("allow_item_use",
+    public static final RegistryObject<Item> HUNGER_MODIFIER = ITEMS.register("hunger_modifier",
             () -> new ModifierItem(new Item.Properties().stacksTo(16).rarity(Rarity.UNCOMMON)));
 
-    public static final RegistryObject<Item> ALLOW_MOVEMENT_MODIFIER = ITEMS.register("allow_movement",
+    public static final RegistryObject<Item> PROTECTION_MODIFIER = ITEMS.register("protection_modifier",
             () -> new ModifierItem(new Item.Properties().stacksTo(16).rarity(Rarity.UNCOMMON)));
 
-    public static final RegistryObject<Item> ALLOW_JUMPING_MODIFIER = ITEMS.register("allow_jumping",
-            () -> new ModifierItem(new Item.Properties().stacksTo(16).rarity(Rarity.UNCOMMON)));
-
-    public static final RegistryObject<Item> CAN_BE_BROKEN_OUT_OF_MODIFIER = ITEMS.register("can_be_broken_out_of",
+    public static final RegistryObject<Item> JUMP_MODIFIER = ITEMS.register("jump_modifier",
             () -> new ModifierItem(new Item.Properties().stacksTo(16).rarity(Rarity.UNCOMMON)));
 
     public static final RegistryObject<Item> IS_LOCKPICKABLE_MODIFIER = ITEMS.register("is_lockpickable",

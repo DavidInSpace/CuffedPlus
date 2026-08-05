@@ -51,21 +51,20 @@ public class CuffsModifierRecipe implements SmithingRecipe {
         if (additionItem.is(Items.DIAMOND)) {
 
             switch (modKey.toString()) {
-                case "cuffedplus:allow_breaking_blocks":
-
-                    RestraintItem.setAllowBreakingBlocks(baseItem, true);
+                case "cuffedplus:saturation_modifier":
+                    RestraintItem.setSaturationModifier(baseItem, true);
                     break;
 
-                case "cuffedplus:allow_item_use":
-                    RestraintItem.setAllowItemUse(baseItem, true);
+                case "cuffedplus:hunger_modifier":
+                    RestraintItem.setHungerModifier(baseItem, true);
                     break;
 
-                case "cuffedplus:allow_movement":
-                    RestraintItem.setAllowMovement(baseItem, true);
+                case "cuffedplus:protection_modifier":
+                    RestraintItem.setProtectionModifier(baseItem, true);
                     break;
 
-                case "cuffedplus:allow_jumping":
-                    RestraintItem.setAllowJumping(baseItem, true);
+                case "cuffedplus:jump_modifier":
+                    RestraintItem.setJumpModifier(baseItem, true);
                     break;
 
                 case "cuffedplus:can_be_broken_out_of":
@@ -76,25 +75,23 @@ public class CuffsModifierRecipe implements SmithingRecipe {
                     RestraintItem.setLockpickable(baseItem, true);
                     break;
                 default:
-
-                    throw new IllegalStateException("Oh no! Unexpected value: " + modKey);
             }
 
 
         } else if (additionItem.is(Items.NETHERITE_SCRAP)) {
 
             switch (modKey.toString()) {
-                case "cuffedplus:allow_breaking_blocks":
-                    RestraintItem.setAllowBreakingBlocks(baseItem, false);
+                case "cuffedplus:saturation_modifier":
+                    RestraintItem.setSaturationModifier(baseItem, false);
                     break;
-                case "cuffedplus:allow_item_use":
-                    RestraintItem.setAllowItemUse(baseItem, false);
+                case "cuffedplus:hunger_modifier":
+                    RestraintItem.setHungerModifier(baseItem, false);
                     break;
-                case "cuffedplus:allow_movement":
-                    RestraintItem.setAllowMovement(baseItem,false);
+                case "cuffedplus:protection_modifier":
+                    RestraintItem.setProtectionModifier(baseItem, false);
                     break;
-                case "cuffedplus:allow_jumping":
-                    RestraintItem.setAllowJumping(baseItem, false);
+                case "cuffedplus:jump_modifier":
+                    RestraintItem.setJumpModifier(baseItem, false);
                     break;
                 case "cuffedplus:can_be_broken_out_of":
                     RestraintItem.setCanBeBrokenOutOf(baseItem, false);
