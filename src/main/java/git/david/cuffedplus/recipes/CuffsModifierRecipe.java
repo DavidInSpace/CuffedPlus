@@ -59,10 +59,9 @@ public class CuffsModifierRecipe implements SmithingRecipe {
                     RestraintItem.setHungerModifier(baseItem, true);
                     break;
 
-                case "cuffedplus:protection_modifier":
+                /* case "cuffedplus:protection_modifier":
                     RestraintItem.setProtectionModifier(baseItem, true);
-                    break;
-
+                    break; */
                 case "cuffedplus:jump_modifier":
                     RestraintItem.setJumpModifier(baseItem, true);
                     break;
@@ -87,9 +86,9 @@ public class CuffsModifierRecipe implements SmithingRecipe {
                 case "cuffedplus:hunger_modifier":
                     RestraintItem.setHungerModifier(baseItem, false);
                     break;
-                case "cuffedplus:protection_modifier":
+                /*case "cuffedplus:protection_modifier":
                     RestraintItem.setProtectionModifier(baseItem, false);
-                    break;
+                    break; */
                 case "cuffedplus:jump_modifier":
                     RestraintItem.setJumpModifier(baseItem, false);
                     break;

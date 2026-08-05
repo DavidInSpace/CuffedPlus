@@ -35,10 +35,10 @@ public class ModifierItem extends Item {
                 tooltip.add(Component.literal("Restraint Modifier").withStyle(ChatFormatting.DARK_GRAY));
                 tooltip.add(Component.literal("Players wearing a restraint with this modifier will loose hunger much faster").withStyle(ChatFormatting.GRAY));
                 break;
-            case "protection_movement":
+           /* case "protection_movement":
                 tooltip.add(Component.literal("Restraint Modifier").withStyle(ChatFormatting.DARK_GRAY));
                 tooltip.add(Component.literal("Players wearing a restraint with this modifier will tale less damage and regenerate much faster").withStyle(ChatFormatting.GRAY));
-                break;
+                break;*/
             case "jump_modifier":
                 tooltip.add(Component.literal("Restricts jumping").withStyle(ChatFormatting.GRAY));
                 tooltip.add(Component.literal("only works if applied to hands").withStyle(ChatFormatting.DARK_GRAY));

@@ -31,14 +31,14 @@ public class RestraintItem extends AbstractRestraintItem {
     public static long getTime(ItemStack stack) {return stack.getOrCreateTag().getLong("Time");}
     public static void setSaturationModifier(ItemStack stack, boolean value) {stack.getOrCreateTag().putBoolean("SaturationModifier", value);}
     public static void setHungerModifier(ItemStack stack, boolean value) {stack.getOrCreateTag().putBoolean("HungerModifier", value);}
-    public static void setProtectionModifier(ItemStack stack, boolean value) {stack.getOrCreateTag().putBoolean("ProtectionModifier", value);}
+    // public static void setProtectionModifier(ItemStack stack, boolean value) {stack.getOrCreateTag().putBoolean("ProtectionModifier", value);}
     public static void setJumpModifier(ItemStack stack, boolean value) {stack.getOrCreateTag().putBoolean("JumpModifier", value);}
     public static void setCanBeBrokenOutOf(ItemStack stack, boolean value) {stack.getOrCreateTag().putBoolean("CanBeBrokenOutOf", value);}
     public static void setLockpickable(ItemStack stack, boolean value) {stack.getOrCreateTag().putBoolean("Lockpickable", value);}
 
     public static boolean getSaturationModifier(ItemStack stack) {return stack.getOrCreateTag().getBoolean("SaturationModifier");}
     public static boolean getHungerModifier(ItemStack stack) {return stack.getOrCreateTag().getBoolean("HungerModifier");}
-    public static boolean getProtectionModifier(ItemStack stack) {return stack.getOrCreateTag().getBoolean("ProtectionModifier");}
+    // public static boolean getProtectionModifier(ItemStack stack) {return stack.getOrCreateTag().getBoolean("ProtectionModifier");}
     public static boolean getJumpModifier(ItemStack stack) {return stack.getOrCreateTag().getBoolean("JumpModifier");}
     public static boolean canBeBrokenOutOf(ItemStack stack) {return stack.getOrCreateTag().getBoolean("CanBeBrokenOutOf");}
     public static boolean isLockpickable(ItemStack stack) {return stack.getOrCreateTag().getBoolean("isLockpickable");}
@@ -67,11 +67,11 @@ public class RestraintItem extends AbstractRestraintItem {
             tooltip.remove(Component.literal("Hunger Modifier").withStyle(ChatFormatting.DARK_GREEN));
         }
 
-        if (getProtectionModifier(stack)) {
+        /* if (getProtectionModifier(stack)) {
             tooltip.add(Component.literal("Protection Modifier").withStyle(ChatFormatting.WHITE));
         } else {
             tooltip.remove(Component.literal("Protection Modifier").withStyle(ChatFormatting.WHITE));
-        }
+        } */
 
         if (getJumpModifier(stack)) {
             tooltip.add(Component.literal("Jumping Disabled").withStyle(ChatFormatting.GRAY));

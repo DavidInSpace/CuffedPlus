@@ -44,7 +44,7 @@ public class ModCreativeTabs {
 
                         output.accept(ModItems.SATURATION_MODIFIER.get());
                         output.accept(ModItems.HUNGER_MODIFIER.get());
-                        output.accept(ModItems.PROTECTION_MODIFIER.get());
+                        //output.accept(ModItems.PROTECTION_MODIFIER.get());
                         output.accept(ModItems.JUMP_MODIFIER.get());
                         output.accept(ModItems.IS_LOCKPICKABLE_MODIFIER.get());
 
