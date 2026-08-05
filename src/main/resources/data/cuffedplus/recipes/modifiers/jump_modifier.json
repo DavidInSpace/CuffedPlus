@@ -21,7 +21,7 @@
     }
   },
   "result": {
-    "item": "cuffedplus:allow_jumping",
+    "item": "cuffedplus:jump_modifier",
     "count": 2
   }
 }

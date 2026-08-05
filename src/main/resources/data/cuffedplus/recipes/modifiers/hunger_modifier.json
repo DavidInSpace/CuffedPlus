@@ -16,17 +16,13 @@
       "item": "minecraft:diamond"
     },
     "G": [
-      {"item": "minecraft:grass_block"},
-      {"item": "minecraft:dirt"},
-      {"item": "minecraft:mycelium"},
-      {"item": "minecraft:podzol"},
-      {"item": "minecraft:coarse_dirt"},
-      {"item": "minecraft:rooted_dirt"}
+      {"item": "minecraft:rotten_flesh"},
+      {"item": "minecraft:poisonous_potato"}
     ]
 
   },
   "result": {
-    "item": "cuffedplus:allow_breaking_blocks",
+    "item": "cuffedplus:hunger_modifier",
     "count": 2
   }
 }

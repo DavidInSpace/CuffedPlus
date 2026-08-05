@@ -29,14 +29,6 @@ public class LockLogic {
 
     ItemStack hoveringItem;
     int hoveringSlot;
-    @SubscribeEvent
-    public void onPlayerTick(TickEvent.PlayerTickEvent event) {
-        ItemStack itemInChest = event.player.getItemBySlot(EquipmentSlot.CHEST);
-        if (itemInChest.getItem() instanceof JumpsuitItem && itemInChest.getOrCreateTag().getBoolean("HighVisibility")) {
-            event.player.addEffect(new MobEffectInstance(MobEffects.GLOWING, 5, 0, false, false));
-        }
-    }
-
 
     @SubscribeEvent
     public void onPlayerInteraction(PlayerInteractEvent.RightClickItem event) {

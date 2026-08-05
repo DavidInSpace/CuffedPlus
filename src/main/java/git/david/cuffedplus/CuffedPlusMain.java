@@ -5,12 +5,9 @@ import com.lazrproductions.cuffed.restraints.RestraintAPI;
 import com.lazrproductions.cuffed.restraints.base.AbstractRestraint;
 import git.david.cuffedplus.command.RoleCommand;
 import git.david.cuffedplus.items.item.JumpsuitItem;
-import git.david.cuffedplus.logic.KeepLockedGearOnDeathLogic;
+import git.david.cuffedplus.logic.*;
 import git.david.cuffedplus.events.ModClientEvents;
 import git.david.cuffedplus.init.*;
-import git.david.cuffedplus.logic.LockLogic;
-import git.david.cuffedplus.logic.RolesLogic;
-import git.david.cuffedplus.logic.TakeOffLogic;
 import net.minecraft.core.BlockSource;
 import net.minecraft.core.dispenser.DispenseItemBehavior;
 import net.minecraft.core.dispenser.OptionalDispenseItemBehavior;
@@ -83,6 +80,10 @@ import javax.annotation.Nonnull;
 // CUFFED GITHUB REPOSETORY PAGE:
 // https://github.com/LazrProductions/cuffed
 
+
+// https://forums.minecraftforge.net/topic/82228-1152-3110-intellij-and-gradlew-forge-hotswap-and-dcevm-tutorial/
+
+
 @Mod(CuffedPlusMain.MODID)
 public class CuffedPlusMain {
     public static final String MODID = "cuffedplus";
@@ -91,8 +92,10 @@ public class CuffedPlusMain {
 
     public CuffedPlusMain(FMLJavaModLoadingContext ctx) {
         LOGGER.info("Cuffed Plus: Running CuffedPlusMain");
+
+
         IEventBus modEventBus = ctx.getModEventBus();
-        MinecraftForge.EVENT_BUS.register(this);
+
         ModCreativeTabs.register(modEventBus);
         ModItems.register(modEventBus);
         ModRestraints.register(modEventBus);
@@ -101,17 +104,19 @@ public class CuffedPlusMain {
         ModMenuTypes.register(modEventBus);
         ModRecipes.SERIALIZERS.register(modEventBus);
 
+
+        MinecraftForge.EVENT_BUS.register(this);
+
         MinecraftForge.EVENT_BUS.register(new KeepLockedGearOnDeathLogic());
         MinecraftForge.EVENT_BUS.register(new RolesLogic());
         MinecraftForge.EVENT_BUS.register(new LockLogic());
         MinecraftForge.EVENT_BUS.register(new ModClientEvents());
         MinecraftForge.EVENT_BUS.register(new TakeOffLogic());
+        MinecraftForge.EVENT_BUS.register(new GearModifiersLogic());
 
         modEventBus.addListener(this::onRegister);
-        //modEventBus.register(new Ro);
         modEventBus.addListener(this::commonSetup);
 
-        //SERVER_CONFIG.registerConfig(FMLJavaModLoadingContext.get());
     }
 
     private void commonSetup(final FMLCommonSetupEvent event) {

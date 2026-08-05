@@ -29,7 +29,7 @@ public class ApplyJumpsuitSettingsPacket {
             ServerPlayer player = ctx.get().getSender();
             if (player == null) return;
 
-            ItemStack stack = player.containerMenu.getSlot(0).getItem(); // Slot 0
+            ItemStack stack = player.containerMenu.getSlot(0).getItem();
             if (!(stack.getItem() instanceof JumpsuitItem)) return;
 
             JumpsuitItem.setNumber(stack, packet.number);

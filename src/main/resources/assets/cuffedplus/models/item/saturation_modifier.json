@@ -1,6 +1,6 @@
 {
     "parent": "minecraft:item/generated",
     "textures": {
-      "layer0": "cuffedplus:item/allow_breaking_blocks"
+      "layer0": "cuffedplus:item/saturation_modifier"
     }
 }

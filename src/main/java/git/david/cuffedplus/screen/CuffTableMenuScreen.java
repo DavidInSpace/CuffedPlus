@@ -95,14 +95,12 @@ public class CuffTableMenuScreen extends AbstractContainerScreen<CuffTableMenu> 
     private void applySettings() {
         ItemStack stack = this.menu.getSlot(0).getItem();
         Item item = stack.getItem();
-       // if (item == AirItem) {}
+        // if (item == AirItem) {}
 
         if (!(item instanceof JumpsuitItem) || number < 1) {return;}
         // JumpsuitItem.setNumber(stack, number);
         //canCraft = false;
-       // if (!(stack.getItem() instanceof JumpsuitItem)) return;
-
-        // Send to server
+        // if (!(stack.getItem() instanceof JumpsuitItem)) return;
 
         ModNetwork.INSTANCE.sendToServer(new ApplyJumpsuitSettingsPacket(number));
         //System.out.println("Item: " + item.getDescriptionId());
@@ -118,7 +116,7 @@ public class CuffTableMenuScreen extends AbstractContainerScreen<CuffTableMenu> 
 
         if (item instanceof JumpsuitItem) {
             if (number > 0 && number < backTitle.length) {
-                //guiGraphics.drawString(this.font, String.valueOf(number), this.leftPos + 23, this.topPos + 18, 0xFFFFFF, true);
+                 //guiGraphics.drawString(this.font, String.valueOf(number), this.leftPos + 23, this.topPos + 18, 0xFFFFFF, true);
                  guiGraphics.drawString(this.font, backTitle[number], this.leftPos + 23, this.topPos + 30, 0xFFFFFF, true);
             } else {
                 guiGraphics.drawString(this.font, "-", this.leftPos + 23, this.topPos + 18, 0xFFFFFF, true);
@@ -131,9 +129,9 @@ public class CuffTableMenuScreen extends AbstractContainerScreen<CuffTableMenu> 
     @Override
     public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
 
-        ItemStack stack = this.menu.getSlot(0).getItem(); // Slot 0 = block slot
+        ItemStack stack = this.menu.getSlot(0).getItem();
             Item item = stack.getItem();
-        //    System.out.println("Item in slot 0: " + item.getDescriptionId());
+            // System.out.println("Item in slot 0: " + item.getDescriptionId());
 
         this.renderBackground(guiGraphics);
         super.render(guiGraphics, mouseX, mouseY, partialTick);

@@ -30,22 +30,21 @@ public class RestraintItem extends AbstractRestraintItem {
     public static void setTime(ItemStack stack, long value) {stack.getOrCreateTag().putLong("Time", value);}
     public static long getTime(ItemStack stack) {return stack.getOrCreateTag().getLong("Time");}
     public static void setSaturationModifier(ItemStack stack, boolean value) {stack.getOrCreateTag().putBoolean("SaturationModifier", value);}
-    public static void setHungerModifier(ItemStack stack, boolean value) {stack.getOrCreateTag().putBoolean("HungerModifier", value);}
+    public static void setHungerModifier(ItemStack stack, int value) {stack.getOrCreateTag().putInt("HungerModifier", value);}
     // public static void setProtectionModifier(ItemStack stack, boolean value) {stack.getOrCreateTag().putBoolean("ProtectionModifier", value);}
     public static void setJumpModifier(ItemStack stack, boolean value) {stack.getOrCreateTag().putBoolean("JumpModifier", value);}
     public static void setCanBeBrokenOutOf(ItemStack stack, boolean value) {stack.getOrCreateTag().putBoolean("CanBeBrokenOutOf", value);}
     public static void setLockpickable(ItemStack stack, boolean value) {stack.getOrCreateTag().putBoolean("Lockpickable", value);}
 
     public static boolean getSaturationModifier(ItemStack stack) {return stack.getOrCreateTag().getBoolean("SaturationModifier");}
-    public static boolean getHungerModifier(ItemStack stack) {return stack.getOrCreateTag().getBoolean("HungerModifier");}
+    public static int getHungerModifier(ItemStack stack) {return stack.getOrCreateTag().getInt("HungerModifier");}
     // public static boolean getProtectionModifier(ItemStack stack) {return stack.getOrCreateTag().getBoolean("ProtectionModifier");}
     public static boolean getJumpModifier(ItemStack stack) {return stack.getOrCreateTag().getBoolean("JumpModifier");}
     public static boolean canBeBrokenOutOf(ItemStack stack) {return stack.getOrCreateTag().getBoolean("CanBeBrokenOutOf");}
     public static boolean isLockpickable(ItemStack stack) {return stack.getOrCreateTag().getBoolean("isLockpickable");}
 
-    public void event(TickEvent.PlayerTickEvent event) {
-        System.out.println(event.player.getEntityData());
-    }
+
+
 
     @Override
     public void appendHoverText(@NotNull ItemStack stack, @Nullable Level level, List<Component> tooltip, @NotNull TooltipFlag flag) {
@@ -53,7 +52,7 @@ public class RestraintItem extends AbstractRestraintItem {
         tooltip.add(Component.literal("Leg Restraint").withStyle(ChatFormatting.GRAY));
 
 
-        tooltip.add(Component.literal("Modifier:").withStyle(ChatFormatting.GRAY));
+        tooltip.add(Component.literal("Modifiers:").withStyle(ChatFormatting.GRAY));
 
         if (getSaturationModifier(stack)) {
             tooltip.add(Component.literal("Saturation Modifier").withStyle(ChatFormatting.YELLOW));
@@ -61,8 +60,8 @@ public class RestraintItem extends AbstractRestraintItem {
             tooltip.remove(Component.literal("Breaking Blocks Disabled").withStyle(ChatFormatting.YELLOW));
         }
 
-        if (getHungerModifier(stack)) {
-            tooltip.add(Component.literal("Hunger Modifier").withStyle(ChatFormatting.DARK_GREEN));
+        if (getHungerModifier(stack) > 0) {
+            tooltip.add(Component.literal("Hunger Modifier " + getHungerModifier(stack)).withStyle(ChatFormatting.DARK_GREEN));
         } else {
             tooltip.remove(Component.literal("Hunger Modifier").withStyle(ChatFormatting.DARK_GREEN));
         }

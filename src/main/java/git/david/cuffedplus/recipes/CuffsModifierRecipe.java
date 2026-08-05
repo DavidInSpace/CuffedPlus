@@ -40,13 +40,10 @@ public class CuffsModifierRecipe implements SmithingRecipe {
         ItemStack modifierItem = container.getItem(0);
         ResourceLocation modKey = BuiltInRegistries.ITEM.getKey(modifierItem.getItem());
 
-
-
         ItemStack baseItem = container.getItem(1).copy();
         baseItem.setCount(1);
 
         ItemStack additionItem = container.getItem(2);
-
 
         if (additionItem.is(Items.DIAMOND)) {
 
@@ -56,7 +53,7 @@ public class CuffsModifierRecipe implements SmithingRecipe {
                     break;
 
                 case "cuffedplus:hunger_modifier":
-                    RestraintItem.setHungerModifier(baseItem, true);
+                    RestraintItem.setHungerModifier(baseItem, RestraintItem.getHungerModifier(baseItem) + 1);
                     break;
 
                 /* case "cuffedplus:protection_modifier":
@@ -76,7 +73,6 @@ public class CuffsModifierRecipe implements SmithingRecipe {
                 default:
             }
 
-
         } else if (additionItem.is(Items.NETHERITE_SCRAP)) {
 
             switch (modKey.toString()) {
@@ -84,7 +80,7 @@ public class CuffsModifierRecipe implements SmithingRecipe {
                     RestraintItem.setSaturationModifier(baseItem, false);
                     break;
                 case "cuffedplus:hunger_modifier":
-                    RestraintItem.setHungerModifier(baseItem, false);
+                    RestraintItem.setHungerModifier(baseItem, RestraintItem.getHungerModifier(baseItem) - 1);
                     break;
                 /*case "cuffedplus:protection_modifier":
                     RestraintItem.setProtectionModifier(baseItem, false);
@@ -107,7 +103,6 @@ public class CuffsModifierRecipe implements SmithingRecipe {
             return ItemStack.EMPTY;
 
         }
-
 
         return baseItem;
     }

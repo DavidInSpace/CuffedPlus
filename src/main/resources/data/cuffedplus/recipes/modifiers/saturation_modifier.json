@@ -15,13 +15,16 @@
     "D": {
       "item": "minecraft:diamond"
     },
-    "G":
-    {
-      "item": "minecraft:leather_boots"
-    }
+    "G": [
+      {"item": "minecraft:cooked_beef"},
+      {"item": "minecraft:cooked_porkchop"},
+      {"item": "minecraft:cooked_mutton"},
+      {"item": "minecraft:golden_carrot"},
+      {"item": "minecraft:pumpkin_pie"}
+    ]
   },
   "result": {
-    "item": "cuffedplus:allow_movement",
+    "item": "cuffedplus:saturation_modifier",
     "count": 2
   }
 }

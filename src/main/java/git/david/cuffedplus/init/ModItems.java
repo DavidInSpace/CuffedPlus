@@ -130,6 +130,9 @@ public class ModItems {
     public static final RegistryObject<Item> IS_LOCKPICKABLE_MODIFIER = ITEMS.register("is_lockpickable",
             () -> new ModifierItem(new Item.Properties().stacksTo(16).rarity(Rarity.UNCOMMON)));
 
+    public static final RegistryObject<Item> CAN_BE_BROKEN_OUT_OF = ITEMS.register("can_be_broken_out_of",
+            () -> new ModifierItem(new Item.Properties().stacksTo(16).rarity(Rarity.UNCOMMON)));
+
     public static final RegistryObject<Item> TIMER_MODIFIER = ITEMS.register("timer_modifier",
             () -> new ModifierItem(new Item.Properties().stacksTo(16).rarity(Rarity.UNCOMMON)));
 

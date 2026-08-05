@@ -1,6 +1,6 @@
 {
     "parent": "minecraft:item/generated",
     "textures": {
-      "layer0": "cuffedplus:item/allow_jumping"
+      "layer0": "cuffedplus:item/hunger_modifier"
     }
 }

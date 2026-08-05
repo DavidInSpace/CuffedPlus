@@ -10,10 +10,7 @@ import com.lazrproductions.cuffed.cap.base.IRestrainableCapability;
 import com.lazrproductions.cuffed.entity.animation.ArmRestraintAnimationFlags;
 import com.lazrproductions.cuffed.entity.animation.LegRestraintAnimationFlags;
 import com.lazrproductions.cuffed.init.ModStatistics;
-import com.lazrproductions.cuffed.restraints.base.AbstractLegRestraint;
-import com.lazrproductions.cuffed.restraints.base.IBreakableRestraint;
-import com.lazrproductions.cuffed.restraints.base.IEnchantableRestraint;
-import com.lazrproductions.cuffed.restraints.base.RestraintType;
+import com.lazrproductions.cuffed.restraints.base.*;
 import com.lazrproductions.cuffed.restraints.client.RestraintModelInterface;
 
 import com.lazrproductions.lazrslib.client.screen.ScreenUtilities;
@@ -39,6 +36,8 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
@@ -356,36 +355,17 @@ public class DiamondCuffsLegsRestraint extends AbstractLegRestraint implements I
         return tag != null && tag.contains(key) ? tag.getBoolean(key) : defaultValue;
     }
 
-    @Override
-    public boolean AllowBreakingBlocks() {
-        return getBooleanTag("AllowBreakingBlocks", true);
-    }
-
-    @Override
-    public boolean AllowItemUse() {
-        return getBooleanTag("AllowItemUse", true);
-    }
-
-    @Override
-    public boolean AllowMovement() {
-        return getBooleanTag("AllowMovement", false);
-    }
-
-    @Override
-    public boolean AllowSprinting() {return getBooleanTag("AllowSprinting", false);}
-
-    @Override
-    public boolean AllowJumping() {
+    @Override public boolean AllowBreakingBlocks() {return true;}
+    @Override public boolean AllowItemUse() {return true;}
+    @Override public boolean AllowMovement() {return false;}
+    @Override public boolean AllowSprinting() {return false;}
+    @Override public boolean AllowJumping() {
         return getBooleanTag("AllowJumping", false);
     }
-
-    @Override
-    public boolean canBeBrokenOutOf() {
+    @Override public boolean canBeBrokenOutOf() {
         return getBooleanTag("CanBeBrokenOutOf", true);
     }
-
-    @Override
-    public boolean getLockpickable() {
+    @Override public boolean getLockpickable() {
         return getBooleanTag("Lockpickable", true);
     }
 
@@ -399,9 +379,22 @@ public class DiamondCuffsLegsRestraint extends AbstractLegRestraint implements I
 
     // #region Events
 
+    int tickCount = 0;
     public void onTickServer(ServerPlayer player) {
         super.onTickServer(player);
+        ItemStack sourceStack = this.sourceStack;
+        if (sourceStack.getOrCreateTag().getBoolean("SaturationModifier")) {
+            if (player.getFoodData().needsFood()) {
+                player.addEffect(new MobEffectInstance(MobEffects.SATURATION, 1, 10, false, false));
+            }
+        } else if (sourceStack.getOrCreateTag().getInt("HungerModifier") > 0) {
+            player.causeFoodExhaustion(1);
+            if (player.tickCount - tickCount >= 1) {
+                tickCount = player.tickCount;
+            }
+        }
     }
+
 
     public void onTickClient(Player player) {
         super.onTickClient(player);
@@ -411,6 +404,7 @@ public class DiamondCuffsLegsRestraint extends AbstractLegRestraint implements I
     }
 
     public void onEquippedServer(ServerPlayer player, ServerPlayer captor) {
+
         super.onEquippedServer(player, captor);
     }
 

@@ -1,10 +1,9 @@
 {
   "replace": false,
   "values": [
-    "cuffedplus:allow_breaking_blocks",
-    "cuffedplus:allow_item_use",
-    "cuffedplus:allow_jumping",
-    "cuffedplus:allow_movement",
+    "cuffedplus:saturation_modifier",
+    "cuffedplus:hunger_modifier",
+    "cuffedplus:jump_modifier",
     "cuffedplus:can_be_broken_out_of",
     "cuffedplus:is_lockpickable"
   ]
