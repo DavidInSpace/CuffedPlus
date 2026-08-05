@@ -59,6 +59,7 @@ public class JumpsuitKey extends Item {
                 return InteractionResultHolder.fail(itemInHand);
             }
 
+
             player.playSound(SoundEvents.ARMOR_EQUIP_CHAIN, 1, 1.5F);
             currentChest.getOrCreateTag().putBoolean("Locked", false);
 

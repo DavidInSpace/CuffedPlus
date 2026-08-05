@@ -1,4 +1,4 @@
-package git.david.cuffedplus;
+package git.david.cuffedplus.misc;
 
 import git.david.cuffedplus.init.ModItems;
 import net.minecraft.client.model.PlayerModel;

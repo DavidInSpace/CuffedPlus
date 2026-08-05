@@ -46,7 +46,7 @@ public class ModRestraints {
     private static boolean isInitialized = false;
 
     // Create your custom registry to hold your restraint classes
-    public static final DeferredRegister<AbstractRestraint> RESTRAINTS = DeferredRegister.create(new ResourceLocation(CuffedPlusMain.MODID, "restraints"), CuffedPlusMain.MODID);
+    public static final DeferredRegister<AbstractRestraint> RESTRAINTS = DeferredRegister.create(ResourceLocation.fromNamespaceAndPath(CuffedPlusMain.MODID, "restraints"), CuffedPlusMain.MODID);
 
     // Register your restraints to the register
     // WOOD

@@ -42,16 +42,16 @@ public class CuffTableBlockEntity extends BlockEntity implements MenuProvider {
     @Override
     public void load(@NotNull CompoundTag nbt) {
         super.load(nbt);
-        CompoundTag tutorialmodData = nbt.getCompound(CuffedPlusMain.MODID);
-        this.inventory.deserializeNBT(tutorialmodData.getCompound("Inventory"));
+        CompoundTag cuffedPlusModData = nbt.getCompound(CuffedPlusMain.MODID);
+        this.inventory.deserializeNBT(cuffedPlusModData.getCompound("Inventory"));
     }
 
     @Override
     protected void saveAdditional(@NotNull CompoundTag nbt) {
         super.saveAdditional(nbt);
-        var tutorialmodData = new CompoundTag();
-        tutorialmodData.put("Inventory", this.inventory.serializeNBT());
-        nbt.put(CuffedPlusMain.MODID, tutorialmodData);
+        var cuffedPlusModData = new CompoundTag();
+        cuffedPlusModData.put("Inventory", this.inventory.serializeNBT());
+        nbt.put(CuffedPlusMain.MODID, cuffedPlusModData);
     }
 
     @Override

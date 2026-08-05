@@ -651,7 +651,7 @@ public class DiamondCuffsLegsRestraint extends AbstractLegRestraint implements I
         @SuppressWarnings("unchecked")
         static final Class<? extends HumanoidModel<? extends LivingEntity>> MODEL_CLASS = (Class<? extends HumanoidModel<? extends LivingEntity>>)(Class<?>) DiamondCuffsLegsModel.class;
         static final ModelLayerLocation MODEL_LAYER = ModModelLayers.DIAMOND_CUFFS_LEGS_LAYER;
-        static final ResourceLocation MODEL_TEXTURE = new ResourceLocation(CuffedPlusMain.MODID, "textures/entity/diamond_cuffs.png");
+        static final ResourceLocation MODEL_TEXTURE = ResourceLocation.fromNamespaceAndPath(CuffedPlusMain.MODID, "textures/entity/diamond_cuffs.png");
 
         @Override
         public Class<? extends HumanoidModel<? extends LivingEntity>> getRenderedModel() {

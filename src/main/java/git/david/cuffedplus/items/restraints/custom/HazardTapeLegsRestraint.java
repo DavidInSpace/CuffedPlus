@@ -651,7 +651,7 @@ public class HazardTapeLegsRestraint extends AbstractLegRestraint implements IBr
         @SuppressWarnings("unchecked")
         static final Class<? extends HumanoidModel<? extends LivingEntity>> MODEL_CLASS = (Class<? extends HumanoidModel<? extends LivingEntity>>)(Class<?>) HazardTapeLegsModel.class;
         static final ModelLayerLocation MODEL_LAYER = ModModelLayers.HAZARD_TAPE_LEGS_LAYER;
-        static final ResourceLocation MODEL_TEXTURE = new ResourceLocation(CuffedPlusMain.MODID, "textures/entity/hazard_tape.png");
+        static final ResourceLocation MODEL_TEXTURE = ResourceLocation.fromNamespaceAndPath(CuffedPlusMain.MODID, "textures/entity/hazard_tape.png");
 
         @Override
         public Class<? extends HumanoidModel<? extends LivingEntity>> getRenderedModel() {

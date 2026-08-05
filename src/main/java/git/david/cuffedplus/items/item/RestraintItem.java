@@ -17,79 +17,28 @@ public class RestraintItem extends AbstractRestraintItem {
         super(p);
     }
 
-    // --- SETTERS ---
+    public static void enableTimer(ItemStack stack, boolean value) {stack.getOrCreateTag().putBoolean("TimerEnabled", value);}
+    public static boolean getTimerEnabled(ItemStack stack) {return stack.getOrCreateTag().getBoolean("TimerEnabled");}
+    public static void setTime(ItemStack stack, long value) {stack.getOrCreateTag().putLong("Time", value);}
+    public static long getTime(ItemStack stack) {return stack.getOrCreateTag().getLong("Time");}
+    public static void setAllowBreakingBlocks(ItemStack stack, boolean value) {stack.getOrCreateTag().putBoolean("AllowBreakingBlocks", value);}
+    public static void setAllowItemUse(ItemStack stack, boolean value) {stack.getOrCreateTag().putBoolean("AllowItemUse", value);}
+    public static void setAllowMovement(ItemStack stack, boolean value) {stack.getOrCreateTag().putBoolean("AllowMovement", value);}
+    public static void setAllowJumping(ItemStack stack, boolean value) {stack.getOrCreateTag().putBoolean("AllowJumping", value);}
+    public static void setCanBeBrokenOutOf(ItemStack stack, boolean value) {stack.getOrCreateTag().putBoolean("CanBeBrokenOutOf", value);}
+    public static void setLockpickable(ItemStack stack, boolean value) {stack.getOrCreateTag().putBoolean("Lockpickable", value);}
 
-    public static void enableTimer(ItemStack stack, boolean value) {
-        stack.getOrCreateTag().putBoolean("TimerEnabled", value);
-    }
+    public static boolean allowBreakingBlocks(ItemStack stack) {return stack.getOrCreateTag().getBoolean("AllowBreakingBlocks");}
+    public static boolean allowItemUse(ItemStack stack) {return stack.getOrCreateTag().getBoolean("AllowItemUse");}
+    public static boolean allowMovement(ItemStack stack) {return stack.getOrCreateTag().getBoolean("AllowMovement");}
+    public static boolean allowJumping(ItemStack stack) {return stack.getOrCreateTag().getBoolean("AllowJumping");}
+    public static boolean canBeBrokenOutOf(ItemStack stack) {return stack.getOrCreateTag().getBoolean("CanBeBrokenOutOf");}
+    public static boolean isLockpickable(ItemStack stack) {return stack.getOrCreateTag().getBoolean("isLockpickable");}
 
-    public static boolean getTimerEnabled(ItemStack stack) {
-        return stack.getOrCreateTag().getBoolean("TimerEnabled");
-    }
-
-    public static void setTime(ItemStack stack, long value) {
-        stack.getOrCreateTag().putLong("Time", value);
-    }
-
-    public static long getTime(ItemStack stack) {
-        return stack.getOrCreateTag().getLong("Time");
-    }
-
-    public static void setAllowBreakingBlocks(ItemStack stack, boolean value) {
-        stack.getOrCreateTag().putBoolean("AllowBreakingBlocks", value);
-    }
-
-    public static void setAllowItemUse(ItemStack stack, boolean value) {
-        stack.getOrCreateTag().putBoolean("AllowItemUse", value);
-    }
-
-    public static void setAllowMovement(ItemStack stack, boolean value) {
-        stack.getOrCreateTag().putBoolean("AllowMovement", value);
-    }
-
-    public static void setAllowJumping(ItemStack stack, boolean value) {
-        stack.getOrCreateTag().putBoolean("AllowJumping", value);
-    }
-
-    public static void setCanBeBrokenOutOf(ItemStack stack, boolean value) {
-        stack.getOrCreateTag().putBoolean("CanBeBrokenOutOf", value);
-    }
-
-    public static void setLockpickable(ItemStack stack, boolean value) {
-        stack.getOrCreateTag().putBoolean("Lockpickable", value);
-    }
-
-    // --- GETTERS ---
-    public static boolean allowBreakingBlocks(ItemStack stack) {
-        return stack.getOrCreateTag().getBoolean("AllowBreakingBlocks");
-    }
-
-    public static boolean allowItemUse(ItemStack stack) {
-        return stack.getOrCreateTag().getBoolean("AllowItemUse");
-    }
-
-    public static boolean allowMovement(ItemStack stack) {
-        return stack.getOrCreateTag().getBoolean("AllowMovement");
-    }
-
-    public static boolean allowJumping(ItemStack stack) {
-        return stack.getOrCreateTag().getBoolean("AllowJumping");
-    }
-
-    public static boolean canBeBrokenOutOf(ItemStack stack) {
-        return stack.getOrCreateTag().getBoolean("CanBeBrokenOutOf");
-    }
-
-    public static boolean isLockpickable(ItemStack stack) {
-
-        return stack.getOrCreateTag().getBoolean("isLockpickable");
-    }
-
-    // Optional: Show properties in tooltip for debugging
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
-
-
+        tooltip.add(Component.literal("Arms Restraint").withStyle(ChatFormatting.GRAY));
+        tooltip.add(Component.literal("Leg Restraint").withStyle(ChatFormatting.GRAY));
 
         if (allowBreakingBlocks(stack)) {
             tooltip.add(Component.literal("Breaking Blocks Disabled").withStyle(ChatFormatting.GRAY));

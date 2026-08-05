@@ -2,7 +2,7 @@ package git.david.cuffedplus.events;
 
 
 import git.david.cuffedplus.CuffedPlusMain;
-import git.david.cuffedplus.JumpsuitLayer;
+import git.david.cuffedplus.misc.JumpsuitLayer;
 import git.david.cuffedplus.init.ModMenuTypes;
 import git.david.cuffedplus.screen.CuffTableMenuScreen;
 import net.minecraft.client.Minecraft;

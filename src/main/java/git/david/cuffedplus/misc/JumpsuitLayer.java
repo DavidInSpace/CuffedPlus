@@ -1,7 +1,8 @@
-package git.david.cuffedplus;
+package git.david.cuffedplus.misc;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import git.david.cuffedplus.CuffedPlusMain;
 import git.david.cuffedplus.init.ModItems;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.PlayerModel;

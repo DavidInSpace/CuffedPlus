@@ -304,7 +304,7 @@ public class WoodCuffsArmsRestraint extends AbstractArmRestraint implements IBre
         enchantments = new ListTag();
         this.sourceStack = ItemStack.EMPTY;
     }
-    public WoodCuffsArmsRestraint(ItemStack stack, ServerPlayer player, ServerPlayer captor, ItemStack sourceStack) {
+    public WoodCuffsArmsRestraint(ItemStack stack, ServerPlayer player, ServerPlayer captor) {
         super(stack, player, captor);
         this.durability = getMaxDurability() - stack.getDamageValue();
         this.sourceStack = stack;
@@ -318,10 +318,10 @@ public class WoodCuffsArmsRestraint extends AbstractArmRestraint implements IBre
     }
 
     public String getActionBarLabel() {
-        return "info.cuffedplus.restraints.wood_cuffs.action_bar";
+        return "info.cuffedplus.restraints.handcuffs.action_bar";
     }
     public String getName() {
-        return "info.cuffedplus.restraints.wood_cuffs.name";
+        return "info.cuffedplus.restraints.handcuffs.action_bar";
     }
 
     public static final Item ITEM =  ModItems.WOOD_CUFFS.get();
@@ -648,7 +648,7 @@ public class WoodCuffsArmsRestraint extends AbstractArmRestraint implements IBre
 
         static final Class<? extends HumanoidModel<? extends LivingEntity>> MODEL_CLASS = (Class<? extends HumanoidModel<? extends LivingEntity>>)(Class<?>) WoodCuffsArmsModel.class;
         static final ModelLayerLocation MODEL_LAYER = ModModelLayers.WOOD_CUFFS_ARMS_LAYER;
-        static final ResourceLocation MODEL_TEXTURE = new ResourceLocation(CuffedPlusMain.MODID, "textures/entity/wood_cuffs.png");
+        static final ResourceLocation MODEL_TEXTURE = ResourceLocation.fromNamespaceAndPath(CuffedPlusMain.MODID, "textures/entity/wood_cuffs.png");
 
         @Override
         public Class<? extends HumanoidModel<? extends LivingEntity>> getRenderedModel() {

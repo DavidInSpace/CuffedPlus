@@ -21,35 +21,35 @@ import net.minecraftforge.client.event.EntityRenderersEvent;
 public class ModModelLayers {
 
     // WOOD
-    public static final ModelLayerLocation WOOD_CUFFS_ARMS_LAYER = new ModelLayerLocation(new ResourceLocation(CuffedPlusMain.MODID, "wood_cuffs_arms_layer"), "main");
-    public static final ModelLayerLocation WOOD_CUFFS_LEGS_LAYER = new ModelLayerLocation(new ResourceLocation(CuffedPlusMain.MODID, "wood_cuffs_legs_layer"), "main");
+    public static final ModelLayerLocation WOOD_CUFFS_ARMS_LAYER = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(CuffedPlusMain.MODID, "wood_cuffs_arms_layer"), "main");
+    public static final ModelLayerLocation WOOD_CUFFS_LEGS_LAYER = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(CuffedPlusMain.MODID, "wood_cuffs_legs_layer"), "main");
 
     // GOLD
-    public static final ModelLayerLocation GOLD_CUFFS_ARMS_LAYER = new ModelLayerLocation(new ResourceLocation(CuffedPlusMain.MODID, "gold_cuffs_arms_layer"), "main");
-    public static final ModelLayerLocation GOLD_CUFFS_LEGS_LAYER = new ModelLayerLocation(new ResourceLocation(CuffedPlusMain.MODID, "gold_cuffs_legs_layer"), "main");
+    public static final ModelLayerLocation GOLD_CUFFS_ARMS_LAYER = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(CuffedPlusMain.MODID, "gold_cuffs_arms_layer"), "main");
+    public static final ModelLayerLocation GOLD_CUFFS_LEGS_LAYER = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(CuffedPlusMain.MODID, "gold_cuffs_legs_layer"), "main");
 
     // EMERALD
-    public static final ModelLayerLocation EMERALD_CUFFS_ARMS_LAYER = new ModelLayerLocation(new ResourceLocation(CuffedPlusMain.MODID, "emerald_cuffs_arms_layer"), "main");
-    public static final ModelLayerLocation EMERALD_CUFFS_LEGS_LAYER = new ModelLayerLocation(new ResourceLocation(CuffedPlusMain.MODID, "emerald_cuffs_legs_layer"), "main");
+    public static final ModelLayerLocation EMERALD_CUFFS_ARMS_LAYER = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(CuffedPlusMain.MODID, "emerald_cuffs_arms_layer"), "main");
+    public static final ModelLayerLocation EMERALD_CUFFS_LEGS_LAYER = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(CuffedPlusMain.MODID, "emerald_cuffs_legs_layer"), "main");
 
     // DIAMOND
-    public static final ModelLayerLocation DIAMOND_CUFFS_ARMS_LAYER = new ModelLayerLocation(new ResourceLocation(CuffedPlusMain.MODID, "diamond_cuffs_arms_layer"), "main");
-    public static final ModelLayerLocation DIAMOND_CUFFS_LEGS_LAYER = new ModelLayerLocation(new ResourceLocation(CuffedPlusMain.MODID, "diamond_cuffs_legs_layer"), "main");
+    public static final ModelLayerLocation DIAMOND_CUFFS_ARMS_LAYER = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(CuffedPlusMain.MODID, "diamond_cuffs_arms_layer"), "main");
+    public static final ModelLayerLocation DIAMOND_CUFFS_LEGS_LAYER = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(CuffedPlusMain.MODID, "diamond_cuffs_legs_layer"), "main");
 
     // NETHERITE
-    public static final ModelLayerLocation NETHERITE_CUFFS_ARMS_LAYER = new ModelLayerLocation(new ResourceLocation(CuffedPlusMain.MODID, "netherite_cuffs_arms_layer"), "main");
-    public static final ModelLayerLocation NETHERITE_CUFFS_LEGS_LAYER = new ModelLayerLocation(new ResourceLocation(CuffedPlusMain.MODID, "netherite_cuffs_legs_layer"), "main");
+    public static final ModelLayerLocation NETHERITE_CUFFS_ARMS_LAYER = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(CuffedPlusMain.MODID, "netherite_cuffs_arms_layer"), "main");
+    public static final ModelLayerLocation NETHERITE_CUFFS_LEGS_LAYER = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(CuffedPlusMain.MODID, "netherite_cuffs_legs_layer"), "main");
 
     // BEDROCK
-    public static final ModelLayerLocation BEDROCK_CUFFS_ARMS_LAYER = new ModelLayerLocation(new ResourceLocation(CuffedPlusMain.MODID, "bedrock_cuffs_arms_layer"), "main");
-    public static final ModelLayerLocation BEDROCK_CUFFS_LEGS_LAYER = new ModelLayerLocation(new ResourceLocation(CuffedPlusMain.MODID, "bedrock_cuffs_legs_layer"), "main");
+    public static final ModelLayerLocation BEDROCK_CUFFS_ARMS_LAYER = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(CuffedPlusMain.MODID, "bedrock_cuffs_arms_layer"), "main");
+    public static final ModelLayerLocation BEDROCK_CUFFS_LEGS_LAYER = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(CuffedPlusMain.MODID, "bedrock_cuffs_legs_layer"), "main");
 
-    public static final ModelLayerLocation HAZARD_TAPE_HEAD_LAYER = new ModelLayerLocation(new ResourceLocation(CuffedPlusMain.MODID, "hazard_tape_head_layer"), "main");
-    public static final ModelLayerLocation HAZARD_TAPE_ARMS_LAYER = new ModelLayerLocation(new ResourceLocation(CuffedPlusMain.MODID, "hazard_tape_arms_layer"), "main");
-    public static final ModelLayerLocation HAZARD_TAPE_LEGS_LAYER = new ModelLayerLocation(new ResourceLocation(CuffedPlusMain.MODID, "hazard_tape_legs_layer"), "main");
+    public static final ModelLayerLocation HAZARD_TAPE_HEAD_LAYER = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(CuffedPlusMain.MODID, "hazard_tape_head_layer"), "main");
+    public static final ModelLayerLocation HAZARD_TAPE_ARMS_LAYER = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(CuffedPlusMain.MODID, "hazard_tape_arms_layer"), "main");
+    public static final ModelLayerLocation HAZARD_TAPE_LEGS_LAYER = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(CuffedPlusMain.MODID, "hazard_tape_legs_layer"), "main");
 
-    public static final ModelLayerLocation ANKLE_MONITOR_LAYER = new ModelLayerLocation(new ResourceLocation(CuffedPlusMain.MODID, "ankle_monitor_layer"), "main");
-    // public static final ModelLayerLocation ANKLE_MONITOR_CLEAN_LAYER = new ModelLayerLocation(new ResourceLocation(CuffedPlusMain.MODID, "ankle_monitor_clean_layer"), "main");
+    public static final ModelLayerLocation ANKLE_MONITOR_LAYER = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(CuffedPlusMain.MODID, "ankle_monitor_layer"), "main");
+    // public static final ModelLayerLocation ANKLE_MONITOR_CLEAN_LAYER = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(CuffedPlusMain.MODID, "ankle_monitor_clean_layer"), "main");
 
     public static void registerLayers(EntityRenderersEvent.RegisterLayerDefinitions event) {
         // WOOD

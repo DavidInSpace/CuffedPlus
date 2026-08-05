@@ -10,6 +10,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.AirItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -20,10 +21,16 @@ public class TakeOffLogic {
     // Logic for taking jumpsuits off yourself
     @SubscribeEvent
     public void jumpsuitTakeOffRightClickEmptyEvent(PlayerInteractEvent.RightClickEmpty event) {
-        System.out.println("RIGHT CLICK EMPTY EVENT FIRE");
         Player player = event.getEntity();
         if (!player.isCrouching()) return; // Player must be crouching
-        if (!player.getItemInHand(event.getHand()).isEmpty()) return; // Player must have an empty hand
+
+
+        /**
+         * For some reason event.getItemStack() or event.getEntity().getItemInHand(event.getHand()); or anything besides event.getEntity().getMainHandItem() doesn't work
+         * and just return air even if the player is holding an item
+         * */
+
+        if (!event.getEntity().getMainHandItem().isEmpty()) return; // Player must have an empty hand
 
         ItemStack currentChest = player.getItemBySlot(EquipmentSlot.CHEST);
 
@@ -76,13 +83,12 @@ public class TakeOffLogic {
     }
 
 
-    // Logic for taking jumpsuits off yourself
-    @SubscribeEvent
+    // Logic for taking ankle monitor off yourself
+
     public void ankleMonitorTakeOffRightClickEmptyEvent(PlayerInteractEvent.RightClickEmpty event) {
-        System.out.println("RIGHT CLICK EMPTY EVENT FIRE");
         Player player = event.getEntity();
         if (!player.isCrouching()) return; // Player must be crouching
-        if (!player.getItemInHand(event.getHand()).isEmpty()) return; // Player must have an empty hand
+        if (!event.getEntity().getMainHandItem().isEmpty()) return; // Player must have an empty hand
 
         ItemStack currentChest = player.getItemBySlot(EquipmentSlot.CHEST);
 
@@ -100,8 +106,7 @@ public class TakeOffLogic {
     }
 
 
-    // Logic for taking jumpsuit off someone
-    @SubscribeEvent
+    // Logic for taking ankle monitor off someone
     public void ankleMonitorTakeOffEntityInteractEvent(PlayerInteractEvent.EntityInteract event) {
         if (!(event.getTarget() instanceof Player)) return;
         Player user = event.getEntity();

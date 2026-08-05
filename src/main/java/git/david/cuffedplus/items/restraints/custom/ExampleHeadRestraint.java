@@ -30,7 +30,7 @@ import javax.annotation.Nonnull;
 
 public class ExampleHeadRestraint extends AbstractHeadRestraint {
 
-    static final ResourceLocation CUFFED_WIDGETS = new ResourceLocation(CuffedPlusMain.MODID, "textures/gui/widgets.png");
+    static final ResourceLocation CUFFED_WIDGETS = ResourceLocation.fromNamespaceAndPath(CuffedPlusMain.MODID, "textures/gui/widgets.png");
     //static final ResourceLocation BUNDLE_TEXTURE = new ResourceLocation(CuffedMod.MODID, "textures/gui/bundle_overlay.png");
 
     static final ScreenTexture CHAIN_ICON = new ScreenTexture(CUFFED_WIDGETS, 44, 24, 16, 16, 192, 192);
@@ -231,7 +231,7 @@ public class ExampleHeadRestraint extends AbstractHeadRestraint {
         @SuppressWarnings("unchecked")
         static final Class<? extends HumanoidModel<? extends LivingEntity>> MODEL_CLASS = (Class<? extends HumanoidModel<? extends LivingEntity>>)(Class<?>) AnkleMonitorModel.class;
         static final ModelLayerLocation MODEL_LAYER = ModModelLayers.WEIGHTED_ANCHOR_LAYER;
-        static final ResourceLocation MODEL_TEXTURE = new ResourceLocation(CuffedPlusMain.MODID, "textures/entity/ankle_monitor_dirty.png");
+        static final ResourceLocation MODEL_TEXTURE = ResourceLocation.fromNamespaceAndPath(CuffedPlusMain.MODID, "textures/entity/ankle_monitor_dirty.png");
 
         @Override
         public Class<? extends HumanoidModel<? extends LivingEntity>> getRenderedModel() {

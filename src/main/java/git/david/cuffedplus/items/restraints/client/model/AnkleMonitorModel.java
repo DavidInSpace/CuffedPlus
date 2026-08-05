@@ -23,7 +23,7 @@ import javax.annotation.Nonnull;
 public class AnkleMonitorModel<T extends LivingEntity> extends HumanoidModel<T> {
 	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
     public static final ModelLayerLocation LAYER =
-            new ModelLayerLocation(new ResourceLocation(CuffedPlusMain.MODID, "textures/entity/ankle_monitor.png"), "main");
+            new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(CuffedPlusMain.MODID, "textures/entity/ankle_monitor.png"), "main");
     private final ModelPart _root;
 
     public AnkleMonitorModel(ModelPart root) {

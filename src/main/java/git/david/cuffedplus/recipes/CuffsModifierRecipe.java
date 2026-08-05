@@ -53,27 +53,27 @@ public class CuffsModifierRecipe implements SmithingRecipe {
             switch (modKey.toString()) {
                 case "cuffedplus:allow_breaking_blocks":
 
-                    RestraintItem.setAllowBreakingBlocks(baseItem, false);
+                    RestraintItem.setAllowBreakingBlocks(baseItem, true);
                     break;
 
                 case "cuffedplus:allow_item_use":
-                    RestraintItem.setAllowItemUse(baseItem, false);
+                    RestraintItem.setAllowItemUse(baseItem, true);
                     break;
 
                 case "cuffedplus:allow_movement":
-                    RestraintItem.setAllowMovement(baseItem, false);
+                    RestraintItem.setAllowMovement(baseItem, true);
                     break;
 
                 case "cuffedplus:allow_jumping":
-                    RestraintItem.setAllowJumping(baseItem, false);
+                    RestraintItem.setAllowJumping(baseItem, true);
                     break;
 
                 case "cuffedplus:can_be_broken_out_of":
-                    RestraintItem.setCanBeBrokenOutOf(baseItem, false);
+                    RestraintItem.setCanBeBrokenOutOf(baseItem, true);
                     break;
 
                 case "cuffedplus:is_lockpickable":
-                    RestraintItem.setLockpickable(baseItem, false);
+                    RestraintItem.setLockpickable(baseItem, true);
                     break;
                 default:
 
@@ -85,22 +85,22 @@ public class CuffsModifierRecipe implements SmithingRecipe {
 
             switch (modKey.toString()) {
                 case "cuffedplus:allow_breaking_blocks":
-                    RestraintItem.setAllowBreakingBlocks(baseItem, true);
+                    RestraintItem.setAllowBreakingBlocks(baseItem, false);
                     break;
                 case "cuffedplus:allow_item_use":
-                    RestraintItem.setAllowItemUse(baseItem, true);
+                    RestraintItem.setAllowItemUse(baseItem, false);
                     break;
                 case "cuffedplus:allow_movement":
-                    RestraintItem.setAllowMovement(baseItem,true);
+                    RestraintItem.setAllowMovement(baseItem,false);
                     break;
                 case "cuffedplus:allow_jumping":
-                    RestraintItem.setAllowJumping(baseItem, true);
+                    RestraintItem.setAllowJumping(baseItem, false);
                     break;
                 case "cuffedplus:can_be_broken_out_of":
-                    RestraintItem.setCanBeBrokenOutOf(baseItem, true);
+                    RestraintItem.setCanBeBrokenOutOf(baseItem, false);
                     break;
                 case "cuffedplus:is_lockpickable":
-                    RestraintItem.setLockpickable(baseItem, true);
+                    RestraintItem.setLockpickable(baseItem, false);
                     break;
                 default:
                     break;

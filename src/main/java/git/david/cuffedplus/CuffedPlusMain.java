@@ -76,6 +76,10 @@ import javax.annotation.Nonnull;
 // TODO: Add more prison jumpsuits
 // TODO: Rework crafting
 
+// TODO: BEFORE RELEASE
+// TODO: Add descriptions to restraints like the original restraint do have
+// TODO: Test whether all restraint modifiers still work
+
 // CUFFED GITHUB REPOSETORY PAGE:
 // https://github.com/LazrProductions/cuffed
 
@@ -85,18 +89,17 @@ public class CuffedPlusMain {
     public static final Logger LOGGER = LogManager.getLogger(CuffedPlusMain.MODID);
     //public static final CuffedPlusServerConfig SERVER_CONFIG = new CuffedPlusServerConfig(MODID, ModConfig.Type.SERVER);
 
-    public CuffedPlusMain() {
+    public CuffedPlusMain(FMLJavaModLoadingContext ctx) {
         LOGGER.info("Cuffed Plus: Running CuffedPlusMain");
-        IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
+        IEventBus modEventBus = ctx.getModEventBus();
         MinecraftForge.EVENT_BUS.register(this);
-
         ModCreativeTabs.register(modEventBus);
         ModItems.register(modEventBus);
         ModRestraints.register(modEventBus);
         ModBlockEntity.register(modEventBus);
         ModBlock.register(modEventBus);
         ModMenuTypes.register(modEventBus);
-        ModRecipes.SERIALIZERS.register(FMLJavaModLoadingContext.get().getModEventBus());
+        ModRecipes.SERIALIZERS.register(modEventBus);
 
         MinecraftForge.EVENT_BUS.register(new KeepLockedGearOnDeathLogic());
         MinecraftForge.EVENT_BUS.register(new RolesLogic());

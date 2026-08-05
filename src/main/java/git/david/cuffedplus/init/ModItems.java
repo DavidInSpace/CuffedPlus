@@ -29,8 +29,8 @@ public class ModItems {
 
     public static final RegistryObject<Item> WOOD_CUFFS = ITEMS.register("wood_cuffs",
             () -> new RestraintItem(new Item.Properties().stacksTo(1)
-                    .durability(10)
-                    .defaultDurability(10)));
+                    .durability(15)
+                    .defaultDurability(15)));
 
     // GOLD
     public static final RegistryObject<Item> GOLD_CUFFS_KEY = ITEMS.register("gold_cuffs_key",
@@ -38,8 +38,8 @@ public class ModItems {
 
     public static final RegistryObject<Item> GOLD_CUFFS = ITEMS.register("gold_cuffs",
             () -> new RestraintItem(new Item.Properties().stacksTo(1)
-                    .durability(25)
-                    .defaultDurability(25)));
+                    .durability(5)
+                    .defaultDurability(5)));
 
     // EMERALD
     public static final RegistryObject<Item> EMERALD_CUFFS_KEY = ITEMS.register("emerald_cuffs_key",

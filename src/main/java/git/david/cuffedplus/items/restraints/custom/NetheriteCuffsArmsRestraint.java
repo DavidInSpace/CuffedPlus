@@ -649,7 +649,7 @@ public class NetheriteCuffsArmsRestraint extends AbstractArmRestraint implements
         @SuppressWarnings("unchecked")
         static final Class<? extends HumanoidModel<? extends LivingEntity>> MODEL_CLASS = (Class<? extends HumanoidModel<? extends LivingEntity>>)(Class<?>) NetheriteCuffsArmsModel.class;
         static final ModelLayerLocation MODEL_LAYER = ModModelLayers.NETHERITE_CUFFS_ARMS_LAYER;
-        static final ResourceLocation MODEL_TEXTURE = new ResourceLocation(CuffedPlusMain.MODID, "textures/entity/netherite_cuffs.png");
+        static final ResourceLocation MODEL_TEXTURE = ResourceLocation.fromNamespaceAndPath(CuffedPlusMain.MODID, "textures/entity/netherite_cuffs.png");
 
         @Override
         public Class<? extends HumanoidModel<? extends LivingEntity>> getRenderedModel() {

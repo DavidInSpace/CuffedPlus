@@ -649,7 +649,7 @@ public class WoodCuffsLegsRestraint extends AbstractLegRestraint implements IBre
 
         static final Class<? extends HumanoidModel<? extends LivingEntity>> MODEL_CLASS = (Class<? extends HumanoidModel<? extends LivingEntity>>)(Class<?>) WoodCuffsLegsModel.class;
         static final ModelLayerLocation MODEL_LAYER = ModModelLayers.WOOD_CUFFS_LEGS_LAYER;
-        static final ResourceLocation MODEL_TEXTURE = new ResourceLocation(CuffedPlusMain.MODID, "textures/entity/wood_cuffs.png");
+        static final ResourceLocation MODEL_TEXTURE = ResourceLocation.fromNamespaceAndPath(CuffedPlusMain.MODID, "textures/entity/wood_cuffs.png");
 
         @Override
         public Class<? extends HumanoidModel<? extends LivingEntity>> getRenderedModel() {

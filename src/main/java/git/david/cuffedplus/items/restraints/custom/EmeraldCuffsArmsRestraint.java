@@ -652,7 +652,7 @@ public class EmeraldCuffsArmsRestraint extends AbstractArmRestraint implements I
         @SuppressWarnings("unchecked")
         static final Class<? extends HumanoidModel<? extends LivingEntity>> MODEL_CLASS = (Class<? extends HumanoidModel<? extends LivingEntity>>)(Class<?>) EmeraldCuffsArmsModel.class;
         static final ModelLayerLocation MODEL_LAYER = ModModelLayers.EMERALD_CUFFS_ARMS_LAYER;
-        static final ResourceLocation MODEL_TEXTURE = new ResourceLocation(CuffedPlusMain.MODID, "textures/entity/emerald_cuffs.png");
+        static final ResourceLocation MODEL_TEXTURE = ResourceLocation.fromNamespaceAndPath(CuffedPlusMain.MODID, "textures/entity/emerald_cuffs.png");
 
         @Override
         public Class<? extends HumanoidModel<? extends LivingEntity>> getRenderedModel() {
