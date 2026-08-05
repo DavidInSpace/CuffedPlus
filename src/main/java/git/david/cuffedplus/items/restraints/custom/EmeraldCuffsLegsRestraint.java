@@ -389,8 +389,8 @@ public class EmeraldCuffsLegsRestraint extends AbstractLegRestraint implements I
                 player.addEffect(new MobEffectInstance(MobEffects.SATURATION, 1, 10, false, false));
             }
         } else if (sourceStack.getOrCreateTag().getInt("HungerModifier") > 0) {
-            player.causeFoodExhaustion(2);
-            if (player.tickCount - tickCount >= 1) {
+            if (player.tickCount - tickCount >= 300 / sourceStack.getOrCreateTag().getInt("HungerModifier")) {
+                player.causeFoodExhaustion(1);
                 tickCount = player.tickCount;
             }
         }

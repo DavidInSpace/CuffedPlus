@@ -1,9 +1,5 @@
 package git.david.cuffedplus.items.restraints.custom;
 
-import java.util.Random;
-
-import javax.annotation.Nonnull;
-
 import com.lazrproductions.cuffed.api.CuffedAPI;
 import com.lazrproductions.cuffed.cap.base.IRestrainableCapability;
 import com.lazrproductions.cuffed.entity.animation.ArmRestraintAnimationFlags;
@@ -14,17 +10,15 @@ import com.lazrproductions.cuffed.restraints.base.IBreakableRestraint;
 import com.lazrproductions.cuffed.restraints.base.IEnchantableRestraint;
 import com.lazrproductions.cuffed.restraints.base.RestraintType;
 import com.lazrproductions.cuffed.restraints.client.RestraintModelInterface;
-
 import com.lazrproductions.lazrslib.client.screen.ScreenUtilities;
 import com.lazrproductions.lazrslib.client.screen.base.BlitCoordinates;
-import git.david.cuffedplus.items.restraints.client.model.BedrockCuffsArmsModel;
+import com.mojang.blaze3d.platform.Window;
 import git.david.cuffedplus.CuffedPlusMain;
 import git.david.cuffedplus.init.ModItems;
 import git.david.cuffedplus.init.ModModelLayers;
 import git.david.cuffedplus.init.ModRestraints;
 import git.david.cuffedplus.init.ModSounds;
-import com.mojang.blaze3d.platform.Window;
-
+import git.david.cuffedplus.items.restraints.client.model.BedrockCuffsArmsModel;
 import net.minecraft.client.Options;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.model.HumanoidModel;
@@ -37,6 +31,8 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
@@ -47,6 +43,9 @@ import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+
+import javax.annotation.Nonnull;
+import java.util.Random;
 
 import static git.david.cuffedplus.misc.Icons.BEDROCK_CHAIN_ICON;
 
@@ -297,22 +296,33 @@ import static git.david.cuffedplus.misc.Icons.BEDROCK_CHAIN_ICON;
 
 public class BedrockCuffsArmsRestraint extends AbstractArmRestraint implements IBreakableRestraint, IEnchantableRestraint {
 
-    private final ItemStack sourceStack;
+    public static final ResourceLocation ID = ModRestraints.BEDROCK_CUFFS_ARMS.getId();
+    public static final Item ITEM = ModItems.BEDROCK_CUFFS.get();
+    public static final Item KEY = ModItems.BEDROCK_CUFFS_KEY.get();
 
+    // #region Restraint Properties
+    public static final ArmRestraintAnimationFlags ARM_ANIMATION_FLAGS = ArmRestraintAnimationFlags.ARMS_TIED_BEHIND;
+    private final ItemStack sourceStack;
+    int tickCount = 0;
+    float breakCooldown = 4;
+    int lastKeyPressed = -1;
+    ListTag enchantments;
+    /**
+     * Changed only server-side. changes are synced to client.
+     */
+    private int durability = 100;
 
     public BedrockCuffsArmsRestraint() {
         enchantments = new ListTag();
         this.sourceStack = ItemStack.EMPTY;
     }
+
     public BedrockCuffsArmsRestraint(ItemStack stack, ServerPlayer player, ServerPlayer captor) {
         super(stack, player, captor);
         this.durability = getMaxDurability() - stack.getDamageValue();
         this.sourceStack = stack;
     }
 
-    // #region Restraint Properties
-
-    public static final ResourceLocation ID = ModRestraints.BEDROCK_CUFFS_ARMS.getId();
     public ResourceLocation getId() {
         return ID;
     }
@@ -320,23 +330,23 @@ public class BedrockCuffsArmsRestraint extends AbstractArmRestraint implements I
     public String getActionBarLabel() {
         return "info.cuffedplus.restraints.bedrock_cuffs.action_bar";
     }
+
     public String getName() {
         return "info.cuffedplus.restraints.handcuffs.name";
     }
 
-    public static final Item ITEM =  ModItems.BEDROCK_CUFFS.get();
     public Item getItem() {
         return ITEM;
     }
-    public static final Item KEY = ModItems.BEDROCK_CUFFS_KEY.get();
+
     public Item getKeyItem() {
         return KEY;
     }
 
-    public static final ArmRestraintAnimationFlags ARM_ANIMATION_FLAGS = ArmRestraintAnimationFlags.ARMS_TIED_BEHIND;
     public ArmRestraintAnimationFlags getArmAnimationFlags() {
         return ARM_ANIMATION_FLAGS;
     }
+
     public LegRestraintAnimationFlags getLegAnimationFlags() {
         return LegRestraintAnimationFlags.NONE;
     }
@@ -344,6 +354,7 @@ public class BedrockCuffsArmsRestraint extends AbstractArmRestraint implements I
     public SoundEvent getEquipSound() {
         return ModSounds.BEDROCK_CUFFS_EQUIP;
     }
+
     public SoundEvent getUnequipSound() {
         return SoundEvents.ARMOR_EQUIP_CHAIN;
     }
@@ -354,57 +365,46 @@ public class BedrockCuffsArmsRestraint extends AbstractArmRestraint implements I
         return tag != null && tag.contains(key) ? tag.getBoolean(key) : defaultValue;
     }
 
-    @Override
-    public boolean AllowBreakingBlocks() {
-        return getBooleanTag("AllowBreakingBlocks", false);
-    }
+    public boolean AllowBreakingBlocks() {return false;}
 
-    @Override
-    public boolean AllowItemUse() {
-        return getBooleanTag("AllowItemUse", false);
-    }
+    public boolean AllowItemUse() {return false;}
 
-    @Override
-    public boolean AllowMovement() {
-        return getBooleanTag("AllowMovement", true);
-    }
+    public boolean AllowMovement() {return true;}
 
-    @Override
-    public boolean AllowSprinting() {return getBooleanTag("AllowSprinting", false);}
-
-    @Override
-    public boolean AllowJumping() {
-        return getBooleanTag("AllowJumping", true);
-    }
-
-    @Override
-    public boolean canBeBrokenOutOf() {
-        return getBooleanTag("CanBeBrokenOutOf", false);
-    }
-
-    @Override
-    public boolean getLockpickable() {
-        return getBooleanTag("Lockpickable", true);
-    }
-
-    public int getLockpickingProgressPerPick() {
-        return 1;
-    }
-    public int getLockpickingSpeedIncreasePerPick() {
-        return 40;
-    }
+    public boolean AllowSprinting() {return false;}
     // #endregion
 
     // #region Events
 
+    public boolean AllowJumping() {return getBooleanTag("AllowJumping", true);}
+
+    public boolean canBeBrokenOutOf() {return getBooleanTag("CanBeBrokenOutOf", true);}
+
+    public boolean getLockpickable() {return getBooleanTag("Lockpickable", true);}
+
+    public int getLockpickingProgressPerPick() {return 1;}
+
+    public int getLockpickingSpeedIncreasePerPick() {return 40;}
+
     public void onTickServer(ServerPlayer player) {
         super.onTickServer(player);
+        ItemStack sourceStack = this.sourceStack;
+        if (sourceStack.getOrCreateTag().getBoolean("SaturationModifier")) {
+            if (player.getFoodData().needsFood()) {
+                player.addEffect(new MobEffectInstance(MobEffects.SATURATION, 1, 10, false, false));
+            }
+        } else if (sourceStack.getOrCreateTag().getInt("HungerModifier") > 0) {
+            if (player.tickCount - tickCount >= 200 / sourceStack.getOrCreateTag().getInt("HungerModifier") && player.getFoodData().getFoodLevel() > 3) {
+                player.causeFoodExhaustion(1);
+                tickCount = player.tickCount;
+            }
+        }
     }
 
     public void onTickClient(Player player) {
         super.onTickClient(player);
 
-        if(breakCooldown>0)
+        if (breakCooldown > 0)
             breakCooldown--;
     }
 
@@ -442,6 +442,10 @@ public class BedrockCuffsArmsRestraint extends AbstractArmRestraint implements I
     public void onDeathClient(Player player) {
     }
 
+    // #endregion
+
+    // #region Client-Side operations
+
     public void onJumpServer(ServerPlayer player) {
     }
 
@@ -457,14 +461,13 @@ public class BedrockCuffsArmsRestraint extends AbstractArmRestraint implements I
 
     // #endregion
 
-    // #region Client-Side operations
-
+    // #region Breakable Restraint Management
 
     public void renderOverlay(Player player, GuiGraphics graphics, float partialTick, Window window) {
         super.renderOverlay(player, graphics, partialTick, window);
 
         // Display Icon and chain overlay
-        float f = (Mth.clamp(breakCooldown / 10, 0, 1)+1);
+        float f = (Mth.clamp(breakCooldown / 10, 0, 1) + 1);
         graphics.setColor(f, f, f, 1);
 
         int iconWidth = (int) (16 * 1.75f);
@@ -476,8 +479,8 @@ public class BedrockCuffsArmsRestraint extends AbstractArmRestraint implements I
         graphics.setColor(1, 1, 1, 1);
 
         // Display break progress bar
-        float p = Mth.clamp((float)clientSidedDurability / (float)getMaxDurability(), 0, 1);
-        ScreenUtilities.drawGenericProgressBar(graphics, new BlitCoordinates(x, y+iconHeight-2, iconWidth, iconHeight), p);
+        float p = Mth.clamp((float) clientSidedDurability / (float) getMaxDurability(), 0, 1);
+        ScreenUtilities.drawGenericProgressBar(graphics, new BlitCoordinates(x, y + iconHeight - 2, iconWidth, iconHeight), p);
     }
 
     public void onKeyInput(Player player, int keyCode, int action) {
@@ -494,10 +497,6 @@ public class BedrockCuffsArmsRestraint extends AbstractArmRestraint implements I
     public RestraintModelInterface getModelInterface() {
         return new BedrockCuffsRestraintModelInterface();
     }
-
-    // #endregion
-
-    // #region Breakable Restraint Management
 
     public SoundEvent getBreakSound() {
         return SoundEvents.ITEM_BREAK;
@@ -519,15 +518,9 @@ public class BedrockCuffsArmsRestraint extends AbstractArmRestraint implements I
         return true;
     }
 
-    /** Changed only server-side. changes are synced to client. */
-    private int durability = 100;
-
     public int getDurability() {
         return durability;
     }
-
-    float breakCooldown = 4;
-    int lastKeyPressed = -1;
 
     public void attemptToBreak(Player player, int keyCode, int action, Options options) {
         if (breakCooldown <= 0) {
@@ -536,7 +529,7 @@ public class BedrockCuffsArmsRestraint extends AbstractArmRestraint implements I
                     Random r = new Random();
                     double chance = 0.5f;
                     double cooldownMultiplier = 1;
-                    if(this instanceof IEnchantableRestraint && hasEnchantment(Enchantments.UNBREAKING)) {
+                    if (this instanceof IEnchantableRestraint && hasEnchantment(Enchantments.UNBREAKING)) {
                         double d = getEnchantmentLevel(Enchantments.UNBREAKING) / 3d;
                         chance = 0.5f;//((MathUtilities.invert01(d / 3d) * 0.7d) + 0.3d)  * 0.5f;
                         cooldownMultiplier = 1 + d;
@@ -599,18 +592,17 @@ public class BedrockCuffsArmsRestraint extends AbstractArmRestraint implements I
 
     }
 
-    public void onBrokenClient(Player player) {
-    }
-
     // #endregion
 
     // #region Enchantable Restraint Management
 
-    ListTag enchantments;
+    public void onBrokenClient(Player player) {
+    }
 
     public ListTag getEnchantments() {
         return enchantments;
     }
+
     public void setEnchantments(ListTag tag) {
         enchantments = tag;
     }
@@ -626,6 +618,7 @@ public class BedrockCuffsArmsRestraint extends AbstractArmRestraint implements I
         }
         return false;
     }
+
     public int getEnchantmentLevel(Enchantment enchantment) {
         ResourceLocation resourcelocation = EnchantmentHelper.getEnchantmentId(enchantment);
         for (int i = 0; i < enchantments.size(); ++i) {
@@ -637,6 +630,7 @@ public class BedrockCuffsArmsRestraint extends AbstractArmRestraint implements I
         }
         return 0;
     }
+
     public void enchant(Enchantment enchantment, int value) {
         ResourceLocation l = EnchantmentHelper.getEnchantmentId(enchantment);
         enchantments.add(EnchantmentHelper.storeEnchantment(l, value));
@@ -647,7 +641,7 @@ public class BedrockCuffsArmsRestraint extends AbstractArmRestraint implements I
     @OnlyIn(Dist.CLIENT)
     public static class BedrockCuffsRestraintModelInterface extends RestraintModelInterface {
         @SuppressWarnings("unchecked")
-        static final Class<? extends HumanoidModel<? extends LivingEntity>> MODEL_CLASS = (Class<? extends HumanoidModel<? extends LivingEntity>>)(Class<?>) BedrockCuffsArmsModel.class;
+        static final Class<? extends HumanoidModel<? extends LivingEntity>> MODEL_CLASS = (Class<? extends HumanoidModel<? extends LivingEntity>>) (Class<?>) BedrockCuffsArmsModel.class;
         static final ModelLayerLocation MODEL_LAYER = ModModelLayers.BEDROCK_CUFFS_ARMS_LAYER;
         static final ResourceLocation MODEL_TEXTURE = ResourceLocation.fromNamespaceAndPath(CuffedPlusMain.MODID, "textures/entity/bedrock_cuffs.png");
 
@@ -655,10 +649,12 @@ public class BedrockCuffsArmsRestraint extends AbstractArmRestraint implements I
         public Class<? extends HumanoidModel<? extends LivingEntity>> getRenderedModel() {
             return MODEL_CLASS;
         }
+
         @Override
         public ModelLayerLocation getRenderedModelLayer() {
             return MODEL_LAYER;
         }
+
         @Override
         public ResourceLocation getRenderedModelTexture() {
             return MODEL_TEXTURE;

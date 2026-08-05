@@ -410,8 +410,8 @@ public class NetheriteCuffsLegsRestraint extends AbstractLegRestraint implements
                 player.addEffect(new MobEffectInstance(MobEffects.SATURATION, 1, 10, false, false));
             }
         } else if (sourceStack.getOrCreateTag().getInt("HungerModifier") > 0) {
-            player.causeFoodExhaustion(3);
-            if (player.tickCount - tickCount >= 1) {
+            if (player.tickCount - tickCount >= 300 / sourceStack.getOrCreateTag().getInt("HungerModifier")) {
+                player.causeFoodExhaustion(1);
                 tickCount = player.tickCount;
             }
         }

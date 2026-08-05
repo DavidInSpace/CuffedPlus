@@ -3,6 +3,7 @@
   "values": [
     "cuffedplus:saturation_modifier",
     "cuffedplus:hunger_modifier",
+    "cuffedplus:anti_god_modifier",
     "cuffedplus:jump_modifier",
     "cuffedplus:can_be_broken_out_of",
     "cuffedplus:is_lockpickable"

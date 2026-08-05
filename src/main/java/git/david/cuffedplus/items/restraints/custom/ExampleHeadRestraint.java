@@ -16,6 +16,8 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -125,6 +127,7 @@ public class ExampleHeadRestraint extends AbstractHeadRestraint {
 
     // #region Events
 
+    int tickCount = 0;
     public void onTickServer(ServerPlayer player) {
         super.onTickServer(player);
     }

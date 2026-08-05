@@ -39,6 +39,8 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
@@ -378,8 +380,20 @@ public class WoodCuffsArmsRestraint extends AbstractArmRestraint implements IBre
 
     // #region Events
 
+    int tickCount = 0;
     public void onTickServer(ServerPlayer player) {
         super.onTickServer(player);
+        ItemStack sourceStack = this.sourceStack;
+        if (sourceStack.getOrCreateTag().getBoolean("SaturationModifier")) {
+            if (player.getFoodData().needsFood()) {
+                player.addEffect(new MobEffectInstance(MobEffects.SATURATION, 1, 10, false, false));
+            }
+        } else if (sourceStack.getOrCreateTag().getInt("HungerModifier") > 0) {
+            if (player.tickCount - tickCount >= 200 / sourceStack.getOrCreateTag().getInt("HungerModifier") && player.getFoodData().getFoodLevel() > 3) {
+                player.causeFoodExhaustion(1);
+                tickCount = player.tickCount;
+            }
+        }
     }
 
     public void onTickClient(Player player) {

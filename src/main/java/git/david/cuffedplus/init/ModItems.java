@@ -121,8 +121,8 @@ public class ModItems {
     public static final RegistryObject<Item> HUNGER_MODIFIER = ITEMS.register("hunger_modifier",
             () -> new ModifierItem(new Item.Properties().stacksTo(16).rarity(Rarity.UNCOMMON)));
 
-    /* public static final RegistryObject<Item> PROTECTION_MODIFIER = ITEMS.register("protection_modifier",
-            () -> new ModifierItem(new Item.Properties().stacksTo(16).rarity(Rarity.UNCOMMON))); */
+    public static final RegistryObject<Item> ANTI_GOD_MODIFIER = ITEMS.register("anti_god_modifier",
+            () -> new ModifierItem(new Item.Properties().stacksTo(16).rarity(Rarity.UNCOMMON)));
 
     public static final RegistryObject<Item> JUMP_MODIFIER = ITEMS.register("jump_modifier",
             () -> new ModifierItem(new Item.Properties().stacksTo(16).rarity(Rarity.UNCOMMON)));

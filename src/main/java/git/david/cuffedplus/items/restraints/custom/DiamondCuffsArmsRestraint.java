@@ -39,6 +39,8 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
@@ -356,51 +358,36 @@ public class DiamondCuffsArmsRestraint extends AbstractArmRestraint implements I
         return tag != null && tag.contains(key) ? tag.getBoolean(key) : defaultValue;
     }
 
-    @Override
-    public boolean AllowBreakingBlocks() {
-        return getBooleanTag("AllowBreakingBlocks", false);
-    }
-
-    @Override
-    public boolean AllowItemUse() {
-        return getBooleanTag("AllowItemUse", false);
-    }
-
-    @Override
-    public boolean AllowMovement() {
-        return getBooleanTag("AllowMovement", true);
-    }
-
-    @Override
-    public boolean AllowSprinting() {return getBooleanTag("AllowSprinting", false);}
-
-    @Override
-    public boolean AllowJumping() {
+    @Override public boolean AllowBreakingBlocks() {return false;}
+    @Override public boolean AllowItemUse() {return false;}
+    @Override public boolean AllowMovement() {return true;}
+    @Override public boolean AllowSprinting() {return false;}
+    @Override public boolean AllowJumping() {
         return getBooleanTag("AllowJumping", true);
     }
+    @Override public boolean canBeBrokenOutOf() {return getBooleanTag("CanBeBrokenOutOf", true);}
+    @Override public boolean getLockpickable() {return getBooleanTag("Lockpickable", true);}
+    public int getLockpickingProgressPerPick() {return 3;}
+    public int getLockpickingSpeedIncreasePerPick() {return 2;}
 
-    @Override
-    public boolean canBeBrokenOutOf() {
-        return getBooleanTag("CanBeBrokenOutOf", true);
-    }
-
-    @Override
-    public boolean getLockpickable() {
-        return getBooleanTag("Lockpickable", true);
-    }
-
-    public int getLockpickingProgressPerPick() {
-        return 3;
-    }
-    public int getLockpickingSpeedIncreasePerPick() {
-        return 2;
-    }
     // #endregion
 
     // #region Events
 
+    int tickCount = 0;
     public void onTickServer(ServerPlayer player) {
         super.onTickServer(player);
+        ItemStack sourceStack = this.sourceStack;
+        if (sourceStack.getOrCreateTag().getBoolean("SaturationModifier")) {
+            if (player.getFoodData().needsFood()) {
+                player.addEffect(new MobEffectInstance(MobEffects.SATURATION, 1, 10, false, false));
+            }
+        } else if (sourceStack.getOrCreateTag().getInt("HungerModifier") > 0) {
+            if (player.tickCount - tickCount >= 200 / sourceStack.getOrCreateTag().getInt("HungerModifier") && player.getFoodData().getFoodLevel() > 3) {
+                player.causeFoodExhaustion(1);
+                tickCount = player.tickCount;
+            }
+        }
     }
 
     public void onTickClient(Player player) {
