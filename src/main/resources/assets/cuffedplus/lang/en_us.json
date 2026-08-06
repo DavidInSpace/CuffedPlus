@@ -33,7 +33,7 @@
 
   "item.cuffedplus.saturation_modifier": "Saturation Modifier",
   "item.cuffedplus.hunger_modifier": "Hunger Modifier ",
-  "item.cuffedplus.protection_modifier": "Protection Modifier",
+  "item.cuffedplus.anti_god_modifier": "Anti-God Modifier",
   "item.cuffedplus.jump_modifier": "Jump Modifier",
   "item.cuffedplus.can_be_broken_out_of": "Breakable Modifier",
   "item.cuffedplus.is_lockpickable": "Lockpickable Modifier",

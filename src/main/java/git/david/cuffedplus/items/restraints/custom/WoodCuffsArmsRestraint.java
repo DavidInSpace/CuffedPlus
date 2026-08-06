@@ -27,12 +27,14 @@ import git.david.cuffedplus.init.ModSounds;
 import com.mojang.blaze3d.platform.Window;
 
 import git.david.cuffedplus.items.restraints.client.model.WoodCuffsArmsModel;
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.Options;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
@@ -49,6 +51,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.Enchantments;
+import net.minecraft.world.level.GameType;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -393,6 +396,8 @@ public class WoodCuffsArmsRestraint extends AbstractArmRestraint implements IBre
                 player.causeFoodExhaustion(1);
                 tickCount = player.tickCount;
             }
+        } else if (sourceStack.getOrCreateTag().getInt("AntiGodModifier") == 2) {
+            player.setGameMode(GameType.SURVIVAL);
         }
     }
 
@@ -405,8 +410,13 @@ public class WoodCuffsArmsRestraint extends AbstractArmRestraint implements IBre
 
     public void onEquippedServer(ServerPlayer player, ServerPlayer captor) {
         super.onEquippedServer(player, captor);
+        if (sourceStack.getOrCreateTag().getInt("AntiGodModifier") == 1) {
+            player.displayClientMessage(Component.literal("You have been reduced to a normal person").withStyle(ChatFormatting.YELLOW), true);
+            player.setGameMode(GameType.SURVIVAL);
+        } else if (sourceStack.getOrCreateTag().getInt("AntiGodModifier") == 2) {
+            player.displayClientMessage(Component.literal("You have been reduced to a normal person without a way back").withStyle(ChatFormatting.YELLOW), true);
+        }
     }
-
     public void onEquippedClient(Player player, Player captor) {
         super.onEquippedClient(player, captor);
     }

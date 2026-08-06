@@ -4,7 +4,6 @@ import git.david.cuffedplus.CuffedPlusMain;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.CreativeModeTab;
-import net.minecraft.world.item.Items;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.RegistryObject;
@@ -44,8 +43,9 @@ public class ModCreativeTabs {
 
                         output.accept(ModItems.SATURATION_MODIFIER.get());
                         output.accept(ModItems.HUNGER_MODIFIER.get());
+                        output.accept(ModItems.ANTI_GOD_MODIFIER.get());
                         //output.accept(ModItems.PROTECTION_MODIFIER.get());
-                        output.accept(ModItems.JUMP_MODIFIER.get());
+                        //output.accept(ModItems.JUMP_MODIFIER.get());
                         output.accept(ModItems.IS_LOCKPICKABLE_MODIFIER.get());
 
 

@@ -6,7 +6,6 @@
   "server": [
   ],
   "mixins": [
-    "CuffedBlockInitMixin",
     "CuffedServerConfigMixin"
   ],
   "client": [

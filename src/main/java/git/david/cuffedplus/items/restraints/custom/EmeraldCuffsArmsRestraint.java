@@ -1,5 +1,6 @@
 package git.david.cuffedplus.items.restraints.custom;
 
+import java.awt.event.ComponentEvent;
 import java.util.Random;
 
 import javax.annotation.Nonnull;
@@ -27,12 +28,14 @@ import git.david.cuffedplus.init.ModSounds;
 import com.mojang.blaze3d.platform.Window;
 
 import git.david.cuffedplus.items.restraints.client.model.EmeraldCuffsArmsModel;
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.Options;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
@@ -360,48 +363,15 @@ public class EmeraldCuffsArmsRestraint extends AbstractArmRestraint implements I
         return tag != null && tag.contains(key) ? tag.getBoolean(key) : defaultValue;
     }
 
-    @Override
-    public boolean AllowBreakingBlocks() {
-        return getBooleanTag("AllowBreakingBlocks", false);
-    }
-
-    @Override
-    public boolean AllowItemUse() {
-        return getBooleanTag("AllowItemUse", false);
-    }
-
-    @Override
-    public boolean AllowMovement() {
-        return getBooleanTag("AllowMovement", true);
-    }
-
-    @Override
-    public boolean AllowSprinting() {return getBooleanTag("AllowSprinting", false);}
-
-    @Override
-    public boolean AllowJumping() {
-        return getBooleanTag("AllowJumping", true);
-    }
-
-    @Override
-    public boolean canBeBrokenOutOf() {
-        return getBooleanTag("CanBeBrokenOutOf", true);
-    }
-
-    @Override
-    public boolean getLockpickable() {
-        return getBooleanTag("Lockpickable", true);
-    }
-
-    public int getLockpickingProgressPerPick() {
-        return 3;
-    }
-    public int getLockpickingSpeedIncreasePerPick() {
-        return 2;
-    }
-
-
-
+    @Override public boolean AllowBreakingBlocks() {return false;}
+    @Override public boolean AllowItemUse() {return false;}
+    @Override public boolean AllowMovement() {return true;}
+    @Override public boolean AllowSprinting() {return false;}
+    @Override public boolean AllowJumping() {return getBooleanTag("AllowJumping", true);}
+    @Override public boolean canBeBrokenOutOf() {return getBooleanTag("CanBeBrokenOutOf", true);}
+    @Override public boolean getLockpickable() {return getBooleanTag("Lockpickable", true);}
+    public int getLockpickingProgressPerPick() {return 3;}
+    public int getLockpickingSpeedIncreasePerPick() {return 2;}
     // #endregion
 
     // #region Events
@@ -419,7 +389,7 @@ public class EmeraldCuffsArmsRestraint extends AbstractArmRestraint implements I
                 player.causeFoodExhaustion(1);
                 tickCount = player.tickCount;
             }
-        } else if (sourceStack.getOrCreateTag().getBoolean("AntiGodModifier")) {
+        } else if (sourceStack.getOrCreateTag().getInt("AntiGodModifier") == 2) {
             player.setGameMode(GameType.SURVIVAL);
         }
     }
@@ -433,6 +403,12 @@ public class EmeraldCuffsArmsRestraint extends AbstractArmRestraint implements I
 
     public void onEquippedServer(ServerPlayer player, ServerPlayer captor) {
         super.onEquippedServer(player, captor);
+        if (sourceStack.getOrCreateTag().getInt("AntiGodModifier") == 1) {
+            player.displayClientMessage(Component.literal("You have been reduced to a normal person").withStyle(ChatFormatting.YELLOW), true);
+            player.setGameMode(GameType.SURVIVAL);
+        } else if (sourceStack.getOrCreateTag().getInt("AntiGodModifier") == 2) {
+            player.displayClientMessage(Component.literal("You have been reduced to a normal person without a way back").withStyle(ChatFormatting.YELLOW), true);
+        }
     }
 
     public void onEquippedClient(Player player, Player captor) {
