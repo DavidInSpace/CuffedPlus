@@ -37,6 +37,7 @@ public class KeepLockedGearOnDeathLogic {
     @SubscribeEvent
     public void onPlayerRespawn(PlayerEvent.PlayerRespawnEvent event) {
         if (event.getEntity().getServer() == null) return;
+        if (keepItem == null) return;
         if (!(keepItem.getItem() instanceof JumpsuitItem) && !(keepItem.getItem() instanceof AnkleMonitorItem)) return;
         if (!(keepItem.getOrCreateTag().getBoolean("CanBeLocked")) || !(keepItem.getOrCreateTag().getBoolean("Locked"))) return;
         if (!config.keepLockedGearOnDeath()) return;
@@ -50,6 +51,7 @@ public class KeepLockedGearOnDeathLogic {
     @SubscribeEvent
     public void onPlayerDropItem(LivingDropsEvent event) {
         if (event.getEntity().getServer() == null) return;
+        if (keepItem == null) return;
         if (!(event.getEntity() instanceof Player)) return;
         if (!(keepItem.getItem() instanceof JumpsuitItem) && !(keepItem.getItem() instanceof AnkleMonitorItem)) return;
         if (!(keepItem.getOrCreateTag().getBoolean("CanBeLocked")) || !(keepItem.getOrCreateTag().getBoolean("Locked"))) return; // If the jumpsuit isnt locked return
