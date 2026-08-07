@@ -1,18 +1,11 @@
-package git.david.cuffedplus.items.item;
+package git.david.cuffedplus.items.item.base;
 
-import com.lazrproductions.cuffed.api.CuffedAPI;
-import com.lazrproductions.cuffed.cap.RestrainableCapability;
 import com.lazrproductions.cuffed.items.base.AbstractRestraintItem;
-import com.lazrproductions.cuffed.restraints.RestraintAPI;
-import com.lazrproductions.cuffed.restraints.base.AbstractArmRestraint;
-import com.lazrproductions.cuffed.restraints.base.RestraintType;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.event.TickEvent;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;

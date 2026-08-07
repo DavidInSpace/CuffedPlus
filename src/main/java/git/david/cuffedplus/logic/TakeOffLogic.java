@@ -2,15 +2,14 @@ package git.david.cuffedplus.logic;
 
 import com.lazrproductions.cuffed.CuffedMod;
 import git.david.cuffedplus.config.ICuffedPlusServerConfigMixin;
-import git.david.cuffedplus.items.item.AnkleMonitorItem;
-import git.david.cuffedplus.items.item.JumpsuitItem;
+import git.david.cuffedplus.items.item.base.AnkleMonitorItem;
+import git.david.cuffedplus.items.item.base.JumpsuitItem;
 import git.david.cuffedplus.utils.GeneralUtils;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.AirItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -65,7 +64,7 @@ public class TakeOffLogic {
         }
 
         if (config.getOtherPlayersJumpsuitBehavior().equals("onlyPutOn".toLowerCase()) || (config.getOtherPlayersJumpsuitBehavior().equals("none"))) {
-            user.displayClientMessage(Component.literal("× You can not put jumpsuits on other players ×").withStyle(ChatFormatting.RED), true);
+            user.displayClientMessage(Component.literal("× You can not take jumpsuits off other players ×").withStyle(ChatFormatting.RED), true);
             return ;
         }
 
@@ -74,8 +73,7 @@ public class TakeOffLogic {
             return;
         }
 
-        ItemStack suit = target.getItemBySlot(EquipmentSlot.CHEST).copyAndClear();
-
+        ItemStack suit = target.getItemBySlot(EquipmentSlot.CHEST).copy();
         suit.setCount(1);
         boolean added = user.getInventory().add(suit);
         target.getItemBySlot(EquipmentSlot.CHEST).setCount(0);
@@ -123,17 +121,16 @@ public class TakeOffLogic {
         }
 
         if (config.getOtherPlayersAnkleMonitorBehavior().equals("onlyPutOn".toLowerCase()) || (config.getOtherPlayersAnkleMonitorBehavior().equals("none"))) {
-            user.displayClientMessage(Component.literal("× You can not put jumpsuits on other players ×").withStyle(ChatFormatting.RED), true);
+            user.displayClientMessage(Component.literal("× You can not take ankle monitors off other players ×").withStyle(ChatFormatting.RED), true);
             return ;
         }
 
         if (user.getTags().contains("prisoner") && config.getOtherPrisonersAnkleMonitorBehavior().equals("onlyPutOn".toLowerCase()) || config.getOtherPrisonersAnkleMonitorBehavior().equals("none")) {
-            user.displayClientMessage(Component.literal("× Your are a prisoner!  Prisoners can not take off other players jumpsuit ×").withStyle(ChatFormatting.RED), true);
+            user.displayClientMessage(Component.literal("× Your are a prisoner!  Prisoners can not take off other players ankle monitor ×").withStyle(ChatFormatting.RED), true);
             return;
         }
 
-        ItemStack monitor = target.getItemBySlot(EquipmentSlot.CHEST).copyAndClear();
-
+        ItemStack monitor = target.getItemBySlot(EquipmentSlot.FEET).copy();
         monitor.setCount(1);
         boolean added = user.getInventory().add(monitor);
         target.getItemBySlot(EquipmentSlot.FEET).setCount(0);

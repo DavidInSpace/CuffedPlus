@@ -1,4 +1,4 @@
-package git.david.cuffedplus.items.item;
+package git.david.cuffedplus.items.item.base;
 
 import com.lazrproductions.cuffed.CuffedMod;
 import git.david.cuffedplus.config.ICuffedPlusServerConfigMixin;

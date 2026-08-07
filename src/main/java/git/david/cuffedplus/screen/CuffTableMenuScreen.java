@@ -3,7 +3,7 @@ package git.david.cuffedplus.screen;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import git.david.cuffedplus.init.ModNetwork;
-import git.david.cuffedplus.items.item.JumpsuitItem;
+import git.david.cuffedplus.items.item.base.JumpsuitItem;
 import git.david.cuffedplus.menu.CuffTableMenu;
 import git.david.cuffedplus.net.ApplyJumpsuitSettingsPacket;
 import net.minecraft.client.gui.GuiGraphics;

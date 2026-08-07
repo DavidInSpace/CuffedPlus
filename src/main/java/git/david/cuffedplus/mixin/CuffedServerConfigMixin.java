@@ -85,15 +85,15 @@ public abstract class CuffedServerConfigMixin extends LazrConfig implements ICuf
 
             PLAYERS_JUMPSUIT_AND_ANKLE_MONITOR_BEHAVIOR_SETTINGS = createCategory(new ConfigCategory(this, "Players Jumpsuit & Ankle Monitor Behavior"), (c3) -> {
                 GET_OWN_PLAYERS_JUMPSUIT_BEHAVIOR = c3.putProperty(new ConfigProperty<String>(this, "Other Players Jumpsuit Behavior", "Controls the interaction for taking and putting jumpsuits on and off other players (Options: \"none\", \"onlyPutOn\", \"onlyTakeOff\", \"both\").", "both"));
-                // GET_OWN_PLAYERS_ANKLE_MONITOR_BEHAVIOR = c3.putProperty(new ConfigProperty<String>(this, "Other Players Ankle Monitor Behavior", "Controls the interaction for taking and putting ankle monitors on and off other players (Options: \"none\", \"onlyPutOn\", \"onlyTakeOff\", \"both\").", "both"));
+                GET_OWN_PLAYERS_ANKLE_MONITOR_BEHAVIOR = c3.putProperty(new ConfigProperty<String>(this, "Other Players Ankle Monitor Behavior", "Controls the interaction for taking and putting ankle monitors on and off other players (Options: \"none\", \"onlyPutOn\", \"onlyTakeOff\", \"both\").", "both"));
 
                 GET_PLAYERS_OWN_JUMPSUIT_LOCK_BEHAVIOR = c3.putProperty(new ConfigProperty<String>(this, "Own Jumpsuit Lock Behavior", "Controls the interaction for locking and unlocking your own jumpsuit (Options: \"none\", \"onlyLock\", \"onlyUnlock\", \"both\").", "both"));
-                // GET_PLAYERS_OWN_ANKLE_MONITOR_LOCK_BEHAVIOR = c3.putProperty(new ConfigProperty<String>(this, "Own Ankle Monitor Lock Behavior", "Controls the interaction for locking and unlocking your own ankle monitor (Options: \"none\", \"onlyLock\", \"onlyUnlock\", \"both\").", "both"));
+                GET_PLAYERS_OWN_ANKLE_MONITOR_LOCK_BEHAVIOR = c3.putProperty(new ConfigProperty<String>(this, "Own Ankle Monitor Lock Behavior", "Controls the interaction for locking and unlocking your own ankle monitor (Options: \"none\", \"onlyLock\", \"onlyUnlock\", \"both\").", "both"));
                 GET_OTHER_PLAYERS_JUMPSUIT_LOCK_BEHAVIOR = c3.putProperty(new ConfigProperty<String>(this, "Other Players Jumpsuit Lock Behavior", "Controls the interaction for locking and unlocking jumpsuits on other players (Options: \"none\", \"onlyLock\", \"onlyUnlock\", \"both\").", "both"));
-                // GET_OTHER_PLAYERS_ANKLE_MONITOR_LOCK_BEHAVIOR = c3.putProperty(new ConfigProperty<String>(this, "Other Players Ankle Monitor Lock Behavior", "Controls the interaction for locking and unlocking ankle monitors on other players  (Options: \"none\", \"onlyLock\", \"onlyUnlock\", \"both\")", "both"));
+                GET_OTHER_PLAYERS_ANKLE_MONITOR_LOCK_BEHAVIOR = c3.putProperty(new ConfigProperty<String>(this, "Other Players Ankle Monitor Lock Behavior", "Controls the interaction for locking and unlocking ankle monitors on other players  (Options: \"none\", \"onlyLock\", \"onlyUnlock\", \"both\")", "both"));
 
-                // GET_PLAYERS_OWN_TRACKER_BINDING_BEHAVIOR = c3.putProperty(new ConfigProperty<String>(this, "Own Tracker Binding", "Controls the interaction for binding and unbinding your own ankle monitor (Options: \"none\", \"onlyBind\", \"onlyUnbind\", \"both\")", "both"));
-                // GET_OTHER_PLAYERS_TRACKER_BINDING_BEHAVIOR = c3.putProperty(new ConfigProperty<String>(this, "Other Players Tracker Binding Behavior", "Controls the interaction for binding and unbinding ankle monitor on other players (Options: \"none\", \"onlyBind\", \"onlyUnbind\", \"both\")", "both"));
+                GET_PLAYERS_OWN_TRACKER_BINDING_BEHAVIOR = c3.putProperty(new ConfigProperty<String>(this, "Own Tracker Binding", "Controls the interaction for binding and unbinding your own ankle monitor (Options: \"none\", \"onlyBind\", \"onlyUnbind\", \"both\")", "both"));
+                GET_OTHER_PLAYERS_TRACKER_BINDING_BEHAVIOR = c3.putProperty(new ConfigProperty<String>(this, "Other Players Tracker Binding Behavior", "Controls the interaction for binding and unbinding ankle monitor on other players (Options: \"none\", \"onlyBind\", \"onlyUnbind\", \"both\")", "both"));
 
             });
 

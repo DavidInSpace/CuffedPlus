@@ -1,4 +1,4 @@
-package git.david.cuffedplus.items.item;
+package git.david.cuffedplus.items.item.base;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
@@ -11,10 +11,10 @@ import javax.annotation.Nullable;
 import java.util.List;
 
 
-public class JumpsuitModifierItem extends Item {
+public class GearModifierItem extends Item {
 
 
-    public JumpsuitModifierItem(Properties properties) {
+    public GearModifierItem(Properties properties) {
         super(properties);
     }
 

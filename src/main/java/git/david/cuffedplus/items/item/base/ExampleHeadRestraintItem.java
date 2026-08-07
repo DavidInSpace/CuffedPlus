@@ -1,7 +1,6 @@
-package git.david.cuffedplus.items.item;
+package git.david.cuffedplus.items.item.base;
 
 import com.lazrproductions.cuffed.items.base.AbstractRestraintItem;
-import net.minecraft.world.item.Item;
 
 public class ExampleHeadRestraintItem extends AbstractRestraintItem {
 

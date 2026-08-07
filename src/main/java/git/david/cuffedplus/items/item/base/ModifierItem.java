@@ -1,4 +1,4 @@
-package git.david.cuffedplus.items.item;
+package git.david.cuffedplus.items.item.base;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;

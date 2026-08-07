@@ -1,7 +1,7 @@
 package git.david.cuffedplus.logic;
 
-import git.david.cuffedplus.items.item.AnkleMonitorItem;
-import git.david.cuffedplus.items.item.JumpsuitItem;
+import git.david.cuffedplus.items.item.base.AnkleMonitorItem;
+import git.david.cuffedplus.items.item.base.JumpsuitItem;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.EquipmentSlot;

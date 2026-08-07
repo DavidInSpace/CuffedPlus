@@ -1,15 +1,15 @@
-package git.david.cuffedplus.items.item;
+package git.david.cuffedplus.items.item.base;
 
 import com.lazrproductions.cuffed.CuffedMod;
 import git.david.cuffedplus.config.ICuffedPlusServerConfigMixin;
 import git.david.cuffedplus.init.ModModelLayers;
 import git.david.cuffedplus.items.restraints.client.model.AnkleMonitorModel;
+import git.david.cuffedplus.utils.GeneralUtils;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.network.chat.Component;
-import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionResultHolder;
@@ -113,7 +113,7 @@ public class AnkleMonitorItem extends ArmorItem {
 
             user.displayClientMessage(Component.literal("Trying to take off"), false);
             if (targetFeet.getOrCreateTag().getBoolean("CanBeLocked") && targetFeet.getOrCreateTag().getBoolean("Locked")) {
-                user.displayClientMessage(Component.literal("🔒 " + target.getDisplayName() + "'s jumpsuit is locked on him! 🔒").withStyle(ChatFormatting.RED), true);
+                user.displayClientMessage(Component.literal("🔒 " + target.getDisplayName() + "'s ankle monitor is locked on them! 🔒").withStyle(ChatFormatting.RED), true);
                 return InteractionResult.FAIL;
             }
 
@@ -175,8 +175,23 @@ public class AnkleMonitorItem extends ArmorItem {
             String ownerName;
             ownerName = stack.getOrCreateTag().getString("ownerName");
 
-            tooltip.add(Component.literal("Owner: ").withStyle(ChatFormatting.GRAY).append(Component.literal(ownerName).withStyle(ChatFormatting.YELLOW)));
+            tooltip.add(Component.literal("Owner: ").withStyle(ChatFormatting.GRAY).append(Component.literal(GeneralUtils.extractPlayerName(ownerName)).withStyle(ChatFormatting.YELLOW)));
 
+
+            if (stack.getOrCreateTag().getBoolean("CanBeLocked") && stack.getOrCreateTag().getBoolean("Locked")) {
+                tooltip.add(Component.literal("Locked 🔒").withStyle(ChatFormatting.RED));
+            } else if (stack.getOrCreateTag().getBoolean("CanBeLocked") && !stack.getOrCreateTag().getBoolean("Locked")) {
+                tooltip.add(Component.literal("Unlocked 🔓").withStyle(ChatFormatting.GREEN));
+            }
+
+            tooltip.add(Component.literal(""));
+            tooltip.add(Component.literal("Modifiers:").withStyle(ChatFormatting.DARK_GRAY));
+
+            if (stack.getOrCreateTag().getBoolean("HighVisibility")) {
+                tooltip.add(Component.literal("High Visibility").withStyle(ChatFormatting.YELLOW));
+            } else {
+                tooltip.remove(Component.literal("High Visibility").withStyle(ChatFormatting.YELLOW));
+            }
             super.appendHoverText(stack, level, tooltip, flag);
         }
     }

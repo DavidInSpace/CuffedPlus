@@ -1,7 +1,8 @@
-package git.david.cuffedplus.items.item;
+package git.david.cuffedplus.items.item.base;
 
 import com.lazrproductions.cuffed.CuffedMod;
 import git.david.cuffedplus.config.ICuffedPlusServerConfigMixin;
+import git.david.cuffedplus.utils.GeneralUtils;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
@@ -16,8 +17,6 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.event.entity.player.PlayerInteractEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
@@ -42,6 +41,7 @@ public class JumpsuitKey extends Item {
         if (level.isClientSide) return InteractionResultHolder.fail(itemInHand);
         if (!(currentChest.getItem() instanceof JumpsuitItem) || !currentChest.getOrCreateTag().getBoolean("CanBeLocked")) return InteractionResultHolder.fail(itemInHand);
 
+
         if (currentChest.getOrCreateTag().getBoolean("Locked")) {
 
 
@@ -59,7 +59,7 @@ public class JumpsuitKey extends Item {
                 return InteractionResultHolder.fail(itemInHand);
             }
 
-
+            player.displayClientMessage(Component.literal("🔓 Unlocked your jumpsuit 🔓").withStyle(ChatFormatting.GREEN), true);
             player.playSound(SoundEvents.ARMOR_EQUIP_CHAIN, 1, 1.5F);
             currentChest.getOrCreateTag().putBoolean("Locked", false);
 
@@ -75,6 +75,7 @@ public class JumpsuitKey extends Item {
                 return InteractionResultHolder.fail(itemInHand);
             }
 
+            player.displayClientMessage(Component.literal("🔒 Locked your jumpsuit 🔒").withStyle(ChatFormatting.RED), true);
             player.playSound(SoundEvents.ARMOR_EQUIP_CHAIN, 1, (float) (0.5F + Math.random() / 5));
             currentChest.getOrCreateTag().putBoolean("Locked", true);
 
@@ -91,6 +92,8 @@ public class JumpsuitKey extends Item {
         if (user.isCrouching()) return InteractionResult.FAIL;
         if (user.level().isClientSide && !(target instanceof Player)) return InteractionResult.FAIL;
         if (!(targetChest.getItem() instanceof JumpsuitItem) || !(targetChest.getOrCreateTag().getBoolean("CanBeLocked"))) return InteractionResult.FAIL;
+        if (!(target instanceof Player)) return InteractionResult.FAIL;
+
 
         if (targetChest.getOrCreateTag().getBoolean("Locked")) {
 
@@ -123,13 +126,14 @@ public class JumpsuitKey extends Item {
                 return InteractionResult.FAIL;
             }
 
+            user.displayClientMessage(Component.literal("🔒 Locked " + GeneralUtils.extractPlayerName(target.getName().getString()) + " jumpsuit 🔒").withStyle(ChatFormatting.RED), true);
+            ((Player) target).displayClientMessage(Component.literal("🔒 Your jumpsuit is now locked 🔒").withStyle(ChatFormatting.RED), true);
             target.playSound(SoundEvents.ARMOR_EQUIP_CHAIN, 1, (float) (0.5F + Math.random() / 5));
             user.playSound(SoundEvents.ARMOR_EQUIP_CHAIN, 1, (float) (0.5F + Math.random() / 5));
             targetChest.getOrCreateTag().putBoolean("Locked", true);
         }
 
         return InteractionResult.SUCCESS;
-
     }
 
     @Override

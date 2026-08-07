@@ -1,7 +1,7 @@
 package git.david.cuffedplus.recipes;
 
 import git.david.cuffedplus.init.ModRecipes;
-import git.david.cuffedplus.items.item.JumpsuitItem;
+import git.david.cuffedplus.items.item.base.JumpsuitItem;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.Container;
@@ -17,7 +17,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
-public record JumpsuitModifierRecipe(ResourceLocation id, Ingredient template, Ingredient base, Ingredient addition) implements SmithingRecipe {
+public record GearModifierRecipe(ResourceLocation id, Ingredient template, Ingredient base, Ingredient addition) implements SmithingRecipe {
 
     @Override
     public boolean matches(Container container, @NotNull Level level) {
@@ -28,8 +28,8 @@ public record JumpsuitModifierRecipe(ResourceLocation id, Ingredient template, I
 
     @Override
     public @NotNull ItemStack assemble(Container container, @NotNull RegistryAccess access) {
-        ItemStack jumpsuitModifierItem = container.getItem(0);
-        ResourceLocation modKey = ForgeRegistries.ITEMS.getKey(jumpsuitModifierItem.getItem());
+        ItemStack gearModifierItem = container.getItem(0);
+        ResourceLocation modKey = ForgeRegistries.ITEMS.getKey(gearModifierItem.getItem());
 
         ItemStack baseItem = container.getItem(1).copy();
         baseItem.setCount(1);
@@ -42,8 +42,10 @@ public record JumpsuitModifierRecipe(ResourceLocation id, Ingredient template, I
                 case "cuffedplus:lock_modifier":
                     JumpsuitItem.setCanBeLocked(baseItem, true);
                     JumpsuitItem.setLocked(baseItem, false);
+                    break;
                 case "cuffedplus:high_visibility_modifier":
                     JumpsuitItem.setHighVisibility(baseItem, true);
+                    break;
                 default:
             }
 
@@ -52,8 +54,10 @@ public record JumpsuitModifierRecipe(ResourceLocation id, Ingredient template, I
                 case "cuffedplus:lock_modifier":
                     JumpsuitItem.setCanBeLocked(baseItem, false);
                     JumpsuitItem.setLocked(baseItem, false);
+                    break;
                 case "cuffedplus:high_visibility_modifier":
                     JumpsuitItem.setHighVisibility(baseItem, false);
+                    break;
                 default:
             }
         } else {

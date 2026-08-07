@@ -4,7 +4,6 @@ import com.lazrproductions.cuffed.items.base.AbstractRestraintItem;
 import com.lazrproductions.cuffed.restraints.RestraintAPI;
 import com.lazrproductions.cuffed.restraints.base.AbstractRestraint;
 import git.david.cuffedplus.command.RoleCommand;
-import git.david.cuffedplus.items.item.JumpsuitItem;
 import git.david.cuffedplus.logic.*;
 import git.david.cuffedplus.events.ModClientEvents;
 import git.david.cuffedplus.init.*;

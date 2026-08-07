@@ -2,8 +2,8 @@ package git.david.cuffedplus.logic;
 
 import com.lazrproductions.cuffed.CuffedMod;
 import git.david.cuffedplus.config.ICuffedPlusServerConfigMixin;
-import git.david.cuffedplus.items.item.AnkleMonitorItem;
-import git.david.cuffedplus.items.item.JumpsuitItem;
+import git.david.cuffedplus.items.item.base.AnkleMonitorItem;
+import git.david.cuffedplus.items.item.base.JumpsuitItem;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.item.ItemEntity;

@@ -1,7 +1,7 @@
 package git.david.cuffedplus.recipes;
 
 import git.david.cuffedplus.init.ModRecipes;
-import git.david.cuffedplus.items.item.RestraintItem;
+import git.david.cuffedplus.items.item.base.RestraintItem;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;

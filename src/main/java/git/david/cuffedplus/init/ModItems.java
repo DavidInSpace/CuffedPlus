@@ -5,14 +5,12 @@ import com.lazrproductions.cuffed.items.base.AbstractRestraintKeyItem;
 import git.david.cuffedplus.CuffedPlusMain;
 
 
-import git.david.cuffedplus.items.item.*;
+import git.david.cuffedplus.items.item.base.*;
 import net.minecraft.world.item.*;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
-
-import java.util.Properties;
 
 /*
         Very basic item registry, nothing special to note here :)
@@ -141,15 +139,15 @@ public class ModItems {
 
 
     public static final RegistryObject<Item> LOCK_MODIFIER = ITEMS.register("lock_modifier",
-            () -> new JumpsuitModifierItem(new Item.Properties().stacksTo(16).rarity(Rarity.UNCOMMON)));
+            () -> new GearModifierItem(new Item.Properties().stacksTo(16).rarity(Rarity.UNCOMMON)));
 
     public static final RegistryObject<Item> HIGH_VISIBILITY_MODIFIER = ITEMS.register("high_visibility_modifier",
-            () -> new JumpsuitModifierItem(new Item.Properties().stacksTo(16).rarity(Rarity.UNCOMMON)));
+            () -> new GearModifierItem(new Item.Properties().stacksTo(16).rarity(Rarity.UNCOMMON)));
 
 
     // TODO: Finish this modifier. I want the player to emit actual light when wearing something with this modifier on
     public static final RegistryObject<Item> GLOW_MODIFIER = ITEMS.register("glow_modifier",
-            () -> new JumpsuitModifierItem(new Item.Properties().stacksTo(16).rarity(Rarity.UNCOMMON)));
+            () -> new GearModifierItem(new Item.Properties().stacksTo(16).rarity(Rarity.UNCOMMON)));
 
 
 
@@ -173,7 +171,7 @@ public class ModItems {
 
 
    public static final RegistryObject<Item> ANKLE_MONITOR = ITEMS.register("ankle_monitor",
-           () -> new AnkleMonitorItem(ModArmorMaterials.ANKLE_MONITOR, ArmorItem.Type.BOOTS, new Item.Properties()));
+           () -> new AnkleMonitorItem(ModArmorMaterials.ANKLE_MONITOR, ArmorItem.Type.BOOTS, new Item.Properties().defaultDurability(-1)));
 
     public static final RegistryObject<Item> ANKLE_MONITOR_TRACKER = ITEMS.register("ankle_monitor_tracker",
             () -> new TrackerItem(new Item.Properties().stacksTo(1)));
