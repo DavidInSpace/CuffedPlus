@@ -378,27 +378,12 @@ public class WoodCuffsLegsRestraint extends AbstractLegRestraint implements IBre
     @Override
     public boolean AllowSprinting() {return getBooleanTag("AllowSprinting", false);}
 
-    @Override
-    public boolean AllowJumping() {
-        return getBooleanTag("AllowJumping", false);
-    }
+    @Override public boolean AllowJumping() {return this.sourceStack.getOrCreateTag().getBoolean("AllowJumping");}
+    @Override public boolean canBeBrokenOutOf() {return !this.sourceStack.getOrCreateTag().getBoolean("CanBeBrokenOutOf");}
+    @Override public boolean getLockpickable() {return !this.sourceStack.getOrCreateTag().getBoolean("Lockpickable");}
 
-    @Override
-    public boolean canBeBrokenOutOf() {
-        return getBooleanTag("CanBeBrokenOutOf", true);
-    }
-
-    @Override
-    public boolean getLockpickable() {
-        return getBooleanTag("Lockpickable", true);
-    }
-
-    public int getLockpickingProgressPerPick() {
-        return 3;
-    }
-    public int getLockpickingSpeedIncreasePerPick() {
-        return 2;
-    }
+    public int getLockpickingProgressPerPick() {return 3;}
+    public int getLockpickingSpeedIncreasePerPick() {return 2;}
     // #endregion
 
     // #region Events

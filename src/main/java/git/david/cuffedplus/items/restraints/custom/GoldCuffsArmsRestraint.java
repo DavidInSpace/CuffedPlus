@@ -377,20 +377,9 @@ public class GoldCuffsArmsRestraint extends AbstractArmRestraint implements IBre
 
     public boolean AllowSprinting() {return getBooleanTag("AllowSprinting", false);}
 
-    @Override
-    public boolean AllowJumping() {
-        return getBooleanTag("AllowJumping", true);
-    }
-
-    @Override
-    public boolean canBeBrokenOutOf() {
-        return getBooleanTag("CanBeBrokenOutOf", true);
-    }
-
-    @Override
-    public boolean getLockpickable() {
-        return getBooleanTag("Lockpickable", true);
-    }
+    @Override public boolean AllowJumping() {return !this.sourceStack.getOrCreateTag().getBoolean("AllowJumping");}
+    @Override public boolean canBeBrokenOutOf() {return !this.sourceStack.getOrCreateTag().getBoolean("CanBeBrokenOutOf");}
+    @Override public boolean getLockpickable() {return !this.sourceStack.getOrCreateTag().getBoolean("Lockpickable");}
     public int getLockpickingProgressPerPick() {
         return 3;
     }

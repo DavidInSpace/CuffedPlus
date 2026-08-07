@@ -380,11 +380,9 @@ public class BedrockCuffsLegsRestraint extends AbstractLegRestraint implements I
 
     public boolean AllowSprinting() {return false;}
 
-    public boolean AllowJumping() {return getBooleanTag("AllowJumping", false);}
-
-    public boolean canBeBrokenOutOf() {return getBooleanTag("CanBeBrokenOutOf", false);}
-
-    public boolean getLockpickable() {return getBooleanTag("Lockpickable", false);}
+    @Override public boolean AllowJumping() {return this.sourceStack.getOrCreateTag().getBoolean("AllowJumping");}
+    @Override public boolean canBeBrokenOutOf() {return this.sourceStack.getOrCreateTag().getBoolean("CanBeBrokenOutOf");}
+    @Override public boolean getLockpickable() {return this.sourceStack.getOrCreateTag().getBoolean("Lockpickable");}
 
     public int getLockpickingProgressPerPick() {return 1;}
 

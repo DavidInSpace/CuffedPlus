@@ -366,9 +366,9 @@ public class GoldCuffsLegsRestraint extends AbstractLegRestraint implements IBre
     @Override public boolean AllowItemUse() {return true;}
     @Override public boolean AllowMovement() {return false;}
     public boolean AllowSprinting() {return false;}
-    @Override public boolean AllowJumping() {return getBooleanTag("AllowJumping", false);}
-    @Override public boolean canBeBrokenOutOf() {return getBooleanTag("CanBeBrokenOutOf", true);}
-    @Override public boolean getLockpickable() {return getBooleanTag("Lockpickable", true);}
+    @Override public boolean AllowJumping() {return this.sourceStack.getOrCreateTag().getBoolean("AllowJumping");}
+    @Override public boolean canBeBrokenOutOf() {return !this.sourceStack.getOrCreateTag().getBoolean("CanBeBrokenOutOf");}
+    @Override public boolean getLockpickable() {return !this.sourceStack.getOrCreateTag().getBoolean("Lockpickable");}
 
     public int getLockpickingProgressPerPick() {
         return 3;

@@ -11,6 +11,7 @@ import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
@@ -67,22 +68,73 @@ public class AnkleMonitorItem extends ArmorItem {
         ItemStack currentChest = player.getItemBySlot(EquipmentSlot.FEET);
         assert Minecraft.getInstance().player != null;
 
-        if (!player.isCrouching()) return InteractionResultHolder.fail(itemInHand);
-        if (level.isClientSide) return InteractionResultHolder.pass(itemInHand);
+        if (!player.isCrouching()) return InteractionResultHolder.fail(itemInHand); // Player must be crouching
+        if (level.isClientSide) return InteractionResultHolder.fail(itemInHand);
+        //if (itemInHand.getItem() instanceof ArmorItem && ((ArmorItem) itemInHand.getItem()).getType() == ArmorItem.Type.CHESTPLATE && currentChest.getOrCreateTag().getBoolean("CanBeLocked") && currentChest.getOrCreateTag().getBoolean("Locked")) return InteractionResultHolder.fail(itemInHand);
 
-        ItemStack ankle_monitor = itemInHand.copy();
-        ankle_monitor.setCount(1);
+        ItemStack monitor = itemInHand.copy();
+        monitor.setCount(1);
 
-        player.setItemSlot(EquipmentSlot.FEET, ankle_monitor);
-
-        if (!player.getAbilities().instabuild) {
-            itemInHand.shrink(1);
+        if (!(currentChest.getItem() instanceof AnkleMonitorItem)) {
+            player.setItemSlot(EquipmentSlot.FEET, monitor);
+            if (!player.getAbilities().instabuild) itemInHand.shrink(1);
         }
-
 
         return InteractionResultHolder.success(itemInHand);
     }
 
+
+    @Override
+    public @NotNull InteractionResult interactLivingEntity(@NotNull ItemStack stack, Player user, @NotNull LivingEntity target, @NotNull InteractionHand hand) {
+        ItemStack targetFeet = target.getItemBySlot(EquipmentSlot.FEET);
+
+        if (user.isCrouching()) return InteractionResult.FAIL; // Player must not be crouching
+        if (user.level().isClientSide && !(target instanceof Player)) return InteractionResult.FAIL;
+
+        if (!target.hasItemInSlot(EquipmentSlot.FEET)) {
+
+            if (config.getOtherPlayersAnkleMonitorBehavior().equals("onlyTakeOff".toLowerCase()) || (config.getOtherPlayersAnkleMonitorBehavior().equals("none"))) {
+                user.displayClientMessage(Component.literal("× You can't put ankle monitors on others ×").withStyle(ChatFormatting.GOLD).withStyle(ChatFormatting.BOLD), true);
+                return InteractionResult.FAIL;
+            }
+
+            if (user.getTags().contains("prisoner") && config.getOtherPrisonersAnkleMonitorBehavior().equals("onlyTakeOff".toLowerCase()) || config.getOtherPrisonersAnkleMonitorBehavior().equals("none")) {
+                user.displayClientMessage(Component.literal("× You are a prisoner!  Prisoners can't put ankle monitors on others ×").withStyle(ChatFormatting.GOLD).withStyle(ChatFormatting.BOLD), true);
+                return InteractionResult.FAIL;
+            }
+
+            ItemStack monitor = stack.copy();
+            monitor.setCount(1);
+            target.setItemSlot(EquipmentSlot.FEET, monitor);
+
+            if (!user.getAbilities().instabuild) stack.shrink(1);
+
+        } else if (targetFeet.getItem() instanceof AnkleMonitorItem) {
+
+            user.displayClientMessage(Component.literal("Trying to take off"), false);
+            if (targetFeet.getOrCreateTag().getBoolean("CanBeLocked") && targetFeet.getOrCreateTag().getBoolean("Locked")) {
+                user.displayClientMessage(Component.literal("🔒 " + target.getDisplayName() + "'s jumpsuit is locked on him! 🔒").withStyle(ChatFormatting.RED), true);
+                return InteractionResult.FAIL;
+            }
+
+            ItemStack ankle_monitor = target.getItemBySlot(EquipmentSlot.FEET).copyAndClear();
+
+            ankle_monitor.setCount(1);
+            boolean added = user.getInventory().add(ankle_monitor);
+            target.getItemBySlot(EquipmentSlot.FEET).setCount(0);
+
+            if (!added) user.drop(targetFeet, false);
+
+            ItemStack monitor = stack.copy();
+
+            user.getItemInHand(hand).shrink(1);
+            if (!user.getAbilities().instabuild) stack.shrink(1);
+            target.setItemSlot(EquipmentSlot.FEET, monitor);
+
+
+        }
+        return InteractionResult.SUCCESS;
+    }
 
     public void initializeClient(Consumer<IClientItemExtensions> consumer) {
         consumer.accept(new IClientItemExtensions() {

@@ -42,7 +42,7 @@ public class RestraintItem extends AbstractRestraintItem {
     public static int getAntiGodModifier(ItemStack stack) {return stack.getOrCreateTag().getInt("AntiGodModifier");}
     public static boolean getJumpModifier(ItemStack stack) {return stack.getOrCreateTag().getBoolean("JumpModifier");}
     public static boolean canBeBrokenOutOf(ItemStack stack) {return stack.getOrCreateTag().getBoolean("CanBeBrokenOutOf");}
-    public static boolean isLockpickable(ItemStack stack) {return stack.getOrCreateTag().getBoolean("isLockpickable");}
+    public static boolean isLockpickable(ItemStack stack) {return stack.getOrCreateTag().getBoolean("Lockpickable");}
 
 
 
@@ -86,9 +86,9 @@ public class RestraintItem extends AbstractRestraintItem {
         }
 
         if (isLockpickable(stack)) {
-            tooltip.add(Component.literal("Lockpicking Disabled").withStyle(ChatFormatting.GRAY));
+            tooltip.add(Component.literal("Lock picking Disabled").withStyle(ChatFormatting.YELLOW));
         } else {
-            tooltip.remove(Component.literal("Lockpicking Disabled").withStyle(ChatFormatting.GRAY));
+            tooltip.remove(Component.literal("Lock picking Disabled").withStyle(ChatFormatting.YELLOW));
         }
 
         if (getTimerEnabled(stack)) {

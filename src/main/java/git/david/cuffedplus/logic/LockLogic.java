@@ -59,7 +59,7 @@ public class LockLogic {
 
         if (minecraft.screen != null && (event.getButton() == 0 || event.getButton() == 1) && player != null) {
             if ((minecraft.screen instanceof InventoryScreen || minecraft.screen instanceof CreativeModeInventoryScreen) && hoveringItem != null && hoveringItem.getItem() instanceof JumpsuitItem && hoveringSlot == 38 && hoveringItem.getOrCreateTag().getBoolean("CanBeLocked") && hoveringItem.getOrCreateTag().getBoolean("Locked")) {
-                // GeneralUtils.displayClientMessage(player, String.valueOf(minecraft.screen) + hoveringItem + " " + hoveringItem.getItem() + " " + hoveringSlot + hoveringItem.getOrCreateTag().getBoolean("CanBeLocked") + " " + hoveringItem.getOrCreateTag().getBoolean("Locked"), ChatFormatting.WHITE);
+                GeneralUtils.displayClientMessage(player, String.valueOf(minecraft.screen) + hoveringItem + " " + hoveringItem.getItem() + " " + hoveringSlot + hoveringItem.getOrCreateTag().getBoolean("CanBeLocked") + " " + hoveringItem.getOrCreateTag().getBoolean("Locked"), ChatFormatting.WHITE);
                 player.playSound(SoundEvents.CHAIN_FALL, 1, (float) Math.random() * 1.5F);
                 player.displayClientMessage(Component.literal("🔒 Your jumpsuit is locked!  You can not take it off 🔒").withStyle(ChatFormatting.RED), true);
                 event.setCanceled(true);
@@ -69,7 +69,7 @@ public class LockLogic {
 
 
     @SubscribeEvent
-    public void ankleMonitorInputEvent(InputEvent.MouseButton.Pre event) {
+    public void ankleMonitorLockInputEvent(InputEvent.MouseButton.Pre event) {
         Minecraft minecraft = Minecraft.getInstance();
         Player player = minecraft.player;
 

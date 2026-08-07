@@ -1,5 +1,6 @@
 package git.david.cuffedplus.logic;
 
+import git.david.cuffedplus.items.item.AnkleMonitorItem;
 import git.david.cuffedplus.items.item.JumpsuitItem;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -13,7 +14,8 @@ public class GearModifiersLogic {
     @SubscribeEvent
     public void onPlayerTick(TickEvent.PlayerTickEvent event) {
         ItemStack itemInChest = event.player.getItemBySlot(EquipmentSlot.CHEST);
-        if (itemInChest.getItem() instanceof JumpsuitItem && itemInChest.getOrCreateTag().getBoolean("HighVisibility")) {
+        ItemStack itemInFeet = event.player.getItemBySlot(EquipmentSlot.FEET);
+        if ((itemInChest.getItem() instanceof JumpsuitItem || itemInFeet.getItem() instanceof AnkleMonitorItem) && itemInChest.getOrCreateTag().getBoolean("HighVisibility")) {
             event.player.addEffect(new MobEffectInstance(MobEffects.GLOWING, 8, 0, false, false));
         }
     }
