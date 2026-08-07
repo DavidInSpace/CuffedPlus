@@ -3,6 +3,7 @@ package git.david.cuffedplus.command;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
+import git.david.cuffedplus.utils.GeneralUtils;
 import net.minecraft.ChatFormatting;
 import net.minecraft.commands.CommandBuildContext;
 import net.minecraft.commands.CommandSourceStack;
@@ -42,12 +43,14 @@ public class RoleCommand {
 
 
             if (player.getTags().contains("prisoner") || player.getTags().contains("officer")) {
-                sender.displayClientMessage(Component.literal(String.valueOf(player.getDisplayName())).withStyle(ChatFormatting.YELLOW), false);
+                sender.displayClientMessage(Component.literal(GeneralUtils.extractPlayerName(String.valueOf(player.getName()))).withStyle(ChatFormatting.YELLOW), false);
                 for (String tag : tags) {
-                    sender.displayClientMessage(Component.literal(tag).withStyle(ChatFormatting.YELLOW), false);
+                    if (tag.equals("prisoner") ||  tag.equals("officer")) {
+                        sender.displayClientMessage(Component.literal(tag).withStyle(ChatFormatting.YELLOW), false);
+                    }
                 }
             } else {
-                sender.displayClientMessage(Component.literal(player.getDisplayName() + " doesn't have any roles").withStyle(ChatFormatting.YELLOW), false);
+                sender.displayClientMessage(Component.literal(GeneralUtils.extractPlayerName(String.valueOf(player.getName())) + " doesn't have any roles").withStyle(ChatFormatting.YELLOW), false);
             }
 
             player.refreshDisplayName();
@@ -67,11 +70,11 @@ public class RoleCommand {
             assert sender != null;
 
             if (player.getTags().contains("prisoner")) {
-                sender.displayClientMessage(Component.literal(player.getDisplayName() + " is already a prisoner").withStyle(ChatFormatting.RED), false);
+                sender.displayClientMessage(Component.literal(GeneralUtils.extractPlayerName(String.valueOf(player.getName())) + " is already a prisoner").withStyle(ChatFormatting.RED), false);
             } else {
                 player.removeTag("officer");
                 player.addTag("prisoner");
-                sender.displayClientMessage(Component.literal(player.getDisplayName() + " is now a prisoner").withStyle(ChatFormatting.GREEN), false);
+                sender.displayClientMessage(Component.literal(GeneralUtils.extractPlayerName(String.valueOf(player.getName())) + " is now a prisoner").withStyle(ChatFormatting.GREEN), false);
                 player.displayClientMessage(Component.literal("You are now a prisoner").withStyle(ChatFormatting.GOLD), false);
             }
 
@@ -92,11 +95,11 @@ public class RoleCommand {
             assert sender != null;
 
             if (player.getTags().contains("officer")) {
-                sender.displayClientMessage(Component.literal(player.getDisplayName() + " is already an officer").withStyle(ChatFormatting.RED), false);
+                sender.displayClientMessage(Component.literal(GeneralUtils.extractPlayerName(String.valueOf(player.getName())) + " is already an officer").withStyle(ChatFormatting.RED), false);
             } else {
                 player.removeTag("prisoner");
                 player.addTag("officer");
-                sender.displayClientMessage(Component.literal(player.getDisplayName() + " is now an officer").withStyle(ChatFormatting.GREEN), false);
+                sender.displayClientMessage(Component.literal(GeneralUtils.extractPlayerName(String.valueOf(player.getName())) + " is now an officer").withStyle(ChatFormatting.GREEN), false);
                 player.displayClientMessage(Component.literal("You are now an officer").withStyle(ChatFormatting.BLUE), false);
             }
 
@@ -117,11 +120,11 @@ public class RoleCommand {
             assert sender != null;
 
             if (!player.getTags().contains("prisoner") && !player.getTags().contains("officer")) {
-                sender.displayClientMessage(Component.literal(player.getDisplayName() + " already doesn't have any role").withStyle(ChatFormatting.RED), false);
+                sender.displayClientMessage(Component.literal(GeneralUtils.extractPlayerName(String.valueOf(player.getName())) + " already doesn't have any role").withStyle(ChatFormatting.RED), false);
             } else {
                 player.removeTag("prisoner");
                 player.removeTag("officer");
-                sender.displayClientMessage(Component.literal(player.getDisplayName() + " doesn't have any role now").withStyle(ChatFormatting.GREEN), false);
+                sender.displayClientMessage(Component.literal(GeneralUtils.extractPlayerName(String.valueOf(player.getName())) + " doesn't have any role now").withStyle(ChatFormatting.GREEN), false);
                 player.displayClientMessage(Component.literal("you don't have any role now").withStyle(ChatFormatting.GOLD), false);
             }
 

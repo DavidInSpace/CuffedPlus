@@ -13,8 +13,6 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 public class RolesLogic {
     static ICuffedPlusServerConfigMixin config = (ICuffedPlusServerConfigMixin) CuffedMod.SERVER_CONFIG;
 
-
-
     // TODO: Figure out how to make so the role colors are taken from the config
     public static Component getFormattedName(Player player, Component originalName) {
         MutableComponent prefix;
@@ -34,7 +32,6 @@ public class RolesLogic {
     @SubscribeEvent
     public void onNameFormat(PlayerEvent.NameFormat event) {
         Player player = event.getEntity();
-        player.displayClientMessage(Component.literal("On Name Format"), false);
         Component originalName = event.getDisplayname();
         Component newName = getFormattedName(player, originalName);
         event.setDisplayname(newName);

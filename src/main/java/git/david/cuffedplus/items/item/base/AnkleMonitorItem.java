@@ -113,7 +113,7 @@ public class AnkleMonitorItem extends ArmorItem {
 
             user.displayClientMessage(Component.literal("Trying to take off"), false);
             if (targetFeet.getOrCreateTag().getBoolean("CanBeLocked") && targetFeet.getOrCreateTag().getBoolean("Locked")) {
-                user.displayClientMessage(Component.literal("🔒 " + target.getDisplayName() + "'s ankle monitor is locked on them! 🔒").withStyle(ChatFormatting.RED), true);
+                user.displayClientMessage(Component.literal("🔒 " + GeneralUtils.extractPlayerName(String.valueOf(target.getName())) + "'s ankle monitor is locked on them! 🔒").withStyle(ChatFormatting.RED), true);
                 return InteractionResult.FAIL;
             }
 
