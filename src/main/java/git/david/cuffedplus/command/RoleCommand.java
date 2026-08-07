@@ -43,9 +43,9 @@ public class RoleCommand {
 
 
             if (player.getTags().contains("prisoner") || player.getTags().contains("officer")) {
-                sender.displayClientMessage(Component.literal(GeneralUtils.extractPlayerName(String.valueOf(player.getName()))).withStyle(ChatFormatting.YELLOW), false);
+                sender.displayClientMessage(Component.literal(GeneralUtils.extractPlayerName(String.valueOf(player.getName())) + " has following roles:").withStyle(ChatFormatting.YELLOW).withStyle(ChatFormatting.BOLD), false);
                 for (String tag : tags) {
-                    if (tag.equals("prisoner") ||  tag.equals("officer")) {
+                    if (tag.equals("prisoner") || tag.equals("officer")) {
                         sender.displayClientMessage(Component.literal(tag).withStyle(ChatFormatting.YELLOW), false);
                     }
                 }
