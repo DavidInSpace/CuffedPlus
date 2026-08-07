@@ -5,6 +5,7 @@
 
 # Cuffed+ Addon
 An addon for the mod Cuffed
+[Download Cuffed+ On Forge](https://www.curseforge.com/minecraft/mc-addons/cuffedplus)
 
 
 > Requires [Cuffed](https://www.curseforge.com/minecraft/mc-mods/cuffed)
