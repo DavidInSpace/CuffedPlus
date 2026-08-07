@@ -1,7 +1,10 @@
 package git.david.cuffedplus.events;
 
 
+import com.lazrproductions.cuffed.entity.base.IRestrainableEntity;
+import com.lazrproductions.cuffed.restraints.custom.DuckTapeHeadRestraint;
 import git.david.cuffedplus.CuffedPlusMain;
+import git.david.cuffedplus.items.restraints.custom.HazardTapeHeadRestraint;
 import git.david.cuffedplus.misc.JumpsuitLayer;
 import git.david.cuffedplus.init.ModMenuTypes;
 import git.david.cuffedplus.screen.CuffTableMenuScreen;
@@ -38,10 +41,13 @@ public class ModClientEvents {
     }
 
 
+
     @SubscribeEvent
     public void chat(ClientChatEvent event) {
         Minecraft instance = Minecraft.getInstance();
-        event.setMessage(mufflifyPhrase(event.getMessage()));
+        if(instance.player instanceof IRestrainableEntity e)
+            if(e.getHeadRestraintId().equals(HazardTapeHeadRestraint.ID))
+                event.setMessage(mufflifyPhrase(event.getMessage()));
     }
 
     static final String[] variants = new String[] { "mph", "mhm", "hmm", "fmp", "mpr", "mrp" };

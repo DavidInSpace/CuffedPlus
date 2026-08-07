@@ -360,23 +360,10 @@ public class GoldCuffsArmsRestraint extends AbstractArmRestraint implements IBre
         return tag != null && tag.contains(key) ? tag.getBoolean(key) : defaultValue;
     }
 
-    @Override
-    public boolean AllowBreakingBlocks() {
-        return getBooleanTag("AllowBreakingBlocks", false);
-    }
-
-    @Override
-    public boolean AllowItemUse() {
-        return getBooleanTag("AllowItemUse", false);
-    }
-
-    @Override
-    public boolean AllowMovement() {
-        return getBooleanTag("AllowMovement", true);
-    }
-
-    public boolean AllowSprinting() {return getBooleanTag("AllowSprinting", false);}
-
+    @Override public boolean AllowBreakingBlocks() {return false;}
+    @Override public boolean AllowItemUse() {return false;}
+    @Override public boolean AllowMovement() {return true;}
+    @Override public boolean AllowSprinting() {return getBooleanTag("AllowSprinting", false);}
     @Override public boolean AllowJumping() {return !this.sourceStack.getOrCreateTag().getBoolean("AllowJumping");}
     @Override public boolean canBeBrokenOutOf() {return !this.sourceStack.getOrCreateTag().getBoolean("CanBeBrokenOutOf");}
     @Override public boolean getLockpickable() {return !this.sourceStack.getOrCreateTag().getBoolean("Lockpickable");}
@@ -485,7 +472,7 @@ public class GoldCuffsArmsRestraint extends AbstractArmRestraint implements IBre
         graphics.setColor(1, 1, 1, 1);
 
         // Display break progress bar
-        float p = Mth.clamp((float)clientSidedDurability / (float)getMaxDurability(), 0, 1);
+        float p = Mth.clamp((float) clientSidedDurability / (float)getMaxDurability(), 0, 1);
         ScreenUtilities.drawGenericProgressBar(graphics, new BlitCoordinates(x, y+iconHeight-2, iconWidth, iconHeight), p);
     }
 
@@ -605,6 +592,7 @@ public class GoldCuffsArmsRestraint extends AbstractArmRestraint implements IBre
             cap.setArmRestraintWithoutWarning(player, null);
         else
             cap.setLegRestraintWithoutWarning(player, null);
+
 
     }
 

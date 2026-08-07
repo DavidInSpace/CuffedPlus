@@ -356,19 +356,13 @@ public class GoldCuffsLegsRestraint extends AbstractLegRestraint implements IBre
         return SoundEvents.ARMOR_EQUIP_CHAIN;
     }
 
-    private boolean getBooleanTag(String key, boolean defaultValue) {
-        if (sourceStack == null || sourceStack.isEmpty()) return defaultValue;
-        CompoundTag tag = sourceStack.getTag();
-        return tag != null && tag.contains(key) ? tag.getBoolean(key) : defaultValue;
-    }
-
-    @Override public boolean AllowBreakingBlocks() {return true;}
-    @Override public boolean AllowItemUse() {return true;}
-    @Override public boolean AllowMovement() {return false;}
+    public boolean AllowBreakingBlocks() {return true;}
+    public boolean AllowItemUse() {return true;}
+    public boolean AllowMovement() {return true;}
     public boolean AllowSprinting() {return false;}
-    @Override public boolean AllowJumping() {return this.sourceStack.getOrCreateTag().getBoolean("AllowJumping");}
-    @Override public boolean canBeBrokenOutOf() {return !this.sourceStack.getOrCreateTag().getBoolean("CanBeBrokenOutOf");}
-    @Override public boolean getLockpickable() {return !this.sourceStack.getOrCreateTag().getBoolean("Lockpickable");}
+    public boolean AllowJumping() {return this.sourceStack.getOrCreateTag().getBoolean("AllowJumping");}
+    public boolean canBeBrokenOutOf() {return !this.sourceStack.getOrCreateTag().getBoolean("CanBeBrokenOutOf");}
+    public boolean getLockpickable() {return !this.sourceStack.getOrCreateTag().getBoolean("Lockpickable");}
 
     public int getLockpickingProgressPerPick() {
         return 3;
