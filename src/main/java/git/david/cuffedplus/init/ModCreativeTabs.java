@@ -54,6 +54,8 @@ public class ModCreativeTabs {
                         output.accept(ModItems.PRISON_JUMPSUIT_2.get());
                         output.accept(ModItems.PRISON_JUMPSUIT_3.get());
                         output.accept(ModItems.JUMPSUIT_KEY.get());
+                        output.accept(ModItems.POLICE_UNIFORM_1.get());
+                        //output.accept(ModItems.POLICE_HAT_1.get());
 
                         output.accept(ModItems.ANKLE_MONITOR.get());
                         output.accept(ModItems.ANKLE_MONITOR_TRACKER.get());
@@ -61,6 +63,7 @@ public class ModCreativeTabs {
 
                         output.accept(ModItems.HIGH_VISIBILITY_MODIFIER.get());
                         output.accept(ModItems.LOCK_MODIFIER.get());
+                        output.accept(ModItems.TIMER_MODIFIER.get());
 
                         //output.accept(ModItems.CUFF_TABLE.get());
 

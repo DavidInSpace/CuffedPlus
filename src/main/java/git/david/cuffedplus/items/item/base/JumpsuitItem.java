@@ -68,13 +68,13 @@ public class JumpsuitItem extends Item {
         return stack.getOrCreateTag().getBoolean("Locked");
     }
 
-    public static void setHighVisibility(ItemStack stack, boolean value) {
-        stack.getOrCreateTag().putBoolean("HighVisibility", value);
-    }
+    public static void setHighVisibility(ItemStack stack, boolean value) {stack.getOrCreateTag().putBoolean("HighVisibility", value);}
 
-    public static boolean getHighVisibility(ItemStack stack) {
-        return stack.getOrCreateTag().getBoolean("HighVisibility");
-    }
+    public static boolean getHighVisibility(ItemStack stack) {return stack.getOrCreateTag().getBoolean("HighVisibility");}
+
+    public static void setGlowing(ItemStack stack, int value)  {stack.getOrCreateTag().putInt("Glowing", value);}
+    public static int getGlowing(ItemStack stack) { return stack.getOrCreateTag().getInt("Glowing");}
+
 
     @Override
     public boolean isFoil(@NotNull ItemStack pStack) {
@@ -174,6 +174,12 @@ public class JumpsuitItem extends Item {
             tooltip.add(Component.literal("High Visibility").withStyle(ChatFormatting.YELLOW));
         } else {
             tooltip.remove(Component.literal("High Visibility").withStyle(ChatFormatting.YELLOW));
+        }
+
+        if (stack.getOrCreateTag().getInt("Glowing") > 0) {
+            tooltip.add(Component.literal("Glowing " + getGlowing(stack)).withStyle(ChatFormatting.YELLOW));
+        } else {
+            tooltip.remove(Component.literal("Glowing " + getGlowing(stack)).withStyle(ChatFormatting.YELLOW));
         }
 
         //tooltip.add(Component.literal("Number: " + number).withStyle(ChatFormatting.GRAY));

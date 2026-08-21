@@ -14,9 +14,7 @@ import java.util.List;
 public class GearModifierItem extends Item {
 
 
-    public GearModifierItem(Properties properties) {
-        super(properties);
-    }
+    public GearModifierItem(Properties properties) {super(properties);}
 
     public static String getJumpsuitModifierName(ItemStack stack) {
         return String.valueOf(stack.getItem());

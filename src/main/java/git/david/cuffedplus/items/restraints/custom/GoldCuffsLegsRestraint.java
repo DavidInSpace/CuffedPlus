@@ -363,13 +363,8 @@ public class GoldCuffsLegsRestraint extends AbstractLegRestraint implements IBre
     public boolean AllowJumping() {return this.sourceStack.getOrCreateTag().getBoolean("AllowJumping");}
     public boolean canBeBrokenOutOf() {return !this.sourceStack.getOrCreateTag().getBoolean("CanBeBrokenOutOf");}
     public boolean getLockpickable() {return !this.sourceStack.getOrCreateTag().getBoolean("Lockpickable");}
-
-    public int getLockpickingProgressPerPick() {
-        return 3;
-    }
-    public int getLockpickingSpeedIncreasePerPick() {
-        return 2;
-    }
+    public int getLockpickingProgressPerPick() {return 3;}
+    public int getLockpickingSpeedIncreasePerPick() {return 2;}
     // #endregion
 
     // #region Events

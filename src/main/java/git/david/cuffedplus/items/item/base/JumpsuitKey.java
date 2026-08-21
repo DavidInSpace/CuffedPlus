@@ -109,6 +109,8 @@ public class JumpsuitKey extends Item {
                 return InteractionResult.FAIL;
             }
 
+            user.displayClientMessage(Component.literal("🔓 Unlocked " + GeneralUtils.extractPlayerName(target.getName().getString()) + " jumpsuit 🔓").withStyle(ChatFormatting.GREEN), true);
+            ((Player) target).displayClientMessage(Component.literal("🔓 Your jumpsuit is now unlocked 🔓").withStyle(ChatFormatting.GREEN), true);
             target.playSound(SoundEvents.ARMOR_EQUIP_CHAIN, 1, 1.5F);
             user.playSound(SoundEvents.ARMOR_EQUIP_CHAIN, 1, 1.5F);
             targetChest.getOrCreateTag().putBoolean("Locked", false);

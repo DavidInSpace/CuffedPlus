@@ -2,6 +2,7 @@ package git.david.cuffedplus.recipes;
 
 import git.david.cuffedplus.init.ModRecipes;
 import git.david.cuffedplus.items.item.base.JumpsuitItem;
+import git.david.cuffedplus.items.item.base.RestraintItem;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.Container;
@@ -46,6 +47,11 @@ public record GearModifierRecipe(ResourceLocation id, Ingredient template, Ingre
                 case "cuffedplus:high_visibility_modifier":
                     JumpsuitItem.setHighVisibility(baseItem, true);
                     break;
+                case "cuffedplus:glowing_modifier":
+                    if (RestraintItem.getAntiGodModifier(baseItem) < 5) {
+                        JumpsuitItem.setGlowing(baseItem, JumpsuitItem.getGlowing(baseItem) + 1);
+                    }
+                    break;
                 default:
             }
 
@@ -57,6 +63,11 @@ public record GearModifierRecipe(ResourceLocation id, Ingredient template, Ingre
                     break;
                 case "cuffedplus:high_visibility_modifier":
                     JumpsuitItem.setHighVisibility(baseItem, false);
+                    break;
+                case "cuffedplus:glowing_modifier":
+                    if (RestraintItem.getAntiGodModifier(baseItem) > 0) {
+                        JumpsuitItem.setGlowing(baseItem, JumpsuitItem.getGlowing(baseItem) - 1);
+                    }
                     break;
                 default:
             }

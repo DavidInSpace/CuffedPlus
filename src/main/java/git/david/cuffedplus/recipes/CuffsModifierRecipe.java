@@ -3,7 +3,6 @@ package git.david.cuffedplus.recipes;
 import git.david.cuffedplus.init.ModRecipes;
 import git.david.cuffedplus.items.item.base.RestraintItem;
 import net.minecraft.core.RegistryAccess;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
@@ -13,7 +12,10 @@ import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.item.crafting.SmithingRecipe;
 import net.minecraft.world.level.Level;
+import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.Objects;
 
 public class CuffsModifierRecipe implements SmithingRecipe {
     public final ResourceLocation id;
@@ -38,7 +40,7 @@ public class CuffsModifierRecipe implements SmithingRecipe {
     @Override
     public @NotNull ItemStack assemble(Container container, @NotNull RegistryAccess access) {
         ItemStack modifierItem = container.getItem(0);
-        ResourceLocation modKey = BuiltInRegistries.ITEM.getKey(modifierItem.getItem());
+        ResourceLocation modKey = ForgeRegistries.ITEMS.getKey(modifierItem.getItem());
 
         ItemStack baseItem = container.getItem(1).copy();
         baseItem.setCount(1);
@@ -47,11 +49,13 @@ public class CuffsModifierRecipe implements SmithingRecipe {
 
         if (additionItem.is(Items.DIAMOND)) {
 
-            switch (modKey.toString()) {
+            switch (Objects.requireNonNull(modKey).toString()) {
+                case "cuffedplus:timer_modifier":
+                    RestraintItem.enableTimer(baseItem, true);
+                    break;
                 case "cuffedplus:saturation_modifier":
                     RestraintItem.setSaturationModifier(baseItem, true);
                     break;
-
                 case "cuffedplus:hunger_modifier":
                     RestraintItem.setHungerModifier(baseItem, RestraintItem.getHungerModifier(baseItem) + 1);
                     break;
@@ -134,7 +138,7 @@ public class CuffsModifierRecipe implements SmithingRecipe {
 
     @Override
     public ItemStack getResultItem(RegistryAccess access) {
-        return ItemStack.EMPTY; // dynamic result
+        return ItemStack.EMPTY;
     }
 
     @Override

@@ -1,8 +1,10 @@
 package git.david.cuffedplus.command;
 
 import com.mojang.brigadier.CommandDispatcher;
+import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
+import git.david.cuffedplus.items.item.base.RestraintItem;
 import git.david.cuffedplus.utils.GeneralUtils;
 import net.minecraft.ChatFormatting;
 import net.minecraft.commands.CommandBuildContext;
@@ -11,13 +13,21 @@ import net.minecraft.commands.Commands;
 import net.minecraft.commands.arguments.EntityArgument;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 
-public class RoleCommand {
-    public RoleCommand(CommandDispatcher<CommandSourceStack> dispatcher, CommandBuildContext ctx) {
+public class CuffedPlusCommand {
+    public CuffedPlusCommand(CommandDispatcher<CommandSourceStack> dispatcher, CommandBuildContext ctx) {
         dispatcher.register(
                 Commands.literal("cuffed").requires((source) -> {
-                            return source.hasPermission(2) || !source.isPlayer();
-                        }).then(Commands.literal("plus")
+                    return source.hasPermission(2) || !source.isPlayer();
+                }).then(Commands.literal("plus")
+                        .then(Commands.literal("time_modifier")
+                                .then(Commands.literal("set")
+                                        .then(Commands.argument("seconds", IntegerArgumentType.integer(0))
+                                                .then(Commands.argument("minutes", IntegerArgumentType.integer(0))
+                                                        .then(Commands.argument("hours", IntegerArgumentType.integer(0))
+                                                                .executes(this::setTimeModifierTime))))))
                         .then(Commands.literal("roles")
                                 .then(Commands.literal("get")
                                         .then(Commands.argument("player", EntityArgument.player())
@@ -32,6 +42,36 @@ public class RoleCommand {
                                                         .executes(this::executeApplyNoneRole)))))));
     }
 
+    private int setTimeModifierTime(CommandContext<CommandSourceStack> ctx) {
+        if (!ctx.getSource().isPlayer()) return 1;
+        Player player = ctx.getSource().getPlayer();
+        assert player != null;
+        player.displayClientMessage(Component.literal("setting time"), false);
+        ItemStack itemInMainHand = player.getMainHandItem();
+        player.displayClientMessage(Component.literal(itemInMainHand.getItem() + " : " + itemInMainHand.getItem().getDefaultInstance() + " : " + itemInMainHand.getOrCreateTag().getBoolean("Timer")), false);
+        // Check whether the item in hand is a Restraint Item with a Timer Modifier Applied to it
+        if (!(itemInMainHand.getItem() instanceof RestraintItem && itemInMainHand.getOrCreateTag().getBoolean("Timer"))) {
+            player.displayClientMessage(Component.literal("ERROR: You must hold a restraint with the timer modifier applied to it to set the time.").withStyle(ChatFormatting.RED), false);
+            return 1;
+        }
+
+        int seconds = IntegerArgumentType.getInteger(ctx, "seconds");
+        int minutes = IntegerArgumentType.getInteger(ctx, "minutes");
+        int hours = IntegerArgumentType.getInteger(ctx, "hours");
+
+        long ticksTime = (seconds * 20L) + (minutes * 20L * 60L) + (hours * 20L * 60L * 60L);
+
+        RestraintItem restraintItem = (RestraintItem) itemInMainHand.getItem();
+
+        // set the time
+        restraintItem.seconds = seconds;
+        restraintItem.minutes = minutes;
+        restraintItem.hours = hours;
+        restraintItem.ticks_time = ticksTime;
+        itemInMainHand.getOrCreateTag().putLong("Time", restraintItem.ticks_time);
+        return 0;
+    }
+
 
     private int executeGetRole(CommandContext<CommandSourceStack> ctx) {
         try {
@@ -40,7 +80,6 @@ public class RoleCommand {
             assert sender != null;
 
             String[] tags = player.getTags().toArray(new String[0]);
-
 
             if (player.getTags().contains("prisoner") || player.getTags().contains("officer")) {
                 sender.displayClientMessage(Component.literal(GeneralUtils.extractPlayerName(String.valueOf(player.getName())) + " has following roles:").withStyle(ChatFormatting.YELLOW).withStyle(ChatFormatting.BOLD), false);

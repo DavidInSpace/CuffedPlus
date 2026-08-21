@@ -60,8 +60,10 @@ public class AnkleMonitorItem extends ArmorItem {
         return stack.getOrCreateTag().getBoolean("HighVisibility");
     }
 
-    // TODO: Add a way to unbind ankle monitors
+    public static void setGlowing(ItemStack stack, int value)  {stack.getOrCreateTag().putInt("Glowing", value);}
+    public static int getGlowing(ItemStack stack) { return stack.getOrCreateTag().getInt("Glowing");}
 
+    // TODO: Add a way to unbind ankle monitors
     @Override
     public @NotNull InteractionResultHolder<ItemStack> use(@NotNull Level level, Player player, @NotNull InteractionHand hand) {
         ItemStack itemInHand = player.getItemInHand(hand);
@@ -191,6 +193,12 @@ public class AnkleMonitorItem extends ArmorItem {
                 tooltip.add(Component.literal("High Visibility").withStyle(ChatFormatting.YELLOW));
             } else {
                 tooltip.remove(Component.literal("High Visibility").withStyle(ChatFormatting.YELLOW));
+            }
+
+            if (stack.getOrCreateTag().getInt("Glowing") > 0) {
+                tooltip.add(Component.literal("Glowing " + getGlowing(stack)).withStyle(ChatFormatting.YELLOW));
+            } else {
+                tooltip.remove(Component.literal("Glowing " + getGlowing(stack)).withStyle(ChatFormatting.YELLOW));
             }
             super.appendHoverText(stack, level, tooltip, flag);
         }

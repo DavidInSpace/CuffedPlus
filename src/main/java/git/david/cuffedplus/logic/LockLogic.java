@@ -1,6 +1,7 @@
 package git.david.cuffedplus.logic;
 
 import com.lazrproductions.cuffed.CuffedMod;
+import com.mojang.blaze3d.platform.InputConstants;
 import git.david.cuffedplus.config.ICuffedPlusServerConfigMixin;
 import git.david.cuffedplus.items.item.base.AnkleMonitorItem;
 import git.david.cuffedplus.items.item.base.JumpsuitItem;
@@ -43,6 +44,30 @@ public class LockLogic {
             if (slotUnderMouse != null) {
                 hoveringSlot = slotUnderMouse.getSlotIndex();
                 hoveringItem = slotUnderMouse.getItem();
+            }
+        }
+    }
+
+    public void DebugInputEvent(InputEvent.MouseButton.Post event) {
+        Minecraft minecraft = Minecraft.getInstance();
+        Player player = minecraft.player;
+        if (player != null) {
+            if (event.getAction() == InputConstants.PRESS) {
+                if (event.getButton() == 0) {
+                    player.displayClientMessage(Component.literal(event.getButton() + " | Left Click Pressed").withStyle(ChatFormatting.GREEN).withStyle(ChatFormatting.UNDERLINE), false);
+                } else if (event.getButton() == 1) {
+                    player.displayClientMessage(Component.literal(event.getButton() + " | Right Click Pressed").withStyle(ChatFormatting.GREEN).withStyle(ChatFormatting.UNDERLINE), false);
+                } else if (event.getButton() == 2) {
+                    player.displayClientMessage(Component.literal(event.getButton() + " | Middle Click Pressed").withStyle(ChatFormatting.GREEN).withStyle(ChatFormatting.UNDERLINE), false);
+                }
+            } else if (event.getAction() == InputConstants.RELEASE) {
+                if (event.getButton() == 0) {
+                    player.displayClientMessage(Component.literal(event.getButton() + " | Left Click Released").withStyle(ChatFormatting.RED).withStyle(ChatFormatting.UNDERLINE), false);
+                } else if (event.getButton() == 1) {
+                    player.displayClientMessage(Component.literal(event.getButton() + " | Right Click Released").withStyle(ChatFormatting.RED).withStyle(ChatFormatting.UNDERLINE), false);
+                } else if (event.getButton() == 2) {
+                    player.displayClientMessage(Component.literal(event.getButton() + " | Middle Click Released").withStyle(ChatFormatting.RED).withStyle(ChatFormatting.UNDERLINE), false);
+                }
             }
         }
     }

@@ -29,7 +29,6 @@ public class AnkleMonitorKey extends Item {
         super(pProperties);
     }
 
-
     @Override
     public @NotNull InteractionResultHolder<ItemStack> use(@NotNull Level level, Player player, @NotNull InteractionHand hand) {
         ItemStack itemInHand = player.getItemInHand(hand);

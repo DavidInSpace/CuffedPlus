@@ -86,7 +86,6 @@ public class ModModelLayers {
         // event.registerLayerDefinition(ANKLE_MONITOR_LAYER, AnkleMonitorModel::createArmorLayer);
         //  event.registerLayerDefinition(ANKLE_MONITOR_CLEAN_LAYER, AnkleMonitorModel::createArmorLayer);
 
-
     }
 
 }

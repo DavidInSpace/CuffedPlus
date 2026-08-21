@@ -30,7 +30,7 @@ public class JumpsuitModifierSerializer implements RecipeSerializer<GearModifier
 
     @Override
     public void toNetwork(FriendlyByteBuf buf, GearModifierRecipe recipe) {
-        recipe.isTemplateIngredient(Ingredient.EMPTY.getItems().length == 0 ? ItemStack.EMPTY : null); // no-op to avoid dead-code stripping (optional)
+        recipe.isTemplateIngredient(Ingredient.EMPTY.getItems().length == 0 ? ItemStack.EMPTY : null);
         recipe.template().toNetwork(buf);
         recipe.base().toNetwork(buf);
         recipe.addition().toNetwork(buf);

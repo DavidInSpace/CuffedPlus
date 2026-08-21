@@ -110,6 +110,12 @@ public class ModItems {
     public static final RegistryObject<Item> PRISON_JUMPSUIT_3 = ITEMS.register("prison_jumpsuit_3",
             () -> new JumpsuitItem(new Item.Properties().stacksTo(16)));
 
+    public static final RegistryObject<Item> POLICE_UNIFORM_1 = ITEMS.register("police_uniform_1",
+            () -> new PoliceUniformItem(new Item.Properties().stacksTo(16)));
+
+    /* public static final RegistryObject<Item> POLICE_HAT_1 = ITEMS.register("police_hat_1",
+            () -> new PoliceUniformItem(new Item.Properties().stacksTo(16))); */
+
 
     /* RESTRAINTS MODIFICATORS */
 
@@ -142,6 +148,9 @@ public class ModItems {
             () -> new GearModifierItem(new Item.Properties().stacksTo(16).rarity(Rarity.UNCOMMON)));
 
     public static final RegistryObject<Item> HIGH_VISIBILITY_MODIFIER = ITEMS.register("high_visibility_modifier",
+            () -> new GearModifierItem(new Item.Properties().stacksTo(16).rarity(Rarity.UNCOMMON)));
+
+    public static final RegistryObject<Item> SLOWNESS_MODIFIER = ITEMS.register("slowness_modifier",
             () -> new GearModifierItem(new Item.Properties().stacksTo(16).rarity(Rarity.UNCOMMON)));
 
 
@@ -185,11 +194,6 @@ public class ModItems {
 
     public static final RegistryObject<Item> JUMPSUIT_KEY = ITEMS.register("jumpsuit_key",
             () -> new JumpsuitKey(new Item.Properties().stacksTo(1)));
-
-
-
-
-
 
 
     public static void register(IEventBus bus) {

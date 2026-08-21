@@ -18,6 +18,9 @@ public class GearModifiersLogic {
         if ((itemInChest.getItem() instanceof JumpsuitItem || itemInFeet.getItem() instanceof AnkleMonitorItem) && itemInChest.getOrCreateTag().getBoolean("HighVisibility")) {
             event.player.addEffect(new MobEffectInstance(MobEffects.GLOWING, 8, 0, false, false));
         }
+
+        if ((itemInChest.getItem() instanceof JumpsuitItem || itemInFeet.getItem() instanceof AnkleMonitorItem) && itemInChest.getOrCreateTag().getBoolean("Glowing")) {
+        }
     }
 
 }

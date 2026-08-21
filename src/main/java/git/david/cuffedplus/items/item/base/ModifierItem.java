@@ -19,14 +19,19 @@ public class ModifierItem extends Item {
     }
 
     public static String getModifierName(ItemStack stack) {
-        return String.valueOf(stack.getItem());
+        return "";
     }
-
-
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
-        switch (getModifierName(stack)) {
+        System.out.println(stack.getItem());
+
+        // Add right tooltip depending on the modifier
+        switch (String.valueOf(stack.getItem())) {
+            case "timer_modifier":
+                tooltip.add(Component.literal("Restraint Modifier").withStyle(ChatFormatting.DARK_GRAY));
+                tooltip.add(Component.literal("A time can be set on restraints with this modifier which will take off the restraint uppon running out").withStyle(ChatFormatting.GRAY));
+                break;
             case "saturation_modifier":
                 tooltip.add(Component.literal("Restraint Modifier").withStyle(ChatFormatting.DARK_GRAY));
                 tooltip.add(Component.literal("Players wearing a restraint with this modifier will never starve").withStyle(ChatFormatting.GRAY));

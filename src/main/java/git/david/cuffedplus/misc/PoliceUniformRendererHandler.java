@@ -5,22 +5,19 @@ import net.minecraft.client.model.PlayerModel;
 import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.RenderPlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
 
-
-@Mod.EventBusSubscriber(modid ="cuffedplus", value = Dist.CLIENT)
-public class JumpsuitRenderHandler {
+public class PoliceUniformRendererHandler {
 
     @SubscribeEvent
     public static void onRenderPlayerPre(RenderPlayerEvent.Pre event) {
         AbstractClientPlayer player = (AbstractClientPlayer) event.getEntity();
 
-        if (isWearingJumpsuit(player)) return;
+        if (isWearingPoliceUniform(player)) return;
 
         PlayerModel<?> model = event.getRenderer().getModel();
+
 
         model.jacket.visible = false;
         model.leftSleeve.visible = false;
@@ -34,7 +31,7 @@ public class JumpsuitRenderHandler {
     public static void onRenderPlayerPost(RenderPlayerEvent.Post event) {
         AbstractClientPlayer player = (AbstractClientPlayer) event.getEntity();
 
-        if (isWearingJumpsuit(player)) return;
+        if (isWearingPoliceUniform(player)) return;
 
         PlayerModel<?> model = event.getRenderer().getModel();
 
@@ -46,11 +43,8 @@ public class JumpsuitRenderHandler {
         model.hat.visible = true;
     }
 
-    private static boolean isWearingJumpsuit(AbstractClientPlayer player) {
+    private static boolean isWearingPoliceUniform(AbstractClientPlayer player) {
         ItemStack chest = player.getItemBySlot(EquipmentSlot.CHEST);
-        return !chest.is(ModItems.DCLASS_JUMPSUIT.get())
-                && !chest.is(ModItems.PRISON_JUMPSUIT_1.get())
-                && !chest.is(ModItems.PRISON_JUMPSUIT_2.get())
-                && !chest.is(ModItems.PRISON_JUMPSUIT_3.get());
+        return !chest.is(ModItems.POLICE_UNIFORM_1.get());
     }
 }

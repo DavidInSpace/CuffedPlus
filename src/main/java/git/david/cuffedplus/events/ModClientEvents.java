@@ -7,6 +7,7 @@ import git.david.cuffedplus.CuffedPlusMain;
 import git.david.cuffedplus.items.restraints.custom.HazardTapeHeadRestraint;
 import git.david.cuffedplus.misc.JumpsuitLayer;
 import git.david.cuffedplus.init.ModMenuTypes;
+import git.david.cuffedplus.misc.PoliceUniformLayer;
 import git.david.cuffedplus.screen.CuffTableMenuScreen;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.MenuScreens;
@@ -29,6 +30,7 @@ public class ModClientEvents {
 
             if (renderer instanceof PlayerRenderer playerRenderer) {
                 playerRenderer.addLayer(new JumpsuitLayer(playerRenderer));
+                playerRenderer.addLayer(new PoliceUniformLayer(playerRenderer));
             }
         }
     }
