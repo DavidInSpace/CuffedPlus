@@ -2,9 +2,11 @@ package git.david.cuffedplus.items.item.base;
 
 import com.lazrproductions.cuffed.CuffedMod;
 import git.david.cuffedplus.config.ICuffedPlusServerConfigMixin;
+import git.david.cuffedplus.init.ModStatistics;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -59,7 +61,7 @@ public class AnkleMonitorKey extends Item {
 
             player.playSound(SoundEvents.ARMOR_EQUIP_CHAIN, 1, 1.5F);
             currentFeet.getOrCreateTag().putBoolean("Locked", false);
-
+            ModStatistics.awardGearUnlocked((ServerPlayer) player, itemInHand.getItem());
         } else if (!currentFeet.getOrCreateTag().getBoolean("Locked")) {
 
             if (config.getPlayersOwnAnkleMonitorLockBehavior().equals("onlyUnlock".toLowerCase()) || config.getPlayersOwnAnkleMonitorLockBehavior().equals("none")) {
@@ -74,7 +76,7 @@ public class AnkleMonitorKey extends Item {
 
             player.playSound(SoundEvents.ARMOR_EQUIP_CHAIN, 1, (float) (0.5F + Math.random() / 5));
             currentFeet.getOrCreateTag().putBoolean("Locked", true);
-
+            ModStatistics.awardGearLocked((ServerPlayer) player, itemInHand.getItem());
         }
 
         return InteractionResultHolder.success(itemInHand);
@@ -107,6 +109,7 @@ public class AnkleMonitorKey extends Item {
             target.playSound(SoundEvents.ARMOR_EQUIP_CHAIN, 1, 1.5F);
             user.playSound(SoundEvents.ARMOR_EQUIP_CHAIN, 1, 1.5F);
             targetFeet.getOrCreateTag().putBoolean("Locked", false);
+            ModStatistics.awardGearUnlocked((ServerPlayer) user, user.getItemInHand(hand).getItem());
         } else if (!targetFeet.getOrCreateTag().getBoolean("Locked")) {
 
             if (config.getOtherPlayersAnkleMonitorLockBehavior().equals("onlyUnlock") || config.getOtherPlayersAnkleMonitorLockBehavior().equals("none")) {
@@ -124,6 +127,7 @@ public class AnkleMonitorKey extends Item {
             target.playSound(SoundEvents.ARMOR_EQUIP_CHAIN, 1, (float) (0.5F + Math.random() / 5));
             user.playSound(SoundEvents.ARMOR_EQUIP_CHAIN, 1, (float) (0.5F + Math.random() / 5));
             targetFeet.getOrCreateTag().putBoolean("Locked", true);
+            ModStatistics.awardGearLocked((ServerPlayer) user, user.getItemInHand(hand).getItem());
         }
 
         return InteractionResult.SUCCESS;

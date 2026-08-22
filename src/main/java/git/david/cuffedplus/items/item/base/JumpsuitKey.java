@@ -2,10 +2,12 @@ package git.david.cuffedplus.items.item.base;
 
 import com.lazrproductions.cuffed.CuffedMod;
 import git.david.cuffedplus.config.ICuffedPlusServerConfigMixin;
+import git.david.cuffedplus.init.ModStatistics;
 import git.david.cuffedplus.utils.GeneralUtils;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -62,7 +64,7 @@ public class JumpsuitKey extends Item {
             player.displayClientMessage(Component.literal("🔓 Unlocked your jumpsuit 🔓").withStyle(ChatFormatting.GREEN), true);
             player.playSound(SoundEvents.ARMOR_EQUIP_CHAIN, 1, 1.5F);
             currentChest.getOrCreateTag().putBoolean("Locked", false);
-
+            ModStatistics.awardGearUnlocked((ServerPlayer) player, itemInHand.getItem());
         } else if (!currentChest.getOrCreateTag().getBoolean("Locked")) {
 
             if (config.getPlayersOwnJumpsuitLockBehavior().equals("onlyUnlock".toLowerCase()) || config.getPlayersOwnJumpsuitLockBehavior().equals("none")) {
@@ -78,7 +80,7 @@ public class JumpsuitKey extends Item {
             player.displayClientMessage(Component.literal("🔒 Locked your jumpsuit 🔒").withStyle(ChatFormatting.RED), true);
             player.playSound(SoundEvents.ARMOR_EQUIP_CHAIN, 1, (float) (0.5F + Math.random() / 5));
             currentChest.getOrCreateTag().putBoolean("Locked", true);
-
+            ModStatistics.awardGearLocked((ServerPlayer) player, itemInHand.getItem());
         }
 
         return InteractionResultHolder.success(itemInHand);
@@ -114,6 +116,7 @@ public class JumpsuitKey extends Item {
             target.playSound(SoundEvents.ARMOR_EQUIP_CHAIN, 1, 1.5F);
             user.playSound(SoundEvents.ARMOR_EQUIP_CHAIN, 1, 1.5F);
             targetChest.getOrCreateTag().putBoolean("Locked", false);
+            ModStatistics.awardGearUnlocked((ServerPlayer) user, user.getItemInHand(hand).getItem());
         } else if (!targetChest.getOrCreateTag().getBoolean("Locked")) {
 
             if (config.getOtherPlayersJumpsuitLockBehavior().equals("onlyUnlock") || config.getOtherPlayersJumpsuitLockBehavior().equals("none")) {
@@ -133,6 +136,7 @@ public class JumpsuitKey extends Item {
             target.playSound(SoundEvents.ARMOR_EQUIP_CHAIN, 1, (float) (0.5F + Math.random() / 5));
             user.playSound(SoundEvents.ARMOR_EQUIP_CHAIN, 1, (float) (0.5F + Math.random() / 5));
             targetChest.getOrCreateTag().putBoolean("Locked", true);
+            ModStatistics.awardGearLocked((ServerPlayer) user, user.getItemInHand(hand).getItem());
         }
 
         return InteractionResult.SUCCESS;

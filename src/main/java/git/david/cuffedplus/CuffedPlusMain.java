@@ -104,6 +104,7 @@ public class CuffedPlusMain {
         ModBlockEntity.register(modEventBus);
         ModBlock.register(modEventBus);
         ModMenuTypes.register(modEventBus);
+        ModStatistics.register(modEventBus);
         ModRecipes.SERIALIZERS.register(modEventBus);
 
 

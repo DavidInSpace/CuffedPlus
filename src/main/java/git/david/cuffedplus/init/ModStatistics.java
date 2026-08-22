@@ -22,7 +22,7 @@ import java.util.List;
 
 public class ModStatistics {
 
- /*   private static final DeferredRegister<ResourceLocation> REGISTER = DeferredRegister.create(
+   private static final DeferredRegister<ResourceLocation> REGISTER = DeferredRegister.create(
             Registries.CUSTOM_STAT, CuffedMod.MODID
     );
     private static final List<Runnable> RUN_IN_SETUP = new ArrayList<>();
@@ -85,5 +85,5 @@ public class ModStatistics {
             player.awardStat(PRISON_JUMPSUITS_TIME_WORN.get(), 1);
         else if(restraint instanceof AnkleMonitorItem)
             player.awardStat(ANKLE_MONITORS_TIME_WORN.get(), 1);
-    } */
+    }
 }
