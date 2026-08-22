@@ -30,12 +30,10 @@ public class ModStatistics {
     public static final RegistryObject<ResourceLocation> PRISON_JUMPSUITS_LOCKED = registerCustomStat("prison_jumpsuits_locked", StatFormatter.DEFAULT);
     public static final RegistryObject<ResourceLocation> PRISON_JUMPSUITS_UNLOCKED = registerCustomStat("prison_jumpsuits_unlocked", StatFormatter.DEFAULT);
     public static final RegistryObject<ResourceLocation> PRISON_JUMPSUITS_PUT_ON_OTHERS = registerCustomStat("prison_jumpsuits_put_on_others", StatFormatter.DEFAULT);
-    public static final RegistryObject<ResourceLocation> PRISON_JUMPSUITS_TIME_WORN = registerCustomStat("ankle_monitors_put_on_others", StatFormatter.DEFAULT);
 
     public static final RegistryObject<ResourceLocation> ANKLE_MONITORS_LOCKED = registerCustomStat("ankle_monitors_locked", StatFormatter.DEFAULT);
     public static final RegistryObject<ResourceLocation> ANKLE_MONITORS_UNLOCKED = registerCustomStat("ankle_monitors_unlocked", StatFormatter.DEFAULT);
     public static final RegistryObject<ResourceLocation> ANKLE_MONITORS_PUT_ON_OTHERS = registerCustomStat("ankle_monitors_put_on_others", StatFormatter.DEFAULT);
-    public static final RegistryObject<ResourceLocation> ANKLE_MONITORS_TIME_WORN = registerCustomStat("ankle_monitors_put_on_others", StatFormatter.DEFAULT);
 
 
 
@@ -78,12 +76,5 @@ public class ModStatistics {
             player.awardStat(PRISON_JUMPSUITS_PUT_ON_OTHERS.get(), 1);
         else if(restraint instanceof AnkleMonitorItem)
             player.awardStat(ANKLE_MONITORS_PUT_ON_OTHERS.get(), 1);
-    }
-
-    public static void awardTimeGearWorn(@Nonnull ServerPlayer player, @Nonnull Item restraint) {
-        if(restraint instanceof JumpsuitItem)
-            player.awardStat(PRISON_JUMPSUITS_TIME_WORN.get(), 1);
-        else if(restraint instanceof AnkleMonitorItem)
-            player.awardStat(ANKLE_MONITORS_TIME_WORN.get(), 1);
     }
 }

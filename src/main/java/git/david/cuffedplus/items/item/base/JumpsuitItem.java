@@ -2,10 +2,12 @@ package git.david.cuffedplus.items.item.base;
 
 import com.lazrproductions.cuffed.CuffedMod;
 import git.david.cuffedplus.config.ICuffedPlusServerConfigMixin;
+import git.david.cuffedplus.init.ModStatistics;
 import git.david.cuffedplus.utils.GeneralUtils;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionResultHolder;
@@ -100,6 +102,8 @@ public class JumpsuitItem extends Item {
             if (!player.getAbilities().instabuild) itemInHand.shrink(1);
         }
 
+        ModStatistics.awardGearPutOnOthers((ServerPlayer) player, itemInHand.getItem());
+
         return InteractionResultHolder.success(itemInHand);
     }
 
@@ -153,6 +157,7 @@ public class JumpsuitItem extends Item {
 
 
         }
+        ModStatistics.awardGearPutOnOthers((ServerPlayer) user, user.getItemInHand(hand).getItem());
         return InteractionResult.SUCCESS;
     }
 
