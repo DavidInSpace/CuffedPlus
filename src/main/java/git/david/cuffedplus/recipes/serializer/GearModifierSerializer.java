@@ -10,7 +10,7 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import org.jetbrains.annotations.NotNull;
 
-public class JumpsuitModifierSerializer implements RecipeSerializer<GearModifierRecipe> {
+public class GearModifierSerializer implements RecipeSerializer<GearModifierRecipe> {
 
     @Override
     public @NotNull GearModifierRecipe fromJson(@NotNull ResourceLocation id, @NotNull JsonObject json) {

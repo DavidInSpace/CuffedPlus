@@ -133,7 +133,7 @@ public class CuffedPlusMain {
             }
         };
 
-        MinecraftForge.EVENT_BUS.register(new ModServerEvents());
+        //MinecraftForge.EVENT_BUS.register(new ModServerEvents());
 
         DispenserBlock.registerBehavior(ModItems.WOOD_CUFFS.get(), dispenseitembehavior);
         DispenserBlock.registerBehavior(ModItems.GOLD_CUFFS.get(), dispenseitembehavior);

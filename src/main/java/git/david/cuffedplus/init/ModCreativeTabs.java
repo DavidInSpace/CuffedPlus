@@ -63,7 +63,6 @@ public class ModCreativeTabs {
 
                         output.accept(ModItems.HIGH_VISIBILITY_MODIFIER.get());
                         output.accept(ModItems.LOCK_MODIFIER.get());
-                        output.accept(ModItems.TIME_LOCK.get());
 
                         //output.accept(ModItems.CUFF_TABLE.get());
 

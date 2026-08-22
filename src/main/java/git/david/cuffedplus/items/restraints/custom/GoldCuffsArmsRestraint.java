@@ -1,9 +1,7 @@
 package git.david.cuffedplus.items.restraints.custom;
 
 import com.lazrproductions.cuffed.api.CuffedAPI;
-import com.lazrproductions.cuffed.cap.RestrainableCapability;
 import com.lazrproductions.cuffed.cap.base.IRestrainableCapability;
-import com.lazrproductions.cuffed.cap.provider.RestrainableCapabilityProvider;
 import com.lazrproductions.cuffed.entity.animation.ArmRestraintAnimationFlags;
 import com.lazrproductions.cuffed.entity.animation.LegRestraintAnimationFlags;
 import com.lazrproductions.cuffed.entity.base.IRestrainableEntity;
@@ -365,48 +363,11 @@ public class GoldCuffsArmsRestraint extends AbstractArmRestraint implements IBre
     public int getLockpickingProgressPerPick() {return 3;}
     public int getLockpickingSpeedIncreasePerPick() {return 2;}
 
-    long ticks = 0;
-    public void tick(ServerPlayer player, RestraintItem item) {
-        player.displayClientMessage(Component.literal("🔒 " + item.seconds + "s : " + item.minutes + "m : " + item.hours + "h 🔒").withStyle(ChatFormatting.RED).withStyle(ChatFormatting.BOLD), true);
-        item.ticks_time--;
-        this.sourceStack.getOrCreateTag().putLong("Time", item.ticks_time);
-
-        if (item.ticks_time - ticks <= -20 || ticks == 0) {
-            ticks = item.ticks_time;
-            item.seconds--;
-        }
-
-        if (item.hours < 1 && item.minutes < 1 && item.seconds < 1) {
-            player.displayClientMessage(Component.literal("🔓 Time ran out. " + this.getName() + " Restraints unlocked 🔓").withStyle(ChatFormatting.GREEN) , true);
-            this.sourceStack.getOrCreateTag().putLong("Time", item.ticks_time);
-            item.ticks_time = -1;
-            item.hours = 0;
-            item.seconds = 0;
-            item.minutes = 0;
-            RestrainableCapability playerRestrainableCapability = (RestrainableCapability) CuffedAPI.Capabilities.getRestrainableCapability(this.getPlayer());
-            playerRestrainableCapability.UnequipRestraint(player, player, this.getType());
-            return;
-        }
-
-        if (item.minutes < 1 && item.seconds < 1) {
-            item.minutes = 59;
-            item.hours--;
-        }
-
-        if (item.seconds < 1) {
-            item.seconds = 59;
-            item.minutes--;
-        }
-
-    }
 
     public void onTickServer(ServerPlayer player) {
         super.onTickServer(player);
         ItemStack sourceStack = this.sourceStack;
         RestraintItem item = (RestraintItem) this.getItem();
-        if (sourceStack.getOrCreateTag().getBoolean("Timer") && item.ticks_time >= 0 && !(item.seconds == 0 && item.minutes == 0 && item.hours == 0)) {
-            tick(player, item);
-        }
 
         if (sourceStack.getOrCreateTag().getBoolean("SaturationModifier")) {
             if (player.getFoodData().needsFood()) {

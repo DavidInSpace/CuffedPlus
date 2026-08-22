@@ -3,7 +3,7 @@ package git.david.cuffedplus.init;
 import git.david.cuffedplus.recipes.CuffsModifierRecipe;
 import git.david.cuffedplus.recipes.serializer.CuffsModifierSerializer;
 import git.david.cuffedplus.recipes.GearModifierRecipe;
-import git.david.cuffedplus.recipes.serializer.JumpsuitModifierSerializer;
+import git.david.cuffedplus.recipes.serializer.GearModifierSerializer;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraftforge.registries.DeferredRegister;
@@ -17,7 +17,7 @@ public class ModRecipes {
             SERIALIZERS.register("cuffs_modifier", CuffsModifierSerializer::new);
 
     public static final RegistryObject<RecipeSerializer<GearModifierRecipe>> JUMPSUIT_MODIFIER =
-            SERIALIZERS.register("jumpsuit_modifier", JumpsuitModifierSerializer::new);
+            SERIALIZERS.register("gear_modifier", GearModifierSerializer::new);
 }
 
 
