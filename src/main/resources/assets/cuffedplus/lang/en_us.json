@@ -40,7 +40,8 @@
   "item.cuffedplus.jump_modifier": "Jump Modifier",
   "item.cuffedplus.can_be_broken_out_of": "Breakable Modifier",
   "item.cuffedplus.is_lockpickable": "Lockpickable Modifier",
-  "item.cuffedplus.timer_modifier": "Timer Modifier",
+
+  "item.cuffedplus.time_lock": "Time Lock",
 
   "item.cuffedplus.lock_modifier": "Locked Modifier",
   "item.cuffedplus.high_visibility_modifier": "Highlighted Modifier",
@@ -63,5 +64,14 @@
   "info.cuffedplus.restraints.legcuffs.action_bar": "Your legs are restrained!",
 
   "info.cuffedplus.restraints.handcuffs.name":"Your hands are restrained!",
-  "info.cuffedplus.restraints.handcuffs.action_bar": "Your hands are restrained!"
+  "info.cuffedplus.restraints.handcuffs.action_bar": "Your hands are restrained!",
+
+
+  "stat.cuffedplus.ankle_monitors_locked": "Ankle Monitors Locked",
+  "stat.cuffedplus.ankle_monitors_unlocked": "Ankle Monitors Unlocked",
+  "stat.cuffedplus.ankle_monitors_put_on_others": "Ankle Monitors Put On Others",
+
+  "stat.cuffedplus.prison_jumpsuits_locked": "Prison Jumpsuits Locked",
+  "stat.cuffedplus.prison_jumpsuits_unlocked": "Prison Jumpsuits Unlocked",
+  "stat.cuffedplus.prison_jumpsuits_put_on_others": "Prison Jumpsuits Put On Others"
 }
