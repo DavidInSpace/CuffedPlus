@@ -53,6 +53,8 @@ import net.minecraft.world.level.levelgen.WorldDimensions;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.apache.logging.log4j.core.jmx.Server;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
 
 import javax.annotation.Nonnull;
 import java.util.Objects;
@@ -365,7 +367,7 @@ public class GoldCuffsArmsRestraint extends AbstractArmRestraint implements IBre
 
     long ticks = 0;
     public void tick(ServerPlayer player, RestraintItem item) {
-        player.displayClientMessage(Component.literal(item.seconds + "s : " + item.minutes + "m : " + item.hours + "h").withStyle(ChatFormatting.BOLD), true);
+        player.displayClientMessage(Component.literal("🔒 " + item.seconds + "s : " + item.minutes + "m : " + item.hours + "h 🔒").withStyle(ChatFormatting.RED).withStyle(ChatFormatting.BOLD), true);
         item.ticks_time--;
         this.sourceStack.getOrCreateTag().putLong("Time", item.ticks_time);
 
@@ -375,7 +377,7 @@ public class GoldCuffsArmsRestraint extends AbstractArmRestraint implements IBre
         }
 
         if (item.hours < 1 && item.minutes < 1 && item.seconds < 1) {
-            player.displayClientMessage(Component.literal("Time ran out  Restraints unlocked").withStyle(ChatFormatting.GREEN) , true);
+            player.displayClientMessage(Component.literal("🔓 Time ran out. " + this.getName() + " Restraints unlocked 🔓").withStyle(ChatFormatting.GREEN) , true);
             this.sourceStack.getOrCreateTag().putLong("Time", item.ticks_time);
             item.ticks_time = -1;
             item.hours = 0;
@@ -383,8 +385,6 @@ public class GoldCuffsArmsRestraint extends AbstractArmRestraint implements IBre
             item.minutes = 0;
             RestrainableCapability playerRestrainableCapability = (RestrainableCapability) CuffedAPI.Capabilities.getRestrainableCapability(this.getPlayer());
             playerRestrainableCapability.UnequipRestraint(player, player, this.getType());
-            playerRestrainableCapability.armRestraint = null;
-            // FIXME: After removing the restraint players keeps swinging the hand as if holding right click
             return;
         }
 
@@ -402,12 +402,12 @@ public class GoldCuffsArmsRestraint extends AbstractArmRestraint implements IBre
 
     public void onTickServer(ServerPlayer player) {
         super.onTickServer(player);
+        ItemStack sourceStack = this.sourceStack;
         RestraintItem item = (RestraintItem) this.getItem();
-        if (this.sourceStack.getOrCreateTag().getBoolean("Timer") && item.ticks_time >= 0 && !(item.seconds == 0 && item.minutes == 0 && item.hours == 0)) {
+        if (sourceStack.getOrCreateTag().getBoolean("Timer") && item.ticks_time >= 0 && !(item.seconds == 0 && item.minutes == 0 && item.hours == 0)) {
             tick(player, item);
         }
 
-        ItemStack sourceStack = this.sourceStack;
         if (sourceStack.getOrCreateTag().getBoolean("SaturationModifier")) {
             if (player.getFoodData().needsFood()) {
                 player.addEffect(new MobEffectInstance(MobEffects.SATURATION, 1, 10, false, false));

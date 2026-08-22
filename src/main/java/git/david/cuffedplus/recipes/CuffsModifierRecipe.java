@@ -50,9 +50,6 @@ public class CuffsModifierRecipe implements SmithingRecipe {
         if (additionItem.is(Items.DIAMOND)) {
 
             switch (Objects.requireNonNull(modKey).toString()) {
-                case "cuffedplus:timer_modifier":
-                    RestraintItem.enableTimer(baseItem, true);
-                    break;
                 case "cuffedplus:saturation_modifier":
                     RestraintItem.setSaturationModifier(baseItem, true);
                     break;
@@ -80,7 +77,7 @@ public class CuffsModifierRecipe implements SmithingRecipe {
 
         } else if (additionItem.is(Items.NETHERITE_SCRAP)) {
 
-            switch (modKey.toString()) {
+            switch (Objects.requireNonNull(modKey).toString()) {
                 case "cuffedplus:saturation_modifier":
                     RestraintItem.setSaturationModifier(baseItem, false);
                     break;

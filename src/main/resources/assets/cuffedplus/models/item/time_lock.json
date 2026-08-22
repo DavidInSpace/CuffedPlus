@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "cuffedplus:item/timer_modifier"
+    "layer0": "cuffedplus:item/time_lock"
   }
 }

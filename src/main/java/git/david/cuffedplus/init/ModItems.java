@@ -137,9 +137,10 @@ public class ModItems {
     public static final RegistryObject<Item> CAN_BE_BROKEN_OUT_OF = ITEMS.register("can_be_broken_out_of",
             () -> new ModifierItem(new Item.Properties().stacksTo(16).rarity(Rarity.UNCOMMON)));
 
-    public static final RegistryObject<Item> TIMER_MODIFIER = ITEMS.register("timer_modifier",
-            () -> new ModifierItem(new Item.Properties().stacksTo(16).rarity(Rarity.UNCOMMON)));
 
+
+    public static final RegistryObject<Item> TIME_LOCK = ITEMS.register("time_lock",
+            () -> new TimeLockItem(new Item.Properties().stacksTo(1).rarity(Rarity.COMMON)));
 
     /* JUMPSUIT & Ankle Monitor MODIFICATORS */
 

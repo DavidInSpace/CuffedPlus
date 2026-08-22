@@ -1,12 +1,1 @@
-            PRISONERS_JUMPSUIT_AND_ANKLE_MONITOR_BEHAVIOR_SETTINGS = createCategory(new ConfigCategory(this, "Prisoners Jumpsuit & Ankle Monitor Behavior"), (c4) -> {
-                GET_OTHER_PRISONERS_JUMPSUIT_BEHAVIOR = c4.putProperty(new ConfigProperty<String>(this, "Other Prisoners Jumpsuit Behavior", "Controls the interaction for taking and putting jumpsuits on and off other prisoners (Options: \"none\", \"onlyPutOn\", \"onlyTakeOff\", \"both\").", "both"));
-                GET_OTHER_PRISONERS_OWN_ANKLE_MONITOR_BEHAVIOR = c4.putProperty(new ConfigProperty<String>(this, "Other Prisoners Ankle Monitor Behavior", "Controls the interaction for taking and putting ankle monitors on and off other prisoners (Options: \"none\", \"onlyPutOn\", \"onlyTakeOff\", \"both\").", "both"));
-
-                GET_PRISONERS_OWN_JUMPSUIT_LOCK_BEHAVIOR = c4.putProperty(new ConfigProperty<String>(this, "Own Prisoner Jumpsuit Lock Behavior", "Controls the interaction for locking and unlocking your own jumpsuit as a prisoner (Options: \"none\", \"onlyLock\", \"onlyUnlock\", \"both\").", "both"));
-                GET_PRISONERS_OWN_ANKLE_MONITOR_LOCK_BEHAVIOR = c4.putProperty(new ConfigProperty<String>(this, "Own Prisoner Ankle Monitor Lock Behavior", "Controls the interaction for locking and unlocking your own ankle monitor as a prisoner (Options: \"none\", \"onlyLock\", \"onlyUnlock\", \"both\").", "both"));
-                GET_OTHER_PRISONERS_JUMPSUIT_LOCK_BEHAVIOR = c4.putProperty(new ConfigProperty<String>(this, "Other Prisoners Jumpsuit Lock Behavior", "Controls the interaction for locking and unlocking jumpsuits on other prisoners (Options: \"none\", \"onlyLock\", \"onlyUnlock\", \"both\").", "both"));
-                GET_OTHER_PRISONERS_ANKLE_MONITOR_LOCK_BEHAVIOR = c4.putProperty(new ConfigProperty<String>(this, "Other Prisoners Ankle Monitor Lock Behavior", "\"Controls the interaction for locking and unlocking ankle monitors on other prisoners  (Options: \"none\", \"onlyLock\", \"onlyUnlock\", \"both\")", "both"));
-
-                GET_PRISONERS_OWN_TRACKER_BINDING_BEHAVIOR = c4.putProperty(new ConfigProperty<String>(this, "Own Tracker Binding", "Controls the interaction for binding and unbinding your own ankle monitor as a prisoner (Options: \"none\", \"onlyBind\", \"onlyUnbind\", \"both\")", "both"));
-                GET_OTHER_PRISONERS_TRACKER_BINDING_BEHAVIOR = c4.putProperty(new ConfigProperty<String>(this, "Other prisoners Tracker Binding Behavior", "Controls the interaction for binding and unbinding ankle monitor on other prisoners (Options: \"none\", \"onlyBind\", \"onlyUnbind\", \"both\")", "both"));
-            });
+:D

@@ -1,5 +1,6 @@
 package git.david.cuffedplus;
 
+import com.lazrproductions.cuffed.event.ModServerEvents;
 import com.lazrproductions.cuffed.items.base.AbstractRestraintItem;
 import com.lazrproductions.cuffed.restraints.RestraintAPI;
 import com.lazrproductions.cuffed.restraints.base.AbstractRestraint;
@@ -71,6 +72,8 @@ import javax.annotation.Nonnull;
 // TODO: Make so a text/number/image can be put on the back of prison jumpsuits
 // TODO: Add more prison jumpsuits
 // TODO: Rework crafting
+// TODO: Add shackles of different materials (like cuffs)
+// TODO: Slow modifier && Low Jump Modifier
 
 // TODO: BEFORE RELEASE
 // TODO: Add descriptions to restraints like the original restraint do have
@@ -130,6 +133,8 @@ public class CuffedPlusMain {
             }
         };
 
+        MinecraftForge.EVENT_BUS.register(new ModServerEvents());
+
         DispenserBlock.registerBehavior(ModItems.WOOD_CUFFS.get(), dispenseitembehavior);
         DispenserBlock.registerBehavior(ModItems.GOLD_CUFFS.get(), dispenseitembehavior);
         DispenserBlock.registerBehavior(ModItems.EMERALD_CUFFS.get(), dispenseitembehavior);
@@ -156,7 +161,6 @@ public class CuffedPlusMain {
         LOGGER.info("Cuffed Plus: Registering Commands");
         new CuffedPlusCommand(event.getDispatcher(), event.getBuildContext());
     }
-
 
     @Mod.EventBusSubscriber(modid = MODID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
     public static class ClientModEvents {
