@@ -43,24 +43,12 @@ public class RestraintItem extends AbstractRestraintItem {
     public static boolean isLockpickable(ItemStack stack) {return stack.getOrCreateTag().getBoolean("Lockpickable");}
 
     public static int[] ticksToTime(long ticks) {
-        int seconds = (int) ticks / 20;
-
-        if (seconds < 60) {
-            return new int[] {seconds, 0, 0};
-        }
-
-        int minutes = (seconds / 60);
-        int left_over_seconds = (int) ((seconds / 60F) - Math.floor(seconds / 60F)) * 60;
-
-        if (minutes < 60) {
-            return new int[] {seconds + left_over_seconds, minutes, 0};
-        }
-
-        int hours = (minutes / 60);
-        int left_over_minutes = (int) (((minutes / 60F) - Math.floor(minutes / 60F)) * 60);
-
-        return new int[] {seconds + left_over_minutes, minutes, hours};
-
+        int total_seconds = (int) ticks / 20;
+        int seconds = total_seconds % 60;
+        int minutes = total_seconds / 60;
+        int hours = minutes / 60;
+        minutes = (minutes - (hours * 60));
+        return new int[] {seconds , minutes, hours};
     }
 
 
