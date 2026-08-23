@@ -5,6 +5,7 @@ import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import git.david.cuffedplus.items.item.base.RestraintItem;
+import git.david.cuffedplus.items.item.base.TimeLockItem;
 import git.david.cuffedplus.utils.GeneralUtils;
 import net.minecraft.ChatFormatting;
 import net.minecraft.commands.CommandBuildContext;
@@ -22,10 +23,10 @@ public class CuffedPlusCommand {
                 Commands.literal("cuffed").requires((source) -> {
                     return source.hasPermission(2) || !source.isPlayer();
                 }).then(Commands.literal("plus")
-                        .then(Commands.literal("time_modifier")
+                        .then(Commands.literal("time_lock")
                                 .then(Commands.literal("set")
-                                        .then(Commands.argument("seconds", IntegerArgumentType.integer(0))
-                                                .then(Commands.argument("minutes", IntegerArgumentType.integer(0))
+                                        .then(Commands.argument("seconds", IntegerArgumentType.integer(0, 60))
+                                                .then(Commands.argument("minutes", IntegerArgumentType.integer(0, 60))
                                                         .then(Commands.argument("hours", IntegerArgumentType.integer(0))
                                                                 .executes(this::setTimeModifierTime))))))
                         .then(Commands.literal("roles")
@@ -50,8 +51,8 @@ public class CuffedPlusCommand {
         ItemStack itemInMainHand = player.getMainHandItem();
         player.displayClientMessage(Component.literal(itemInMainHand.getItem() + " : " + itemInMainHand.getItem().getDefaultInstance() + " : " + itemInMainHand.getOrCreateTag().getBoolean("Timer")), false);
         // Check whether the item in hand is a Restraint Item with a Timer Modifier Applied to it
-        if (!(itemInMainHand.getItem() instanceof RestraintItem && itemInMainHand.getOrCreateTag().getBoolean("Timer"))) {
-            player.displayClientMessage(Component.literal("ERROR: You must hold a restraint with the timer modifier applied to it to set the time.").withStyle(ChatFormatting.RED), false);
+        if (!(itemInMainHand.getItem() instanceof TimeLockItem)) {
+            player.displayClientMessage(Component.literal("ERROR: You must hold a time lock to set the time.").withStyle(ChatFormatting.RED), false);
             return 1;
         }
 
@@ -59,16 +60,17 @@ public class CuffedPlusCommand {
         int minutes = IntegerArgumentType.getInteger(ctx, "minutes");
         int hours = IntegerArgumentType.getInteger(ctx, "hours");
 
-        long ticksTime = (seconds * 20L) + (minutes * 20L * 60L) + (hours * 20L * 60L * 60L);
+        long ticks_time = (seconds * 20L) + (minutes * 20L * 60L) + (hours * 20L * 60L * 60L);
 
-        RestraintItem restraintItem = (RestraintItem) itemInMainHand.getItem();
+        TimeLockItem timeLock = (TimeLockItem) itemInMainHand.getItem();
 
         // set the time
-        restraintItem.seconds = seconds;
-        restraintItem.minutes = minutes;
-        restraintItem.hours = hours;
-        restraintItem.ticks_time = ticksTime;
-        itemInMainHand.getOrCreateTag().putLong("Time", restraintItem.ticks_time);
+        timeLock.seconds = seconds;
+        timeLock.minutes = minutes;
+        timeLock.hours = hours;
+        timeLock.ticks_time = ticks_time;
+        itemInMainHand.getOrCreateTag().putLong("Time", timeLock.ticks_time);
+        player.displayClientMessage(Component.literal("Time of " + seconds + "s : " + minutes + "m : " + hours + "h : (" + ticks_time + " ticks) applied").withStyle(ChatFormatting.GREEN), false);
         return 0;
     }
 

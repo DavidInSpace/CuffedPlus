@@ -25,7 +25,6 @@ import java.util.List;
 
 
 public class JumpsuitItem extends Item {
-
     ICuffedPlusServerConfigMixin config = (ICuffedPlusServerConfigMixin) CuffedMod.SERVER_CONFIG;
 
     public JumpsuitItem(Properties Item) {

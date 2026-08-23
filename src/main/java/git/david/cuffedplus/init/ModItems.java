@@ -138,7 +138,7 @@ public class ModItems {
             () -> new ModifierItem(new Item.Properties().stacksTo(16).rarity(Rarity.UNCOMMON)));
 
     public static final RegistryObject<Item> TIME_LOCK = ITEMS.register("time_lock",
-            () -> new ModifierItem(new Item.Properties().stacksTo(1).rarity(Rarity.COMMON)));
+            () -> new TimeLockItem(new Item.Properties().stacksTo(1).rarity(Rarity.COMMON)));
 
     /* JUMPSUIT & Ankle Monitor MODIFICATORS */
 

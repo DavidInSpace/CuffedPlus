@@ -125,6 +125,8 @@ public class CuffedPlusMain {
     private void commonSetup(final FMLCommonSetupEvent event) {
         LOGGER.info("Cuffed Plus: Running commonSetup");
 
+        ModStatistics.setup();
+
         DispenseItemBehavior dispenseitembehavior = new OptionalDispenseItemBehavior() {
             protected @NotNull ItemStack execute(@Nonnull BlockSource source, @Nonnull ItemStack stack) {
                 this.setSuccess(AbstractRestraintItem.dispenseRestraint(source, stack));
