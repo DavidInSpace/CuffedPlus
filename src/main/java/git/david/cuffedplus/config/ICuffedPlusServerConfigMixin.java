@@ -15,7 +15,9 @@ public interface ICuffedPlusServerConfigMixin {
     String getPlayersAttackBehavior();
     // (Options: "none", onlyPrisoners, "onlyOfficers", "both")
     String getPrisonersAttackBehavior();
-
+    boolean allowUnlockingTimeLockedRestraints();
+    boolean allowBreakingTimeLockedRestraints();
+    boolean allowLockpickingTimeLockedRestraints();
 
     /** PREFIXES **/
 

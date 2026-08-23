@@ -24,7 +24,11 @@ public abstract class CuffedServerConfigMixin extends LazrConfig implements ICuf
 
     ConfigProperty<Integer> INCREASE_REINFORCED_BLOCKS_STRENGTH;
     ConfigProperty<Boolean> KEEP_LOCKED_GEAR_ON_DEATH;
-
+    ConfigProperty<String> GET_PLAYERS_ATTACK_BEHAVIOR;
+    ConfigProperty<String> GET_PRISONERS_ATTACK_BEHAVIOR;
+    ConfigProperty<Boolean> ALLOW_UNLOCKING_TIME_LOCKED_RESTRAINTS;
+    ConfigProperty<Boolean> ALLOW_BREAKING_TIME_LOCKED_RESTRAINTS;
+    ConfigProperty<Boolean> ALLOW_LOCKPICKING_TIME_LOCKED_RESTRAINTS;
 
     ConfigProperty<Boolean> SHOW_ROLE_PREFIX;
     ConfigProperty<Boolean> ROLE_PREFIX_BOLD;
@@ -69,6 +73,9 @@ public abstract class CuffedServerConfigMixin extends LazrConfig implements ICuf
             GENERAL_SETTINGS = createCategory(new ConfigCategory(this, "General Settings"), (c5) -> {
                 KEEP_LOCKED_GEAR_ON_DEATH = c5.putProperty(new ConfigProperty<Boolean>(this, "Keep Locked Gear On Death", "Locked jumpsuits wont drop on death even if keepInventory gamerule is turned off", true));
                 // INCREASE_REINFORCED_BLOCKS_STRENGTH = c5.putProperty(new ConfigProperty<Integer>(this, "Reinforced Blocks Strength Increase", "Blocks that should have increased reinforced strength.", 1000));
+                ALLOW_UNLOCKING_TIME_LOCKED_RESTRAINTS = c5.putProperty(new ConfigProperty<Boolean>(this, "Allow Unlocking Time Locked Restraints", "Whether restraints locked with a time lock can be unlocked with their respective key", true));
+                ALLOW_BREAKING_TIME_LOCKED_RESTRAINTS = c5.putProperty(new ConfigProperty<Boolean>(this, "Allow Breaking Time Locked Restraints", "Whether restraints locked with a time lock can be broken out of", false));
+                ALLOW_LOCKPICKING_TIME_LOCKED_RESTRAINTS = c5.putProperty(new ConfigProperty<Boolean>(this, "Allow Lockpicking Time Locked Restraints", "Whether restraints locked with a time lock can be lockpicked", true));
             });
 
 
@@ -115,7 +122,11 @@ public abstract class CuffedServerConfigMixin extends LazrConfig implements ICuf
 
     @Override public boolean keepLockedGearOnDeath() {return KEEP_LOCKED_GEAR_ON_DEATH.get();}
     @Override public int increaseReinforcedBlockStrength() {return INCREASE_REINFORCED_BLOCKS_STRENGTH.get();}
-
+    @Override public String getPlayersAttackBehavior() {return GET_PLAYERS_ATTACK_BEHAVIOR.get();}
+    @Override public String getPrisonersAttackBehavior() {return GET_PRISONERS_ATTACK_BEHAVIOR.get();}
+    @Override public boolean allowUnlockingTimeLockedRestraints() {return ALLOW_UNLOCKING_TIME_LOCKED_RESTRAINTS.get();}
+    @Override public boolean allowBreakingTimeLockedRestraints() {return ALLOW_BREAKING_TIME_LOCKED_RESTRAINTS.get();}
+    @Override public boolean allowLockpickingTimeLockedRestraints() {return ALLOW_LOCKPICKING_TIME_LOCKED_RESTRAINTS.get();}
 
     @Override public boolean showRolePrefixes() {return SHOW_ROLE_PREFIX.get();}
     @Override public boolean rolePrefixesBold() {return ROLE_PREFIX_BOLD.get();}
