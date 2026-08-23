@@ -1,5 +1,6 @@
 package git.david.cuffedplus.items.restraints.custom;
 
+import com.lazrproductions.cuffed.CuffedMod;
 import com.lazrproductions.cuffed.api.CuffedAPI;
 import com.lazrproductions.cuffed.cap.base.IRestrainableCapability;
 import com.lazrproductions.cuffed.entity.animation.ArmRestraintAnimationFlags;
@@ -14,6 +15,7 @@ import com.lazrproductions.lazrslib.client.screen.ScreenUtilities;
 import com.lazrproductions.lazrslib.client.screen.base.BlitCoordinates;
 import com.mojang.blaze3d.platform.Window;
 import git.david.cuffedplus.CuffedPlusMain;
+import git.david.cuffedplus.config.ICuffedPlusServerConfigMixin;
 import git.david.cuffedplus.init.ModItems;
 import git.david.cuffedplus.init.ModModelLayers;
 import git.david.cuffedplus.init.ModRestraints;
@@ -298,7 +300,7 @@ import static git.david.cuffedplus.misc.Icons.BEDROCK_CHAIN_ICON;
 */
 
 public class BedrockCuffsLegsRestraint extends AbstractLegRestraint implements IBreakableRestraint, IEnchantableRestraint {
-
+    ICuffedPlusServerConfigMixin config = (ICuffedPlusServerConfigMixin) CuffedMod.SERVER_CONFIG;
     public static final ResourceLocation ID = ModRestraints.BEDROCK_CUFFS_LEGS.getId();
     public static final Item ITEM = ModItems.BEDROCK_CUFFS.get();
     public static final Item KEY = ModItems.BEDROCK_CUFFS_KEY.get();

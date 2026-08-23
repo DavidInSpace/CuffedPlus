@@ -1,5 +1,6 @@
 package git.david.cuffedplus.items.restraints.custom;
 
+import com.lazrproductions.cuffed.CuffedMod;
 import com.lazrproductions.cuffed.entity.animation.ArmRestraintAnimationFlags;
 import com.lazrproductions.cuffed.entity.animation.LegRestraintAnimationFlags;
 import com.lazrproductions.cuffed.init.ModModelLayers;
@@ -7,6 +8,7 @@ import com.lazrproductions.cuffed.restraints.base.AbstractHeadRestraint;
 import com.lazrproductions.cuffed.restraints.client.RestraintModelInterface;
 import com.lazrproductions.lazrslib.client.screen.base.ScreenTexture;
 import git.david.cuffedplus.CuffedPlusMain;
+import git.david.cuffedplus.config.ICuffedPlusServerConfigMixin;
 import git.david.cuffedplus.init.ModItems;
 import git.david.cuffedplus.init.ModRestraints;
 import git.david.cuffedplus.items.restraints.client.model.AnkleMonitorModel;
@@ -31,7 +33,7 @@ import javax.annotation.Nonnull;
 
 
 public class ExampleHeadRestraint extends AbstractHeadRestraint {
-
+    ICuffedPlusServerConfigMixin config = (ICuffedPlusServerConfigMixin) CuffedMod.SERVER_CONFIG;
     static final ResourceLocation CUFFED_WIDGETS = ResourceLocation.fromNamespaceAndPath(CuffedPlusMain.MODID, "textures/gui/widgets.png");
     //static final ResourceLocation BUNDLE_TEXTURE = new ResourceLocation(CuffedMod.MODID, "textures/gui/bundle_overlay.png");
 

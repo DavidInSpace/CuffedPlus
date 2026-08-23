@@ -4,6 +4,7 @@ import java.util.Random;
 
 import javax.annotation.Nonnull;
 
+import com.lazrproductions.cuffed.CuffedMod;
 import com.lazrproductions.cuffed.api.CuffedAPI;
 import com.lazrproductions.cuffed.cap.base.IRestrainableCapability;
 import com.lazrproductions.cuffed.entity.animation.ArmRestraintAnimationFlags;
@@ -18,6 +19,7 @@ import com.lazrproductions.cuffed.restraints.client.RestraintModelInterface;
 import com.lazrproductions.lazrslib.client.screen.ScreenUtilities;
 import com.lazrproductions.lazrslib.client.screen.base.BlitCoordinates;
 import git.david.cuffedplus.CuffedPlusMain;
+import git.david.cuffedplus.config.ICuffedPlusServerConfigMixin;
 import git.david.cuffedplus.init.ModItems;
 import git.david.cuffedplus.init.ModModelLayers;
 import git.david.cuffedplus.init.ModRestraints;
@@ -301,7 +303,7 @@ import static git.david.cuffedplus.misc.Icons.CAUTION_TAPE_ICON;
  */
 
 public class HazardTapeArmsRestraint extends AbstractArmRestraint implements IBreakableRestraint, IEnchantableRestraint {
-
+    ICuffedPlusServerConfigMixin config = (ICuffedPlusServerConfigMixin) CuffedMod.SERVER_CONFIG;
     private final ItemStack sourceStack;
 
     public HazardTapeArmsRestraint() {

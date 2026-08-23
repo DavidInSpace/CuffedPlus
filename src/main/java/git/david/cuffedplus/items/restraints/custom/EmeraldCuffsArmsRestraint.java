@@ -21,6 +21,7 @@ import com.lazrproductions.lazrslib.client.screen.ScreenUtilities;
 import com.lazrproductions.lazrslib.client.screen.base.BlitCoordinates;
 import com.lazrproductions.lazrslib.client.screen.base.ScreenTexture;
 import git.david.cuffedplus.CuffedPlusMain;
+import git.david.cuffedplus.config.ICuffedPlusServerConfigMixin;
 import git.david.cuffedplus.init.ModItems;
 import git.david.cuffedplus.init.ModModelLayers;
 import git.david.cuffedplus.init.ModRestraints;
@@ -304,7 +305,7 @@ import static git.david.cuffedplus.misc.Icons.EMERALD_CHAIN_ICON;
  */
 
 public class EmeraldCuffsArmsRestraint extends AbstractArmRestraint implements IBreakableRestraint, IEnchantableRestraint {
-
+    ICuffedPlusServerConfigMixin config = (ICuffedPlusServerConfigMixin) CuffedMod.SERVER_CONFIG;
     private final ItemStack sourceStack;
 
     public EmeraldCuffsArmsRestraint() {

@@ -16,6 +16,7 @@ import com.lazrproductions.cuffed.restraints.base.IEnchantableRestraint;
 import com.lazrproductions.cuffed.restraints.base.RestraintType;
 import com.lazrproductions.cuffed.restraints.client.RestraintModelInterface;
 
+import git.david.cuffedplus.config.ICuffedPlusServerConfigMixin;
 import git.david.cuffedplus.items.restraints.client.model.HazardTapeLegsModel;
 import com.lazrproductions.lazrslib.client.screen.ScreenUtilities;
 import com.lazrproductions.lazrslib.client.screen.base.BlitCoordinates;
@@ -303,7 +304,7 @@ import static git.david.cuffedplus.misc.Icons.CAUTION_TAPE_ICON;
 */
 
 public class HazardTapeLegsRestraint extends AbstractLegRestraint implements IBreakableRestraint, IEnchantableRestraint {
-
+    ICuffedPlusServerConfigMixin config = (ICuffedPlusServerConfigMixin) CuffedMod.SERVER_CONFIG;
     private final ItemStack sourceStack;
 
     public HazardTapeLegsRestraint() {

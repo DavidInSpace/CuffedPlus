@@ -1,7 +1,10 @@
 package git.david.cuffedplus.items.restraints.custom;
 
+import com.lazrproductions.cuffed.CuffedMod;
 import com.lazrproductions.cuffed.api.CuffedAPI;
+import com.lazrproductions.cuffed.cap.RestrainableCapability;
 import com.lazrproductions.cuffed.cap.base.IRestrainableCapability;
+import com.lazrproductions.cuffed.cap.provider.RestrainableCapabilityProvider;
 import com.lazrproductions.cuffed.entity.animation.ArmRestraintAnimationFlags;
 import com.lazrproductions.cuffed.entity.animation.LegRestraintAnimationFlags;
 import com.lazrproductions.cuffed.entity.base.IRestrainableEntity;
@@ -15,6 +18,7 @@ import com.lazrproductions.lazrslib.client.screen.ScreenUtilities;
 import com.lazrproductions.lazrslib.client.screen.base.BlitCoordinates;
 import com.mojang.blaze3d.platform.Window;
 import git.david.cuffedplus.CuffedPlusMain;
+import git.david.cuffedplus.config.ICuffedPlusServerConfigMixin;
 import git.david.cuffedplus.init.ModItems;
 import git.david.cuffedplus.init.ModModelLayers;
 import git.david.cuffedplus.init.ModRestraints;
@@ -307,7 +311,7 @@ import static git.david.cuffedplus.misc.Icons.GOLD_CHAIN_ICON;
  */
 
 public class GoldCuffsArmsRestraint extends AbstractArmRestraint implements IBreakableRestraint, IEnchantableRestraint {
-
+    ICuffedPlusServerConfigMixin config = (ICuffedPlusServerConfigMixin) CuffedMod.SERVER_CONFIG;
     public static final ResourceLocation ID = ModRestraints.GOLD_CUFFS_ARMS.getId();
     public static final Item ITEM = ModItems.GOLD_CUFFS.get();
     public static final Item KEY = ModItems.GOLD_CUFFS_KEY.get();
@@ -363,11 +367,63 @@ public class GoldCuffsArmsRestraint extends AbstractArmRestraint implements IBre
     public int getLockpickingProgressPerPick() {return 3;}
     public int getLockpickingSpeedIncreasePerPick() {return 2;}
 
+    long ticks = 0;
+    public void tick(ServerPlayer player, ItemStack sourceStack) {
+        RestraintItem item = (RestraintItem) sourceStack.getItem();
+        player.displayClientMessage(Component.literal("🔒 " + item.seconds + "s : " + item.minutes + "m : " + item.hours + "h 🔒").withStyle(ChatFormatting.RED).withStyle(ChatFormatting.BOLD), true);
+        item.ticks_time--;
+        sourceStack.getOrCreateTag().putLong("Time", item.ticks_time);
+
+        if (item.ticks_time - ticks <= -20 || ticks == 0) {
+            ticks = item.ticks_time;
+            item.seconds--;
+        }
+
+        if (item.hours < 1 && item.minutes < 1 && item.seconds < 1) {
+            player.displayClientMessage(Component.literal("🔓 Time ran out. " + this.getName() + " Restraints unlocked 🔓").withStyle(ChatFormatting.GREEN) , true);
+            sourceStack.getOrCreateTag().putLong("Time", item.ticks_time);
+            item.ticks_time = -1;
+            item.hours = 0;
+            item.seconds = 0;
+            item.minutes = 0;
+            RestrainableCapability playerRestrainableCapability = (RestrainableCapability) CuffedAPI.Capabilities.getRestrainableCapability(player);
+            playerRestrainableCapability.UnequipRestraint(player, player, this.getType());
+            sourceStack.getOrCreateTag().putBoolean("Timer", false);
+            return;
+        }
+
+        if (item.minutes < 1 && item.seconds < 1) {
+            item.minutes = 59;
+            item.hours--;
+        }
+
+        if (item.seconds < 1) {
+            item.seconds = 59;
+            item.minutes--;
+        }
+
+    }
 
     public void onTickServer(ServerPlayer player) {
         super.onTickServer(player);
-        ItemStack sourceStack = this.sourceStack;
-        RestraintItem item = (RestraintItem) this.getItem();
+        RestrainableCapability playerCap = (RestrainableCapability) CuffedAPI.Capabilities.getRestrainableCapability(player);
+        assert playerCap.getArmRestraint() != null;
+        ItemStack sourceStack = playerCap.getArmRestraint().saveToItemStack();
+        RestraintItem item = (RestraintItem) sourceStack.getItem();
+        item.ticks_time = sourceStack.getOrCreateTag().getLong("Time");
+        //System.out.println(item.ticks_time + "  " + item.seconds + "  " + item.minutes + "  " + item.hours + "  " + sourceStack.getOrCreateTag().getLong("Time") + "  " + sourceStack.getOrCreateTag().getBoolean("Timer")); // TODO: TEST ME OUT!!!
+        if (sourceStack.getOrCreateTag().getBoolean("Timer") && item.ticks_time >= 0 && !(item.seconds < 1 && item.minutes < 1 && item.hours < 1)) {
+            tick(player, sourceStack);
+        } else if (sourceStack.getOrCreateTag().getBoolean("Timer") && item.ticks_time > 0 && (item.seconds < 1 && item.minutes < 1 && item.hours < 1)) {
+            int total_seconds = (int) item.ticks_time / 20;
+            int seconds = total_seconds % 60;
+            int minutes = total_seconds / 60;
+            int hours = minutes / 60;
+            minutes = (minutes - (hours * 60));
+            item.seconds = seconds;
+            item.minutes = minutes;
+            item.hours = hours;
+        }
 
         if (sourceStack.getOrCreateTag().getBoolean("SaturationModifier")) {
             if (player.getFoodData().needsFood()) {
@@ -403,10 +459,24 @@ public class GoldCuffsArmsRestraint extends AbstractArmRestraint implements IBre
 
     public void onUnequippedServer(ServerPlayer player) {
         super.onUnequippedServer(player);
+
     }
 
     public void onUnequippedClient(Player player) {
         super.onUnequippedClient(player);
+        System.out.println("RESTRAINT UNEQUIPPED SERVER");
+        RestrainableCapability playerCap = (RestrainableCapability) CuffedAPI.Capabilities.getRestrainableCapability(player);
+        assert playerCap.getArmRestraint() != null;
+        ItemStack sourceStack = playerCap.getArmRestraint().saveToItemStack();
+        if (sourceStack.getOrCreateTag().getBoolean("Timer")) {
+            sourceStack.getOrCreateTag().putBoolean("Timer", false);
+            sourceStack.getOrCreateTag().putLong("Time", 0);
+            RestraintItem item = (RestraintItem) sourceStack.getItem();
+            item.ticks_time = 0;
+            item.seconds = 0;
+            item.minutes = 0;
+            item.hours = 0;
+        }
     }
 
     public void onLoginServer(ServerPlayer player) {
