@@ -15,7 +15,7 @@ public class AttackBehavior {
 
         if (!(target instanceof Player)) return;
         Player targetPlayer = (Player) target;
-        if (!ConfigHandler.handleAttackBehavior(attacker, targetPlayer, false, true)) {
+        if (!ConfigHandler.handleAttackBehavior(attacker, targetPlayer)) {
             event.setCanceled(true);
         }
     }

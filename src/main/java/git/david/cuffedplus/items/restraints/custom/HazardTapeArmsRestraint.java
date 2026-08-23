@@ -1,9 +1,5 @@
 package git.david.cuffedplus.items.restraints.custom;
 
-import java.util.Random;
-
-import javax.annotation.Nonnull;
-
 import com.lazrproductions.cuffed.CuffedMod;
 import com.lazrproductions.cuffed.api.CuffedAPI;
 import com.lazrproductions.cuffed.cap.base.IRestrainableCapability;
@@ -15,16 +11,14 @@ import com.lazrproductions.cuffed.restraints.base.IBreakableRestraint;
 import com.lazrproductions.cuffed.restraints.base.IEnchantableRestraint;
 import com.lazrproductions.cuffed.restraints.base.RestraintType;
 import com.lazrproductions.cuffed.restraints.client.RestraintModelInterface;
-
 import com.lazrproductions.lazrslib.client.screen.ScreenUtilities;
 import com.lazrproductions.lazrslib.client.screen.base.BlitCoordinates;
+import com.mojang.blaze3d.platform.Window;
 import git.david.cuffedplus.CuffedPlusMain;
 import git.david.cuffedplus.config.ICuffedPlusServerConfigMixin;
 import git.david.cuffedplus.init.ModItems;
 import git.david.cuffedplus.init.ModModelLayers;
 import git.david.cuffedplus.init.ModRestraints;
-import com.mojang.blaze3d.platform.Window;
-
 import git.david.cuffedplus.items.restraints.client.model.HazardTapeArmsModel;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Options;
@@ -54,6 +48,9 @@ import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.GameType;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+
+import javax.annotation.Nonnull;
+import java.util.Random;
 
 import static git.david.cuffedplus.misc.Icons.CAUTION_TAPE_ICON;
 
@@ -353,12 +350,6 @@ public class HazardTapeArmsRestraint extends AbstractArmRestraint implements IBr
     }
     public SoundEvent getUnequipSound() {
         return SoundEvents.AXE_STRIP;
-    }
-
-    private boolean getBooleanTag(String key, boolean defaultValue) {
-        if (sourceStack == null || sourceStack.isEmpty()) return defaultValue;
-        CompoundTag tag = sourceStack.getTag();
-        return tag != null && tag.contains(key) ? tag.getBoolean(key) : defaultValue;
     }
 
     @Override

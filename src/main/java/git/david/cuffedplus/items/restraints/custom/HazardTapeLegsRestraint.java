@@ -1,9 +1,5 @@
 package git.david.cuffedplus.items.restraints.custom;
 
-import java.util.Random;
-
-import javax.annotation.Nonnull;
-
 import com.lazrproductions.cuffed.CuffedMod;
 import com.lazrproductions.cuffed.api.CuffedAPI;
 import com.lazrproductions.cuffed.cap.base.IRestrainableCapability;
@@ -15,18 +11,15 @@ import com.lazrproductions.cuffed.restraints.base.IBreakableRestraint;
 import com.lazrproductions.cuffed.restraints.base.IEnchantableRestraint;
 import com.lazrproductions.cuffed.restraints.base.RestraintType;
 import com.lazrproductions.cuffed.restraints.client.RestraintModelInterface;
-
-import git.david.cuffedplus.config.ICuffedPlusServerConfigMixin;
-import git.david.cuffedplus.items.restraints.client.model.HazardTapeLegsModel;
 import com.lazrproductions.lazrslib.client.screen.ScreenUtilities;
 import com.lazrproductions.lazrslib.client.screen.base.BlitCoordinates;
-import com.lazrproductions.lazrslib.client.screen.base.ScreenTexture;
+import com.mojang.blaze3d.platform.Window;
 import git.david.cuffedplus.CuffedPlusMain;
+import git.david.cuffedplus.config.ICuffedPlusServerConfigMixin;
 import git.david.cuffedplus.init.ModItems;
 import git.david.cuffedplus.init.ModModelLayers;
 import git.david.cuffedplus.init.ModRestraints;
-import com.mojang.blaze3d.platform.Window;
-
+import git.david.cuffedplus.items.restraints.client.model.HazardTapeLegsModel;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Options;
 import net.minecraft.client.gui.GuiGraphics;
@@ -55,6 +48,9 @@ import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.GameType;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+
+import javax.annotation.Nonnull;
+import java.util.Random;
 
 import static git.david.cuffedplus.misc.Icons.CAUTION_TAPE_ICON;
 
@@ -311,6 +307,7 @@ public class HazardTapeLegsRestraint extends AbstractLegRestraint implements IBr
         enchantments = new ListTag();
         this.sourceStack = ItemStack.EMPTY;
     }
+
     public HazardTapeLegsRestraint(ItemStack stack, ServerPlayer player, ServerPlayer captor) {
         super(stack, player, captor);
         this.durability = getMaxDurability() - stack.getDamageValue();
@@ -321,6 +318,7 @@ public class HazardTapeLegsRestraint extends AbstractLegRestraint implements IBr
     // #region Restraint Properties
 
     public static final ResourceLocation ID = ModRestraints.HAZARD_TAPE_LEGS.getId();
+
     public ResourceLocation getId() {
         return ID;
     }
@@ -328,23 +326,29 @@ public class HazardTapeLegsRestraint extends AbstractLegRestraint implements IBr
     public String getActionBarLabel() {
         return "info.cuffedplus.restraints.legcuffs.action_bar";
     }
+
     public String getName() {
         return "info.cuffedplus.restraints.legcuffs.name";
     }
 
-    public static final Item ITEM =  ModItems.HAZARD_TAPE.get();
+    public static final Item ITEM = ModItems.HAZARD_TAPE.get();
+
     public Item getItem() {
         return ITEM;
     }
+
     public static final Item KEY = Items.SHEARS;
+
     public Item getKeyItem() {
         return KEY;
     }
 
     public static final LegRestraintAnimationFlags LEG_ANIMATION_FLAGS = LegRestraintAnimationFlags.NONE;
+
     public ArmRestraintAnimationFlags getArmAnimationFlags() {
         return ArmRestraintAnimationFlags.NONE;
     }
+
     public LegRestraintAnimationFlags getLegAnimationFlags() {
         return LEG_ANIMATION_FLAGS;
     }
@@ -352,9 +356,7 @@ public class HazardTapeLegsRestraint extends AbstractLegRestraint implements IBr
     public SoundEvent getEquipSound() {
         return SoundEvents.AXE_STRIP;
     }
-    public SoundEvent getUnequipSound() {
-        return  SoundEvents.AXE_STRIP;
-    }
+    int lastBarIndex = 0;
 
     private boolean getBooleanTag(String key, boolean defaultValue) {
         if (sourceStack == null || sourceStack.isEmpty()) return defaultValue;
@@ -376,9 +378,10 @@ public class HazardTapeLegsRestraint extends AbstractLegRestraint implements IBr
     public boolean AllowMovement() {
         return getBooleanTag("AllowMovement", false);
     }
-
-    @Override
-    public boolean AllowSprinting() {return getBooleanTag("AllowSprinting", false);}
+    /**
+     * Changed only server-side. changes are synced to client.
+     */
+    private int durability = 100;
 
     @Override
     public boolean AllowJumping() {
@@ -398,6 +401,7 @@ public class HazardTapeLegsRestraint extends AbstractLegRestraint implements IBr
     public int getLockpickingProgressPerPick() {
         return 3;
     }
+
     public int getLockpickingSpeedIncreasePerPick() {
         return 2;
     }
@@ -406,6 +410,7 @@ public class HazardTapeLegsRestraint extends AbstractLegRestraint implements IBr
     // #region Events
 
     int tickCount = 0;
+
     public void onTickServer(ServerPlayer player) {
         super.onTickServer(player);
         ItemStack sourceStack = this.sourceStack;
@@ -423,11 +428,8 @@ public class HazardTapeLegsRestraint extends AbstractLegRestraint implements IBr
         }
     }
 
-    public void onTickClient(Player player) {
-        super.onTickClient(player);
-
-        if(breakCooldown>0)
-            breakCooldown--;
+    public SoundEvent getUnequipSound() {
+        return SoundEvents.AXE_STRIP;
     }
 
     public void onEquippedServer(ServerPlayer player, ServerPlayer captor) {
@@ -439,6 +441,7 @@ public class HazardTapeLegsRestraint extends AbstractLegRestraint implements IBr
             player.displayClientMessage(Component.literal("You have been reduced to a normal person without a way back").withStyle(ChatFormatting.YELLOW), true);
         }
     }
+
     public void onEquippedClient(Player player, Player captor) {
         super.onEquippedClient(player, captor);
     }
@@ -486,25 +489,17 @@ public class HazardTapeLegsRestraint extends AbstractLegRestraint implements IBr
 
     // #region Client-Side operations
 
-    int lastBarIndex = 0;;
-    public void renderOverlay(Player player, GuiGraphics graphics, float partialTick, Window window) {
-        super.renderOverlay(player, graphics, partialTick, window);
+    @Override
+    public boolean AllowSprinting() {
+        return getBooleanTag("AllowSprinting", false);
+    }
+    ;
 
-        // Display Icon and chain overlay
-        float f = (Mth.clamp(breakCooldown / 10, 0, 1)+1);
-        graphics.setColor(f, f, f, 1);
+    public void onTickClient(Player player) {
+        super.onTickClient(player);
 
-        int iconWidth = (int) (16 * 1.75f);
-        int iconHeight = (int) (16 * 1.75f);
-        int x = (window.getGuiScaledWidth() / 2) - (iconWidth / 2);
-        int y = (window.getGuiScaledHeight() / 2) - (iconHeight) - 65; // 65 pixels is where the arm icon is rendered, it's 30 for legs and 100 for the head.
-
-        ScreenUtilities.drawTexture(graphics, new BlitCoordinates(x, y, iconWidth, iconHeight), CAUTION_TAPE_ICON);
-        graphics.setColor(1, 1, 1, 1);
-
-        // Display break progress bar
-        float p = Mth.clamp((float)clientSidedDurability / (float)getMaxDurability(), 0, 1);
-        ScreenUtilities.drawGenericProgressBar(graphics, new BlitCoordinates(x, y+iconHeight-2, iconWidth, iconHeight), p);
+        if (breakCooldown > 0)
+            breakCooldown--;
     }
 
 
@@ -547,8 +542,25 @@ public class HazardTapeLegsRestraint extends AbstractLegRestraint implements IBr
         return true;
     }
 
-    /** Changed only server-side. changes are synced to client. */
-    private int durability = 100;
+    public void renderOverlay(Player player, GuiGraphics graphics, float partialTick, Window window) {
+        super.renderOverlay(player, graphics, partialTick, window);
+
+        // Display Icon and chain overlay
+        float f = (Mth.clamp(breakCooldown / 10, 0, 1) + 1);
+        graphics.setColor(f, f, f, 1);
+
+        int iconWidth = (int) (16 * 1.75f);
+        int iconHeight = (int) (16 * 1.75f);
+        int x = (window.getGuiScaledWidth() / 2) - (iconWidth / 2);
+        int y = (window.getGuiScaledHeight() / 2) - (iconHeight) - 65; // 65 pixels is where the arm icon is rendered, it's 30 for legs and 100 for the head.
+
+        ScreenUtilities.drawTexture(graphics, new BlitCoordinates(x, y, iconWidth, iconHeight), CAUTION_TAPE_ICON);
+        graphics.setColor(1, 1, 1, 1);
+
+        // Display break progress bar
+        float p = Mth.clamp((float) clientSidedDurability / (float) getMaxDurability(), 0, 1);
+        ScreenUtilities.drawGenericProgressBar(graphics, new BlitCoordinates(x, y + iconHeight - 2, iconWidth, iconHeight), p);
+    }
 
     public int getDurability() {
         return durability;
@@ -564,7 +576,7 @@ public class HazardTapeLegsRestraint extends AbstractLegRestraint implements IBr
                     Random r = new Random();
                     double chance = 0.5f;
                     double cooldownMultiplier = 1;
-                    if(this instanceof IEnchantableRestraint && hasEnchantment(Enchantments.UNBREAKING)) {
+                    if (this instanceof IEnchantableRestraint && hasEnchantment(Enchantments.UNBREAKING)) {
                         double d = getEnchantmentLevel(Enchantments.UNBREAKING) / 3d;
                         chance = 0.5f;//((MathUtilities.invert01(d / 3d) * 0.7d) + 0.3d)  * 0.5f;
                         cooldownMultiplier = 1 + d;
@@ -639,6 +651,7 @@ public class HazardTapeLegsRestraint extends AbstractLegRestraint implements IBr
     public ListTag getEnchantments() {
         return enchantments;
     }
+
     public void setEnchantments(ListTag tag) {
         enchantments = tag;
     }
@@ -654,6 +667,7 @@ public class HazardTapeLegsRestraint extends AbstractLegRestraint implements IBr
         }
         return false;
     }
+
     public int getEnchantmentLevel(Enchantment enchantment) {
         ResourceLocation resourcelocation = EnchantmentHelper.getEnchantmentId(enchantment);
         for (int i = 0; i < enchantments.size(); ++i) {
@@ -665,6 +679,7 @@ public class HazardTapeLegsRestraint extends AbstractLegRestraint implements IBr
         }
         return 0;
     }
+
     public void enchant(Enchantment enchantment, int value) {
         ResourceLocation l = EnchantmentHelper.getEnchantmentId(enchantment);
         enchantments.add(EnchantmentHelper.storeEnchantment(l, value));
@@ -674,7 +689,7 @@ public class HazardTapeLegsRestraint extends AbstractLegRestraint implements IBr
     @OnlyIn(Dist.CLIENT)
     public static class HazardTapeLegsRestraintModelInterface extends RestraintModelInterface {
         @SuppressWarnings("unchecked")
-        static final Class<? extends HumanoidModel<? extends LivingEntity>> MODEL_CLASS = (Class<? extends HumanoidModel<? extends LivingEntity>>)(Class<?>) HazardTapeLegsModel.class;
+        static final Class<? extends HumanoidModel<? extends LivingEntity>> MODEL_CLASS = (Class<? extends HumanoidModel<? extends LivingEntity>>) (Class<?>) HazardTapeLegsModel.class;
         static final ModelLayerLocation MODEL_LAYER = ModModelLayers.HAZARD_TAPE_LEGS_LAYER;
         static final ResourceLocation MODEL_TEXTURE = ResourceLocation.fromNamespaceAndPath(CuffedPlusMain.MODID, "textures/entity/hazard_tape.png");
 
@@ -682,10 +697,12 @@ public class HazardTapeLegsRestraint extends AbstractLegRestraint implements IBr
         public Class<? extends HumanoidModel<? extends LivingEntity>> getRenderedModel() {
             return MODEL_CLASS;
         }
+
         @Override
         public ModelLayerLocation getRenderedModelLayer() {
             return MODEL_LAYER;
         }
+
         @Override
         public ResourceLocation getRenderedModelTexture() {
             return MODEL_TEXTURE;
