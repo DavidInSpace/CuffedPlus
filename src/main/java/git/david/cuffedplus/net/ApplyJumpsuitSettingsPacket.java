@@ -32,7 +32,7 @@ public class ApplyJumpsuitSettingsPacket {
             ItemStack stack = player.containerMenu.getSlot(0).getItem();
             if (!(stack.getItem() instanceof JumpsuitItem)) return;
 
-            JumpsuitItem.setNumber(stack, packet.number);
+            stack.getOrCreateTag().putInt("JumpsuitNumber", packet.number);
 
         });
         ctx.get().setPacketHandled(true);

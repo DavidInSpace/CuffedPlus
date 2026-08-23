@@ -451,6 +451,8 @@ public class GoldCuffsArmsRestraint extends AbstractArmRestraint implements IBre
             item.seconds = seconds;
             item.minutes = minutes;
             item.hours = hours;
+        } else if (sourceStack.getOrCreateTag().getBoolean("Timer") && item.ticks_time < 1) {
+            sourceStack.getOrCreateTag().putBoolean("Timer", false);
         }
 
         if (sourceStack.getOrCreateTag().getBoolean("SaturationModifier")) {
@@ -477,6 +479,7 @@ public class GoldCuffsArmsRestraint extends AbstractArmRestraint implements IBre
 
     public void onEquippedServer(ServerPlayer player, ServerPlayer captor) {
         super.onEquippedServer(player, captor);
+        System.out.println("RESTRAINT EQUIPPED SERVER");
         if (sourceStack.getOrCreateTag().getInt("AntiGodModifier") == 1) {
             player.displayClientMessage(Component.literal("You have been reduced to a normal person").withStyle(ChatFormatting.YELLOW), true);
             player.setGameMode(GameType.SURVIVAL);
@@ -486,44 +489,73 @@ public class GoldCuffsArmsRestraint extends AbstractArmRestraint implements IBre
     }
 
     public void onUnequippedServer(ServerPlayer player) {
-        super.onUnequippedServer(player);
         System.out.println("RESTRAINT UNEQUIPPED SERVER");
+
+        RestrainableCapability playerCap = (RestrainableCapability) CuffedAPI.Capabilities.getRestrainableCapability(player);
+        assert playerCap.getArmRestraint() != null;
+        ItemStack sourceStack = playerCap.getArmRestraint().saveToItemStack();
+        RestraintItem item = (RestraintItem) sourceStack.getItem();
+        item.ticks_time = -1;
+        item.seconds = 0;
+        item.minutes = 0;
+        item.hours = 0;
+        RestraintItem thisitem = (RestraintItem) sourceStack.getItem();
+        thisitem.ticks_time = -1;
+        thisitem.seconds = 0;
+        thisitem.minutes = 0;
+        thisitem.hours = 0;
+        sourceStack.getOrCreateTag().putLong("Time", item.ticks_time);
+        this.sourceStack.getOrCreateTag().putLong("Time", item.ticks_time);
+        sourceStack.getOrCreateTag().putBoolean("Timer", false);
+        this.sourceStack.getOrCreateTag().putBoolean("Timer", false);
+        super.onUnequippedServer(player);
     }
 
-    // FIXME when taking of a restraint this method runs but after putting on the restraint again the timer continous to run for some reason
+    // FIXME: when taking of a restraint this method runs but after putting on the restraint again the timer continues to run
     public void onUnequippedClient(Player player) {
-        super.onUnequippedClient(player);
         System.out.println("RESTRAINT UNEQUIPPED CLIENT");
         RestrainableCapability playerCap = (RestrainableCapability) CuffedAPI.Capabilities.getRestrainableCapability(player);
         assert playerCap.getArmRestraint() != null;
         ItemStack sourceStack = playerCap.getArmRestraint().saveToItemStack();
-        this.sourceStack.getOrCreateTag().putBoolean("Timer", false);
-        this.sourceStack.getOrCreateTag().putLong("Time", 0);
-        sourceStack.getOrCreateTag().putBoolean("Timer", false);
-        sourceStack.getOrCreateTag().putLong("Time", 0);
         RestraintItem item = (RestraintItem) sourceStack.getItem();
-        item.ticks_time = 0;
+        item.ticks_time = -1;
         item.seconds = 0;
         item.minutes = 0;
         item.hours = 0;
+        RestraintItem thisitem = (RestraintItem) sourceStack.getItem();
+        thisitem.ticks_time = -1;
+        thisitem.seconds = 0;
+        thisitem.minutes = 0;
+        thisitem.hours = 0;
+        sourceStack.getOrCreateTag().putLong("Time", item.ticks_time);
+        this.sourceStack.getOrCreateTag().putLong("Time", item.ticks_time);
+        sourceStack.getOrCreateTag().putBoolean("Timer", false);
+        this.sourceStack.getOrCreateTag().putBoolean("Timer", false);
+        super.onUnequippedClient(player);
     }
 
     public void onLoginServer(ServerPlayer player) {
+        System.out.println("LOGIN SERVER");
     }
 
     public void onLoginClient(Player player) {
+        System.out.println("LOGIN CLIENT");
     }
 
     public void onLogoutServer(ServerPlayer player) {
+        System.out.println("LOGOUT SERVER");
     }
 
     public void onLogoutClient(Player player) {
+        System.out.println("LOGOUT CLIENT");
     }
 
     public void onDeathServer(ServerPlayer player) {
+        System.out.println("DEATH SERVER");
     }
 
     public void onDeathClient(Player player) {
+        System.out.println("DEATH CLIENT");
     }
 
     // #endregion
@@ -536,9 +568,7 @@ public class GoldCuffsArmsRestraint extends AbstractArmRestraint implements IBre
     public void onJumpClient(Player player) {
     }
 
-    public float onLandServer(ServerPlayer player, float distance, float damageMultiplier) {
-        return 1;
-    }
+    public float onLandServer(ServerPlayer player, float distance, float damageMultiplier) {return 1;}
 
     public void onLandClient(Player player, float distance, float damageMultiplier) {
     }
@@ -586,27 +616,18 @@ public class GoldCuffsArmsRestraint extends AbstractArmRestraint implements IBre
         return SoundEvents.ITEM_BREAK;
     }
 
-    public boolean isKeyToAttemptBreak(int keyCode, Options options) {
-        return keyCode == options.keyAttack.getKey().getValue() || keyCode == options.keyUse.getKey().getValue();
-    }
+    public boolean isKeyToAttemptBreak(int keyCode, Options options) {return keyCode == options.keyAttack.getKey().getValue() || keyCode == options.keyUse.getKey().getValue();}
 
-    public boolean requireAlternateKeysToAttemptBreak() {
-        return true;
-    }
+    public boolean requireAlternateKeysToAttemptBreak() {return true;}
 
-    public int getMaxDurability() {
-        return ModItems.GOLD_CUFFS.get().getMaxDamage(ModItems.GOLD_CUFFS.get().getDefaultInstance());
-    }
+    public int getMaxDurability() {return ModItems.GOLD_CUFFS.get().getMaxDamage(ModItems.GOLD_CUFFS.get().getDefaultInstance());}
 
-    public boolean dropItemOnBroken() {
-        return true;
-    }
+    public boolean dropItemOnBroken() {return true;}
 
-    public int getDurability() {
-        return durability;
-    }
+    public int getDurability() {return durability;}
 
     public void attemptToBreak(Player player, int keyCode, int action, Options options) {
+        System.out.println("ATTEMPT TO BREAK");
         if (breakCooldown <= 0) {
             if (isKeyToAttemptBreak(keyCode, options)) {
                 if (!requireAlternateKeysToAttemptBreak() || keyCode != lastKeyPressed) {
@@ -652,6 +673,7 @@ public class GoldCuffsArmsRestraint extends AbstractArmRestraint implements IBre
     }
 
     public void onBrokenServer(ServerPlayer player) {
+        System.out.println("ON BROKEN SERVER");
         CuffedAPI.Networking.sendRestraintUtilityPacketToClient(player, getType(), 103, 0, false, 0, "");
 
         Random random = new Random();
@@ -682,6 +704,7 @@ public class GoldCuffsArmsRestraint extends AbstractArmRestraint implements IBre
     // #region Enchantable Restraint Management
 
     public void onBrokenClient(Player player) {
+        System.out.println("ON BROKEN CLIENT");
     }
 
     public ListTag getEnchantments() {

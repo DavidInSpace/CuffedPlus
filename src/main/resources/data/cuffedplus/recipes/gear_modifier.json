@@ -1,0 +1,7 @@
+{
+  "type": "cuffedplus:gear_modifier",
+  "template": { "tag": "cuffedplus:gear_modifiers"  },
+  "base": { "tag": "cuffedplus:gear" },
+  "addition": { "tag": "cuffedplus:modifier_trigger" },
+  "result": {"item": "minecraft:air"}
+}

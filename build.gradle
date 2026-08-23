@@ -21,6 +21,7 @@ println "Java: ${System.getProperty('java.version')}, JVM: ${System.getProperty(
 minecraft {
     mappings channel: "parchment", version: "2023.09.03-1.20.1"
 
+
     copyIdeResources = true
 
     runs {
@@ -29,7 +30,6 @@ minecraft {
 
             property 'forge.logging.markers', 'REGISTRIES'
             property 'forge.logging.console.level', 'debug'
-
             arg '--mixin.config'
             arg 'mixins.cuffedplus.json'
 

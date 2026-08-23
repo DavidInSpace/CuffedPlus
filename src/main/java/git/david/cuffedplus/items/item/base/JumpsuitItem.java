@@ -31,7 +31,6 @@ public class JumpsuitItem extends Item {
         super(Item);
     }
 
-
     /**
      * public static void setNumber(ItemStack stack, byte number) {
      * Item item = stack.getItem();
@@ -44,37 +43,6 @@ public class JumpsuitItem extends Item {
      * return stack.getOrCreateTag().getByte("number");
      * }
      */
-
-    public static void setNumber(ItemStack stack, byte number) {
-        stack.getOrCreateTag().putByte("JumpsuitNumber", number);
-    }
-
-    public static byte getNumber(ItemStack stack) {
-        return stack.getOrCreateTag().getByte("JumpsuitNumber");
-    }
-
-    public static void setCanBeLocked(ItemStack stack, boolean value) {
-        stack.getOrCreateTag().putBoolean("CanBeLocked", value);
-    }
-
-    public static void canBeLocked(ItemStack stack) {
-        stack.getOrCreateTag().getBoolean("CanBeLocked");
-    }
-
-    public static void setLocked(ItemStack stack, boolean value) {
-        stack.getOrCreateTag().putBoolean("Locked", value);
-    }
-
-    public static boolean getLocked(ItemStack stack) {
-        return stack.getOrCreateTag().getBoolean("Locked");
-    }
-
-    public static void setHighVisibility(ItemStack stack, boolean value) {stack.getOrCreateTag().putBoolean("HighVisibility", value);}
-
-    public static boolean getHighVisibility(ItemStack stack) {return stack.getOrCreateTag().getBoolean("HighVisibility");}
-
-    public static void setGlowing(ItemStack stack, int value)  {stack.getOrCreateTag().putInt("Glowing", value);}
-    public static int getGlowing(ItemStack stack) { return stack.getOrCreateTag().getInt("Glowing");}
 
 
     @Override
@@ -181,9 +149,9 @@ public class JumpsuitItem extends Item {
         }
 
         if (stack.getOrCreateTag().getInt("Glowing") > 0) {
-            tooltip.add(Component.literal("Glowing " + getGlowing(stack)).withStyle(ChatFormatting.YELLOW));
+            tooltip.add(Component.literal("Glowing " + stack.getOrCreateTag().getBoolean("Glowing")).withStyle(ChatFormatting.YELLOW));
         } else {
-            tooltip.remove(Component.literal("Glowing " + getGlowing(stack)).withStyle(ChatFormatting.YELLOW));
+            tooltip.remove(Component.literal("Glowing " + stack.getOrCreateTag().getBoolean("Glowing")).withStyle(ChatFormatting.YELLOW));
         }
 
         //tooltip.add(Component.literal("Number: " + number).withStyle(ChatFormatting.GRAY));

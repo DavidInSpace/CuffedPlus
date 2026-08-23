@@ -41,15 +41,15 @@ public record GearModifierRecipe(ResourceLocation id, Ingredient template, Ingre
 
             switch (Objects.requireNonNull(modKey).toString()) {
                 case "cuffedplus:lock_modifier":
-                    JumpsuitItem.setCanBeLocked(baseItem, true);
-                    JumpsuitItem.setLocked(baseItem, false);
+                    baseItem.getOrCreateTag().putBoolean("CanBeLocked", true);
+                    baseItem.getOrCreateTag().putBoolean("Locked", false);
                     break;
                 case "cuffedplus:high_visibility_modifier":
-                    JumpsuitItem.setHighVisibility(baseItem, true);
+                    baseItem.getOrCreateTag().putBoolean("HighVisibility", true);
                     break;
                 case "cuffedplus:glowing_modifier":
-                    if (RestraintItem.getAntiGodModifier(baseItem) < 5) {
-                        JumpsuitItem.setGlowing(baseItem, JumpsuitItem.getGlowing(baseItem) + 1);
+                    if (baseItem.getOrCreateTag().getInt("Glowing") < 15) {
+                        baseItem.getOrCreateTag().putInt("Glowing",baseItem.getOrCreateTag().getInt("Glowing") + 1);
                     }
                     break;
                 default:
@@ -58,15 +58,15 @@ public record GearModifierRecipe(ResourceLocation id, Ingredient template, Ingre
         } else if (additionItem.is(Items.NETHERITE_SCRAP)) {
             switch (Objects.requireNonNull(modKey).toString()) {
                 case "cuffedplus:lock_modifier":
-                    JumpsuitItem.setCanBeLocked(baseItem, false);
-                    JumpsuitItem.setLocked(baseItem, false);
+                    baseItem.getOrCreateTag().putBoolean("CanBeLocked", false);
+                    baseItem.getOrCreateTag().putBoolean("Locked", false);
                     break;
                 case "cuffedplus:high_visibility_modifier":
-                    JumpsuitItem.setHighVisibility(baseItem, false);
+                    baseItem.getOrCreateTag().putBoolean("HighVisibility", true);
                     break;
                 case "cuffedplus:glowing_modifier":
-                    if (RestraintItem.getAntiGodModifier(baseItem) > 0) {
-                        JumpsuitItem.setGlowing(baseItem, JumpsuitItem.getGlowing(baseItem) - 1);
+                    if (baseItem.getOrCreateTag().getInt("Glowing") > 0) {
+                        baseItem.getOrCreateTag().putInt("Glowing",baseItem.getOrCreateTag().getInt("Glowing") - 1);
                     }
                     break;
                 default:
