@@ -48,6 +48,7 @@ public class RestraintItem extends AbstractRestraintItem {
         int minutes = total_seconds / 60;
         int hours = minutes / 60;
         minutes = (minutes - (hours * 60));
+
         return new int[] {seconds , minutes, hours};
     }
 
@@ -59,7 +60,12 @@ public class RestraintItem extends AbstractRestraintItem {
 
         if (getTimerEnabled(stack)) {
 //            long ticks_time = getTime(stack);
-            int[] time = ticksToTime(this.ticks_time);
+            long tick_time = stack.getOrCreateTag().getLong("Time");
+            int[] time = ticksToTime(ticks_time);
+            this.ticks_time = tick_time;
+            this.seconds = time[0];
+            this.minutes = time[1];
+            this.hours = time[2];
             System.out.println(this.seconds + "s : " + this.minutes + "m : " + this.hours);
             tooltip.add(Component.literal(this.seconds + "s : " + this.minutes + "m : " + this.hours + "h").withStyle(ChatFormatting.YELLOW));
         }

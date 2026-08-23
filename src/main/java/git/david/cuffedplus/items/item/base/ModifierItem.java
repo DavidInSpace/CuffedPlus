@@ -54,7 +54,7 @@ public class ModifierItem extends Item {
                 tooltip.add(Component.literal("works on hands and legs").withStyle(ChatFormatting.DARK_GRAY));
                 break;
             default:
-                tooltip.add(Component.literal("Unknown modifier").withStyle(ChatFormatting.RED));
+                tooltip.add(Component.literal("Unknown modifier (" + stack.getItem() + ")").withStyle(ChatFormatting.RED));
                 break;
         }
 

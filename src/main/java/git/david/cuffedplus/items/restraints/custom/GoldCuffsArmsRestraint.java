@@ -4,10 +4,8 @@ import com.lazrproductions.cuffed.CuffedMod;
 import com.lazrproductions.cuffed.api.CuffedAPI;
 import com.lazrproductions.cuffed.cap.RestrainableCapability;
 import com.lazrproductions.cuffed.cap.base.IRestrainableCapability;
-import com.lazrproductions.cuffed.cap.provider.RestrainableCapabilityProvider;
 import com.lazrproductions.cuffed.entity.animation.ArmRestraintAnimationFlags;
 import com.lazrproductions.cuffed.entity.animation.LegRestraintAnimationFlags;
-import com.lazrproductions.cuffed.entity.base.IRestrainableEntity;
 import com.lazrproductions.cuffed.init.ModStatistics;
 import com.lazrproductions.cuffed.restraints.base.AbstractArmRestraint;
 import com.lazrproductions.cuffed.restraints.base.IBreakableRestraint;
@@ -24,7 +22,6 @@ import git.david.cuffedplus.init.ModModelLayers;
 import git.david.cuffedplus.init.ModRestraints;
 import git.david.cuffedplus.init.ModSounds;
 import git.david.cuffedplus.items.item.base.RestraintItem;
-import git.david.cuffedplus.items.restraints.base.ITimedRestraint;
 import git.david.cuffedplus.items.restraints.client.model.GoldCuffsArmsModel;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Options;
@@ -47,23 +44,16 @@ import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.GameType;
-import net.minecraft.world.level.levelgen.WorldDimensions;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import org.apache.logging.log4j.core.jmx.Server;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
 
 import javax.annotation.Nonnull;
-import java.util.Objects;
 import java.util.Random;
 
-import static dev.architectury.utils.GameInstance.getServer;
 import static git.david.cuffedplus.misc.Icons.GOLD_CHAIN_ICON;
 
 /*
@@ -393,41 +383,28 @@ public class GoldCuffsArmsRestraint extends AbstractArmRestraint implements IBre
     public int getLockpickingProgressPerPick() {return 3;}
     public int getLockpickingSpeedIncreasePerPick() {return 2;}
 
+    long ticks_time = 0;
     long ticks = 0;
     public void tick(ServerPlayer player, ItemStack sourceStack) {
-        RestraintItem item = (RestraintItem) sourceStack.getItem();
-        player.displayClientMessage(Component.literal("🔒 " + item.seconds + "s : " + item.minutes + "m : " + item.hours + "h 🔒").withStyle(ChatFormatting.RED).withStyle(ChatFormatting.BOLD), true);
-        item.ticks_time--;
-        sourceStack.getOrCreateTag().putLong("Time", item.ticks_time);
-        this.sourceStack.getOrCreateTag().putLong("Time", item.ticks_time);
-        if (item.ticks_time - ticks <= -20 || ticks == 0) {
-            ticks = item.ticks_time;
-            item.seconds--;
+        int[] time = RestraintItem.ticksToTime(ticks_time);
+        int seconds = time[0];
+        int minutes = time[1];
+        int hours = time[2];
+        player.displayClientMessage(Component.literal("🔒 " + seconds + "s : " + minutes + "m : " + hours + "h 🔒").withStyle(ChatFormatting.RED).withStyle(ChatFormatting.BOLD), true);
+        ticks_time--;
+        sourceStack.getOrCreateTag().putLong("Time", ticks_time);
+        this.sourceStack.getOrCreateTag().putLong("Time", ticks_time);
+        if (ticks_time - ticks <= -20 || ticks == 0) {
+            ticks = ticks_time;
         }
 
-        if (item.hours < 1 && item.minutes < 1 && item.seconds < 1) {
+        if (ticks_time < 1) {
             player.displayClientMessage(Component.literal("🔓 Time ran out. " + this.getName() + " Restraints unlocked 🔓").withStyle(ChatFormatting.GREEN) , true);
-            item.ticks_time = -1;
-            item.hours = 0;
-            item.seconds = 0;
-            item.minutes = 0;
-            sourceStack.getOrCreateTag().putLong("Time", item.ticks_time);
-            this.sourceStack.getOrCreateTag().putLong("Time", item.ticks_time);
+            ticks_time = -1;
+            sourceStack.getOrCreateTag().putLong("Time", ticks_time);
             sourceStack.getOrCreateTag().putBoolean("Timer", false);
-            this.sourceStack.getOrCreateTag().putBoolean("Timer", false);
             RestrainableCapability playerRestrainableCapability = (RestrainableCapability) CuffedAPI.Capabilities.getRestrainableCapability(player);
             playerRestrainableCapability.UnequipRestraint(player, player, this.getType());
-            return;
-        }
-
-        if (item.minutes < 1 && item.seconds < 1) {
-            item.minutes = 59;
-            item.hours--;
-        }
-
-        if (item.seconds < 1) {
-            item.seconds = 59;
-            item.minutes--;
         }
 
     }
@@ -438,21 +415,16 @@ public class GoldCuffsArmsRestraint extends AbstractArmRestraint implements IBre
         assert playerCap.getArmRestraint() != null;
         ItemStack sourceStack = playerCap.getArmRestraint().saveToItemStack();
         RestraintItem item = (RestraintItem) sourceStack.getItem();
-        item.ticks_time = sourceStack.getOrCreateTag().getLong("Time");
+        ticks_time = sourceStack.getOrCreateTag().getLong("Time");
         //System.out.println(item.ticks_time + "  " + item.seconds + "  " + item.minutes + "  " + item.hours + "  " + sourceStack.getOrCreateTag().getLong("Time") + "  " + sourceStack.getOrCreateTag().getBoolean("Timer")); // TODO: TEST ME OUT!!!
-        if (sourceStack.getOrCreateTag().getBoolean("Timer") && item.ticks_time > 0 && !(item.seconds < 1 && item.minutes < 1 && item.hours < 1)) {
+        if (sourceStack.getOrCreateTag().getBoolean("Timer") && ticks_time > 0) {
             tick(player, sourceStack);
-        } else if (sourceStack.getOrCreateTag().getBoolean("Timer") && item.ticks_time > 0 && (item.seconds < 1 && item.minutes < 1 && item.hours < 1)) {
-            int total_seconds = (int) item.ticks_time / 20;
-            int seconds = total_seconds % 60;
-            int minutes = total_seconds / 60;
-            int hours = minutes / 60;
-            minutes = (minutes - (hours * 60));
-            item.seconds = seconds;
-            item.minutes = minutes;
-            item.hours = hours;
-        } else if (sourceStack.getOrCreateTag().getBoolean("Timer") && item.ticks_time < 1) {
+        }
+
+        if (sourceStack.getOrCreateTag().getBoolean("Timer") && ticks_time < 1) {
             sourceStack.getOrCreateTag().putBoolean("Timer", false);
+        } else if (!sourceStack.getOrCreateTag().getBoolean("Timer") && ticks_time > 0) {
+            sourceStack.getOrCreateTag().putBoolean("Timer", true);
         }
 
         if (sourceStack.getOrCreateTag().getBoolean("SaturationModifier")) {
@@ -489,49 +461,26 @@ public class GoldCuffsArmsRestraint extends AbstractArmRestraint implements IBre
     }
 
     public void onUnequippedServer(ServerPlayer player) {
+        super.onUnequippedServer(player);
         System.out.println("RESTRAINT UNEQUIPPED SERVER");
-
         RestrainableCapability playerCap = (RestrainableCapability) CuffedAPI.Capabilities.getRestrainableCapability(player);
         assert playerCap.getArmRestraint() != null;
         ItemStack sourceStack = playerCap.getArmRestraint().saveToItemStack();
-        RestraintItem item = (RestraintItem) sourceStack.getItem();
-        item.ticks_time = -1;
-        item.seconds = 0;
-        item.minutes = 0;
-        item.hours = 0;
-        RestraintItem thisitem = (RestraintItem) sourceStack.getItem();
-        thisitem.ticks_time = -1;
-        thisitem.seconds = 0;
-        thisitem.minutes = 0;
-        thisitem.hours = 0;
-        sourceStack.getOrCreateTag().putLong("Time", item.ticks_time);
-        this.sourceStack.getOrCreateTag().putLong("Time", item.ticks_time);
+        ticks_time = 0;
+        sourceStack.getOrCreateTag().putLong("Time", ticks_time);
         sourceStack.getOrCreateTag().putBoolean("Timer", false);
-        this.sourceStack.getOrCreateTag().putBoolean("Timer", false);
-        super.onUnequippedServer(player);
     }
 
     // FIXME: when taking of a restraint this method runs but after putting on the restraint again the timer continues to run
     public void onUnequippedClient(Player player) {
+        super.onUnequippedClient(player);
         System.out.println("RESTRAINT UNEQUIPPED CLIENT");
         RestrainableCapability playerCap = (RestrainableCapability) CuffedAPI.Capabilities.getRestrainableCapability(player);
         assert playerCap.getArmRestraint() != null;
         ItemStack sourceStack = playerCap.getArmRestraint().saveToItemStack();
-        RestraintItem item = (RestraintItem) sourceStack.getItem();
-        item.ticks_time = -1;
-        item.seconds = 0;
-        item.minutes = 0;
-        item.hours = 0;
-        RestraintItem thisitem = (RestraintItem) sourceStack.getItem();
-        thisitem.ticks_time = -1;
-        thisitem.seconds = 0;
-        thisitem.minutes = 0;
-        thisitem.hours = 0;
-        sourceStack.getOrCreateTag().putLong("Time", item.ticks_time);
-        this.sourceStack.getOrCreateTag().putLong("Time", item.ticks_time);
+        ticks_time = 0;
+        sourceStack.getOrCreateTag().putLong("Time", ticks_time);
         sourceStack.getOrCreateTag().putBoolean("Timer", false);
-        this.sourceStack.getOrCreateTag().putBoolean("Timer", false);
-        super.onUnequippedClient(player);
     }
 
     public void onLoginServer(ServerPlayer player) {

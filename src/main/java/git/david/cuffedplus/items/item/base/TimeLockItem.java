@@ -2,16 +2,12 @@ package git.david.cuffedplus.items.item.base;
 
 import com.lazrproductions.cuffed.api.CuffedAPI;
 import com.lazrproductions.cuffed.cap.RestrainableCapability;
-import com.lazrproductions.cuffed.restraints.RestraintAPI;
 import com.lazrproductions.cuffed.restraints.base.RestraintType;
 import net.minecraft.ChatFormatting;
-import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionResultHolder;
-import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.entity.Interaction;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -128,7 +124,7 @@ public class TimeLockItem extends Item {
             restraintStack.getOrCreateTag().putBoolean("Timer", true);
             targetPlayer.displayClientMessage(Component.literal("A time lock was applied to your leg restraint lasting ").append(Component.literal(this.seconds + "s : " + this.minutes + "m : " + this.hours + "h : (" + this.ticks_time + " ticks)").withStyle(ChatFormatting.BOLD)).withStyle(ChatFormatting.RED), false);
         }
-
+        if (!user.getAbilities().instabuild) stack.shrink(1);
         return InteractionResult.PASS;
     }
 

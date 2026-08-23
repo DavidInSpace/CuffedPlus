@@ -46,9 +46,8 @@ public class JumpsuitKey extends Item {
 
         if (currentChest.getOrCreateTag().getBoolean("Locked")) {
 
-
             // TODO: Make a helper function to check whether players can do a certain action instead of reusing code
-            if (config.getPlayersOwnJumpsuitLockBehavior().equals("onlyLock") || config.getPlayersOwnJumpsuitLockBehavior().equals("none")) {
+            if (config.getPlayersOwnJumpsuitLockBehavior().equals("onlyLock".toLowerCase()) || config.getPlayersOwnJumpsuitLockBehavior().equals("none")) {
                 player.playSound(SoundEvents.IRON_DOOR_CLOSE, 1, (float) Math.random() * 1.5F);
                 player.displayClientMessage(Component.literal("🔒 You can not unlock your own jumpsuit 🔒").withStyle(ChatFormatting.RED), true);
                 return InteractionResultHolder.fail(itemInHand);

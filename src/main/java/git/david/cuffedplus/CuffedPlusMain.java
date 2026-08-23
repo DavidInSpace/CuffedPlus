@@ -1,13 +1,13 @@
 package git.david.cuffedplus;
 
-import com.lazrproductions.cuffed.event.ModServerEvents;
 import com.lazrproductions.cuffed.items.base.AbstractRestraintItem;
 import com.lazrproductions.cuffed.restraints.RestraintAPI;
 import com.lazrproductions.cuffed.restraints.base.AbstractRestraint;
 import git.david.cuffedplus.command.CuffedPlusCommand;
-import git.david.cuffedplus.logic.*;
+import git.david.cuffedplus.config.AttackBehavior;
 import git.david.cuffedplus.events.ModClientEvents;
 import git.david.cuffedplus.init.*;
+import git.david.cuffedplus.logic.*;
 import net.minecraft.core.BlockSource;
 import net.minecraft.core.dispenser.DispenseItemBehavior;
 import net.minecraft.core.dispenser.OptionalDispenseItemBehavior;
@@ -116,6 +116,7 @@ public class CuffedPlusMain {
         MinecraftForge.EVENT_BUS.register(new ModClientEvents());
         MinecraftForge.EVENT_BUS.register(new TakeOffLogic());
         MinecraftForge.EVENT_BUS.register(new GearModifiersLogic());
+        MinecraftForge.EVENT_BUS.register(new AttackBehavior());
 
         modEventBus.addListener(this::onRegister);
         modEventBus.addListener(this::commonSetup);
