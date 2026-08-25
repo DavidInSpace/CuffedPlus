@@ -118,10 +118,8 @@ public class JumpsuitItem extends Item {
 
             ItemStack jumpsuit = stack.copy();
 
-            user.getItemInHand(hand).shrink(1);
             if (!user.getAbilities().instabuild) stack.shrink(1);
             target.setItemSlot(EquipmentSlot.CHEST, jumpsuit);
-
 
         }
         ModStatistics.awardGearPutOnOthers((ServerPlayer) user, user.getItemInHand(hand).getItem());
@@ -153,6 +151,7 @@ public class JumpsuitItem extends Item {
         } else {
             tooltip.remove(Component.literal("Glowing " + stack.getOrCreateTag().getBoolean("Glowing")).withStyle(ChatFormatting.YELLOW));
         }
+
 
         //tooltip.add(Component.literal("Number: " + number).withStyle(ChatFormatting.GRAY));
         super.appendHoverText(stack, level, tooltip, flag);

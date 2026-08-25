@@ -1,0 +1,40 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "IEI",
+    "GCG",
+    "ITI"
+  ],
+  "key": {
+    "I": {
+      "item": "minecraft:iron_ingot"
+    },
+    "E": {
+      "item": "minecraft:emerald"
+    },
+    "G": [
+      {
+        "item": "minecraft:blue_stained_glass"
+      },
+      {
+        "item": "minecraft:light_blue_stained_glass"
+      },
+      {
+        "item": "minecraft:blue_stained_glass_pane"
+      },
+      {
+        "item": "minecraft:light_blue_stained_glass_pane"
+      }
+    ],
+    "C": {
+      "item": "minecraft:calibrated_sculk_sensor"
+    },
+    "T": {
+      "item": "minecraft:redstone_torch"
+    }
+  },
+  "result": {
+    "item": "cuffedplus:ankle_monitor_tracker",
+    "count": 1
+  }
+}

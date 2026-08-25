@@ -1,10 +1,12 @@
 package git.david.cuffedplus.command;
 
+import com.lazrproductions.cuffed.api.CuffedAPI;
+import com.lazrproductions.cuffed.cap.RestrainableCapability;
+import com.lazrproductions.cuffed.restraints.base.RestraintType;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
-import git.david.cuffedplus.items.item.base.RestraintItem;
 import git.david.cuffedplus.items.item.base.TimeLockItem;
 import git.david.cuffedplus.utils.GeneralUtils;
 import net.minecraft.ChatFormatting;
@@ -16,32 +18,92 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.server.command.EnumArgument;
+
+import java.util.Objects;
 
 public class CuffedPlusCommand {
     public CuffedPlusCommand(CommandDispatcher<CommandSourceStack> dispatcher, CommandBuildContext ctx) {
         dispatcher.register(
                 Commands.literal("cuffed").requires((source) -> {
-                    return source.hasPermission(2) || !source.isPlayer();
-                }).then(Commands.literal("plus")
-                        .then(Commands.literal("time_lock")
-                                .then(Commands.literal("set")
-                                        .then(Commands.argument("seconds", IntegerArgumentType.integer(0, 60))
-                                                .then(Commands.argument("minutes", IntegerArgumentType.integer(0, 60))
-                                                        .then(Commands.argument("hours", IntegerArgumentType.integer(0))
-                                                                .executes(this::setTimeModifierTime))))))
-                        .then(Commands.literal("roles")
-                                .then(Commands.literal("get")
-                                        .then(Commands.argument("player", EntityArgument.player())
-                                                .executes(this::executeGetRole)))
-                                .then(Commands.literal("set")
-                                        .then(Commands.argument("player", EntityArgument.player())
-                                                .then(Commands.literal("prisoner")
-                                                        .executes(this::executeApplyPrisonerRole))
-                                                .then(Commands.literal("officer")
-                                                        .executes(this::executeApplyOfficerRole))
-                                                .then(Commands.literal("none")
-                                                        .executes(this::executeApplyNoneRole)))))));
+                            return source.hasPermission(2) || !source.isPlayer();
+                        }).then(Commands.argument("player", EntityArgument.player())
+                                .then(Commands.literal("time_lock")
+                                        .then(Commands.argument("type", EnumArgument.enumArgument(RestraintType.class))
+                                                .then(Commands.argument("seconds", IntegerArgumentType.integer(0, 60))
+                                                        .executes(this::TimeLockRestraint)
+                                                        .then(Commands.argument("minutes", IntegerArgumentType.integer(0, 60))
+                                                                .executes(this::TimeLockRestraint)
+                                                                .then(Commands.argument("hours", IntegerArgumentType.integer(0))
+                                                                        .executes(this::TimeLockRestraint)))))))
+                        .then(Commands.literal("plus")
+                                .then(Commands.literal("time_lock")
+                                        .then(Commands.literal("set")
+                                                .then(Commands.argument("seconds", IntegerArgumentType.integer(0, 60))
+                                                        .then(Commands.argument("minutes", IntegerArgumentType.integer(0, 60))
+                                                                .then(Commands.argument("hours", IntegerArgumentType.integer(0))
+                                                                        .executes(this::setTimeModifierTime))))))
+                                .then(Commands.literal("roles")
+                                        .then(Commands.literal("get")
+                                                .then(Commands.argument("player", EntityArgument.player())
+                                                        .executes(this::executeGetRole)))
+                                        .then(Commands.literal("set")
+                                                .then(Commands.argument("player", EntityArgument.player())
+                                                        .then(Commands.literal("prisoner")
+                                                                .executes(this::executeApplyPrisonerRole))
+                                                        .then(Commands.literal("officer")
+                                                                .executes(this::executeApplyOfficerRole))
+                                                        .then(Commands.literal("none")
+                                                                .executes(this::executeApplyNoneRole)))))));
     }
+
+
+    private int TimeLockRestraint(CommandContext<CommandSourceStack> ctx) {
+        try {
+            int seconds = IntegerArgumentType.getInteger(ctx, "seconds");
+            int minutes = IntegerArgumentType.getInteger(ctx, "minutes");
+            int hours = IntegerArgumentType.getInteger(ctx, "hours");
+            ServerPlayer sender = ctx.getSource().getPlayer();
+            if (seconds == 0 && minutes == 0 && hours == 0) {
+                assert sender != null;
+                sender.displayClientMessage(Component.translatable("command.cuffedplus.time.too_little"), true);
+                return 1;
+            }
+            ServerPlayer player = EntityArgument.getPlayer(ctx, "player");
+
+            RestraintType type = ctx.getArgument("type", RestraintType.class);
+            RestrainableCapability playerCap = (RestrainableCapability) CuffedAPI.Capabilities.getRestrainableCapability(player);
+            String pKey = type == RestraintType.Arm ? "info.cuffed.arms" : type == RestraintType.Head ? "info.cuffed.head" : "info.cuffed.legs";
+            if (!playerCap.isRestrained(type)) {
+                assert sender != null;
+                if (sender.getUUID() != player.getUUID()) {
+                    sender.displayClientMessage(Component.translatable("command.cuffedplus.restraint.missing", player.getName(), Component.translatable(pKey)).withStyle(ChatFormatting.RED), false);
+                } else {
+                    sender.displayClientMessage(Component.translatable("command.cuffedplus.restraint.own_missing", Component.translatable(pKey)).withStyle(ChatFormatting.RED), false);
+                }
+                return 1;
+            }
+
+            ItemStack restraintStack = Objects.requireNonNull(playerCap.getRestraint(type)).saveToItemStack();
+            long ticks_time = (seconds * 20L) + (minutes * 20L * 60L) + (hours * 20L * 60L * 60L);
+            restraintStack.getOrCreateTag().putBoolean("DropTimeLock", false);
+            restraintStack.getOrCreateTag().putLong("Time", ticks_time);
+            restraintStack.getOrCreateTag().putBoolean("Timer", true);
+            assert sender != null;
+            if (sender.getUUID() != player.getUUID()) {
+                sender.displayClientMessage(Component.literal("Time lock applied to " + player.getName() + "'s ").append(Component.translatable(pKey)).append(Component.literal(" lasting " + seconds + "s : " + minutes + "m : " + hours + "h").withStyle(ChatFormatting.BOLD)).withStyle(ChatFormatting.GREEN), false);
+                player.displayClientMessage(Component.literal("A time lock was applied to your ").append(Component.translatable(pKey)).append(Component.literal(" lasting " + seconds + "s : " + minutes + "m : " + hours + "h").withStyle(ChatFormatting.BOLD)).withStyle(ChatFormatting.GREEN), false);
+            } else {
+                sender.displayClientMessage(Component.literal("You applied a time lock on to your ").append(Component.translatable(pKey)).append(Component.literal(" lasting " + seconds + "s : " + minutes + "m : " + hours + "h").withStyle(ChatFormatting.BOLD)).withStyle(ChatFormatting.GREEN), false);
+            }
+            return 0;
+        } catch (CommandSyntaxException exception) {
+            return 1;
+        }
+
+
+    }
+
 
     private int setTimeModifierTime(CommandContext<CommandSourceStack> ctx) {
         if (!ctx.getSource().isPlayer()) return 1;
@@ -51,7 +113,7 @@ public class CuffedPlusCommand {
         ItemStack itemInMainHand = player.getMainHandItem();
         player.displayClientMessage(Component.literal(itemInMainHand.getItem() + " : " + itemInMainHand.getItem().getDefaultInstance() + " : " + itemInMainHand.getOrCreateTag().getBoolean("Timer")), false);
         // Check whether the item in hand is a Restraint Item with a Timer Modifier Applied to it
-        if (!(itemInMainHand.getItem() instanceof TimeLockItem)) {
+        if (!(itemInMainHand.getItem() instanceof TimeLockItem timeLock)) {
             player.displayClientMessage(Component.literal("ERROR: You must hold a time lock to set the time.").withStyle(ChatFormatting.RED), false);
             return 1;
         }
@@ -61,8 +123,6 @@ public class CuffedPlusCommand {
         int hours = IntegerArgumentType.getInteger(ctx, "hours");
 
         long ticks_time = (seconds * 20L) + (minutes * 20L * 60L) + (hours * 20L * 60L * 60L);
-
-        TimeLockItem timeLock = (TimeLockItem) itemInMainHand.getItem();
 
         // set the time
         timeLock.seconds = seconds;

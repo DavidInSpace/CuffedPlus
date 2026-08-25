@@ -18,27 +18,29 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
-import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 import javax.annotation.Nonnull;
 
 
-
 public class ExampleHeadRestraint extends AbstractHeadRestraint {
-    ICuffedPlusServerConfigMixin config = (ICuffedPlusServerConfigMixin) CuffedMod.SERVER_CONFIG;
-    static final ResourceLocation CUFFED_WIDGETS = ResourceLocation.fromNamespaceAndPath(CuffedPlusMain.MODID, "textures/gui/widgets.png");
+    public static final ResourceLocation ID = ModRestraints.EXAMPLE_HEAD_RESTRAINT.getId();
+    public static final Item ITEM = ModItems.EXAMPLE_HEAD_RESTRAINT.get();
     //static final ResourceLocation BUNDLE_TEXTURE = new ResourceLocation(CuffedMod.MODID, "textures/gui/bundle_overlay.png");
-
-    static final ScreenTexture CHAIN_ICON = new ScreenTexture(CUFFED_WIDGETS, 44, 24, 16, 16, 192, 192);
+    public static final Item KEY = null;
 //    static final ScreenTexture BUNDLE_OVERLAY = new ScreenTexture(BUNDLE_TEXTURE, 0, 0, 32, 18, 32, 18);
+static final ResourceLocation CUFFED_WIDGETS = ResourceLocation.fromNamespaceAndPath(CuffedPlusMain.MODID, "textures/gui/widgets.png");
+    static final ScreenTexture CHAIN_ICON = new ScreenTexture(CUFFED_WIDGETS, 44, 24, 16, 16, 192, 192);
+    ICuffedPlusServerConfigMixin config = (ICuffedPlusServerConfigMixin) CuffedMod.SERVER_CONFIG;
+
+    // #region Restraint Properties
+    int tickCount = 0;
+    int lastBarIndex = 0;
 
     public ExampleHeadRestraint() {
 
@@ -58,9 +60,6 @@ public class ExampleHeadRestraint extends AbstractHeadRestraint {
         return true;
     }
 
-    // #region Restraint Properties
-
-    public static final ResourceLocation ID = ModRestraints.EXAMPLE_HEAD_RESTRAINT.getId();
     public ResourceLocation getId() {
         return ID;
     }
@@ -68,15 +67,15 @@ public class ExampleHeadRestraint extends AbstractHeadRestraint {
     public String getActionBarLabel() {
         return "info.cuffed.restraints.bundle.action_bar";
     }
+
     public String getName() {
         return "info.cuffed.restraints.bundle.name";
     }
 
-    public static final Item ITEM =  ModItems.EXAMPLE_HEAD_RESTRAINT.get();
     public Item getItem() {
         return ITEM;
     }
-    public static final Item KEY = null;
+
     public Item getKeyItem() {
         return KEY;
     }
@@ -84,6 +83,7 @@ public class ExampleHeadRestraint extends AbstractHeadRestraint {
     public SoundEvent getEquipSound() {
         return SoundEvents.BUNDLE_DROP_CONTENTS;
     }
+
     public SoundEvent getUnequipSound() {
         return SoundEvents.BUNDLE_DROP_CONTENTS;
     }
@@ -91,9 +91,11 @@ public class ExampleHeadRestraint extends AbstractHeadRestraint {
     public boolean AllowBreakingBlocks() {
         return true;
     }
+
     public boolean AllowItemUse() {
         return true;
     }
+
     public boolean AllowMovement() {
         return true;
     }
@@ -108,28 +110,30 @@ public class ExampleHeadRestraint extends AbstractHeadRestraint {
     public boolean canBeBrokenOutOf() {
         return false;
     }
+
     public boolean getLockpickable() {
         return false;
     }
+
     public int getLockpickingProgressPerPick() {
         return 5;
     }
+
     public int getLockpickingSpeedIncreasePerPick() {
         return 0;
-    }
-
-
-    public ArmRestraintAnimationFlags getArmAnimationFlags() {
-        return ArmRestraintAnimationFlags.NONE;
-    }
-    public LegRestraintAnimationFlags getLegAnimationFlags() {
-        return LegRestraintAnimationFlags.NONE;
     }
     // #endregion
 
     // #region Events
 
-    int tickCount = 0;
+    public ArmRestraintAnimationFlags getArmAnimationFlags() {
+        return ArmRestraintAnimationFlags.NONE;
+    }
+
+    public LegRestraintAnimationFlags getLegAnimationFlags() {
+        return LegRestraintAnimationFlags.NONE;
+    }
+
     public void onTickServer(ServerPlayer player) {
         super.onTickServer(player);
     }
@@ -162,7 +166,6 @@ public class ExampleHeadRestraint extends AbstractHeadRestraint {
 
     }
 
-
     public void onLogoutServer(ServerPlayer player) {
     }
 
@@ -185,14 +188,12 @@ public class ExampleHeadRestraint extends AbstractHeadRestraint {
         return 1;
     }
 
-    public void onLandClient(Player player, float distance, float damageMultiplier) {
-    }
-
     // #endregion
 
     // #region Client-Side operations
 
-    int lastBarIndex = 0;
+    public void onLandClient(Player player, float distance, float damageMultiplier) {
+    }
    /* public void renderOverlay(Player player, GuiGraphics graphics, float partialTick, Window window) {
         int h = window.getGuiScaledHeight();
         int w =  window.getGuiScaledWidth();
@@ -242,10 +243,12 @@ public class ExampleHeadRestraint extends AbstractHeadRestraint {
         public Class<? extends HumanoidModel<? extends LivingEntity>> getRenderedModel() {
             return MODEL_CLASS;
         }
+
         @Override
         public ModelLayerLocation getRenderedModelLayer() {
             return MODEL_LAYER;
         }
+
         @Override
         public ResourceLocation getRenderedModelTexture() {
             return MODEL_TEXTURE;

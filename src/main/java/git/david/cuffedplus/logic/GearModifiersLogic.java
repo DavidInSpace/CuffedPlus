@@ -15,7 +15,11 @@ public class GearModifiersLogic {
     public void onPlayerTick(TickEvent.PlayerTickEvent event) {
         ItemStack itemInChest = event.player.getItemBySlot(EquipmentSlot.CHEST);
         ItemStack itemInFeet = event.player.getItemBySlot(EquipmentSlot.FEET);
-        if ((itemInChest.getItem() instanceof JumpsuitItem || itemInFeet.getItem() instanceof AnkleMonitorItem) && itemInChest.getOrCreateTag().getBoolean("HighVisibility")) {
+        if ((itemInChest.getItem() instanceof JumpsuitItem) && itemInChest.getOrCreateTag().getBoolean("HighVisibility")) {
+            event.player.addEffect(new MobEffectInstance(MobEffects.GLOWING, 8, 0, false, false));
+        }
+
+        if ((itemInFeet.getItem() instanceof AnkleMonitorItem) && itemInFeet.getOrCreateTag().getBoolean("HighVisibility")) {
             event.player.addEffect(new MobEffectInstance(MobEffects.GLOWING, 8, 0, false, false));
         }
 

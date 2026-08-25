@@ -129,7 +129,6 @@ public class AnkleMonitorItem extends ArmorItem {
 
             ItemStack monitor = stack.copy();
 
-            user.getItemInHand(hand).shrink(1);
             if (!user.getAbilities().instabuild) stack.shrink(1);
             target.setItemSlot(EquipmentSlot.FEET, monitor);
 

@@ -33,6 +33,8 @@ public abstract class CuffedServerConfigMixin extends LazrConfig implements ICuf
     ConfigProperty<Boolean> SHOW_INFO_MESSAGES;
     ConfigProperty<Boolean> SHOW_SUCCESS_MESSAGES;
     ConfigProperty<Boolean> SHOW_FAIL_MESSAGES;
+    ConfigProperty<Boolean> PUT_PLAYERS_IN_CREATIVE_WHEN_ANTIGOD_RESTRAINTS_TIME_LOCK_RUNS_OUT;
+
 
     ConfigProperty<Boolean> SHOW_ROLE_PREFIX;
     ConfigProperty<Boolean> ROLE_PREFIX_BOLD;
@@ -87,12 +89,13 @@ public abstract class CuffedServerConfigMixin extends LazrConfig implements ICuf
                 PLAYERS_ATTACK_BEHAVIOR = c5.putProperty(new ConfigProperty<String>(this, "Players Attack Behavior", "Who can players attack. players will always able to attack players without a role (Options: \"none\", onlyPrisoners, \"onlyOfficers\", \"both\"", "both"));
                 CAN_PRISONER_ATTACK_PLAYERS_WITHOUT_ROLE = c5.putProperty(new ConfigProperty<Boolean>(this, "Can Prisoners Attack Players Without A Role", "Whether prisoners can attack players with no role", false));
                 PRISONERS_ATTACK_BEHAVIOR = c5.putProperty(new ConfigProperty<String>(this, "Prisoners Attack Behavior", "Who can prisoners attack. prisoners will always able to attack players without a role (Options: \"none\", onlyPrisoners, \"onlyOfficers\", \"both\")", "onlyPrisoners"));
-                // ALLOW_UNLOCKING_TIME_LOCKED_RESTRAINTS = c5.putProperty(new ConfigProperty<Boolean>(this, "Allow Unlocking Time Locked Restraints", "Whether restraints locked with a time lock can be unlocked with their respective key", true));
-                // ALLOW_BREAKING_TIME_LOCKED_RESTRAINTS = c5.putProperty(new ConfigProperty<Boolean>(this, "Allow Breaking Time Locked Restraints", "Whether restraints locked with a time lock can be broken out of", false));
+                //ALLOW_UNLOCKING_TIME_LOCKED_RESTRAINTS = c5.putProperty(new ConfigProperty<Boolean>(this, "Allow Unlocking Time Locked Restraints", "Whether restraints locked with a time lock can be unlocked with their respective key", true));
+                ALLOW_BREAKING_TIME_LOCKED_RESTRAINTS = c5.putProperty(new ConfigProperty<Boolean>(this, "Allow Breaking Time Locked Restraints", "Whether restraints locked with a time lock can be broken out of", false));
                 // ALLOW_LOCKPICKING_TIME_LOCKED_RESTRAINTS = c5.putProperty(new ConfigProperty<Boolean>(this, "Allow Lockpicking Time Locked Restraints", "Whether restraints locked with a time lock can be lockpicked", true));
-                // SHOW_INFO_MESSAGES = c5.putProperty(new ConfigProperty<Boolean>(this, "Show Info Messages", "Whether to show (yellow) info message when doing certain interactions", true));
-                // SHOW_SUCCESS_MESSAGES = c5.putProperty(new ConfigProperty<Boolean>(this, "Show Success Messages", "Whether to show (green) success message when doing certain interactions", true));
-                SHOW_FAIL_MESSAGES = c5.putProperty(new ConfigProperty<Boolean>(this, "Show Fail Messages", "Whether to show (red) fail message when doing certain interactions (doesnt work currently)", true));
+                SHOW_INFO_MESSAGES = c5.putProperty(new ConfigProperty<Boolean>(this, "Show Info Messages", "Whether to show (yellow) info message when doing certain interactions (not fully implemented)", true));
+                SHOW_SUCCESS_MESSAGES = c5.putProperty(new ConfigProperty<Boolean>(this, "Show Success Messages", "Whether to show (green) success message when doing certain interactions (not fully implemented)", true));
+                SHOW_FAIL_MESSAGES = c5.putProperty(new ConfigProperty<Boolean>(this, "Show Fail Messages", "Whether to show (red) fail message when doing certain interactions (not fully implemented)", true));
+                PUT_PLAYERS_IN_CREATIVE_WHEN_ANTIGOD_RESTRAINTS_TIME_LOCK_RUNS_OUT = c5.putProperty(new ConfigProperty<Boolean>(this, "Put Players In To Creative When Anti God Restraint Time Lock Runs Out", "Whether to turn the player back in to creative when a time lock on a restraint which has the Anti-God modifier runs out", true));
             });
 
 
@@ -118,7 +121,6 @@ public abstract class CuffedServerConfigMixin extends LazrConfig implements ICuf
 
                 PLAYERS_OWN_TRACKER_BINDING_BEHAVIOR = c3.putProperty(new ConfigProperty<String>(this, "Own Tracker Binding", "Controls the interaction for binding and unbinding your own ankle monitor (Options: \"none\", \"onlyBind\", \"onlyUnbind\", \"both\")", "both"));
                 OTHER_PLAYERS_TRACKER_BINDING_BEHAVIOR = c3.putProperty(new ConfigProperty<String>(this, "Other Players Tracker Binding Behavior", "Controls the interaction for binding and unbinding ankle monitor on other players (Options: \"none\", \"onlyBind\", \"onlyUnbind\", \"both\")", "both"));
-
             });
 
             PRISONERS_JUMPSUIT_AND_ANKLE_MONITOR_BEHAVIOR_SETTINGS = createCategory(new ConfigCategory(this, "Prisoners Jumpsuit & Ankle Monitor Behavior"), (c4) -> {
@@ -140,20 +142,11 @@ public abstract class CuffedServerConfigMixin extends LazrConfig implements ICuf
     @Override public boolean keepLockedGearOnDeath() {return KEEP_LOCKED_GEAR_ON_DEATH.get();}
     @Override public int increaseReinforcedBlockStrength() {return INCREASE_REINFORCED_BLOCKS_STRENGTH.get();}
 
-    @Override
-    public String getPlayersAttackBehavior() {
-        return PLAYERS_ATTACK_BEHAVIOR.get().toLowerCase();
-    }
+    @Override public String getPlayersAttackBehavior() {return PLAYERS_ATTACK_BEHAVIOR.get().toLowerCase();}
 
-    @Override
-    public boolean canPrisonersAttackWithoutRole() {
-        return CAN_PRISONER_ATTACK_PLAYERS_WITHOUT_ROLE.get();
-    }
+    @Override public boolean canPrisonersAttackWithoutRole() {return CAN_PRISONER_ATTACK_PLAYERS_WITHOUT_ROLE.get();}
 
-    @Override
-    public String getPrisonersAttackBehavior() {
-        return PRISONERS_ATTACK_BEHAVIOR.get().toLowerCase();
-    }
+    @Override public String getPrisonersAttackBehavior() {return PRISONERS_ATTACK_BEHAVIOR.get().toLowerCase();}
     @Override public boolean allowUnlockingTimeLockedRestraints() {return ALLOW_UNLOCKING_TIME_LOCKED_RESTRAINTS.get();}
     @Override public boolean allowBreakingTimeLockedRestraints() {return ALLOW_BREAKING_TIME_LOCKED_RESTRAINTS.get();}
     @Override public boolean allowLockpickingTimeLockedRestraints() {return ALLOW_LOCKPICKING_TIME_LOCKED_RESTRAINTS.get();}
@@ -161,21 +154,17 @@ public abstract class CuffedServerConfigMixin extends LazrConfig implements ICuf
     @Override public boolean showSuccessMessages() {return SHOW_SUCCESS_MESSAGES.get();}
     @Override public boolean showFailMessages() {return SHOW_FAIL_MESSAGES.get();}
 
+    @Override public boolean putPlayersInToCreativeWhenAntiGodRestraintTimeLockRunsOut() {return PUT_PLAYERS_IN_CREATIVE_WHEN_ANTIGOD_RESTRAINTS_TIME_LOCK_RUNS_OUT.get();}
+
     @Override public boolean showRolePrefixes() {return SHOW_ROLE_PREFIX.get();}
     @Override public boolean rolePrefixesBold() {return ROLE_PREFIX_BOLD.get();}
 
     @Override public String getPrisonerRolePrefix() {return PRISONER_ROLE_PREFIX.get();}
     @Override public String getOfficerRolePrefix() {return OFFICER_ROLE_PREFIX.get();}
 
-    @Override
-    public String getPrisonerRolePrefixColor() {
-        return PRISONER_ROLE_PREFIX.get().toLowerCase();
-    }
+    @Override public String getPrisonerRolePrefixColor() {return PRISONER_ROLE_PREFIX.get().toLowerCase();}
 
-    @Override
-    public String getOfficerRolePrefixColor() {
-        return OFFICER_ROLE_PREFIX.get().toLowerCase();
-    }
+    @Override public String getOfficerRolePrefixColor() {return OFFICER_ROLE_PREFIX.get().toLowerCase();}
 
 
     @Override public String getOtherPlayersJumpsuitBehavior() {return OTHER_PLAYERS_JUMPSUIT_BEHAVIOR.get().toLowerCase();}

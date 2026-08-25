@@ -82,12 +82,12 @@ public class TimeLockItem extends Item {
         if (interactionHeight > 1.5f && targetCap.isRestrained(RestraintType.Head)) {
             assert targetCap.getHeadRestraint() != null;
             ItemStack restraintStack = targetCap.getHeadRestraint().saveToItemStack();
-
+            int[] time = ticksToTime(restraintStack.getOrCreateTag().getLong("Time"));
             if (restraintStack.getOrCreateTag().getBoolean("Timer")) {
-                user.displayClientMessage(Component.literal("This restraint already has an active time lock with ").append(Component.literal(this.seconds + "s : " + this.minutes + "m : " + this.hours + "h : (" + this.ticks_time + " ticks)").withStyle(ChatFormatting.BOLD).append(Component.literal(" remaining"))).withStyle(ChatFormatting.RED), false);
+                user.displayClientMessage(Component.literal("This restraint already has an active time lock with ").append(Component.literal(+time[0] + "s : " + time[1] + "m : " + time[2] + "h : (" + this.ticks_time + " ticks)").withStyle(ChatFormatting.BOLD).append(Component.literal(" remaining"))).withStyle(ChatFormatting.RED), false);
                 return InteractionResult.FAIL;
             }
-
+            restraintStack.getOrCreateTag().putBoolean("DropTimeLock", true);
                 restraintStack.getOrCreateTag().putLong("Time", this.ticks_time);
                 restraintStack.getOrCreateTag().putBoolean("Timer", true);
                 targetPlayer.displayClientMessage(Component.literal("A time lock was applied to your head restraint lasting ").withStyle(ChatFormatting.RED).append(Component.literal(this.seconds + "s : " + this.minutes + "m : " + this.hours + "h : (" + this.ticks_time + " ticks)").withStyle(ChatFormatting.RED).withStyle(ChatFormatting.BOLD)), false);
@@ -104,7 +104,7 @@ public class TimeLockItem extends Item {
                 user.displayClientMessage(Component.literal("This restraint already has an active time lock with ").append(Component.literal(this.seconds + "s : " + this.minutes + "m : " + this.hours + "h : (" + this.ticks_time + " ticks)").withStyle(ChatFormatting.BOLD).append(Component.literal(" remaining"))).withStyle(ChatFormatting.RED), false);
                 return InteractionResult.FAIL;
             }
-
+            restraintStack.getOrCreateTag().putBoolean("DropTimeLock", true);
             restraintStack.getOrCreateTag().putLong("Time", this.ticks_time);
             restraintStack.getOrCreateTag().putBoolean("Timer", true);
             targetPlayer.displayClientMessage(Component.literal("A time lock was applied to your arm restraint lasting ").withStyle(ChatFormatting.RED).append(Component.literal(this.seconds + "s : " + this.minutes + "m : " + this.hours + "h : (" + this.ticks_time + " ticks)").withStyle(ChatFormatting.RED).withStyle(ChatFormatting.BOLD)), false);
@@ -120,6 +120,7 @@ public class TimeLockItem extends Item {
                 user.displayClientMessage(Component.literal("This restraint already has an active time lock with ").append(Component.literal(this.seconds + "s : " + this.minutes + "m : " + this.hours + "h : (" + this.ticks_time + " ticks)").withStyle(ChatFormatting.BOLD).append(Component.literal(" remaining"))).withStyle(ChatFormatting.RED), false);
                 return InteractionResult.FAIL;
             }
+            restraintStack.getOrCreateTag().putBoolean("DropTimeLock", true);
             restraintStack.getOrCreateTag().putLong("Time", this.ticks_time);
             restraintStack.getOrCreateTag().putBoolean("Timer", true);
             targetPlayer.displayClientMessage(Component.literal("A time lock was applied to your leg restraint lasting ").append(Component.literal(this.seconds + "s : " + this.minutes + "m : " + this.hours + "h : (" + this.ticks_time + " ticks)").withStyle(ChatFormatting.BOLD)).withStyle(ChatFormatting.RED), false);

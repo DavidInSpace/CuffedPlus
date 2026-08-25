@@ -79,12 +79,15 @@ import javax.annotation.Nonnull;
 // TODO: Add descriptions to restraints like the original restraint do have
 // TODO: Test whether all restraint modifiers still work
 
-// CUFFED GITHUB REPOSETORY PAGE:
+// CUFFED GITHUB REPOSITORY PAGE:
 // https://github.com/LazrProductions/cuffed
+
+// CUFFED EXAMPLE ADDON REPOSITORY PAGE
+// https://github.com/LazrProductions/cuffed_example_addon
+
 
 
 // https://forums.minecraftforge.net/topic/82228-1152-3110-intellij-and-gradlew-forge-hotswap-and-dcevm-tutorial/
-
 
 @Mod(CuffedPlusMain.MODID)
 public class CuffedPlusMain {
@@ -141,10 +144,8 @@ public class CuffedPlusMain {
 
         DispenserBlock.registerBehavior(ModItems.WOOD_CUFFS.get(), dispenseitembehavior);
         DispenserBlock.registerBehavior(ModItems.GOLD_CUFFS.get(), dispenseitembehavior);
-        DispenserBlock.registerBehavior(ModItems.EMERALD_CUFFS.get(), dispenseitembehavior);
         DispenserBlock.registerBehavior(ModItems.DIAMOND_CUFFS.get(), dispenseitembehavior);
         DispenserBlock.registerBehavior(ModItems.NETHERITE_CUFFS.get(), dispenseitembehavior);
-        DispenserBlock.registerBehavior(ModItems.BEDROCK_CUFFS.get(), dispenseitembehavior);
         ModNetwork.register();
     }
 

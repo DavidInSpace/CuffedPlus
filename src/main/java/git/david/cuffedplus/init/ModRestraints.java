@@ -57,10 +57,6 @@ public class ModRestraints {
     public static final RegistryObject<AbstractRestraint> GOLD_CUFFS_ARMS = RESTRAINTS.register("gold_cuffs_arms", GoldCuffsArmsRestraint::new);
     public static final RegistryObject<AbstractRestraint> GOLD_CUFFS_LEGS = RESTRAINTS.register("gold_cuffs_legs", GoldCuffsLegsRestraint::new);
 
-    // EMERALD
-    public static final RegistryObject<AbstractRestraint> EMERALD_CUFFS_ARMS = RESTRAINTS.register("emerald_cuffs_arms", EmeraldCuffsArmsRestraint::new);
-    public static final RegistryObject<AbstractRestraint> EMERALD_CUFFS_LEGS = RESTRAINTS.register("emerald_cuffs_legs", EmeraldCuffsLegsRestraint::new);
-
     // DIAMOND
     public static final RegistryObject<AbstractRestraint> DIAMOND_CUFFS_ARMS = RESTRAINTS.register("diamond_cuffs_arms", DiamondCuffsArmsRestraint::new);
     public static final RegistryObject<AbstractRestraint> DIAMOND_CUFFS_LEGS = RESTRAINTS.register("diamond_cuffs_legs", DiamondCuffsLegsRestraint::new);
@@ -68,10 +64,6 @@ public class ModRestraints {
     // NETHERITE
     public static final RegistryObject<AbstractRestraint> NETHERITE_CUFFS_ARMS = RESTRAINTS.register("netherite_cuffs_arms", NetheriteCuffsArmsRestraint::new);
     public static final RegistryObject<AbstractRestraint> NETHERITE_CUFFS_LEGS = RESTRAINTS.register("netherite_cuffs_legs", NetheriteCuffsLegsRestraint::new);
-
-    // BEDROCK
-    public static final RegistryObject<AbstractRestraint> BEDROCK_CUFFS_ARMS = RESTRAINTS.register("bedrock_cuffs_arms", BedrockCuffsArmsRestraint::new);
-    public static final RegistryObject<AbstractRestraint> BEDROCK_CUFFS_LEGS = RESTRAINTS.register("bedrock_cuffs_legs", BedrockCuffsLegsRestraint::new);
 
     public static final RegistryObject<AbstractRestraint> HAZARD_TAPE_HEAD = RESTRAINTS.register("hazard_tape_head", HazardTapeHeadRestraint::new);
     public static final RegistryObject<AbstractRestraint> HAZARD_TAPE_ARMS = RESTRAINTS.register("hazard_tape_arms", HazardTapeArmsRestraint::new);

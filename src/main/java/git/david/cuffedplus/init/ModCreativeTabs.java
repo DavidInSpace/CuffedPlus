@@ -27,17 +27,12 @@ public class ModCreativeTabs {
                         output.accept(ModItems.GOLD_CUFFS.get());
                         output.accept(ModItems.GOLD_CUFFS_KEY.get());
 
-                        output.accept(ModItems.EMERALD_CUFFS.get());
-                        output.accept(ModItems.EMERALD_CUFFS_KEY.get());
-
                         output.accept(ModItems.DIAMOND_CUFFS.get());
                         output.accept(ModItems.DIAMOND_CUFFS_KEY.get());
 
                         output.accept(ModItems.NETHERITE_CUFFS.get());
                         output.accept(ModItems.NETHERITE_CUFFS_KEY.get());
 
-                        output.accept(ModItems.BEDROCK_CUFFS.get());
-                        output.accept(ModItems.BEDROCK_CUFFS_KEY.get());
                         output.accept(ModItems.HAZARD_TAPE.get());
 
 

@@ -20,9 +20,13 @@ public interface ICuffedPlusServerConfigMixin {
     boolean allowUnlockingTimeLockedRestraints();
     boolean allowBreakingTimeLockedRestraints();
     boolean allowLockpickingTimeLockedRestraints();
+
+    // Messages
     boolean showInfoMessages();
     boolean showSuccessMessages();
     boolean showFailMessages();
+
+    boolean putPlayersInToCreativeWhenAntiGodRestraintTimeLockRunsOut();
 
     /** PREFIXES **/
 

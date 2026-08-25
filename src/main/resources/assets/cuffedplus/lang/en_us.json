@@ -52,10 +52,9 @@
 
   "block.cuffedplus.cuff_table_block": "Cuffs Table",
   "container.cuffedplus.cuff_table_block": "Cuffs Table",
-
-
-
-
+  "command.cuffedplus.restraint.missing": "%1$s does not have restraints on their %2$s",
+  "command.cuffedplus.restraint.own_missing": "You don't have restraint on your %1$s",
+  "command.cuffedplus.time.too_little": "The time must be at least 1 second",
 
   "info.cuffedplus.restraints.head.name": "",
   "info.cuffedplus.restraints.head.action_bar": "",

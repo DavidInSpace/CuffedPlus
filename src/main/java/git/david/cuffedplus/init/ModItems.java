@@ -1,12 +1,12 @@
 package git.david.cuffedplus.init;
 
 import com.lazrproductions.cuffed.items.base.AbstractRestraintKeyItem;
-
 import git.david.cuffedplus.CuffedPlusMain;
-
-
 import git.david.cuffedplus.items.item.base.*;
-import net.minecraft.world.item.*;
+import net.minecraft.world.item.ArmorItem;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Rarity;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -36,19 +36,8 @@ public class ModItems {
 
     public static final RegistryObject<Item> GOLD_CUFFS = ITEMS.register("gold_cuffs",
             () -> new RestraintItem(new Item.Properties().stacksTo(1)
-                    .durability(50)
-                    .defaultDurability(50)));
-
-    // EMERALD
-    public static final RegistryObject<Item> EMERALD_CUFFS_KEY = ITEMS.register("emerald_cuffs_key",
-            () -> new AbstractRestraintKeyItem(new Item.Properties().stacksTo(1)));
-
-    public static final RegistryObject<Item> EMERALD_CUFFS = ITEMS.register("emerald_cuffs",
-            () -> new RestraintItem(
-                    new Item.Properties().stacksTo(1)
-                    .durability(1200)
-                    .defaultDurability(1200)));
-
+                    .durability(5)
+                    .defaultDurability(5)));
 
     // DIAMOND
     public static final RegistryObject<Item> DIAMOND_CUFFS_KEY = ITEMS.register("diamond_cuffs_key",
@@ -73,19 +62,6 @@ public class ModItems {
                     .defaultDurability(2999)
                     .fireResistant()));
 
-
-    // BEDROCK
-    public static final RegistryObject<Item> BEDROCK_CUFFS_KEY = ITEMS.register("bedrock_cuffs_key",
-            () -> new AbstractRestraintKeyItem(new Item.Properties().stacksTo(1)
-                    .rarity(Rarity.EPIC)
-                    .fireResistant()));
-
-    public static final RegistryObject<Item> BEDROCK_CUFFS = ITEMS.register("bedrock_cuffs",
-            () -> new RestraintItem(new Item.Properties().stacksTo(1)
-                    .rarity(Rarity.EPIC)
-                    .durability(999999999)
-                    .defaultDurability(999999999)
-                    .fireResistant()));
 
     public static final RegistryObject<Item> EXAMPLE_HEAD_RESTRAINT = ITEMS.register("example_head_restraint",
             () -> new HeadRestraintItem(new Item.Properties().stacksTo(1)));

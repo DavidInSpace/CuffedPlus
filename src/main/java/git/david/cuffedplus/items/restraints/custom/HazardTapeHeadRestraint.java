@@ -21,8 +21,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
-import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -30,17 +28,24 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.common.Tags;
 
 import javax.annotation.Nonnull;
-;import static git.david.cuffedplus.misc.Icons.CAUTION_TAPE_ICON;
+
+import static git.david.cuffedplus.misc.Icons.CAUTION_TAPE_ICON;
 
 
 public class HazardTapeHeadRestraint extends AbstractHeadRestraint {
-;    ICuffedPlusServerConfigMixin config = (ICuffedPlusServerConfigMixin) CuffedMod.SERVER_CONFIG;
+    public static final ResourceLocation ID = ModRestraints.HAZARD_TAPE_HEAD.getId();
     //static final ResourceLocation BUNDLE_TEXTURE = new ResourceLocation(CuffedMod.MODID, "textures/gui/bundle_overlay.png");
 
     //    static final ScreenTexture BUNDLE_OVERLAY = new ScreenTexture(BUNDLE_TEXTURE, 0, 0, 32, 18, 32, 18);
+    public static final Item ITEM = ModItems.HAZARD_TAPE.get();
+    public static final Item KEY = Items.SHEARS.asItem();
+    ICuffedPlusServerConfigMixin config = (ICuffedPlusServerConfigMixin) CuffedMod.SERVER_CONFIG;
+
+    // #region Restraint Properties
+    int tickCount = 0;
+    int lastBarIndex = 0;
 
     public HazardTapeHeadRestraint() {
 
@@ -60,9 +65,6 @@ public class HazardTapeHeadRestraint extends AbstractHeadRestraint {
         return true;
     }
 
-    // #region Restraint Properties
-
-    public static final ResourceLocation ID = ModRestraints.HAZARD_TAPE_HEAD.getId();
     public ResourceLocation getId() {
         return ID;
     }
@@ -70,15 +72,15 @@ public class HazardTapeHeadRestraint extends AbstractHeadRestraint {
     public String getActionBarLabel() {
         return "info.cuffedplus.restraints.head.action_bar";
     }
+
     public String getName() {
         return "info.cuffedplus.restraints.head.name";
     }
 
-    public static final Item ITEM =  ModItems.HAZARD_TAPE.get();
     public Item getItem() {
         return ITEM;
     }
-    public static final Item KEY = Items.SHEARS.asItem();
+
     public Item getKeyItem() {
         return KEY;
     }
@@ -86,6 +88,7 @@ public class HazardTapeHeadRestraint extends AbstractHeadRestraint {
     public SoundEvent getEquipSound() {
         return SoundEvents.BUNDLE_DROP_CONTENTS;
     }
+
     public SoundEvent getUnequipSound() {
         return SoundEvents.BUNDLE_DROP_CONTENTS;
     }
@@ -93,9 +96,11 @@ public class HazardTapeHeadRestraint extends AbstractHeadRestraint {
     public boolean AllowBreakingBlocks() {
         return true;
     }
+
     public boolean AllowItemUse() {
         return true;
     }
+
     public boolean AllowMovement() {
         return true;
     }
@@ -109,28 +114,30 @@ public class HazardTapeHeadRestraint extends AbstractHeadRestraint {
     public boolean canBeBrokenOutOf() {
         return false;
     }
+
     public boolean getLockpickable() {
         return false;
     }
+
     public int getLockpickingProgressPerPick() {
         return 5;
     }
+
     public int getLockpickingSpeedIncreasePerPick() {
         return 0;
-    }
-
-
-    public ArmRestraintAnimationFlags getArmAnimationFlags() {
-        return ArmRestraintAnimationFlags.NONE;
-    }
-    public LegRestraintAnimationFlags getLegAnimationFlags() {
-        return LegRestraintAnimationFlags.NONE;
     }
     // #endregion
 
     // #region Events
 
-    int tickCount = 0;
+    public ArmRestraintAnimationFlags getArmAnimationFlags() {
+        return ArmRestraintAnimationFlags.NONE;
+    }
+
+    public LegRestraintAnimationFlags getLegAnimationFlags() {
+        return LegRestraintAnimationFlags.NONE;
+    }
+
     public void onTickServer(ServerPlayer player) {
         super.onTickServer(player);
     }
@@ -163,7 +170,6 @@ public class HazardTapeHeadRestraint extends AbstractHeadRestraint {
 
     }
 
-
     public void onLogoutServer(ServerPlayer player) {
     }
 
@@ -186,18 +192,17 @@ public class HazardTapeHeadRestraint extends AbstractHeadRestraint {
         return 1;
     }
 
-    public void onLandClient(Player player, float distance, float damageMultiplier) {
-    }
-
     // #endregion
 
     // #region Client-Side operations
 
-    int lastBarIndex = 0;
+    public void onLandClient(Player player, float distance, float damageMultiplier) {
+    }
+
     public void renderOverlay(Player player, GuiGraphics graphics, float partialTick, Window window) {
         int h = window.getGuiScaledHeight();
-        int w =  window.getGuiScaledWidth();
-      //  ScreenUtilities.drawTexture(graphics, new BlitCoordinates(0, 0, w, h), BUNDLE_OVERLAY);
+        int w = window.getGuiScaledWidth();
+        //  ScreenUtilities.drawTexture(graphics, new BlitCoordinates(0, 0, w, h), BUNDLE_OVERLAY);
 
         super.renderOverlay(player, graphics, partialTick, window);
 
@@ -242,10 +247,12 @@ public class HazardTapeHeadRestraint extends AbstractHeadRestraint {
         public Class<? extends HumanoidModel<? extends LivingEntity>> getRenderedModel() {
             return MODEL_CLASS;
         }
+
         @Override
         public ModelLayerLocation getRenderedModelLayer() {
             return MODEL_LAYER;
         }
+
         @Override
         public ResourceLocation getRenderedModelTexture() {
             return MODEL_TEXTURE;

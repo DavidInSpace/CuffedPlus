@@ -1,11 +1,8 @@
 package git.david.cuffedplus.items.restraints.custom;
 
-import java.util.Random;
-
-import javax.annotation.Nonnull;
-
 import com.lazrproductions.cuffed.CuffedMod;
 import com.lazrproductions.cuffed.api.CuffedAPI;
+import com.lazrproductions.cuffed.cap.RestrainableCapability;
 import com.lazrproductions.cuffed.cap.base.IRestrainableCapability;
 import com.lazrproductions.cuffed.entity.animation.ArmRestraintAnimationFlags;
 import com.lazrproductions.cuffed.entity.animation.LegRestraintAnimationFlags;
@@ -15,19 +12,18 @@ import com.lazrproductions.cuffed.restraints.base.IBreakableRestraint;
 import com.lazrproductions.cuffed.restraints.base.IEnchantableRestraint;
 import com.lazrproductions.cuffed.restraints.base.RestraintType;
 import com.lazrproductions.cuffed.restraints.client.RestraintModelInterface;
-
 import com.lazrproductions.lazrslib.client.screen.ScreenUtilities;
 import com.lazrproductions.lazrslib.client.screen.base.BlitCoordinates;
-import com.lazrproductions.lazrslib.client.screen.base.ScreenTexture;
+import com.mojang.blaze3d.platform.Window;
 import git.david.cuffedplus.CuffedPlusMain;
 import git.david.cuffedplus.config.ICuffedPlusServerConfigMixin;
 import git.david.cuffedplus.init.ModItems;
 import git.david.cuffedplus.init.ModModelLayers;
 import git.david.cuffedplus.init.ModRestraints;
 import git.david.cuffedplus.init.ModSounds;
-import com.mojang.blaze3d.platform.Window;
-
+import git.david.cuffedplus.items.item.base.RestraintItem;
 import git.david.cuffedplus.items.restraints.client.model.DiamondCuffsArmsModel;
+import git.david.cuffedplus.utils.InfoMessagesHandler;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Options;
 import net.minecraft.client.gui.GuiGraphics;
@@ -55,6 +51,9 @@ import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.GameType;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+
+import javax.annotation.Nonnull;
+import java.util.Random;
 
 import static git.david.cuffedplus.misc.Icons.DIAMOND_CHAIN_ICON;
 
@@ -304,23 +303,36 @@ import static git.david.cuffedplus.misc.Icons.DIAMOND_CHAIN_ICON;
  */
 
 public class DiamondCuffsArmsRestraint extends AbstractArmRestraint implements IBreakableRestraint, IEnchantableRestraint {
-    ICuffedPlusServerConfigMixin config = (ICuffedPlusServerConfigMixin) CuffedMod.SERVER_CONFIG;
+    public static final ResourceLocation ID = ModRestraints.DIAMOND_CUFFS_ARMS.getId();
+    public static final Item ITEM = ModItems.DIAMOND_CUFFS.get();
+    public static final Item KEY = ModItems.DIAMOND_CUFFS_KEY.get();
+    public static final ArmRestraintAnimationFlags ARM_ANIMATION_FLAGS = ArmRestraintAnimationFlags.ARMS_TIED_BEHIND;
+
+    // #region Restraint Properties
     private final ItemStack sourceStack;
+    ICuffedPlusServerConfigMixin config = (ICuffedPlusServerConfigMixin) CuffedMod.SERVER_CONFIG;
+    boolean time_locked = false;
+    long ticks_time = 0;
+    long ticks = 0;
+    int tickCount = 0;
+    float breakCooldown = 4;
+    int lastKeyPressed = -1;
+    ListTag enchantments;
+    /** Changed only server-side. changes are synced to client. */
+    private int durability = 100;
 
     public DiamondCuffsArmsRestraint() {
         enchantments = new ListTag();
         this.sourceStack = ItemStack.EMPTY;
 
     }
+
     public DiamondCuffsArmsRestraint(ItemStack stack, ServerPlayer player, ServerPlayer captor) {
         super(stack, player, captor);
         this.durability = getMaxDurability() - stack.getDamageValue();
         this.sourceStack = stack;
     }
 
-    // #region Restraint Properties
-
-    public static final ResourceLocation ID = ModRestraints.DIAMOND_CUFFS_ARMS.getId();
     public ResourceLocation getId() {
         return ID;
     }
@@ -328,23 +340,23 @@ public class DiamondCuffsArmsRestraint extends AbstractArmRestraint implements I
     public String getActionBarLabel() {
         return "info.cuffedplus.restraints.handcuffs.action_bar";
     }
+
     public String getName() {
         return "info.cuffedplus.restraints.handcuffs.name";
     }
 
-    public static final Item ITEM =  ModItems.DIAMOND_CUFFS.get();
     public Item getItem() {
         return ITEM;
-    } 
-    public static final Item KEY = ModItems.DIAMOND_CUFFS_KEY.get();
+    }
+
     public Item getKeyItem() {
         return KEY;
     }
 
-    public static final ArmRestraintAnimationFlags ARM_ANIMATION_FLAGS = ArmRestraintAnimationFlags.ARMS_TIED_BEHIND;
     public ArmRestraintAnimationFlags getArmAnimationFlags() {
         return ARM_ANIMATION_FLAGS;
     }
+
     public LegRestraintAnimationFlags getLegAnimationFlags() {
         return LegRestraintAnimationFlags.NONE;
     }
@@ -352,6 +364,7 @@ public class DiamondCuffsArmsRestraint extends AbstractArmRestraint implements I
     public SoundEvent getEquipSound() {
         return ModSounds.DIAMOND_CUFFS_EQUIP;
     }
+
     public SoundEvent getUnequipSound() {
         return SoundEvents.ARMOR_EQUIP_CHAIN;
     }
@@ -362,34 +375,91 @@ public class DiamondCuffsArmsRestraint extends AbstractArmRestraint implements I
         return tag != null && tag.contains(key) ? tag.getBoolean(key) : defaultValue;
     }
 
-    @Override public boolean AllowBreakingBlocks() {return false;}
-    @Override public boolean AllowItemUse() {return false;}
-    @Override public boolean AllowMovement() {return true;}
-    @Override public boolean AllowSprinting() {return false;}
-    @Override public boolean AllowJumping() {return !this.sourceStack.getOrCreateTag().getBoolean("AllowJumping");}
-    @Override public boolean canBeBrokenOutOf() {return !this.sourceStack.getOrCreateTag().getBoolean("CanBeBrokenOutOf");}
-    @Override public boolean getLockpickable() {return !this.sourceStack.getOrCreateTag().getBoolean("Lockpickable");}
-    public int getLockpickingProgressPerPick() {return 3;}
-    public int getLockpickingSpeedIncreasePerPick() {return 2;}
+    public boolean AllowBreakingBlocks() {return false;}
 
     // #endregion
 
     // #region Events
 
-    int tickCount = 0;
+    public boolean AllowItemUse() {return false;}
+
+    public boolean AllowMovement() {return true;}
+
+    public boolean AllowSprinting() {return false;}
+
+    public boolean AllowJumping() {return !this.sourceStack.getOrCreateTag().getBoolean("AllowJumping");}
+
+    public boolean canBeBrokenOutOf() {return !this.sourceStack.getOrCreateTag().getBoolean("CanBeBrokenOutOf");}
+
+    public boolean getLockpickable() {return !this.sourceStack.getOrCreateTag().getBoolean("Lockpickable");}
+
+    public int getLockpickingProgressPerPick() {return 2;}
+
+    public int getLockpickingSpeedIncreasePerPick() {return 4;}
+
+    public void tick(ServerPlayer player, ItemStack restraintStack) {
+        ticks_time--;
+        int[] time = RestraintItem.ticksToTime(ticks_time);
+        int seconds = time[0];
+        int minutes = time[1];
+        int hours = time[2];
+        player.displayClientMessage(Component.literal("🔒 " + seconds + "s : " + minutes + "m : " + hours + "h 🔒").withStyle(ChatFormatting.RED).withStyle(ChatFormatting.BOLD), true);
+        restraintStack.getOrCreateTag().putLong("Time", ticks_time);
+
+        //if (!config.allowBreakingTimeLockedRestraints()) this.setDurability(player, getMaxDurability());
+
+        if (ticks_time - ticks <= -20 || ticks == 0) {
+            ticks = ticks_time;
+        }
+
+        if (ticks_time < 1) {
+            time_locked = false;
+            player.displayClientMessage(Component.literal("🔓 Time ran out 🔓").withStyle(ChatFormatting.GREEN), true);
+            ticks_time = -1;
+            restraintStack.getOrCreateTag().putLong("Time", ticks_time);
+            restraintStack.getOrCreateTag().putBoolean("Timer", false);
+            RestrainableCapability playerRestrainableCapability = (RestrainableCapability) CuffedAPI.Capabilities.getRestrainableCapability(player);
+            playerRestrainableCapability.UnequipRestraint(player, player, this.getType());
+            if (restraintStack.getOrCreateTag().getBoolean("DropTimeLock")) {
+                ItemStack timeLockStack = new ItemStack(ModItems.TIME_LOCK.get());
+                ItemEntity itemEntity = new ItemEntity(player.level(), player.getX(), player.getY() + 0.6D, player.getZ(), timeLockStack);
+                itemEntity.setDefaultPickUpDelay();
+                player.level().addFreshEntity(itemEntity);
+            }
+            if (restraintStack.getOrCreateTag().getInt("AntiGodModifier") > 0 && config.putPlayersInToCreativeWhenAntiGodRestraintTimeLockRunsOut()) {
+                player.setGameMode(GameType.CREATIVE);
+            }
+        }
+
+    }
     public void onTickServer(ServerPlayer player) {
         super.onTickServer(player);
-        ItemStack sourceStack = this.sourceStack;
-        if (sourceStack.getOrCreateTag().getBoolean("SaturationModifier")) {
+        RestrainableCapability playerCap = (RestrainableCapability) CuffedAPI.Capabilities.getRestrainableCapability(player);
+        assert playerCap.getArmRestraint() != null;
+        ItemStack restraintStack = playerCap.getArmRestraint().saveToItemStack();
+        ticks_time = restraintStack.getOrCreateTag().getLong("Time");
+        //System.out.println(item.ticks_time + "  " + item.seconds + "  " + item.minutes + "  " + item.hours + "  " + sourceStack.getOrCreateTag().getLong("Time") + "  " + sourceStack.getOrCreateTag().getBoolean("Timer")); // TODO: TEST ME OUT!!!
+        if (restraintStack.getOrCreateTag().getBoolean("Timer") && ticks_time > 0) {
+            time_locked = true;
+            tick(player, restraintStack);
+        }
+
+        if (restraintStack.getOrCreateTag().getBoolean("Timer") && ticks_time < 1) {
+            restraintStack.getOrCreateTag().putBoolean("Timer", false);
+        } else if (!restraintStack.getOrCreateTag().getBoolean("Timer") && ticks_time > 0) {
+            restraintStack.getOrCreateTag().putBoolean("Timer", true);
+        }
+
+        if (restraintStack.getOrCreateTag().getBoolean("SaturationModifier")) {
             if (player.getFoodData().needsFood()) {
                 player.addEffect(new MobEffectInstance(MobEffects.SATURATION, 1, 10, false, false));
             }
-        } else if (sourceStack.getOrCreateTag().getInt("HungerModifier") > 0) {
-            if (player.tickCount - tickCount >= 200 / sourceStack.getOrCreateTag().getInt("HungerModifier") && player.getFoodData().getFoodLevel() > 3) {
+        } else if (restraintStack.getOrCreateTag().getInt("HungerModifier") > 0) {
+            if (player.tickCount - tickCount >= 200 / restraintStack.getOrCreateTag().getInt("HungerModifier") && player.getFoodData().getFoodLevel() > 3) {
                 player.causeFoodExhaustion(1);
                 tickCount = player.tickCount;
             }
-        } else if (sourceStack.getOrCreateTag().getInt("AntiGodModifier") == 2) {
+        } else if (restraintStack.getOrCreateTag().getInt("AntiGodModifier") == 2 && (time_locked && ticks_time > 5)) {
             player.setGameMode(GameType.SURVIVAL);
         }
     }
@@ -397,17 +467,18 @@ public class DiamondCuffsArmsRestraint extends AbstractArmRestraint implements I
     public void onTickClient(Player player) {
         super.onTickClient(player);
 
-        if(breakCooldown>0)
+        if (breakCooldown > 0)
             breakCooldown--;
     }
 
     public void onEquippedServer(ServerPlayer player, ServerPlayer captor) {
         super.onEquippedServer(player, captor);
+        // System.out.println("RESTRAINT EQUIPPED SERVER");
         if (sourceStack.getOrCreateTag().getInt("AntiGodModifier") == 1) {
-            player.displayClientMessage(Component.literal("You have been reduced to a normal person").withStyle(ChatFormatting.YELLOW), true);
+            InfoMessagesHandler.sendInfoMessage(player, " ! You have been reduced to a normal person !", false, true);
             player.setGameMode(GameType.SURVIVAL);
         } else if (sourceStack.getOrCreateTag().getInt("AntiGodModifier") == 2) {
-            player.displayClientMessage(Component.literal("You have been reduced to a normal person without a way back").withStyle(ChatFormatting.YELLOW), true);
+            InfoMessagesHandler.sendInfoMessage(player, " ! You have been reduced to a normal person without a way back !", false, true);
         }
     }
 
@@ -441,6 +512,10 @@ public class DiamondCuffsArmsRestraint extends AbstractArmRestraint implements I
     public void onDeathClient(Player player) {
     }
 
+    // #endregion
+
+    // #region Client-Side operations
+
     public void onJumpServer(ServerPlayer player) {
     }
 
@@ -456,14 +531,13 @@ public class DiamondCuffsArmsRestraint extends AbstractArmRestraint implements I
 
     // #endregion
 
-    // #region Client-Side operations
-
+    // #region Breakable Restraint Management
 
     public void renderOverlay(Player player, GuiGraphics graphics, float partialTick, Window window) {
         super.renderOverlay(player, graphics, partialTick, window);
 
         // Display Icon and chain overlay
-        float f = (Mth.clamp(breakCooldown / 10, 0, 1)+1);
+        float f = (Mth.clamp(breakCooldown / 10, 0, 1) + 1);
         graphics.setColor(f, f, f, 1);
 
         int iconWidth = (int) (16 * 1.75f);
@@ -475,8 +549,8 @@ public class DiamondCuffsArmsRestraint extends AbstractArmRestraint implements I
         graphics.setColor(1, 1, 1, 1);
 
         // Display break progress bar
-        float p = Mth.clamp((float)clientSidedDurability / (float)getMaxDurability(), 0, 1);
-        ScreenUtilities.drawGenericProgressBar(graphics, new BlitCoordinates(x, y+iconHeight-2, iconWidth, iconHeight), p);
+        float p = Mth.clamp((float) clientSidedDurability / (float) getMaxDurability(), 0, 1);
+        ScreenUtilities.drawGenericProgressBar(graphics, new BlitCoordinates(x, y + iconHeight - 2, iconWidth, iconHeight), p);
     }
 
     public void onKeyInput(Player player, int keyCode, int action) {
@@ -493,10 +567,6 @@ public class DiamondCuffsArmsRestraint extends AbstractArmRestraint implements I
     public RestraintModelInterface getModelInterface() {
         return new DiamondCuffsRestraintModelInterface();
     }
-
-    // #endregion
-
-    // #region Breakable Restraint Management
 
     public SoundEvent getBreakSound() {
         return SoundEvents.ITEM_BREAK;
@@ -518,15 +588,9 @@ public class DiamondCuffsArmsRestraint extends AbstractArmRestraint implements I
         return true;
     }
 
-    /** Changed only server-side. changes are synced to client. */
-    private int durability = 100;
-
     public int getDurability() {
         return durability;
     }
-
-    float breakCooldown = 4;
-    int lastKeyPressed = -1;
 
     public void attemptToBreak(Player player, int keyCode, int action, Options options) {
         if (breakCooldown <= 0) {
@@ -535,7 +599,7 @@ public class DiamondCuffsArmsRestraint extends AbstractArmRestraint implements I
                     Random r = new Random();
                     double chance = 0.5f;
                     double cooldownMultiplier = 1;
-                    if(this instanceof IEnchantableRestraint && hasEnchantment(Enchantments.UNBREAKING)) {
+                    if (this instanceof IEnchantableRestraint && hasEnchantment(Enchantments.UNBREAKING)) {
                         double d = getEnchantmentLevel(Enchantments.UNBREAKING) / 3d;
                         chance = 0.5f;//((MathUtilities.invert01(d / 3d) * 0.7d) + 0.3d)  * 0.5f;
                         cooldownMultiplier = 1 + d;
@@ -579,7 +643,7 @@ public class DiamondCuffsArmsRestraint extends AbstractArmRestraint implements I
         Random random = new Random();
         player.level().playSound(null, player.blockPosition(), getBreakSound(), SoundSource.PLAYERS, 0.8f,
                 (random.nextFloat() * 0.2f) + 0.9f);
-                
+
         ModStatistics.awardRestraintBroken(player, this);
 
         if (dropItemOnBroken()) {
@@ -598,18 +662,17 @@ public class DiamondCuffsArmsRestraint extends AbstractArmRestraint implements I
 
     }
 
-    public void onBrokenClient(Player player) {
-    }
-
     // #endregion
 
     // #region Enchantable Restraint Management
 
-    ListTag enchantments;
+    public void onBrokenClient(Player player) {
+    }
 
     public ListTag getEnchantments() {
         return enchantments;
     }
+
     public void setEnchantments(ListTag tag) {
         enchantments = tag;
     }
@@ -625,6 +688,7 @@ public class DiamondCuffsArmsRestraint extends AbstractArmRestraint implements I
         }
         return false;
     }
+
     public int getEnchantmentLevel(Enchantment enchantment) {
         ResourceLocation resourcelocation = EnchantmentHelper.getEnchantmentId(enchantment);
         for (int i = 0; i < enchantments.size(); ++i) {
@@ -636,9 +700,10 @@ public class DiamondCuffsArmsRestraint extends AbstractArmRestraint implements I
         }
         return 0;
     }
+
     public void enchant(Enchantment enchantment, int value) {
         ResourceLocation l = EnchantmentHelper.getEnchantmentId(enchantment);
-        enchantments.add(EnchantmentHelper.storeEnchantment(l, value));        
+        enchantments.add(EnchantmentHelper.storeEnchantment(l, value));
     }
     // #endregion
 
@@ -649,15 +714,17 @@ public class DiamondCuffsArmsRestraint extends AbstractArmRestraint implements I
         static final Class<? extends HumanoidModel<? extends LivingEntity>> MODEL_CLASS = (Class<? extends HumanoidModel<? extends LivingEntity>>)(Class<?>) DiamondCuffsArmsModel.class;
         static final ModelLayerLocation MODEL_LAYER = ModModelLayers.DIAMOND_CUFFS_ARMS_LAYER;
         static final ResourceLocation MODEL_TEXTURE = ResourceLocation.fromNamespaceAndPath(CuffedPlusMain.MODID, "textures/entity/diamond_cuffs.png");
-    
+
         @Override
         public Class<? extends HumanoidModel<? extends LivingEntity>> getRenderedModel() {
             return MODEL_CLASS;
         }
+
         @Override
         public ModelLayerLocation getRenderedModelLayer() {
             return MODEL_LAYER;
         }
+
         @Override
         public ResourceLocation getRenderedModelTexture() {
             return MODEL_TEXTURE;

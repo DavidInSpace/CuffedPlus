@@ -2,6 +2,7 @@ package git.david.cuffedplus.items.restraints.custom;
 
 import com.lazrproductions.cuffed.CuffedMod;
 import com.lazrproductions.cuffed.api.CuffedAPI;
+import com.lazrproductions.cuffed.cap.RestrainableCapability;
 import com.lazrproductions.cuffed.cap.base.IRestrainableCapability;
 import com.lazrproductions.cuffed.entity.animation.ArmRestraintAnimationFlags;
 import com.lazrproductions.cuffed.entity.animation.LegRestraintAnimationFlags;
@@ -19,7 +20,9 @@ import git.david.cuffedplus.config.ICuffedPlusServerConfigMixin;
 import git.david.cuffedplus.init.ModItems;
 import git.david.cuffedplus.init.ModModelLayers;
 import git.david.cuffedplus.init.ModRestraints;
+import git.david.cuffedplus.items.item.base.RestraintItem;
 import git.david.cuffedplus.items.restraints.client.model.HazardTapeLegsModel;
+import git.david.cuffedplus.utils.InfoMessagesHandler;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Options;
 import net.minecraft.client.gui.GuiGraphics;
@@ -300,8 +303,26 @@ import static git.david.cuffedplus.misc.Icons.CAUTION_TAPE_ICON;
 */
 
 public class HazardTapeLegsRestraint extends AbstractLegRestraint implements IBreakableRestraint, IEnchantableRestraint {
-    ICuffedPlusServerConfigMixin config = (ICuffedPlusServerConfigMixin) CuffedMod.SERVER_CONFIG;
+    public static final ResourceLocation ID = ModRestraints.HAZARD_TAPE_LEGS.getId();
+    public static final Item ITEM = ModItems.HAZARD_TAPE.get();
+    public static final Item KEY = Items.SHEARS;
+    public static final LegRestraintAnimationFlags LEG_ANIMATION_FLAGS = LegRestraintAnimationFlags.NONE;
+
+    // #region Restraint Properties
     private final ItemStack sourceStack;
+    ICuffedPlusServerConfigMixin config = (ICuffedPlusServerConfigMixin) CuffedMod.SERVER_CONFIG;
+    int lastBarIndex = 0;
+    boolean time_locked = false;
+    long ticks_time = 0;
+    long ticks = 0;
+    int tickCount = 0;
+    float breakCooldown = 4;
+    int lastKeyPressed = -1;
+    ListTag enchantments;
+    /**
+     * Changed only server-side. changes are synced to client.
+     */
+    private int durability = 100;
 
     public HazardTapeLegsRestraint() {
         enchantments = new ListTag();
@@ -315,10 +336,6 @@ public class HazardTapeLegsRestraint extends AbstractLegRestraint implements IBr
 
     }
 
-    // #region Restraint Properties
-
-    public static final ResourceLocation ID = ModRestraints.HAZARD_TAPE_LEGS.getId();
-
     public ResourceLocation getId() {
         return ID;
     }
@@ -331,19 +348,13 @@ public class HazardTapeLegsRestraint extends AbstractLegRestraint implements IBr
         return "info.cuffedplus.restraints.legcuffs.name";
     }
 
-    public static final Item ITEM = ModItems.HAZARD_TAPE.get();
-
     public Item getItem() {
         return ITEM;
     }
 
-    public static final Item KEY = Items.SHEARS;
-
     public Item getKeyItem() {
         return KEY;
     }
-
-    public static final LegRestraintAnimationFlags LEG_ANIMATION_FLAGS = LegRestraintAnimationFlags.NONE;
 
     public ArmRestraintAnimationFlags getArmAnimationFlags() {
         return ArmRestraintAnimationFlags.NONE;
@@ -353,92 +364,132 @@ public class HazardTapeLegsRestraint extends AbstractLegRestraint implements IBr
         return LEG_ANIMATION_FLAGS;
     }
 
-    public SoundEvent getEquipSound() {
-        return SoundEvents.AXE_STRIP;
-    }
-    int lastBarIndex = 0;
-
-    private boolean getBooleanTag(String key, boolean defaultValue) {
-        if (sourceStack == null || sourceStack.isEmpty()) return defaultValue;
-        CompoundTag tag = sourceStack.getTag();
-        return tag != null && tag.contains(key) ? tag.getBoolean(key) : defaultValue;
-    }
-
-    @Override
-    public boolean AllowBreakingBlocks() {
-        return getBooleanTag("AllowBreakingBlocks", true);
-    }
-
-    @Override
-    public boolean AllowItemUse() {
-        return getBooleanTag("AllowItemUse", true);
-    }
-
-    @Override
-    public boolean AllowMovement() {
-        return getBooleanTag("AllowMovement", false);
-    }
-    /**
-     * Changed only server-side. changes are synced to client.
-     */
-    private int durability = 100;
-
-    @Override
-    public boolean AllowJumping() {
-        return getBooleanTag("AllowJumping", false);
-    }
-
-    @Override
-    public boolean canBeBrokenOutOf() {
-        return getBooleanTag("CanBeBrokenOutOf", true);
-    }
-
-    @Override
-    public boolean getLockpickable() {
-        return getBooleanTag("Lockpickable", false);
-    }
-
-    public int getLockpickingProgressPerPick() {
-        return 3;
-    }
-
-    public int getLockpickingSpeedIncreasePerPick() {
-        return 2;
-    }
-    // #endregion
-
-    // #region Events
-
-    int tickCount = 0;
-
-    public void onTickServer(ServerPlayer player) {
-        super.onTickServer(player);
-        ItemStack sourceStack = this.sourceStack;
-        if (sourceStack.getOrCreateTag().getBoolean("SaturationModifier")) {
-            if (player.getFoodData().needsFood()) {
-                player.addEffect(new MobEffectInstance(MobEffects.SATURATION, 1, 10, false, false));
-            }
-        } else if (sourceStack.getOrCreateTag().getInt("HungerModifier") > 0) {
-            if (player.tickCount - tickCount >= 200 / sourceStack.getOrCreateTag().getInt("HungerModifier") && player.getFoodData().getFoodLevel() > 3) {
-                player.causeFoodExhaustion(1);
-                tickCount = player.tickCount;
-            }
-        } else if (sourceStack.getOrCreateTag().getInt("AntiGodModifier") == 2) {
-            player.setGameMode(GameType.SURVIVAL);
-        }
-    }
-
     public SoundEvent getUnequipSound() {
         return SoundEvents.AXE_STRIP;
     }
 
+    public SoundEvent getEquipSound() {
+        return SoundEvents.AXE_STRIP;
+    }
+
+    public boolean AllowBreakingBlocks() {return false;}
+
+    public boolean AllowItemUse() {return false;}
+    // #endregion
+
+    // #region Events
+
+    public boolean AllowMovement() {return true;}
+
+    public boolean AllowSprinting() {return false;}
+
+    public boolean AllowJumping() {return !this.sourceStack.getOrCreateTag().getBoolean("AllowJumping");}
+
+    public boolean canBeBrokenOutOf() {
+        RestrainableCapability playerCap = (RestrainableCapability) CuffedAPI.Capabilities.getRestrainableCapability(this.getPlayer());
+        assert playerCap.getArmRestraint() != null;
+        ItemStack restraintStack = playerCap.getArmRestraint().saveToItemStack();
+        // System.out.println(restraintStack.getOrCreateTag().getBoolean("Timer") + "  " + config.allowBreakingTimeLockedRestraints());
+        if ((restraintStack.getOrCreateTag().getBoolean("Timer") || ticks_time > 0) && !config.allowBreakingTimeLockedRestraints())
+            return false;
+
+        return !restraintStack.getOrCreateTag().getBoolean("CanBeBrokenOutOf");
+    }
+
+    public boolean getLockpickable() {
+        RestrainableCapability playerCap = (RestrainableCapability) CuffedAPI.Capabilities.getRestrainableCapability(this.getPlayer());
+        assert playerCap.getArmRestraint() != null;
+        ItemStack restraintStack = playerCap.getArmRestraint().saveToItemStack();
+        //System.out.println(restraintStack.getOrCreateTag().getBoolean("Timer") + "  " + config.allowLockpickingTimeLockedRestraints());
+        if ((restraintStack.getOrCreateTag().getBoolean("Timer") || ticks_time > 0) /*&& !config.allowLockpickingTimeLockedRestraints()*/)
+            return false;
+
+        return !restraintStack.getOrCreateTag().getBoolean("Lockpickable");
+    }
+
+    public int getLockpickingProgressPerPick() {return 3;}
+
+    public int getLockpickingSpeedIncreasePerPick() {return 2;}
+
+    public void tick(ServerPlayer player, ItemStack restraintStack) {
+        ticks_time--;
+        int[] time = RestraintItem.ticksToTime(ticks_time);
+        int seconds = time[0];
+        int minutes = time[1];
+        int hours = time[2];
+        player.displayClientMessage(Component.literal("🔒 " + seconds + "s : " + minutes + "m : " + hours + "h 🔒").withStyle(ChatFormatting.RED).withStyle(ChatFormatting.BOLD), true);
+        restraintStack.getOrCreateTag().putLong("Time", ticks_time);
+        this.setDurability(player, getMaxDurability());
+        if (ticks_time - ticks <= -20 || ticks == 0) {
+            ticks = ticks_time;
+        }
+
+        if (ticks_time < 1) {
+            time_locked = false;
+            player.displayClientMessage(Component.literal("🔓 Time ran out 🔓").withStyle(ChatFormatting.GREEN), true);
+            ticks_time = -1;
+            restraintStack.getOrCreateTag().putLong("Time", ticks_time);
+            restraintStack.getOrCreateTag().putBoolean("Timer", false);
+            RestrainableCapability playerRestrainableCapability = (RestrainableCapability) CuffedAPI.Capabilities.getRestrainableCapability(player);
+            playerRestrainableCapability.UnequipRestraint(player, player, this.getType());
+            ItemStack timeLockStack = new ItemStack(ModItems.TIME_LOCK.get());
+            ItemEntity itemEntity = new ItemEntity(player.level(), player.getX(), player.getY() + 0.6D, player.getZ(), timeLockStack);
+            itemEntity.setDefaultPickUpDelay();
+            player.level().addFreshEntity(itemEntity);
+            if (restraintStack.getOrCreateTag().getInt("AntiGodModifier") > 0 && config.putPlayersInToCreativeWhenAntiGodRestraintTimeLockRunsOut()) {
+                player.setGameMode(GameType.CREATIVE);
+            }
+        }
+
+    }
+
+    public void onTickServer(ServerPlayer player) {
+        super.onTickServer(player);
+        RestrainableCapability playerCap = (RestrainableCapability) CuffedAPI.Capabilities.getRestrainableCapability(player);
+        assert playerCap.getArmRestraint() != null;
+        ItemStack restraintStack = playerCap.getArmRestraint().saveToItemStack();
+        ticks_time = restraintStack.getOrCreateTag().getLong("Time");
+        //System.out.println(item.ticks_time + "  " + item.seconds + "  " + item.minutes + "  " + item.hours + "  " + sourceStack.getOrCreateTag().getLong("Time") + "  " + sourceStack.getOrCreateTag().getBoolean("Timer")); // TODO: TEST ME OUT!!!
+        if (restraintStack.getOrCreateTag().getBoolean("Timer") && ticks_time > 0) {
+            time_locked = true;
+            tick(player, restraintStack);
+        }
+
+        if (restraintStack.getOrCreateTag().getBoolean("Timer") && ticks_time < 1) {
+            restraintStack.getOrCreateTag().putBoolean("Timer", false);
+        } else if (!restraintStack.getOrCreateTag().getBoolean("Timer") && ticks_time > 0) {
+            restraintStack.getOrCreateTag().putBoolean("Timer", true);
+        }
+
+        if (restraintStack.getOrCreateTag().getBoolean("SaturationModifier")) {
+            if (player.getFoodData().needsFood()) {
+                player.addEffect(new MobEffectInstance(MobEffects.SATURATION, 1, 10, false, false));
+            }
+        } else if (restraintStack.getOrCreateTag().getInt("HungerModifier") > 0) {
+            if (player.tickCount - tickCount >= 200 / restraintStack.getOrCreateTag().getInt("HungerModifier") && player.getFoodData().getFoodLevel() > 3) {
+                player.causeFoodExhaustion(1);
+                tickCount = player.tickCount;
+            }
+        } else if (restraintStack.getOrCreateTag().getInt("AntiGodModifier") == 2 && (time_locked && ticks_time > 5)) {
+            player.setGameMode(GameType.SURVIVAL);
+        }
+    }
+
+    public void onTickClient(Player player) {
+        super.onTickClient(player);
+
+        if (breakCooldown > 0)
+            breakCooldown--;
+    }
+
     public void onEquippedServer(ServerPlayer player, ServerPlayer captor) {
         super.onEquippedServer(player, captor);
+        // System.out.println("RESTRAINT EQUIPPED SERVER");
         if (sourceStack.getOrCreateTag().getInt("AntiGodModifier") == 1) {
-            player.displayClientMessage(Component.literal("You have been reduced to a normal person").withStyle(ChatFormatting.YELLOW), true);
+            InfoMessagesHandler.sendInfoMessage(player, " ! You have been reduced to a normal person !", false, true);
             player.setGameMode(GameType.SURVIVAL);
         } else if (sourceStack.getOrCreateTag().getInt("AntiGodModifier") == 2) {
-            player.displayClientMessage(Component.literal("You have been reduced to a normal person without a way back").withStyle(ChatFormatting.YELLOW), true);
+            InfoMessagesHandler.sendInfoMessage(player, " ! You have been reduced to a normal person without a way back !", false, true);
         }
     }
 
@@ -475,6 +526,10 @@ public class HazardTapeLegsRestraint extends AbstractLegRestraint implements IBr
     public void onJumpServer(ServerPlayer player) {
     }
 
+    // #endregion
+
+    // #region Client-Side operations
+
     public void onJumpClient(Player player) {
     }
 
@@ -487,21 +542,7 @@ public class HazardTapeLegsRestraint extends AbstractLegRestraint implements IBr
 
     // #endregion
 
-    // #region Client-Side operations
-
-    @Override
-    public boolean AllowSprinting() {
-        return getBooleanTag("AllowSprinting", false);
-    }
-    ;
-
-    public void onTickClient(Player player) {
-        super.onTickClient(player);
-
-        if (breakCooldown > 0)
-            breakCooldown--;
-    }
-
+    // #region Breakable Restraint Management
 
     public void onKeyInput(Player player, int keyCode, int action) {
         super.onKeyInput(player, keyCode, action);
@@ -517,10 +558,6 @@ public class HazardTapeLegsRestraint extends AbstractLegRestraint implements IBr
     public RestraintModelInterface getModelInterface() {
         return new HazardTapeLegsRestraintModelInterface();
     }
-
-    // #endregion
-
-    // #region Breakable Restraint Management
 
     public SoundEvent getBreakSound() {
         return SoundEvents.ITEM_BREAK;
@@ -565,9 +602,6 @@ public class HazardTapeLegsRestraint extends AbstractLegRestraint implements IBr
     public int getDurability() {
         return durability;
     }
-
-    float breakCooldown = 4;
-    int lastKeyPressed = -1;
 
     public void attemptToBreak(Player player, int keyCode, int action, Options options) {
         if (breakCooldown <= 0) {
@@ -639,14 +673,12 @@ public class HazardTapeLegsRestraint extends AbstractLegRestraint implements IBr
 
     }
 
-    public void onBrokenClient(Player player) {
-    }
-
     // #endregion
 
     // #region Enchantable Restraint Management
 
-    ListTag enchantments;
+    public void onBrokenClient(Player player) {
+    }
 
     public ListTag getEnchantments() {
         return enchantments;

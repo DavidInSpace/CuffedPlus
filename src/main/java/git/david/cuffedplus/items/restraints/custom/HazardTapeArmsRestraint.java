@@ -300,102 +300,71 @@ import static git.david.cuffedplus.misc.Icons.CAUTION_TAPE_ICON;
  */
 
 public class HazardTapeArmsRestraint extends AbstractArmRestraint implements IBreakableRestraint, IEnchantableRestraint {
-    ICuffedPlusServerConfigMixin config = (ICuffedPlusServerConfigMixin) CuffedMod.SERVER_CONFIG;
+    public static final ResourceLocation ID = ModRestraints.HAZARD_TAPE_ARMS.getId();
+    public static final Item ITEM = ModItems.HAZARD_TAPE.get();
+    public static final Item KEY = Items.SHEARS.asItem();
+    public static final ArmRestraintAnimationFlags ARM_ANIMATION_FLAGS = ArmRestraintAnimationFlags.ARMS_TIED_BEHIND;
+    // #region Restraint Properties
     private final ItemStack sourceStack;
+    ICuffedPlusServerConfigMixin config = (ICuffedPlusServerConfigMixin) CuffedMod.SERVER_CONFIG;
+    int tickCount = 0;
+    float breakCooldown = 4;
+    int lastKeyPressed = -1;
+    ListTag enchantments;
+    /** Changed only server-side. changes are synced to client. */
+    private int durability = 100;
 
     public HazardTapeArmsRestraint() {
         enchantments = new ListTag();
         this.sourceStack = ItemStack.EMPTY;
 
     }
+
     public HazardTapeArmsRestraint(ItemStack stack, ServerPlayer player, ServerPlayer captor) {
         super(stack, player, captor);
         this.durability = getMaxDurability() - stack.getDamageValue();
         this.sourceStack = stack;
     }
 
-    // #region Restraint Properties
+    public ResourceLocation getId() {return ID;}
 
-    public static final ResourceLocation ID = ModRestraints.HAZARD_TAPE_ARMS.getId();
-    public ResourceLocation getId() {
-        return ID;
-    }
+    public String getActionBarLabel() {return "info.cuffedplus.restraints.handcuffs.action_bar";}
 
-    public String getActionBarLabel() {
-        return "info.cuffedplus.restraints.handcuffs.action_bar";
-    }
-    public String getName() {
-        return "info.cuffedplus.restraints.handcuffs.name";
-    }
+    public String getName() {return "info.cuffedplus.restraints.handcuffs.name";}
 
-    public static final Item ITEM =  ModItems.HAZARD_TAPE.get();
-    public Item getItem() {
-        return ITEM;
-    }
-    public static final Item KEY = Items.SHEARS.asItem();
-    public Item getKeyItem() {
-        return KEY;
-    }
+    public Item getItem() {return ITEM;}
 
-    public static final ArmRestraintAnimationFlags ARM_ANIMATION_FLAGS = ArmRestraintAnimationFlags.ARMS_TIED_BEHIND;
-    public ArmRestraintAnimationFlags getArmAnimationFlags() {
-        return ARM_ANIMATION_FLAGS;
-    }
-    public LegRestraintAnimationFlags getLegAnimationFlags() {
-        return LegRestraintAnimationFlags.NONE;
-    }
+    public Item getKeyItem() {return KEY;}
 
-    public SoundEvent getEquipSound() {
-        return SoundEvents.AXE_STRIP;
-    }
-    public SoundEvent getUnequipSound() {
-        return SoundEvents.AXE_STRIP;
-    }
+    public ArmRestraintAnimationFlags getArmAnimationFlags() {return ARM_ANIMATION_FLAGS;}
 
-    @Override
-    public boolean AllowBreakingBlocks() {
-        return false;
-    }
+    public LegRestraintAnimationFlags getLegAnimationFlags() {return LegRestraintAnimationFlags.NONE;}
 
-    @Override
-    public boolean AllowItemUse() {
-        return false;
-    }
+    public SoundEvent getEquipSound() {return SoundEvents.AXE_STRIP;}
 
-    @Override
-    public boolean AllowMovement() {
-        return true;
-    }
+    public SoundEvent getUnequipSound() {return SoundEvents.AXE_STRIP;}
 
-    @Override
-    public boolean AllowJumping() {
-        return true;
-    }
+    public boolean AllowBreakingBlocks() {return false;}
 
-    @Override
-    public boolean AllowSprinting() {return false;}
+    public boolean AllowItemUse() {return false;}
 
-    @Override
-    public boolean canBeBrokenOutOf() {
-        return true;
-    }
+    public boolean AllowMovement() {return true;}
 
-    @Override
-    public boolean getLockpickable() {
-        return false;
-    }
-
-    public int getLockpickingProgressPerPick() {
-        return 3;
-    }
-    public int getLockpickingSpeedIncreasePerPick() {
-        return 2;
-    }
+    public boolean AllowJumping() {return true;}
     // #endregion
 
     // #region Events
 
-    int tickCount = 0;
+    public boolean AllowSprinting() {return false;}
+
+    public boolean canBeBrokenOutOf() {return true;}
+
+    public boolean getLockpickable() {return false;}
+
+    public int getLockpickingProgressPerPick() {return 3;}
+
+    public int getLockpickingSpeedIncreasePerPick() {return 2;}
+
     public void onTickServer(ServerPlayer player) {
         super.onTickServer(player);
         ItemStack sourceStack = this.sourceStack;
@@ -416,7 +385,7 @@ public class HazardTapeArmsRestraint extends AbstractArmRestraint implements IBr
     public void onTickClient(Player player) {
         super.onTickClient(player);
 
-        if(breakCooldown>0)
+        if (breakCooldown > 0)
             breakCooldown--;
     }
 
@@ -460,6 +429,10 @@ public class HazardTapeArmsRestraint extends AbstractArmRestraint implements IBr
     public void onDeathClient(Player player) {
     }
 
+    // #endregion
+
+    // #region Client-Side operations
+
     public void onJumpServer(ServerPlayer player) {
     }
 
@@ -475,13 +448,13 @@ public class HazardTapeArmsRestraint extends AbstractArmRestraint implements IBr
 
     // #endregion
 
-    // #region Client-Side operations
+    // #region Breakable Restraint Management
 
     public void renderOverlay(Player player, GuiGraphics graphics, float partialTick, Window window) {
         super.renderOverlay(player, graphics, partialTick, window);
 
         // Display Icon and chain overlay
-        float f = (Mth.clamp(breakCooldown / 10, 0, 1)+1);
+        float f = (Mth.clamp(breakCooldown / 10, 0, 1) + 1);
         graphics.setColor(f, f, f, 1);
 
         int iconWidth = (int) (16 * 1.75f);
@@ -493,8 +466,8 @@ public class HazardTapeArmsRestraint extends AbstractArmRestraint implements IBr
         graphics.setColor(1, 1, 1, 1);
 
         // Display break progress bar
-        float p = Mth.clamp((float)clientSidedDurability / (float)getMaxDurability(), 0, 1);
-        ScreenUtilities.drawGenericProgressBar(graphics, new BlitCoordinates(x, y+iconHeight-2, iconWidth, iconHeight), p);
+        float p = Mth.clamp((float) clientSidedDurability / (float) getMaxDurability(), 0, 1);
+        ScreenUtilities.drawGenericProgressBar(graphics, new BlitCoordinates(x, y + iconHeight - 2, iconWidth, iconHeight), p);
     }
 
     public void onKeyInput(Player player, int keyCode, int action) {
@@ -511,10 +484,6 @@ public class HazardTapeArmsRestraint extends AbstractArmRestraint implements IBr
     public RestraintModelInterface getModelInterface() {
         return new HazardTapeRestraintModelInterface();
     }
-
-    // #endregion
-
-    // #region Breakable Restraint Management
 
     public SoundEvent getBreakSound() {
         return SoundEvents.ITEM_BREAK;
@@ -536,15 +505,9 @@ public class HazardTapeArmsRestraint extends AbstractArmRestraint implements IBr
         return true;
     }
 
-    /** Changed only server-side. changes are synced to client. */
-    private int durability = 100;
-
     public int getDurability() {
         return durability;
     }
-
-    float breakCooldown = 4;
-    int lastKeyPressed = -1;
 
     public void attemptToBreak(Player player, int keyCode, int action, Options options) {
         if (breakCooldown <= 0) {
@@ -553,7 +516,7 @@ public class HazardTapeArmsRestraint extends AbstractArmRestraint implements IBr
                     Random r = new Random();
                     double chance = 0.5f;
                     double cooldownMultiplier = 1;
-                    if(this instanceof IEnchantableRestraint && hasEnchantment(Enchantments.UNBREAKING)) {
+                    if (this instanceof IEnchantableRestraint && hasEnchantment(Enchantments.UNBREAKING)) {
                         double d = getEnchantmentLevel(Enchantments.UNBREAKING) / 3d;
                         chance = 0.5f;//((MathUtilities.invert01(d / 3d) * 0.7d) + 0.3d)  * 0.5f;
                         cooldownMultiplier = 1 + d;
@@ -616,18 +579,17 @@ public class HazardTapeArmsRestraint extends AbstractArmRestraint implements IBr
 
     }
 
-    public void onBrokenClient(Player player) {
-    }
-
     // #endregion
 
     // #region Enchantable Restraint Management
 
-    ListTag enchantments;
+    public void onBrokenClient(Player player) {
+    }
 
     public ListTag getEnchantments() {
         return enchantments;
     }
+
     public void setEnchantments(ListTag tag) {
         enchantments = tag;
     }
@@ -643,6 +605,7 @@ public class HazardTapeArmsRestraint extends AbstractArmRestraint implements IBr
         }
         return false;
     }
+
     public int getEnchantmentLevel(Enchantment enchantment) {
         ResourceLocation resourcelocation = EnchantmentHelper.getEnchantmentId(enchantment);
         for (int i = 0; i < enchantments.size(); ++i) {
@@ -654,6 +617,7 @@ public class HazardTapeArmsRestraint extends AbstractArmRestraint implements IBr
         }
         return 0;
     }
+
     public void enchant(Enchantment enchantment, int value) {
         ResourceLocation l = EnchantmentHelper.getEnchantmentId(enchantment);
         enchantments.add(EnchantmentHelper.storeEnchantment(l, value));
@@ -663,7 +627,7 @@ public class HazardTapeArmsRestraint extends AbstractArmRestraint implements IBr
 
     @OnlyIn(Dist.CLIENT)
     public static class HazardTapeRestraintModelInterface extends RestraintModelInterface {
-
+        @SuppressWarnings("unchecked")
         static final Class<? extends HumanoidModel<? extends LivingEntity>> MODEL_CLASS = (Class<? extends HumanoidModel<? extends LivingEntity>>)(Class<?>) HazardTapeArmsModel.class;
         static final ModelLayerLocation MODEL_LAYER = ModModelLayers.HAZARD_TAPE_ARMS_LAYER;
         static final ResourceLocation MODEL_TEXTURE = ResourceLocation.fromNamespaceAndPath(CuffedPlusMain.MODID, "textures/entity/hazard_tape.png");
@@ -672,10 +636,12 @@ public class HazardTapeArmsRestraint extends AbstractArmRestraint implements IBr
         public Class<? extends HumanoidModel<? extends LivingEntity>> getRenderedModel() {
             return MODEL_CLASS;
         }
+
         @Override
         public ModelLayerLocation getRenderedModelLayer() {
             return MODEL_LAYER;
         }
+
         @Override
         public ResourceLocation getRenderedModelTexture() {
             return MODEL_TEXTURE;

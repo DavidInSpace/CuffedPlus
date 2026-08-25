@@ -3,6 +3,10 @@ package git.david.cuffedplus.items.item.base;
 import com.lazrproductions.cuffed.items.base.AbstractRestraintItem;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
@@ -42,6 +46,17 @@ public class RestraintItem extends AbstractRestraintItem {
     public static boolean canBeBrokenOutOf(ItemStack stack) {return stack.getOrCreateTag().getBoolean("CanBeBrokenOutOf");}
     public static boolean isLockpickable(ItemStack stack) {return stack.getOrCreateTag().getBoolean("Lockpickable");}
 
+    @Override
+    public @NotNull InteractionResult interactLivingEntity(@NotNull ItemStack stack, Player user, @NotNull LivingEntity target, @NotNull InteractionHand hand) {
+        ItemStack itemInHand = user.getItemInHand(hand);
+
+        if (!user.getAbilities().instabuild) stack.shrink(1);
+
+        return InteractionResult.PASS;
+    }
+
+
+
     public static int[] ticksToTime(long ticks) {
         int total_seconds = (int) ticks / 20;
         int seconds = total_seconds % 60;
@@ -59,7 +74,6 @@ public class RestraintItem extends AbstractRestraintItem {
         tooltip.add(Component.literal("Leg Restraint").withStyle(ChatFormatting.GRAY));
 
         if (getTimerEnabled(stack)) {
-//            long ticks_time = getTime(stack);
             long tick_time = stack.getOrCreateTag().getLong("Time");
             int[] time = ticksToTime(ticks_time);
             this.ticks_time = tick_time;
@@ -76,17 +90,17 @@ public class RestraintItem extends AbstractRestraintItem {
         if (getSaturationModifier(stack)) {
             tooltip.add(Component.literal("Saturation Modifier").withStyle(ChatFormatting.YELLOW));
         } else {
-            tooltip.remove(Component.literal("Breaking Blocks Disabled").withStyle(ChatFormatting.YELLOW));
+            tooltip.remove(Component.literal("Saturation Modifier").withStyle(ChatFormatting.YELLOW));
         }
 
         if (getHungerModifier(stack) > 0) {
             tooltip.add(Component.literal("Hunger Modifier " + getHungerModifier(stack)).withStyle(ChatFormatting.DARK_GREEN));
         } else {
-            tooltip.remove(Component.literal("Hunger Modifier").withStyle(ChatFormatting.DARK_GREEN));
+            tooltip.remove(Component.literal("Hunger Modifier" + getHungerModifier(stack)).withStyle(ChatFormatting.DARK_GREEN));
         }
 
         if (getAntiGodModifier(stack) > 0) {
-            tooltip.add(Component.literal("Anti-God Modifier").withStyle(ChatFormatting.GOLD));
+            tooltip.add(Component.literal("Anti-God Modifier " + getAntiGodModifier(stack)).withStyle(ChatFormatting.GOLD));
         } else {
             tooltip.remove(Component.literal("Anti-God Modifier " + getAntiGodModifier(stack)).withStyle(ChatFormatting.GOLD));
         }
