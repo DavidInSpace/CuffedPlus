@@ -27,8 +27,8 @@ public class ModItems {
 
     public static final RegistryObject<Item> WOOD_CUFFS = ITEMS.register("wood_cuffs",
             () -> new RestraintItem(new Item.Properties().stacksTo(1)
-                    .durability(150)
-                    .defaultDurability(150)));
+                    .durability(100)
+                    .defaultDurability(100)));
 
     // GOLD
     public static final RegistryObject<Item> GOLD_CUFFS_KEY = ITEMS.register("gold_cuffs_key",
@@ -36,8 +36,8 @@ public class ModItems {
 
     public static final RegistryObject<Item> GOLD_CUFFS = ITEMS.register("gold_cuffs",
             () -> new RestraintItem(new Item.Properties().stacksTo(1)
-                    .durability(5)
-                    .defaultDurability(5)));
+                    .durability(35)
+                    .defaultDurability(35)));
 
     // DIAMOND
     public static final RegistryObject<Item> DIAMOND_CUFFS_KEY = ITEMS.register("diamond_cuffs_key",
@@ -45,8 +45,8 @@ public class ModItems {
 
     public static final RegistryObject<Item> DIAMOND_CUFFS = ITEMS.register("diamond_cuffs",
             () -> new RestraintItem(new Item.Properties().stacksTo(1)
-                    .durability(1999)
-                    .defaultDurability(1999)));
+                    .durability(1500)
+                    .defaultDurability(1500)));
 
     // NETHERITE
     public static final RegistryObject<Item> NETHERITE_CUFFS_KEY = ITEMS.register("netherite_cuffs_key",
@@ -58,8 +58,8 @@ public class ModItems {
     public static final RegistryObject<Item> NETHERITE_CUFFS = ITEMS.register("netherite_cuffs",
             () -> new RestraintItem(new Item.Properties().stacksTo(1)
                     .rarity(Rarity.UNCOMMON)
-                    .durability(2999)
-                    .defaultDurability(2999)
+                    .durability(2200)
+                    .defaultDurability(2200)
                     .fireResistant()));
 
 
@@ -68,8 +68,8 @@ public class ModItems {
 
     public static final RegistryObject<Item> HAZARD_TAPE = ITEMS.register("hazard_tape",
             () -> new HeadRestraintItem(new Item.Properties().stacksTo(1)
-                    .durability(200)
-                    .defaultDurability(200)));
+                    .durability(80)
+                    .defaultDurability(80)));
 
 
     /* UNIFORMS */

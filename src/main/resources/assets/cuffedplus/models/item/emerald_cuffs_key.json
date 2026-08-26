@@ -1,6 +1,0 @@
-{
-    "parent": "minecraft:item/generated",
-    "textures": {
-      "layer0": "cuffedplus:item/emerald_cuffs_key"
-    }
-}

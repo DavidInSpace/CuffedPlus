@@ -43,23 +43,18 @@ public abstract class AbstractRestraintMixin implements IAbstractRestraintAccess
     @Shadow public abstract RestraintType getType();
 
     @Override public boolean isTimeLocked() {return cuffedplus$time_locked;}
-
     @Override public void setTimeLocked(boolean time_locked) {this.cuffedplus$time_locked = time_locked;}
 
     @Override public long getTicksTime() {return this.cuffedplus$ticks_time;}
-
     @Override public void setTicksTime(long amount) {this.cuffedplus$ticks_time = amount;}
 
     @Override public long getTicks() {return this.cuffedplus$ticks;}
-
     @Override public void setTicks(long amount) {this.cuffedplus$ticks = amount;}
 
     @Override public int getPlayerTickCount() {return this.cuffedplus$player_tick_count;}
-
     @Override public void setPlayerTickCount(int amount) {this.cuffedplus$player_tick_count = amount;}
 
     @Override public boolean getDropTimeLock() {return this.cuffedplus$drop_time_lock;}
-
     @Override public void setDropTimeLock(boolean drop) {this.cuffedplus$drop_time_lock = drop;}
 
 

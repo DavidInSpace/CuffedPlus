@@ -61,10 +61,6 @@ public class ModModelLayers {
         event.registerLayerDefinition(GOLD_CUFFS_ARMS_LAYER, GoldCuffsArmsModel::createArmorLayer);
         event.registerLayerDefinition(GOLD_CUFFS_LEGS_LAYER, GoldCuffsLegsModel::createArmorLayer);
 
-        // EMERALD
-        event.registerLayerDefinition(EMERALD_CUFFS_ARMS_LAYER, EmeraldCuffsArmsModel::createArmorLayer);
-        event.registerLayerDefinition(EMERALD_CUFFS_LEGS_LAYER, EmeraldCuffsLegsModel::createArmorLayer);
-
         // DIAMOND
         event.registerLayerDefinition(DIAMOND_CUFFS_ARMS_LAYER, DiamondCuffsArmsModel::createArmorLayer);
         event.registerLayerDefinition(DIAMOND_CUFFS_LEGS_LAYER, DiamondCuffsLegsModel::createArmorLayer);
@@ -72,10 +68,6 @@ public class ModModelLayers {
         // NETHERITE
         event.registerLayerDefinition(NETHERITE_CUFFS_ARMS_LAYER, NetheriteCuffsArmsModel::createArmorLayer);
         event.registerLayerDefinition(NETHERITE_CUFFS_LEGS_LAYER, NetheriteCuffsLegsModel::createArmorLayer);
-
-        // BEDROCK
-        event.registerLayerDefinition(BEDROCK_CUFFS_ARMS_LAYER, BedrockCuffsArmsModel::createArmorLayer);
-        event.registerLayerDefinition(BEDROCK_CUFFS_LEGS_LAYER, BedrockCuffsLegsModel::createArmorLayer);
 
         event.registerLayerDefinition(HAZARD_TAPE_HEAD_LAYER, HazardTapeHeadModel::createArmorLayer);
         event.registerLayerDefinition(HAZARD_TAPE_ARMS_LAYER, HazardTapeArmsModel::createArmorLayer);
