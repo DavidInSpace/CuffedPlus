@@ -22,8 +22,8 @@ import static net.minecraft.client.model.geom.ModelLayers.PLAYER_SLIM;
 
 public class PoliceUniformLayer extends RenderLayer<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>> {
 
-    private static final ResourceLocation POLICE_UNIFORM1_CLASSIC_TEXTURE = ResourceLocation.fromNamespaceAndPath(CuffedPlusMain.MODID, "textures/entity/uniforms/police_uniform1_slim.png");
-    private static final ResourceLocation POLICE_UNIFORM1_SLIM_TEXTURE = ResourceLocation.fromNamespaceAndPath(CuffedPlusMain.MODID, "textures/entity/uniforms/police_uniform1_classic.png");
+    private static final ResourceLocation POLICE_UNIFORM1_CLASSIC_TEXTURE = ResourceLocation.fromNamespaceAndPath(CuffedPlusMain.MODID, "textures/entity/uniforms/police_uniform1_classic.png");
+    private static final ResourceLocation POLICE_UNIFORM1_SLIM_TEXTURE = ResourceLocation.fromNamespaceAndPath(CuffedPlusMain.MODID, "textures/entity/uniforms/police_uniform1_slim.png");
     //private static final ResourceLocation POLICE_HAT1_TEXTURE = ResourceLocation.fromNamespaceAndPath(CuffedPlusMain.MODID, "textures/entity/uniforms/police_hat1.png");
 
     public PoliceUniformLayer(RenderLayerParent<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>> parent) {
