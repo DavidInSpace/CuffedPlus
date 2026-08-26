@@ -21,25 +21,20 @@ import git.david.cuffedplus.init.ModItems;
 import git.david.cuffedplus.init.ModModelLayers;
 import git.david.cuffedplus.init.ModRestraints;
 import git.david.cuffedplus.init.ModSounds;
-import git.david.cuffedplus.items.item.base.RestraintItem;
+import git.david.cuffedplus.items.restraints.base.IAbstractRestraintAccessor;
 import git.david.cuffedplus.items.restraints.client.model.NetheriteCuffsArmsModel;
-import git.david.cuffedplus.utils.InfoMessagesHandler;
-import net.minecraft.ChatFormatting;
 import net.minecraft.client.Options;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
-import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
-import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
@@ -48,7 +43,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.Enchantments;
-import net.minecraft.world.level.GameType;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -310,10 +304,6 @@ public class NetheriteCuffsArmsRestraint extends AbstractArmRestraint implements
     private final ItemStack sourceStack;
     // #region Restraint Properties
     ICuffedPlusServerConfigMixin config = (ICuffedPlusServerConfigMixin) CuffedMod.SERVER_CONFIG;
-    boolean time_locked = false;
-    long ticks_time = 0;
-    long ticks = 0;
-    int tickCount = 0;
     float breakCooldown = 4;
     int lastKeyPressed = -1;
     ListTag enchantments;
@@ -352,6 +342,7 @@ public class NetheriteCuffsArmsRestraint extends AbstractArmRestraint implements
         RestrainableCapability playerCap = (RestrainableCapability) CuffedAPI.Capabilities.getRestrainableCapability(this.getPlayer());
         assert playerCap.getArmRestraint() != null;
         ItemStack restraintStack = playerCap.getArmRestraint().saveToItemStack();
+        long ticks_time = ((IAbstractRestraintAccessor) playerCap.getRestraint(this.getType())).getTicksTime();
         if ((restraintStack.getOrCreateTag().getBoolean("Timer") || ticks_time > 0) /*&& !config.allowUnlockingTimeLockedRestraints()*/) {
             return ItemStack.EMPTY.getItem();
         }
@@ -398,6 +389,7 @@ public class NetheriteCuffsArmsRestraint extends AbstractArmRestraint implements
         assert playerCap.getArmRestraint() != null;
         ItemStack restraintStack = playerCap.getArmRestraint().saveToItemStack();
         // System.out.println(restraintStack.getOrCreateTag().getBoolean("Timer") + "  " + config.allowBreakingTimeLockedRestraints());
+        long ticks_time = ((IAbstractRestraintAccessor) playerCap.getRestraint(this.getType())).getTicksTime();
         if ((restraintStack.getOrCreateTag().getBoolean("Timer") || ticks_time > 0) && !config.allowBreakingTimeLockedRestraints())
             return false;
 
@@ -409,6 +401,7 @@ public class NetheriteCuffsArmsRestraint extends AbstractArmRestraint implements
         assert playerCap.getArmRestraint() != null;
         ItemStack restraintStack = playerCap.getArmRestraint().saveToItemStack();
         // System.out.println(restraintStack.getOrCreateTag().getBoolean("Timer") + "  " + config.allowLockpickingTimeLockedRestraints());
+        long ticks_time = ((IAbstractRestraintAccessor) playerCap.getRestraint(this.getType())).getTicksTime();
         if ((restraintStack.getOrCreateTag().getBoolean("Timer") || ticks_time > 0) /*&& !config.allowLockpickingTimeLockedRestraints()*/)
             return false;
 
@@ -419,64 +412,10 @@ public class NetheriteCuffsArmsRestraint extends AbstractArmRestraint implements
 
     public int getLockpickingSpeedIncreasePerPick() {return 6;}
 
-    public void tick(ServerPlayer player, ItemStack restraintStack) {
-        ticks_time--;
-        int[] time = RestraintItem.ticksToTime(ticks_time);
-        int seconds = time[0];
-        int minutes = time[1];
-        int hours = time[2];
-        player.displayClientMessage(Component.literal("🔒 " + seconds + "s : " + minutes + "m : " + hours + "h 🔒").withStyle(ChatFormatting.RED).withStyle(ChatFormatting.BOLD), true);
-        restraintStack.getOrCreateTag().putLong("Time", ticks_time);
-        this.setDurability(player, getMaxDurability());
-        if (ticks_time - ticks <= -20 || ticks == 0) {
-            ticks = ticks_time;
-        }
 
-        if (ticks_time < 1) {
-            time_locked = false;
-            player.displayClientMessage(Component.literal("🔓 Time ran out 🔓").withStyle(ChatFormatting.GREEN), true);
-            ticks_time = -1;
-            restraintStack.getOrCreateTag().putLong("Time", ticks_time);
-            restraintStack.getOrCreateTag().putBoolean("Timer", false);
-            RestrainableCapability playerRestrainableCapability = (RestrainableCapability) CuffedAPI.Capabilities.getRestrainableCapability(player);
-            playerRestrainableCapability.UnequipRestraint(player, player, this.getType());
-            if (restraintStack.getOrCreateTag().getInt("AntiGodModifier") > 0 && config.putPlayersInToCreativeWhenAntiGodRestraintTimeLockRunsOut()) {
-                player.setGameMode(GameType.CREATIVE);
-            }
-        }
-
-    }
 
     public void onTickServer(ServerPlayer player) {
         super.onTickServer(player);
-        RestrainableCapability playerCap = (RestrainableCapability) CuffedAPI.Capabilities.getRestrainableCapability(player);
-        assert playerCap.getArmRestraint() != null;
-        ItemStack restraintStack = playerCap.getArmRestraint().saveToItemStack();
-        ticks_time = restraintStack.getOrCreateTag().getLong("Time");
-        //System.out.println(item.ticks_time + "  " + item.seconds + "  " + item.minutes + "  " + item.hours + "  " + sourceStack.getOrCreateTag().getLong("Time") + "  " + sourceStack.getOrCreateTag().getBoolean("Timer")); // TODO: TEST ME OUT!!!
-        if (restraintStack.getOrCreateTag().getBoolean("Timer") && ticks_time > 0) {
-            time_locked = true;
-            tick(player, restraintStack);
-        }
-
-        if (restraintStack.getOrCreateTag().getBoolean("Timer") && ticks_time < 1) {
-            restraintStack.getOrCreateTag().putBoolean("Timer", false);
-        } else if (!restraintStack.getOrCreateTag().getBoolean("Timer") && ticks_time > 0) {
-            restraintStack.getOrCreateTag().putBoolean("Timer", true);
-        }
-
-        if (restraintStack.getOrCreateTag().getBoolean("SaturationModifier")) {
-            if (player.getFoodData().needsFood()) {
-                player.addEffect(new MobEffectInstance(MobEffects.SATURATION, 1, 10, false, false));
-            }
-        } else if (restraintStack.getOrCreateTag().getInt("HungerModifier") > 0) {
-            if (player.tickCount - tickCount >= 200 / restraintStack.getOrCreateTag().getInt("HungerModifier") && player.getFoodData().getFoodLevel() > 3) {
-                player.causeFoodExhaustion(1);
-                tickCount = player.tickCount;
-            }
-        } else if (restraintStack.getOrCreateTag().getInt("AntiGodModifier") == 2 && (time_locked && ticks_time > 5)) {
-            player.setGameMode(GameType.SURVIVAL);
-        }
     }
 
     public void onTickClient(Player player) {
@@ -488,13 +427,6 @@ public class NetheriteCuffsArmsRestraint extends AbstractArmRestraint implements
 
     public void onEquippedServer(ServerPlayer player, ServerPlayer captor) {
         super.onEquippedServer(player, captor);
-        // System.out.println("RESTRAINT EQUIPPED SERVER");
-        if (sourceStack.getOrCreateTag().getInt("AntiGodModifier") == 1) {
-            InfoMessagesHandler.sendInfoMessage(player, " ! You have been reduced to a normal person !", false, true);
-            player.setGameMode(GameType.SURVIVAL);
-        } else if (sourceStack.getOrCreateTag().getInt("AntiGodModifier") == 2) {
-            InfoMessagesHandler.sendInfoMessage(player, " ! You have been reduced to a normal person without a way back !", false, true);
-        }
     }
 
     public void onEquippedClient(Player player, Player captor) {
@@ -655,6 +587,10 @@ public class NetheriteCuffsArmsRestraint extends AbstractArmRestraint implements
     public void onBrokenServer(ServerPlayer player) {
         CuffedAPI.Networking.sendRestraintUtilityPacketToClient(player, getType(), 103, 0, false, 0, "");
 
+        RestrainableCapability playerCap = (RestrainableCapability) CuffedAPI.Capabilities.getRestrainableCapability(player);
+        assert playerCap.getArmRestraint() != null;
+        ItemStack restraintStack = playerCap.getArmRestraint().saveToItemStack();
+
         Random random = new Random();
         player.level().playSound(null, player.blockPosition(), getBreakSound(), SoundSource.PLAYERS, 0.8f,
                 (random.nextFloat() * 0.2f) + 0.9f);
@@ -669,6 +605,13 @@ public class NetheriteCuffsArmsRestraint extends AbstractArmRestraint implements
             player.level().addFreshEntity(e);
         }
 
+        if (restraintStack.getOrCreateTag().getBoolean("DropTimeLock")) {
+            ItemStack timeLockStack = new ItemStack(ModItems.TIME_LOCK.get());
+            ItemEntity itemEntity = new ItemEntity(player.level(), player.getX(), player.getY() + 0.6D, player.getZ(), timeLockStack);
+            itemEntity.setDefaultPickUpDelay();
+            player.level().addFreshEntity(itemEntity);
+        }
+
         IRestrainableCapability cap = CuffedAPI.Capabilities.getRestrainableCapability(player);
         if (getType() == RestraintType.Arm)
             cap.setArmRestraintWithoutWarning(player, null);
@@ -676,7 +619,6 @@ public class NetheriteCuffsArmsRestraint extends AbstractArmRestraint implements
             cap.setLegRestraintWithoutWarning(player, null);
 
     }
-
     // #endregion
 
     // #region Enchantable Restraint Management
