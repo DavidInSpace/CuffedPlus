@@ -11,6 +11,7 @@ public class GeneralUtils {
         player.displayClientMessage(Component.literal(text).withStyle(color), false);
     }
 
+    // I'm genius I know LMAO
     static final String regex1 = "literal{";
     static final String regex2 = "}";
     public static String extractPlayerName(String Name) {

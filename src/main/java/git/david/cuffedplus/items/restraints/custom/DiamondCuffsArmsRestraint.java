@@ -304,10 +304,6 @@ public class DiamondCuffsArmsRestraint extends AbstractArmRestraint implements I
     // #region Restraint Properties
     private final ItemStack sourceStack;
     ICuffedPlusServerConfigMixin config = (ICuffedPlusServerConfigMixin) CuffedMod.SERVER_CONFIG;
-    boolean time_locked = false;
-    long ticks_time = 0;
-    long ticks = 0;
-    int tickCount = 0;
     float breakCooldown = 4;
     int lastKeyPressed = -1;
     ListTag enchantments;

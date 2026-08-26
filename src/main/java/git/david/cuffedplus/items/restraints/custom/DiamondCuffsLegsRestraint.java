@@ -21,6 +21,7 @@ import git.david.cuffedplus.init.ModItems;
 import git.david.cuffedplus.init.ModModelLayers;
 import git.david.cuffedplus.init.ModRestraints;
 import git.david.cuffedplus.init.ModSounds;
+import git.david.cuffedplus.items.restraints.base.IAbstractRestraintAccessor;
 import git.david.cuffedplus.items.restraints.client.model.DiamondCuffsLegsModel;
 import net.minecraft.client.Options;
 import net.minecraft.client.gui.GuiGraphics;
@@ -305,10 +306,6 @@ public class DiamondCuffsLegsRestraint extends AbstractLegRestraint implements I
     private final ItemStack sourceStack;
     ICuffedPlusServerConfigMixin config = (ICuffedPlusServerConfigMixin) CuffedMod.SERVER_CONFIG;
     // #region Events
-    int tickCount = 0;
-    boolean time_locked = false;
-    long ticks_time = 0;
-    long ticks = 0;
     int lastBarIndex = 0;
     float breakCooldown = 4;
     int lastKeyPressed = -1;
@@ -349,6 +346,7 @@ public class DiamondCuffsLegsRestraint extends AbstractLegRestraint implements I
         RestrainableCapability playerCap = (RestrainableCapability) CuffedAPI.Capabilities.getRestrainableCapability(this.getPlayer());
         assert playerCap.getArmRestraint() != null;
         ItemStack restraintStack = playerCap.getArmRestraint().saveToItemStack();
+        long ticks_time = ((IAbstractRestraintAccessor) playerCap.getRestraint(this.getType())).getTicksTime();
         if ((restraintStack.getOrCreateTag().getBoolean("Timer") || ticks_time > 0) /*&& !config.allowUnlockingTimeLockedRestraints()*/) {
             return ItemStack.EMPTY.getItem();
         }
@@ -387,6 +385,7 @@ public class DiamondCuffsLegsRestraint extends AbstractLegRestraint implements I
         RestrainableCapability playerCap = (RestrainableCapability) CuffedAPI.Capabilities.getRestrainableCapability(this.getPlayer());
         assert playerCap.getArmRestraint() != null;
         ItemStack restraintStack = playerCap.getArmRestraint().saveToItemStack();
+        long ticks_time = ((IAbstractRestraintAccessor) playerCap.getRestraint(this.getType())).getTicksTime();
         // System.out.println(restraintStack.getOrCreateTag().getBoolean("Timer") + "  " + config.allowBreakingTimeLockedRestraints());
         if ((restraintStack.getOrCreateTag().getBoolean("Timer") || ticks_time > 0) && !config.allowBreakingTimeLockedRestraints())
             return false;
@@ -398,6 +397,7 @@ public class DiamondCuffsLegsRestraint extends AbstractLegRestraint implements I
         RestrainableCapability playerCap = (RestrainableCapability) CuffedAPI.Capabilities.getRestrainableCapability(this.getPlayer());
         assert playerCap.getArmRestraint() != null;
         ItemStack restraintStack = playerCap.getArmRestraint().saveToItemStack();
+        long ticks_time = ((IAbstractRestraintAccessor) playerCap.getRestraint(this.getType())).getTicksTime();
         // System.out.println(restraintStack.getOrCreateTag().getBoolean("Timer") + "  " + config.allowLockpickingTimeLockedRestraints());
         if ((restraintStack.getOrCreateTag().getBoolean("Timer") || ticks_time > 0) /*&& !config.allowLockpickingTimeLockedRestraints()*/)
             return false;
