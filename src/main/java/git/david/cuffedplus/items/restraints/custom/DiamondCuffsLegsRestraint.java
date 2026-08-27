@@ -1,6 +1,5 @@
 package git.david.cuffedplus.items.restraints.custom;
 
-import com.lazrproductions.cuffed.CuffedMod;
 import com.lazrproductions.cuffed.api.CuffedAPI;
 import com.lazrproductions.cuffed.cap.RestrainableCapability;
 import com.lazrproductions.cuffed.cap.base.IRestrainableCapability;
@@ -16,7 +15,6 @@ import com.lazrproductions.lazrslib.client.screen.ScreenUtilities;
 import com.lazrproductions.lazrslib.client.screen.base.BlitCoordinates;
 import com.mojang.blaze3d.platform.Window;
 import git.david.cuffedplus.CuffedPlusMain;
-import git.david.cuffedplus.config.ICuffedPlusServerConfigMixin;
 import git.david.cuffedplus.init.ModItems;
 import git.david.cuffedplus.init.ModModelLayers;
 import git.david.cuffedplus.init.ModRestraints;
@@ -48,6 +46,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 
 import javax.annotation.Nonnull;
 import java.util.Random;
+
 
 import static git.david.cuffedplus.misc.Icons.DIAMOND_CHAIN_ICON;
 
@@ -304,7 +303,7 @@ public class DiamondCuffsLegsRestraint extends AbstractLegRestraint implements I
 
     // #region Restraint Properties
     private final ItemStack sourceStack;
-    ICuffedPlusServerConfigMixin config = (ICuffedPlusServerConfigMixin) CuffedMod.SERVER_CONFIG;
+
     // #region Events
     int lastBarIndex = 0;
     float breakCooldown = 4;
@@ -347,7 +346,7 @@ public class DiamondCuffsLegsRestraint extends AbstractLegRestraint implements I
         assert playerCap.getArmRestraint() != null;
         ItemStack restraintStack = playerCap.getArmRestraint().saveToItemStack();
         long ticks_time = ((IAbstractRestraintAccessor) playerCap.getRestraint(this.getType())).getTicksTime();
-        if ((restraintStack.getOrCreateTag().getBoolean("Timer") || ticks_time > 0) /*&& !config.allowUnlockingTimeLockedRestraints()*/) {
+        if ((restraintStack.getOrCreateTag().getBoolean("Timer") || ticks_time > 0) /*&& !CuffedPlusMain.SERVER_CONFIG.allowUnlockingTimeLockedRestraints()*/) {
             return ItemStack.EMPTY.getItem();
         }
         return KEY;
@@ -386,8 +385,8 @@ public class DiamondCuffsLegsRestraint extends AbstractLegRestraint implements I
         assert playerCap.getArmRestraint() != null;
         ItemStack restraintStack = playerCap.getArmRestraint().saveToItemStack();
         long ticks_time = ((IAbstractRestraintAccessor) playerCap.getRestraint(this.getType())).getTicksTime();
-        // System.out.println(restraintStack.getOrCreateTag().getBoolean("Timer") + "  " + config.allowBreakingTimeLockedRestraints());
-        if ((restraintStack.getOrCreateTag().getBoolean("Timer") || ticks_time > 0) && !config.allowBreakingTimeLockedRestraints())
+        // System.out.println(restraintStack.getOrCreateTag().getBoolean("Timer") + "  " + CuffedPlusMain.SERVER_CONFIG.allowBreakingTimeLockedRestraints());
+        if ((restraintStack.getOrCreateTag().getBoolean("Timer") || ticks_time > 0) && !CuffedPlusMain.SERVER_CONFIG.allowBreakingTimeLockedRestraints())
             return false;
 
         return !restraintStack.getOrCreateTag().getBoolean("CanBeBrokenOutOf");
@@ -398,8 +397,8 @@ public class DiamondCuffsLegsRestraint extends AbstractLegRestraint implements I
         assert playerCap.getArmRestraint() != null;
         ItemStack restraintStack = playerCap.getArmRestraint().saveToItemStack();
         long ticks_time = ((IAbstractRestraintAccessor) playerCap.getRestraint(this.getType())).getTicksTime();
-        // System.out.println(restraintStack.getOrCreateTag().getBoolean("Timer") + "  " + config.allowLockpickingTimeLockedRestraints());
-        if ((restraintStack.getOrCreateTag().getBoolean("Timer") || ticks_time > 0) /*&& !config.allowLockpickingTimeLockedRestraints()*/)
+        // System.out.println(restraintStack.getOrCreateTag().getBoolean("Timer") + "  " + CuffedPlusMain.SERVER_CONFIG.allowLockpickingTimeLockedRestraints());
+        if ((restraintStack.getOrCreateTag().getBoolean("Timer") || ticks_time > 0) /*&& !CuffedPlusMain.SERVER_CONFIG.allowLockpickingTimeLockedRestraints()*/)
             return false;
 
         return !restraintStack.getOrCreateTag().getBoolean("Lockpickable");
@@ -660,7 +659,7 @@ public class DiamondCuffsLegsRestraint extends AbstractLegRestraint implements I
     @OnlyIn(Dist.CLIENT)
     public static class DiamondCuffsLegsRestraintModelInterface extends RestraintModelInterface {
         @SuppressWarnings("unchecked")
-        static final Class<? extends HumanoidModel<? extends LivingEntity>> MODEL_CLASS = (Class<? extends HumanoidModel<? extends LivingEntity>>)(Class<?>) DiamondCuffsLegsModel.class;
+        static final Class<? extends HumanoidModel<? extends LivingEntity>> MODEL_CLASS = (Class<? extends HumanoidModel<? extends LivingEntity>>) (Class<?>) DiamondCuffsLegsModel.class;
         static final ModelLayerLocation MODEL_LAYER = ModModelLayers.DIAMOND_CUFFS_LEGS_LAYER;
         static final ResourceLocation MODEL_TEXTURE = ResourceLocation.fromNamespaceAndPath(CuffedPlusMain.MODID, "textures/entity/diamond_cuffs.png");
 

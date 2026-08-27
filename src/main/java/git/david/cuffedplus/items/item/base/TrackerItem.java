@@ -1,7 +1,6 @@
 package git.david.cuffedplus.items.item.base;
 
-import com.lazrproductions.cuffed.CuffedMod;
-import git.david.cuffedplus.config.ICuffedPlusServerConfigMixin;
+import git.david.cuffedplus.CuffedPlusMain;
 import git.david.cuffedplus.utils.GeneralUtils;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
@@ -27,7 +26,7 @@ import static git.david.cuffedplus.utils.GeneralUtils.displayClientMessage;
 import static git.david.cuffedplus.utils.GeneralUtils.extractPlayerName;
 
 public class TrackerItem extends Item {
-    ICuffedPlusServerConfigMixin config = (ICuffedPlusServerConfigMixin) CuffedMod.SERVER_CONFIG;
+
 
     public TrackerItem(Properties p) {
         super(p);
@@ -54,12 +53,12 @@ public class TrackerItem extends Item {
             assert ankleMonitor.getTag() != null;
             if (!handItem.getOrCreateTag().hasUUID("targetUUID") && !ankleMonitor.getOrCreateTag().hasUUID("ownerUUID")) {
 
-                if (config.getPlayersOwnTrackerBindingBehavior().equals("onlyUnbind".toLowerCase()) || (config.getPlayersOwnTrackerBindingBehavior().equals("none"))) {
+                if (CuffedPlusMain.SERVER_CONFIG.getPlayersOwnTrackerBindingBehavior().equals("onlyUnbind".toLowerCase()) || (CuffedPlusMain.SERVER_CONFIG.getPlayersOwnTrackerBindingBehavior().equals("none"))) {
                     player.displayClientMessage(Component.literal("× You can't bind the tracker to yourself ×").withStyle(ChatFormatting.GOLD).withStyle(ChatFormatting.BOLD), true);
                     return InteractionResultHolder.fail(stack);
                 }
 
-                if (player.getTags().contains("prisoner") && config.getPrisonersOwnTrackerBindingBehavior().equals("onlyUnbind".toLowerCase()) || config.getPrisonersOwnTrackerBindingBehavior().equals("none")) {
+                if (player.getTags().contains("prisoner") && CuffedPlusMain.SERVER_CONFIG.getPrisonersOwnTrackerBindingBehavior().equals("onlyUnbind".toLowerCase()) || CuffedPlusMain.SERVER_CONFIG.getPrisonersOwnTrackerBindingBehavior().equals("none")) {
                     player.displayClientMessage(Component.literal("× You are a prisoner!  Prisoners can't bind the tracker to themselves ×").withStyle(ChatFormatting.GOLD).withStyle(ChatFormatting.BOLD), true);
                     return InteractionResultHolder.fail(stack);
                 }
@@ -78,12 +77,12 @@ public class TrackerItem extends Item {
 
             } else if (handItem.getOrCreateTag().getUUID("targetUUID") == ankleMonitor.getOrCreateTag().getUUID("ownerUUID")) {
 
-                if (config.getPlayersOwnTrackerBindingBehavior().equals("onlyBind".toLowerCase()) || (config.getPlayersOwnTrackerBindingBehavior().equals("none"))) {
+                if (CuffedPlusMain.SERVER_CONFIG.getPlayersOwnTrackerBindingBehavior().equals("onlyBind".toLowerCase()) || (CuffedPlusMain.SERVER_CONFIG.getPlayersOwnTrackerBindingBehavior().equals("none"))) {
                     player.displayClientMessage(Component.literal("× You can't unbind your own tracker ×").withStyle(ChatFormatting.GOLD).withStyle(ChatFormatting.BOLD), true);
                     return InteractionResultHolder.fail(stack);
                 }
 
-                if (player.getTags().contains("prisoner") && config.getPrisonersOwnTrackerBindingBehavior().equals("onlyBind".toLowerCase()) || config.getPrisonersOwnTrackerBindingBehavior().equals("none")) {
+                if (player.getTags().contains("prisoner") && CuffedPlusMain.SERVER_CONFIG.getPrisonersOwnTrackerBindingBehavior().equals("onlyBind".toLowerCase()) || CuffedPlusMain.SERVER_CONFIG.getPrisonersOwnTrackerBindingBehavior().equals("none")) {
                     player.displayClientMessage(Component.literal("× You are a prisoner!  Prisoners can't unbind their own tracker ×").withStyle(ChatFormatting.GOLD).withStyle(ChatFormatting.BOLD), true);
                     return InteractionResultHolder.fail(stack);
                 }
@@ -129,12 +128,12 @@ public class TrackerItem extends Item {
 
         if (ankleMonitor.getItem() instanceof AnkleMonitorItem) {
             if (!stack.getOrCreateTag().hasUUID("targetUUID") && !ankleMonitor.getOrCreateTag().hasUUID("ownerUUID")) {
-                if (config.getOtherPlayersTrackerBindingBehavior().equals("onlyUnbind".toLowerCase()) || (config.getOtherPlayersTrackerBindingBehavior().equals("none"))) {
+                if (CuffedPlusMain.SERVER_CONFIG.getOtherPlayersTrackerBindingBehavior().equals("onlyUnbind".toLowerCase()) || (CuffedPlusMain.SERVER_CONFIG.getOtherPlayersTrackerBindingBehavior().equals("none"))) {
                     user.displayClientMessage(Component.literal("× You can't put bind trackers to others ×").withStyle(ChatFormatting.GOLD).withStyle(ChatFormatting.BOLD), true);
                     return InteractionResult.FAIL;
                 }
 
-                if (user.getTags().contains("prisoner") && config.getOtherPrisonersTrackerBindingBehavior().equals("onlyUnbind".toLowerCase()) || config.getOtherPrisonersTrackerBindingBehavior().equals("none")) {
+                if (user.getTags().contains("prisoner") && CuffedPlusMain.SERVER_CONFIG.getOtherPrisonersTrackerBindingBehavior().equals("onlyUnbind".toLowerCase()) || CuffedPlusMain.SERVER_CONFIG.getOtherPrisonersTrackerBindingBehavior().equals("none")) {
                     user.displayClientMessage(Component.literal("× You are a prisoner!  Prisoners can't bind trackers to others ×").withStyle(ChatFormatting.GOLD).withStyle(ChatFormatting.BOLD), true);
                     return InteractionResult.FAIL;
                 }
@@ -155,12 +154,12 @@ public class TrackerItem extends Item {
                 handItem.getOrCreateTag().putUUID("targetUUID", targetUUID);
                 handItem.getOrCreateTag().putString("targetName", targetName);
             } else if (stack.getOrCreateTag().getUUID("targetUUID") == ankleMonitor.getOrCreateTag().getUUID("ownerUUID")) {
-                if (config.getOtherPlayersTrackerBindingBehavior().equals("onlyBind".toLowerCase()) || (config.getOtherPlayersTrackerBindingBehavior().equals("none"))) {
+                if (CuffedPlusMain.SERVER_CONFIG.getOtherPlayersTrackerBindingBehavior().equals("onlyBind".toLowerCase()) || (CuffedPlusMain.SERVER_CONFIG.getOtherPlayersTrackerBindingBehavior().equals("none"))) {
                     user.displayClientMessage(Component.literal("× You can't put unbind others trackers ×").withStyle(ChatFormatting.GOLD).withStyle(ChatFormatting.BOLD), true);
                     return InteractionResult.FAIL;
                 }
 
-                if (user.getTags().contains("prisoner") && config.getOtherPrisonersTrackerBindingBehavior().equals("onlyBind".toLowerCase()) || config.getOtherPrisonersTrackerBindingBehavior().equals("none")) {
+                if (user.getTags().contains("prisoner") && CuffedPlusMain.SERVER_CONFIG.getOtherPrisonersTrackerBindingBehavior().equals("onlyBind".toLowerCase()) || CuffedPlusMain.SERVER_CONFIG.getOtherPrisonersTrackerBindingBehavior().equals("none")) {
                     user.displayClientMessage(Component.literal("× You are a prisoner!  Prisoners can't unbind others trackers ×").withStyle(ChatFormatting.GOLD).withStyle(ChatFormatting.BOLD), true);
                     return InteractionResult.FAIL;
                 }

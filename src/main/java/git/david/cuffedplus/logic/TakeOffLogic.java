@@ -1,7 +1,6 @@
 package git.david.cuffedplus.logic;
 
-import com.lazrproductions.cuffed.CuffedMod;
-import git.david.cuffedplus.config.ICuffedPlusServerConfigMixin;
+import git.david.cuffedplus.CuffedPlusMain;
 import git.david.cuffedplus.items.item.base.AnkleMonitorItem;
 import git.david.cuffedplus.items.item.base.JumpsuitItem;
 import git.david.cuffedplus.utils.GeneralUtils;
@@ -14,8 +13,9 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
+
 public class TakeOffLogic {
-    ICuffedPlusServerConfigMixin config = (ICuffedPlusServerConfigMixin) CuffedMod.SERVER_CONFIG;
+
 
     // Logic for taking jumpsuits off yourself
     @SubscribeEvent
@@ -63,12 +63,12 @@ public class TakeOffLogic {
             return;
         }
 
-        if (config.getOtherPlayersJumpsuitBehavior().equals("onlyPutOn".toLowerCase()) || (config.getOtherPlayersJumpsuitBehavior().equals("none"))) {
+        if (CuffedPlusMain.SERVER_CONFIG.getOtherPlayersJumpsuitBehavior().equals("onlyPutOn".toLowerCase()) || (CuffedPlusMain.SERVER_CONFIG.getOtherPlayersJumpsuitBehavior().equals("none"))) {
             user.displayClientMessage(Component.literal("× You can not take jumpsuits off other players ×").withStyle(ChatFormatting.RED), true);
             return ;
         }
 
-        if (user.getTags().contains("prisoner") && config.getOtherPrisonersJumpsuitBehavior().equals("onlyPutOn".toLowerCase()) || config.getOtherPrisonersJumpsuitBehavior().equals("none")) {
+        if (user.getTags().contains("prisoner") && CuffedPlusMain.SERVER_CONFIG.getOtherPrisonersJumpsuitBehavior().equals("onlyPutOn".toLowerCase()) || CuffedPlusMain.SERVER_CONFIG.getOtherPrisonersJumpsuitBehavior().equals("none")) {
             user.displayClientMessage(Component.literal("× Your are a prisoner!  Prisoners can not take off other players jumpsuit ×").withStyle(ChatFormatting.RED), true);
             return;
         }
@@ -120,12 +120,12 @@ public class TakeOffLogic {
             return;
         }
 
-        if (config.getOtherPlayersAnkleMonitorBehavior().equals("onlyPutOn".toLowerCase()) || (config.getOtherPlayersAnkleMonitorBehavior().equals("none"))) {
+        if (CuffedPlusMain.SERVER_CONFIG.getOtherPlayersAnkleMonitorBehavior().equals("onlyPutOn".toLowerCase()) || (CuffedPlusMain.SERVER_CONFIG.getOtherPlayersAnkleMonitorBehavior().equals("none"))) {
             user.displayClientMessage(Component.literal("× You can not take ankle monitors off other players ×").withStyle(ChatFormatting.RED), true);
             return ;
         }
 
-        if (user.getTags().contains("prisoner") && config.getOtherPrisonersAnkleMonitorBehavior().equals("onlyPutOn".toLowerCase()) || config.getOtherPrisonersAnkleMonitorBehavior().equals("none")) {
+        if (user.getTags().contains("prisoner") && CuffedPlusMain.SERVER_CONFIG.getOtherPrisonersAnkleMonitorBehavior().equals("onlyPutOn".toLowerCase()) || CuffedPlusMain.SERVER_CONFIG.getOtherPrisonersAnkleMonitorBehavior().equals("none")) {
             user.displayClientMessage(Component.literal("× Your are a prisoner!  Prisoners can not take off other players ankle monitor ×").withStyle(ChatFormatting.RED), true);
             return;
         }

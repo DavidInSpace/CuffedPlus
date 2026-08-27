@@ -1,7 +1,6 @@
 package git.david.cuffedplus.logic;
 
-import com.lazrproductions.cuffed.CuffedMod;
-import git.david.cuffedplus.config.ICuffedPlusServerConfigMixin;
+import git.david.cuffedplus.CuffedPlusMain;
 import git.david.cuffedplus.items.item.base.AnkleMonitorItem;
 import git.david.cuffedplus.items.item.base.JumpsuitItem;
 import net.minecraft.world.entity.Entity;
@@ -17,8 +16,9 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 import java.util.Objects;
 
+
 public class KeepLockedGearOnDeathLogic {
-    ICuffedPlusServerConfigMixin config = (ICuffedPlusServerConfigMixin) CuffedMod.SERVER_CONFIG;
+
 
     private ItemStack keepItem;
 
@@ -40,7 +40,7 @@ public class KeepLockedGearOnDeathLogic {
         if (keepItem == null) return;
         if (!(keepItem.getItem() instanceof JumpsuitItem) && !(keepItem.getItem() instanceof AnkleMonitorItem)) return;
         if (!(keepItem.getOrCreateTag().getBoolean("CanBeLocked")) || !(keepItem.getOrCreateTag().getBoolean("Locked"))) return;
-        if (!config.keepLockedGearOnDeath()) return;
+        if (!CuffedPlusMain.SERVER_CONFIG.keepLockedGearOnDeath()) return;
         GameRules.Value<GameRules.BooleanValue> isKeepInventoryOn = Objects.requireNonNull(event.getEntity().getServer()).getGameRules().getRule(GameRules.RULE_KEEPINVENTORY);
         if (Boolean.parseBoolean(String.valueOf(String.valueOf(isKeepInventoryOn).equals("true")))) return; // if keep inventory is on then return since it already does the job
 
@@ -55,7 +55,7 @@ public class KeepLockedGearOnDeathLogic {
         if (!(event.getEntity() instanceof Player)) return;
         if (!(keepItem.getItem() instanceof JumpsuitItem) && !(keepItem.getItem() instanceof AnkleMonitorItem)) return;
         if (!(keepItem.getOrCreateTag().getBoolean("CanBeLocked")) || !(keepItem.getOrCreateTag().getBoolean("Locked"))) return; // If the jumpsuit isnt locked return
-        if (!config.keepLockedGearOnDeath()) return;
+        if (!CuffedPlusMain.SERVER_CONFIG.keepLockedGearOnDeath()) return;
         GameRules.Value<GameRules.BooleanValue> isKeepInventoryOn = Objects.requireNonNull(event.getEntity().getServer()).getGameRules().getRule(GameRules.RULE_KEEPINVENTORY);
         if (Boolean.parseBoolean(String.valueOf(String.valueOf(isKeepInventoryOn).equals("true")))) return; // if keep inventory is on then return since it already does the job
 

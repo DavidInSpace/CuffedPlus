@@ -1,7 +1,7 @@
 package git.david.cuffedplus.logic;
 
 public class AnkleMonitorLogic {
-    /*ICuffedPlusServerConfigMixin config = (ICuffedPlusServerConfigMixin) CuffedMod.SERVER_CONFIG;
+    /*CuffedPlusServerConfig config = CuffedPlusMain.CuffedPlusMain.SERVER_CONFIG;
 
     ItemStack hoveringItem;
     int hoveringSlot;

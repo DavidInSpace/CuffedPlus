@@ -1,20 +1,12 @@
-package git.david.cuffedplus.mixin;
+package git.david.cuffedplus.config;
 
-import com.lazrproductions.cuffed.config.CuffedServerConfig;
 import com.lazrproductions.lazrslib.common.config.ConfigCategory;
 import com.lazrproductions.lazrslib.common.config.ConfigProperty;
 import com.lazrproductions.lazrslib.common.config.LazrConfig;
-import git.david.cuffedplus.config.ICuffedPlusServerConfigMixin;
 import net.minecraftforge.fml.config.ModConfig;
-import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 
-@SuppressWarnings({"AddedMixinMembersNamePattern", "MissingUnique"})
-@Mixin(CuffedServerConfig.class)
-public abstract class CuffedServerConfigMixin extends LazrConfig implements ICuffedPlusServerConfigMixin {
+public class CuffedPlusServerConfig extends LazrConfig {
 
     ConfigCategory CUFFED_PLUS_SETTINGS;
     ConfigCategory GENERAL_SETTINGS;
@@ -34,6 +26,7 @@ public abstract class CuffedServerConfigMixin extends LazrConfig implements ICuf
     ConfigProperty<Boolean> SHOW_SUCCESS_MESSAGES;
     ConfigProperty<Boolean> SHOW_FAIL_MESSAGES;
     ConfigProperty<Boolean> PUT_PLAYERS_IN_CREATIVE_WHEN_ANTIGOD_RESTRAINTS_TIME_LOCK_RUNS_OUT;
+    ConfigProperty<Boolean> ALLOW_RESTRAINED_PLAYERS_EXECUTE_COMMANDS;
 
 
     ConfigProperty<Boolean> SHOW_ROLE_PREFIX;
@@ -75,12 +68,12 @@ public abstract class CuffedServerConfigMixin extends LazrConfig implements ICuf
     ConfigProperty<String> OTHER_PRISONERS_TRACKER_BINDING_BEHAVIOR;
     ConfigProperty<String> OTHER_PRISONERS_BINDING_MESSAGE_BEHAVIOR;
 
-    public CuffedServerConfigMixin(String name, ModConfig.Type type) {
+    public CuffedPlusServerConfig(String name, ModConfig.Type type) {
         super(name, type);
     }
 
-    @Inject(method = "registerProperties", at = @At("HEAD"), remap = false)
-    public void addRegisterProperties(CallbackInfo ci) {
+    @Override
+    public void registerProperties() {
         CUFFED_PLUS_SETTINGS = createCategory(new ConfigCategory(this, "Cuffed Plus Settings"), (c1) -> {
 
             GENERAL_SETTINGS = createCategory(new ConfigCategory(this, "General Settings"), (c5) -> {
@@ -96,6 +89,7 @@ public abstract class CuffedServerConfigMixin extends LazrConfig implements ICuf
                 SHOW_SUCCESS_MESSAGES = c5.putProperty(new ConfigProperty<Boolean>(this, "Show Success Messages", "Whether to show (green) success message when doing certain interactions (not fully implemented)", true));
                 SHOW_FAIL_MESSAGES = c5.putProperty(new ConfigProperty<Boolean>(this, "Show Fail Messages", "Whether to show (red) fail message when doing certain interactions (not fully implemented)", true));
                 PUT_PLAYERS_IN_CREATIVE_WHEN_ANTIGOD_RESTRAINTS_TIME_LOCK_RUNS_OUT = c5.putProperty(new ConfigProperty<Boolean>(this, "Put Players In To Creative When Anti God Restraint Time Lock Runs Out", "Whether to turn the player back in to creative when a time lock on a restraint which has the Anti-God modifier runs out", true));
+                ALLOW_RESTRAINED_PLAYERS_EXECUTE_COMMANDS = c5.putProperty(new ConfigProperty<Boolean>(this, "Allow Restrained Players Execute Commands", "Whether to turn the player back in to creative when a time lock on a restraint which has the Anti-God modifier runs out", false));
             });
 
 
@@ -139,54 +133,75 @@ public abstract class CuffedServerConfigMixin extends LazrConfig implements ICuf
     }
 
 
-    @Override public boolean keepLockedGearOnDeath() {return KEEP_LOCKED_GEAR_ON_DEATH.get();}
-    @Override public int increaseReinforcedBlockStrength() {return INCREASE_REINFORCED_BLOCKS_STRENGTH.get();}
+    public boolean keepLockedGearOnDeath() {return KEEP_LOCKED_GEAR_ON_DEATH.get();}
 
-    @Override public String getPlayersAttackBehavior() {return PLAYERS_ATTACK_BEHAVIOR.get().toLowerCase();}
+    public int increaseReinforcedBlockStrength() {return INCREASE_REINFORCED_BLOCKS_STRENGTH.get();}
 
-    @Override public boolean canPrisonersAttackWithoutRole() {return CAN_PRISONER_ATTACK_PLAYERS_WITHOUT_ROLE.get();}
+    public String getPlayersAttackBehavior() {return PLAYERS_ATTACK_BEHAVIOR.get().toLowerCase();}
 
-    @Override public String getPrisonersAttackBehavior() {return PRISONERS_ATTACK_BEHAVIOR.get().toLowerCase();}
-    @Override public boolean allowUnlockingTimeLockedRestraints() {return ALLOW_UNLOCKING_TIME_LOCKED_RESTRAINTS.get();}
-    @Override public boolean allowBreakingTimeLockedRestraints() {return ALLOW_BREAKING_TIME_LOCKED_RESTRAINTS.get();}
-    @Override public boolean allowLockpickingTimeLockedRestraints() {return ALLOW_LOCKPICKING_TIME_LOCKED_RESTRAINTS.get();}
-    @Override public boolean showInfoMessages() {return SHOW_INFO_MESSAGES.get();}
-    @Override public boolean showSuccessMessages() {return SHOW_SUCCESS_MESSAGES.get();}
-    @Override public boolean showFailMessages() {return SHOW_FAIL_MESSAGES.get();}
+    public boolean canPrisonersAttackWithoutRole() {return CAN_PRISONER_ATTACK_PLAYERS_WITHOUT_ROLE.get();}
 
-    @Override public boolean putPlayersInToCreativeWhenAntiGodRestraintTimeLockRunsOut() {return PUT_PLAYERS_IN_CREATIVE_WHEN_ANTIGOD_RESTRAINTS_TIME_LOCK_RUNS_OUT.get();}
+    public String getPrisonersAttackBehavior() {return PRISONERS_ATTACK_BEHAVIOR.get().toLowerCase();}
 
-    @Override public boolean showRolePrefixes() {return SHOW_ROLE_PREFIX.get();}
-    @Override public boolean rolePrefixesBold() {return ROLE_PREFIX_BOLD.get();}
+    public boolean allowUnlockingTimeLockedRestraints() {return ALLOW_UNLOCKING_TIME_LOCKED_RESTRAINTS.get();}
 
-    @Override public String getPrisonerRolePrefix() {return PRISONER_ROLE_PREFIX.get();}
-    @Override public String getOfficerRolePrefix() {return OFFICER_ROLE_PREFIX.get();}
+    public boolean allowBreakingTimeLockedRestraints() {return ALLOW_BREAKING_TIME_LOCKED_RESTRAINTS.get();}
 
-    @Override public String getPrisonerRolePrefixColor() {return PRISONER_ROLE_PREFIX.get().toLowerCase();}
+    public boolean allowLockpickingTimeLockedRestraints() {return ALLOW_LOCKPICKING_TIME_LOCKED_RESTRAINTS.get();}
 
-    @Override public String getOfficerRolePrefixColor() {return OFFICER_ROLE_PREFIX.get().toLowerCase();}
+    public boolean showInfoMessages() {return SHOW_INFO_MESSAGES.get();}
+
+    public boolean showSuccessMessages() {return SHOW_SUCCESS_MESSAGES.get();}
+
+    public boolean showFailMessages() {return SHOW_FAIL_MESSAGES.get();}
+
+    public boolean putPlayersInToCreativeWhenAntiGodRestraintTimeLockRunsOut() {return PUT_PLAYERS_IN_CREATIVE_WHEN_ANTIGOD_RESTRAINTS_TIME_LOCK_RUNS_OUT.get();}
+
+    public boolean allowRestrainedPlayersExecuteCommands() {return ALLOW_RESTRAINED_PLAYERS_EXECUTE_COMMANDS.get();}
+
+    public boolean showRolePrefixes() {return SHOW_ROLE_PREFIX.get();}
+
+    public boolean rolePrefixesBold() {return ROLE_PREFIX_BOLD.get();}
+
+    public String getPrisonerRolePrefix() {return PRISONER_ROLE_PREFIX.get();}
+
+    public String getOfficerRolePrefix() {return OFFICER_ROLE_PREFIX.get();}
+
+    public String getPrisonerRolePrefixColor() {return PRISONER_ROLE_PREFIX.get().toLowerCase();}
+
+    public String getOfficerRolePrefixColor() {return OFFICER_ROLE_PREFIX.get().toLowerCase();}
 
 
-    @Override public String getOtherPlayersJumpsuitBehavior() {return OTHER_PLAYERS_JUMPSUIT_BEHAVIOR.get().toLowerCase();}
-    @Override public String getOtherPlayersAnkleMonitorBehavior() {return OTHER_PLAYERS_ANKLE_MONITOR_BEHAVIOR.get().toLowerCase();}
+    public String getOtherPlayersJumpsuitBehavior() {return OTHER_PLAYERS_JUMPSUIT_BEHAVIOR.get().toLowerCase();}
 
-    @Override public String getPlayersOwnJumpsuitLockBehavior() {return PLAYERS_OWN_JUMPSUIT_LOCK_BEHAVIOR.get().toLowerCase();}
-    @Override public String getPlayersOwnAnkleMonitorLockBehavior() {return PLAYERS_OWN_ANKLE_MONITOR_LOCK_BEHAVIOR.get().toLowerCase();}
-    @Override public String getOtherPlayersJumpsuitLockBehavior() {return OTHER_PLAYERS_JUMPSUIT_LOCK_BEHAVIOR.get().toLowerCase();}
-    @Override public String getOtherPlayersAnkleMonitorLockBehavior() {return OTHER_PLAYERS_ANKLE_MONITOR_LOCK_BEHAVIOR.get().toLowerCase();}
+    public String getOtherPlayersAnkleMonitorBehavior() {return OTHER_PLAYERS_ANKLE_MONITOR_BEHAVIOR.get().toLowerCase();}
 
-    @Override public String getPlayersOwnTrackerBindingBehavior() {return PLAYERS_OWN_TRACKER_BINDING_BEHAVIOR.get().toLowerCase();}
-    @Override public String getOtherPlayersTrackerBindingBehavior() {return OTHER_PLAYERS_TRACKER_BINDING_BEHAVIOR.get().toLowerCase();}
+    public String getPlayersOwnJumpsuitLockBehavior() {return PLAYERS_OWN_JUMPSUIT_LOCK_BEHAVIOR.get().toLowerCase();}
+
+    public String getPlayersOwnAnkleMonitorLockBehavior() {return PLAYERS_OWN_ANKLE_MONITOR_LOCK_BEHAVIOR.get().toLowerCase();}
+
+    public String getOtherPlayersJumpsuitLockBehavior() {return OTHER_PLAYERS_JUMPSUIT_LOCK_BEHAVIOR.get().toLowerCase();}
+
+    public String getOtherPlayersAnkleMonitorLockBehavior() {return OTHER_PLAYERS_ANKLE_MONITOR_LOCK_BEHAVIOR.get().toLowerCase();}
+
+    public String getPlayersOwnTrackerBindingBehavior() {return PLAYERS_OWN_TRACKER_BINDING_BEHAVIOR.get().toLowerCase();}
+
+    public String getOtherPlayersTrackerBindingBehavior() {return OTHER_PLAYERS_TRACKER_BINDING_BEHAVIOR.get().toLowerCase();}
 
 
-    @Override public String getOtherPrisonersJumpsuitBehavior() {return OTHER_PRISONERS_JUMPSUIT_BEHAVIOR.get().toLowerCase();}
-    @Override public String getOtherPrisonersAnkleMonitorBehavior() {return OTHER_PRISONERS_OWN_ANKLE_MONITOR_BEHAVIOR.get().toLowerCase();}
+    public String getOtherPrisonersJumpsuitBehavior() {return OTHER_PRISONERS_JUMPSUIT_BEHAVIOR.get().toLowerCase();}
 
-    @Override public String getPrisonersOwnJumpsuitLockBehavior() {return PRISONERS_OWN_JUMPSUIT_LOCK_BEHAVIOR.get().toLowerCase();}
-    @Override public String getPrisonersOwnAnkleMonitorLockBehavior() {return PRISONERS_OWN_ANKLE_MONITOR_LOCK_BEHAVIOR.get().toLowerCase();}
-    @Override public String getOtherPrisonersJumpsuitLockBehavior() {return OTHER_PRISONERS_JUMPSUIT_LOCK_BEHAVIOR.get().toLowerCase();}
-    @Override public String getOtherPrisonersAnkleMonitorLockBehavior() {return OTHER_PRISONERS_ANKLE_MONITOR_LOCK_BEHAVIOR.get().toLowerCase();}
+    public String getOtherPrisonersAnkleMonitorBehavior() {return OTHER_PRISONERS_OWN_ANKLE_MONITOR_BEHAVIOR.get().toLowerCase();}
 
-    @Override public String getPrisonersOwnTrackerBindingBehavior() {return PRISONERS_OWN_TRACKER_BINDING_BEHAVIOR.get().toLowerCase();}
-    @Override public String getOtherPrisonersTrackerBindingBehavior() {return OTHER_PRISONERS_TRACKER_BINDING_BEHAVIOR.get().toLowerCase();}
+    public String getPrisonersOwnJumpsuitLockBehavior() {return PRISONERS_OWN_JUMPSUIT_LOCK_BEHAVIOR.get().toLowerCase();}
+
+    public String getPrisonersOwnAnkleMonitorLockBehavior() {return PRISONERS_OWN_ANKLE_MONITOR_LOCK_BEHAVIOR.get().toLowerCase();}
+
+    public String getOtherPrisonersJumpsuitLockBehavior() {return OTHER_PRISONERS_JUMPSUIT_LOCK_BEHAVIOR.get().toLowerCase();}
+
+    public String getOtherPrisonersAnkleMonitorLockBehavior() {return OTHER_PRISONERS_ANKLE_MONITOR_LOCK_BEHAVIOR.get().toLowerCase();}
+
+    public String getPrisonersOwnTrackerBindingBehavior() {return PRISONERS_OWN_TRACKER_BINDING_BEHAVIOR.get().toLowerCase();}
+
+    public String getOtherPrisonersTrackerBindingBehavior() {return OTHER_PRISONERS_TRACKER_BINDING_BEHAVIOR.get().toLowerCase();}
 }

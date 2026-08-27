@@ -1,6 +1,5 @@
 package git.david.cuffedplus.items.restraints.custom;
 
-import com.lazrproductions.cuffed.CuffedMod;
 import com.lazrproductions.cuffed.api.CuffedAPI;
 import com.lazrproductions.cuffed.cap.RestrainableCapability;
 import com.lazrproductions.cuffed.cap.base.IRestrainableCapability;
@@ -16,7 +15,6 @@ import com.lazrproductions.lazrslib.client.screen.ScreenUtilities;
 import com.lazrproductions.lazrslib.client.screen.base.BlitCoordinates;
 import com.mojang.blaze3d.platform.Window;
 import git.david.cuffedplus.CuffedPlusMain;
-import git.david.cuffedplus.config.ICuffedPlusServerConfigMixin;
 import git.david.cuffedplus.init.ModItems;
 import git.david.cuffedplus.init.ModModelLayers;
 import git.david.cuffedplus.init.ModRestraints;
@@ -48,6 +46,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 
 import javax.annotation.Nonnull;
 import java.util.Random;
+
 
 import static git.david.cuffedplus.misc.Icons.NETHERITE_CHAIN_ICON;
 
@@ -303,7 +302,7 @@ public class NetheriteCuffsArmsRestraint extends AbstractArmRestraint implements
     public static final ArmRestraintAnimationFlags ARM_ANIMATION_FLAGS = ArmRestraintAnimationFlags.ARMS_TIED_BEHIND;
     private final ItemStack sourceStack;
     // #region Restraint Properties
-    ICuffedPlusServerConfigMixin config = (ICuffedPlusServerConfigMixin) CuffedMod.SERVER_CONFIG;
+
     float breakCooldown = 4;
     int lastKeyPressed = -1;
     ListTag enchantments;
@@ -343,7 +342,7 @@ public class NetheriteCuffsArmsRestraint extends AbstractArmRestraint implements
         assert playerCap.getArmRestraint() != null;
         ItemStack restraintStack = playerCap.getArmRestraint().saveToItemStack();
         long ticks_time = ((IAbstractRestraintAccessor) playerCap.getRestraint(this.getType())).getTicksTime();
-        if ((restraintStack.getOrCreateTag().getBoolean("Timer") || ticks_time > 0) /*&& !config.allowUnlockingTimeLockedRestraints()*/) {
+        if ((restraintStack.getOrCreateTag().getBoolean("Timer") || ticks_time > 0) /*&& !CuffedPlusMain.SERVER_CONFIG.allowUnlockingTimeLockedRestraints()*/) {
             return ItemStack.EMPTY.getItem();
         }
         return KEY;
@@ -388,9 +387,9 @@ public class NetheriteCuffsArmsRestraint extends AbstractArmRestraint implements
         RestrainableCapability playerCap = (RestrainableCapability) CuffedAPI.Capabilities.getRestrainableCapability(this.getPlayer());
         assert playerCap.getArmRestraint() != null;
         ItemStack restraintStack = playerCap.getArmRestraint().saveToItemStack();
-        // System.out.println(restraintStack.getOrCreateTag().getBoolean("Timer") + "  " + config.allowBreakingTimeLockedRestraints());
+        // System.out.println(restraintStack.getOrCreateTag().getBoolean("Timer") + "  " + CuffedPlusMain.SERVER_CONFIG.allowBreakingTimeLockedRestraints());
         long ticks_time = ((IAbstractRestraintAccessor) playerCap.getRestraint(this.getType())).getTicksTime();
-        if ((restraintStack.getOrCreateTag().getBoolean("Timer") || ticks_time > 0) && !config.allowBreakingTimeLockedRestraints())
+        if ((restraintStack.getOrCreateTag().getBoolean("Timer") || ticks_time > 0) && !CuffedPlusMain.SERVER_CONFIG.allowBreakingTimeLockedRestraints())
             return false;
 
         return !restraintStack.getOrCreateTag().getBoolean("CanBeBrokenOutOf");
@@ -400,9 +399,9 @@ public class NetheriteCuffsArmsRestraint extends AbstractArmRestraint implements
         RestrainableCapability playerCap = (RestrainableCapability) CuffedAPI.Capabilities.getRestrainableCapability(this.getPlayer());
         assert playerCap.getArmRestraint() != null;
         ItemStack restraintStack = playerCap.getArmRestraint().saveToItemStack();
-        // System.out.println(restraintStack.getOrCreateTag().getBoolean("Timer") + "  " + config.allowLockpickingTimeLockedRestraints());
+        // System.out.println(restraintStack.getOrCreateTag().getBoolean("Timer") + "  " + CuffedPlusMain.SERVER_CONFIG.allowLockpickingTimeLockedRestraints());
         long ticks_time = ((IAbstractRestraintAccessor) playerCap.getRestraint(this.getType())).getTicksTime();
-        if ((restraintStack.getOrCreateTag().getBoolean("Timer") || ticks_time > 0) /*&& !config.allowLockpickingTimeLockedRestraints()*/)
+        if ((restraintStack.getOrCreateTag().getBoolean("Timer") || ticks_time > 0) /*&& !CuffedPlusMain.SERVER_CONFIG.allowLockpickingTimeLockedRestraints()*/)
             return false;
 
         return !restraintStack.getOrCreateTag().getBoolean("Lockpickable");
@@ -411,7 +410,6 @@ public class NetheriteCuffsArmsRestraint extends AbstractArmRestraint implements
     public int getLockpickingProgressPerPick() {return 1;}
 
     public int getLockpickingSpeedIncreasePerPick() {return 6;}
-
 
 
     public void onTickServer(ServerPlayer player) {
@@ -668,7 +666,7 @@ public class NetheriteCuffsArmsRestraint extends AbstractArmRestraint implements
     @OnlyIn(Dist.CLIENT)
     public static class NetheriteCuffsRestraintModelInterace extends RestraintModelInterface {
         @SuppressWarnings("unchecked")
-        static final Class<? extends HumanoidModel<? extends LivingEntity>> MODEL_CLASS = (Class<? extends HumanoidModel<? extends LivingEntity>>)(Class<?>) NetheriteCuffsArmsModel.class;
+        static final Class<? extends HumanoidModel<? extends LivingEntity>> MODEL_CLASS = (Class<? extends HumanoidModel<? extends LivingEntity>>) (Class<?>) NetheriteCuffsArmsModel.class;
         static final ModelLayerLocation MODEL_LAYER = ModModelLayers.NETHERITE_CUFFS_ARMS_LAYER;
         static final ResourceLocation MODEL_TEXTURE = ResourceLocation.fromNamespaceAndPath(CuffedPlusMain.MODID, "textures/entity/netherite_cuffs.png");
 

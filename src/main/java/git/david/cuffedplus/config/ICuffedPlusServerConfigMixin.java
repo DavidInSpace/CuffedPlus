@@ -11,11 +11,8 @@ public interface ICuffedPlusServerConfigMixin {
     int increaseReinforcedBlockStrength();
     boolean keepLockedGearOnDeath();
     boolean applyRoleDependingOnUniformWorn();
-
     String getPlayersAttackBehavior(); // (Options: "none", onlyPrisoners, "onlyOfficers", "both")
-
     boolean canPrisonersAttackWithoutRole();
-
     String getPrisonersAttackBehavior(); // (Options: "none", onlyPrisoners, "onlyOfficers", "both")
     boolean allowUnlockingTimeLockedRestraints();
     boolean allowBreakingTimeLockedRestraints();

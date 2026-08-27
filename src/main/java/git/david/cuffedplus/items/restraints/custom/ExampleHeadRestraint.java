@@ -1,6 +1,5 @@
 package git.david.cuffedplus.items.restraints.custom;
 
-import com.lazrproductions.cuffed.CuffedMod;
 import com.lazrproductions.cuffed.entity.animation.ArmRestraintAnimationFlags;
 import com.lazrproductions.cuffed.entity.animation.LegRestraintAnimationFlags;
 import com.lazrproductions.cuffed.init.ModModelLayers;
@@ -8,7 +7,6 @@ import com.lazrproductions.cuffed.restraints.base.AbstractHeadRestraint;
 import com.lazrproductions.cuffed.restraints.client.RestraintModelInterface;
 import com.lazrproductions.lazrslib.client.screen.base.ScreenTexture;
 import git.david.cuffedplus.CuffedPlusMain;
-import git.david.cuffedplus.config.ICuffedPlusServerConfigMixin;
 import git.david.cuffedplus.init.ModItems;
 import git.david.cuffedplus.init.ModRestraints;
 import git.david.cuffedplus.items.restraints.client.model.AnkleMonitorModel;
@@ -33,10 +31,10 @@ public class ExampleHeadRestraint extends AbstractHeadRestraint {
     public static final Item ITEM = ModItems.EXAMPLE_HEAD_RESTRAINT.get();
     //static final ResourceLocation BUNDLE_TEXTURE = new ResourceLocation(CuffedMod.MODID, "textures/gui/bundle_overlay.png");
     public static final Item KEY = null;
-//    static final ScreenTexture BUNDLE_OVERLAY = new ScreenTexture(BUNDLE_TEXTURE, 0, 0, 32, 18, 32, 18);
-static final ResourceLocation CUFFED_WIDGETS = ResourceLocation.fromNamespaceAndPath(CuffedPlusMain.MODID, "textures/gui/widgets.png");
+    //    static final ScreenTexture BUNDLE_OVERLAY = new ScreenTexture(BUNDLE_TEXTURE, 0, 0, 32, 18, 32, 18);
+    static final ResourceLocation CUFFED_WIDGETS = ResourceLocation.fromNamespaceAndPath(CuffedPlusMain.MODID, "textures/gui/widgets.png");
     static final ScreenTexture CHAIN_ICON = new ScreenTexture(CUFFED_WIDGETS, 44, 24, 16, 16, 192, 192);
-    ICuffedPlusServerConfigMixin config = (ICuffedPlusServerConfigMixin) CuffedMod.SERVER_CONFIG;
+
 
     // #region Restraint Properties
     int tickCount = 0;
@@ -235,7 +233,7 @@ static final ResourceLocation CUFFED_WIDGETS = ResourceLocation.fromNamespaceAnd
     public static class ExampleHeadRestraintModelInterface extends RestraintModelInterface {
 
         @SuppressWarnings("unchecked")
-        static final Class<? extends HumanoidModel<? extends LivingEntity>> MODEL_CLASS = (Class<? extends HumanoidModel<? extends LivingEntity>>)(Class<?>) AnkleMonitorModel.class;
+        static final Class<? extends HumanoidModel<? extends LivingEntity>> MODEL_CLASS = (Class<? extends HumanoidModel<? extends LivingEntity>>) (Class<?>) AnkleMonitorModel.class;
         static final ModelLayerLocation MODEL_LAYER = ModModelLayers.WEIGHTED_ANCHOR_LAYER;
         static final ResourceLocation MODEL_TEXTURE = ResourceLocation.fromNamespaceAndPath(CuffedPlusMain.MODID, "textures/entity/ankle_monitor_dirty.png");
 

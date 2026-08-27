@@ -1,6 +1,5 @@
 package git.david.cuffedplus.items.restraints.custom;
 
-import com.lazrproductions.cuffed.CuffedMod;
 import com.lazrproductions.cuffed.entity.animation.ArmRestraintAnimationFlags;
 import com.lazrproductions.cuffed.entity.animation.LegRestraintAnimationFlags;
 import com.lazrproductions.cuffed.restraints.base.AbstractHeadRestraint;
@@ -9,7 +8,6 @@ import com.lazrproductions.lazrslib.client.screen.ScreenUtilities;
 import com.lazrproductions.lazrslib.client.screen.base.BlitCoordinates;
 import com.mojang.blaze3d.platform.Window;
 import git.david.cuffedplus.CuffedPlusMain;
-import git.david.cuffedplus.config.ICuffedPlusServerConfigMixin;
 import git.david.cuffedplus.init.ModItems;
 import git.david.cuffedplus.init.ModModelLayers;
 import git.david.cuffedplus.init.ModRestraints;
@@ -41,7 +39,7 @@ public class HazardTapeHeadRestraint extends AbstractHeadRestraint {
     //    static final ScreenTexture BUNDLE_OVERLAY = new ScreenTexture(BUNDLE_TEXTURE, 0, 0, 32, 18, 32, 18);
     public static final Item ITEM = ModItems.HAZARD_TAPE.get();
     public static final Item KEY = Items.SHEARS.asItem();
-    ICuffedPlusServerConfigMixin config = (ICuffedPlusServerConfigMixin) CuffedMod.SERVER_CONFIG;
+
 
     // #region Restraint Properties
     int tickCount = 0;
@@ -239,7 +237,7 @@ public class HazardTapeHeadRestraint extends AbstractHeadRestraint {
     @OnlyIn(Dist.CLIENT)
     public static class HazardTapeHeadRestraintModelInterface extends RestraintModelInterface {
 
-        static final Class<? extends HumanoidModel<? extends LivingEntity>> MODEL_CLASS = (Class<? extends HumanoidModel<? extends LivingEntity>>)(Class<?>) HazardTapeHeadModel.class;
+        static final Class<? extends HumanoidModel<? extends LivingEntity>> MODEL_CLASS = (Class<? extends HumanoidModel<? extends LivingEntity>>) (Class<?>) HazardTapeHeadModel.class;
         static final ModelLayerLocation MODEL_LAYER = ModModelLayers.HAZARD_TAPE_HEAD_LAYER;
         static final ResourceLocation MODEL_TEXTURE = ResourceLocation.fromNamespaceAndPath(CuffedPlusMain.MODID, "textures/entity/hazard_tape.png");
 

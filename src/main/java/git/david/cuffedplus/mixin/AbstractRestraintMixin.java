@@ -1,12 +1,10 @@
 package git.david.cuffedplus.mixin;
 
-import com.lazrproductions.cuffed.CuffedMod;
 import com.lazrproductions.cuffed.api.CuffedAPI;
 import com.lazrproductions.cuffed.cap.RestrainableCapability;
 
-import com.lazrproductions.cuffed.restraints.base.AbstractRestraint;
 import com.lazrproductions.cuffed.restraints.base.RestraintType;
-import git.david.cuffedplus.config.ICuffedPlusServerConfigMixin;
+
 import git.david.cuffedplus.init.ModItems;
 
 import git.david.cuffedplus.items.item.base.RestraintItem;
@@ -20,16 +18,13 @@ import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.GameType;
-import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-@Mixin(AbstractRestraint.class)
+
+// @Mixin(AbstractRestraint.class)
 public abstract class AbstractRestraintMixin implements IAbstractRestraintAccessor {
-    @Unique ICuffedPlusServerConfigMixin cuffedplus$config = (ICuffedPlusServerConfigMixin) CuffedMod.SERVER_CONFIG;
+
     boolean cuffedplus$time_locked = false;
 
 
@@ -40,7 +35,7 @@ public abstract class AbstractRestraintMixin implements IAbstractRestraintAccess
     int cuffedplus$player_tick_count = 0;
     boolean cuffedplus$drop_time_lock = false;
 
-    @Shadow public abstract RestraintType getType();
+    public abstract RestraintType getType();
 
     @Override public boolean isTimeLocked() {return cuffedplus$time_locked;}
     @Override public void setTimeLocked(boolean time_locked) {this.cuffedplus$time_locked = time_locked;}
@@ -86,14 +81,14 @@ public abstract class AbstractRestraintMixin implements IAbstractRestraintAccess
                 itemEntity.setDefaultPickUpDelay();
                 player.level().addFreshEntity(itemEntity);
             }
-            if (restraintStack.getOrCreateTag().getInt("AntiGodModifier") > 0 && cuffedplus$config.putPlayersInToCreativeWhenAntiGodRestraintTimeLockRunsOut()) {
+            if (restraintStack.getOrCreateTag().getInt("AntiGodModifier") > 0 /*&& SERVER_CONFIG.putPlayersInToCreativeWhenAntiGodRestraintTimeLockRunsOut() */) {
                 player.setGameMode(GameType.CREATIVE);
             }
         }
 
     }
 
-    @Inject(method = "onEquippedServer", at = @At("TAIL"), remap = false)
+    //@Inject(method = "onEquippedServer", at = @At("TAIL"), remap = false)
     public void onEquippedServer(ServerPlayer player, ServerPlayer captor, CallbackInfo ci) {
         RestrainableCapability playerCap = (RestrainableCapability) CuffedAPI.Capabilities.getRestrainableCapability(player);
         assert playerCap.getArmRestraint() != null;
@@ -106,7 +101,7 @@ public abstract class AbstractRestraintMixin implements IAbstractRestraintAccess
         }
     }
 
-    @Inject(method = "onTickServer", at = @At("TAIL"), remap = false)
+    // @Inject(method = "onTickServer", at = @At("TAIL"), remap = false)
     public void onTickServer(ServerPlayer player, CallbackInfo ci) {
         RestrainableCapability playerCap = (RestrainableCapability) CuffedAPI.Capabilities.getRestrainableCapability(player);
         assert playerCap.getArmRestraint() != null;

@@ -1,7 +1,6 @@
 package git.david.cuffedplus.items.item.base;
 
-import com.lazrproductions.cuffed.CuffedMod;
-import git.david.cuffedplus.config.ICuffedPlusServerConfigMixin;
+import git.david.cuffedplus.CuffedPlusMain;
 import git.david.cuffedplus.init.ModModelLayers;
 import git.david.cuffedplus.items.restraints.client.model.AnkleMonitorModel;
 import git.david.cuffedplus.utils.GeneralUtils;
@@ -28,9 +27,8 @@ import javax.annotation.Nullable;
 import java.util.List;
 import java.util.function.Consumer;
 
-public class AnkleMonitorItem extends ArmorItem {
 
-    ICuffedPlusServerConfigMixin config = (ICuffedPlusServerConfigMixin) CuffedMod.SERVER_CONFIG;
+public class AnkleMonitorItem extends ArmorItem {
 
     public AnkleMonitorItem(ArmorMaterial material, Type type, Properties properties) {
         super(material, type, properties);
@@ -95,12 +93,12 @@ public class AnkleMonitorItem extends ArmorItem {
 
         if (!target.hasItemInSlot(EquipmentSlot.FEET)) {
 
-            if (config.getOtherPlayersAnkleMonitorBehavior().equals("onlyTakeOff".toLowerCase()) || (config.getOtherPlayersAnkleMonitorBehavior().equals("none"))) {
+            if (CuffedPlusMain.SERVER_CONFIG.getOtherPlayersAnkleMonitorBehavior().equals("onlyTakeOff".toLowerCase()) || (CuffedPlusMain.SERVER_CONFIG.getOtherPlayersAnkleMonitorBehavior().equals("none"))) {
                 user.displayClientMessage(Component.literal("× You can't put ankle monitors on others ×").withStyle(ChatFormatting.GOLD).withStyle(ChatFormatting.BOLD), true);
                 return InteractionResult.FAIL;
             }
 
-            if (user.getTags().contains("prisoner") && config.getOtherPrisonersAnkleMonitorBehavior().equals("onlyTakeOff".toLowerCase()) || config.getOtherPrisonersAnkleMonitorBehavior().equals("none")) {
+            if (user.getTags().contains("prisoner") && CuffedPlusMain.SERVER_CONFIG.getOtherPrisonersAnkleMonitorBehavior().equals("onlyTakeOff".toLowerCase()) || CuffedPlusMain.SERVER_CONFIG.getOtherPrisonersAnkleMonitorBehavior().equals("none")) {
                 user.displayClientMessage(Component.literal("× You are a prisoner!  Prisoners can't put ankle monitors on others ×").withStyle(ChatFormatting.GOLD).withStyle(ChatFormatting.BOLD), true);
                 return InteractionResult.FAIL;
             }

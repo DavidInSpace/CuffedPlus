@@ -1,13 +1,11 @@
 {
-  "required": false,
+  "required": true,
   "package": "git.david.cuffedplus.mixin",
   "compatibilityLevel": "JAVA_17",
   "refmap": "mixin.cuffedplus.refmap.json",
   "server": [
   ],
   "mixins": [
-    "AbstractRestraintMixin",
-    "CuffedServerConfigMixin"
   ],
   "client": [
   ],

@@ -64,6 +64,8 @@
 
   "info.cuffedplus.restraints.handcuffs.name":"Your hands are restrained!",
   "info.cuffedplus.restraints.handcuffs.action_bar": "Your hands are restrained!",
+  "key.categories.cuffedplus.cuffedplus": "Cuffed+",
+  "key.cuffedplus.config_menu.open": "Open Config Menu",
 
 
   "stat.cuffedplus.ankle_monitors_locked": "Ankle Monitors Locked",

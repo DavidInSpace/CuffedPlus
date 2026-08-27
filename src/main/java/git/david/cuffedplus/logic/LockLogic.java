@@ -1,11 +1,8 @@
 package git.david.cuffedplus.logic;
 
-import com.lazrproductions.cuffed.CuffedMod;
 import com.mojang.blaze3d.platform.InputConstants;
-import git.david.cuffedplus.config.ICuffedPlusServerConfigMixin;
 import git.david.cuffedplus.items.item.base.AnkleMonitorItem;
 import git.david.cuffedplus.items.item.base.JumpsuitItem;
-import git.david.cuffedplus.utils.GeneralUtils;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.inventory.CreativeModeInventoryScreen;
@@ -22,7 +19,7 @@ import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 public class LockLogic {
-    ICuffedPlusServerConfigMixin config = (ICuffedPlusServerConfigMixin) CuffedMod.SERVER_CONFIG;
+
 
     ItemStack hoveringItem;
     int hoveringSlot;

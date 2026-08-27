@@ -1,6 +1,5 @@
 package git.david.cuffedplus.items.restraints.custom;
 
-import com.lazrproductions.cuffed.CuffedMod;
 import com.lazrproductions.cuffed.api.CuffedAPI;
 import com.lazrproductions.cuffed.cap.RestrainableCapability;
 import com.lazrproductions.cuffed.cap.base.IRestrainableCapability;
@@ -16,7 +15,6 @@ import com.lazrproductions.lazrslib.client.screen.ScreenUtilities;
 import com.lazrproductions.lazrslib.client.screen.base.BlitCoordinates;
 import com.mojang.blaze3d.platform.Window;
 import git.david.cuffedplus.CuffedPlusMain;
-import git.david.cuffedplus.config.ICuffedPlusServerConfigMixin;
 import git.david.cuffedplus.init.ModItems;
 import git.david.cuffedplus.init.ModModelLayers;
 import git.david.cuffedplus.init.ModRestraints;
@@ -303,7 +301,7 @@ public class DiamondCuffsArmsRestraint extends AbstractArmRestraint implements I
 
     // #region Restraint Properties
     private final ItemStack sourceStack;
-    ICuffedPlusServerConfigMixin config = (ICuffedPlusServerConfigMixin) CuffedMod.SERVER_CONFIG;
+
     float breakCooldown = 4;
     int lastKeyPressed = -1;
     ListTag enchantments;
@@ -642,7 +640,7 @@ public class DiamondCuffsArmsRestraint extends AbstractArmRestraint implements I
     @OnlyIn(Dist.CLIENT)
     public static class DiamondCuffsRestraintModelInterface extends RestraintModelInterface {
         @SuppressWarnings("unchecked")
-        static final Class<? extends HumanoidModel<? extends LivingEntity>> MODEL_CLASS = (Class<? extends HumanoidModel<? extends LivingEntity>>)(Class<?>) DiamondCuffsArmsModel.class;
+        static final Class<? extends HumanoidModel<? extends LivingEntity>> MODEL_CLASS = (Class<? extends HumanoidModel<? extends LivingEntity>>) (Class<?>) DiamondCuffsArmsModel.class;
         static final ModelLayerLocation MODEL_LAYER = ModModelLayers.DIAMOND_CUFFS_ARMS_LAYER;
         static final ResourceLocation MODEL_TEXTURE = ResourceLocation.fromNamespaceAndPath(CuffedPlusMain.MODID, "textures/entity/diamond_cuffs.png");
 

@@ -1,6 +1,5 @@
 package git.david.cuffedplus.items.restraints.custom;
 
-import com.lazrproductions.cuffed.CuffedMod;
 import com.lazrproductions.cuffed.api.CuffedAPI;
 import com.lazrproductions.cuffed.cap.base.IRestrainableCapability;
 import com.lazrproductions.cuffed.entity.animation.ArmRestraintAnimationFlags;
@@ -15,7 +14,6 @@ import com.lazrproductions.lazrslib.client.screen.ScreenUtilities;
 import com.lazrproductions.lazrslib.client.screen.base.BlitCoordinates;
 import com.mojang.blaze3d.platform.Window;
 import git.david.cuffedplus.CuffedPlusMain;
-import git.david.cuffedplus.config.ICuffedPlusServerConfigMixin;
 import git.david.cuffedplus.init.ModItems;
 import git.david.cuffedplus.init.ModModelLayers;
 import git.david.cuffedplus.init.ModRestraints;
@@ -306,7 +304,7 @@ public class HazardTapeArmsRestraint extends AbstractArmRestraint implements IBr
     public static final ArmRestraintAnimationFlags ARM_ANIMATION_FLAGS = ArmRestraintAnimationFlags.ARMS_TIED_BEHIND;
     // #region Restraint Properties
     private final ItemStack sourceStack;
-    ICuffedPlusServerConfigMixin config = (ICuffedPlusServerConfigMixin) CuffedMod.SERVER_CONFIG;
+
     int tickCount = 0;
     float breakCooldown = 4;
     int lastKeyPressed = -1;
@@ -628,7 +626,7 @@ public class HazardTapeArmsRestraint extends AbstractArmRestraint implements IBr
     @OnlyIn(Dist.CLIENT)
     public static class HazardTapeRestraintModelInterface extends RestraintModelInterface {
         @SuppressWarnings("unchecked")
-        static final Class<? extends HumanoidModel<? extends LivingEntity>> MODEL_CLASS = (Class<? extends HumanoidModel<? extends LivingEntity>>)(Class<?>) HazardTapeArmsModel.class;
+        static final Class<? extends HumanoidModel<? extends LivingEntity>> MODEL_CLASS = (Class<? extends HumanoidModel<? extends LivingEntity>>) (Class<?>) HazardTapeArmsModel.class;
         static final ModelLayerLocation MODEL_LAYER = ModModelLayers.HAZARD_TAPE_ARMS_LAYER;
         static final ResourceLocation MODEL_TEXTURE = ResourceLocation.fromNamespaceAndPath(CuffedPlusMain.MODID, "textures/entity/hazard_tape.png");
 

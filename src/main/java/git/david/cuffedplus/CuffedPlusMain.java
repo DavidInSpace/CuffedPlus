@@ -3,8 +3,10 @@ package git.david.cuffedplus;
 import com.lazrproductions.cuffed.items.base.AbstractRestraintItem;
 import com.lazrproductions.cuffed.restraints.RestraintAPI;
 import com.lazrproductions.cuffed.restraints.base.AbstractRestraint;
+import git.david.cuffedplus.client.Keybindings;
 import git.david.cuffedplus.command.CuffedPlusCommand;
 import git.david.cuffedplus.config.AttackBehavior;
+import git.david.cuffedplus.config.CuffedPlusServerConfig;
 import git.david.cuffedplus.events.ModClientEvents;
 import git.david.cuffedplus.init.*;
 import git.david.cuffedplus.logic.*;
@@ -15,11 +17,14 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.DispenserBlock;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityRenderersEvent;
+import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.config.ModConfig;
+import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.ForgeRegistries.Keys;
@@ -86,14 +91,15 @@ import javax.annotation.Nonnull;
 // https://github.com/LazrProductions/cuffed_example_addon
 
 
-
+// https://github.com/DaRealTurtyWurty/1.20-Tutorial-Mod
 // https://forums.minecraftforge.net/topic/82228-1152-3110-intellij-and-gradlew-forge-hotswap-and-dcevm-tutorial/
 
 @Mod(CuffedPlusMain.MODID)
 public class CuffedPlusMain {
     public static final String MODID = "cuffedplus";
     public static final Logger LOGGER = LogManager.getLogger(CuffedPlusMain.MODID);
-    //public static final CuffedPlusServerConfig SERVER_CONFIG = new CuffedPlusServerConfig(MODID, ModConfig.Type.SERVER);
+    //public static final CuffedPlusServerConfig CuffedPlusMain.SERVER_CONFIG = new CuffedPlusServerConfig(MODID, ModCuffedPlusMain.SERVER_CONFIG.Type.SERVER);
+    public static final CuffedPlusServerConfig SERVER_CONFIG = new CuffedPlusServerConfig(MODID, ModConfig.Type.SERVER);
 
     public CuffedPlusMain(FMLJavaModLoadingContext ctx) {
         LOGGER.info("Cuffed Plus: Running CuffedPlusMain");
@@ -110,6 +116,7 @@ public class CuffedPlusMain {
         ModStatistics.register(modEventBus);
         ModRecipes.SERIALIZERS.register(modEventBus);
 
+        CuffedPlusMain.SERVER_CONFIG.registerConfig(ctx);
 
         MinecraftForge.EVENT_BUS.register(this);
 
@@ -123,6 +130,7 @@ public class CuffedPlusMain {
 
         modEventBus.addListener(this::onRegister);
         modEventBus.addListener(this::commonSetup);
+        ;
 
     }
 
@@ -169,6 +177,23 @@ public class CuffedPlusMain {
 
     @Mod.EventBusSubscriber(modid = MODID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
     public static class ClientModEvents {
+
+        @SubscribeEvent
+        public static void registerKeys(RegisterKeyMappingsEvent event) {
+            System.out.println("REGISTERING KEYS ");
+            event.register(Keybindings.INSTANCE.openConfigKey);
+            event.register(Keybindings.INSTANCE.examplePacketKey);
+        }
+
+
+        @SubscribeEvent
+        public static void onClientSetup(FMLClientSetupEvent event) {
+            System.out.println("ON CLIENT SETUP Cuffed+ ");
+            /* ModLoadingContext.get().registerExtensionPoint(
+                    ConfigScreenHandler.ConfigScreenFactory.class,
+                    () -> new ConfigScreenHandler.ConfigScreenFactory((mc, prevScreen) -> new ConfigScreen(){})
+            ); */
+        }
 
         @SubscribeEvent
         public static void onRegisterLayers(EntityRenderersEvent.RegisterLayerDefinitions event) {

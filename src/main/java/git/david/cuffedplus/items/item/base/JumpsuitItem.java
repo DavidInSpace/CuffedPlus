@@ -1,7 +1,7 @@
 package git.david.cuffedplus.items.item.base;
 
-import com.lazrproductions.cuffed.CuffedMod;
-import git.david.cuffedplus.config.ICuffedPlusServerConfigMixin;
+
+import git.david.cuffedplus.CuffedPlusMain;
 import git.david.cuffedplus.init.ModStatistics;
 import git.david.cuffedplus.utils.GeneralUtils;
 import net.minecraft.ChatFormatting;
@@ -25,7 +25,6 @@ import java.util.List;
 
 
 public class JumpsuitItem extends Item {
-    ICuffedPlusServerConfigMixin config = (ICuffedPlusServerConfigMixin) CuffedMod.SERVER_CONFIG;
 
     public JumpsuitItem(Properties Item) {
         super(Item);
@@ -84,12 +83,12 @@ public class JumpsuitItem extends Item {
 
         if (!target.hasItemInSlot(EquipmentSlot.CHEST)) {
 
-            if (config.getOtherPlayersJumpsuitBehavior().equals("onlyTakeOff".toLowerCase()) || (config.getOtherPlayersJumpsuitBehavior().equals("none"))) {
+            if (CuffedPlusMain.SERVER_CONFIG.getOtherPlayersJumpsuitBehavior().equals("onlyTakeOff".toLowerCase()) || (CuffedPlusMain.SERVER_CONFIG.getOtherPlayersJumpsuitBehavior().equals("none"))) {
                 user.displayClientMessage(Component.literal("× You can't put jumpsuits on others ×").withStyle(ChatFormatting.GOLD).withStyle(ChatFormatting.BOLD), true);
                 return InteractionResult.FAIL;
             }
 
-            if (user.getTags().contains("prisoner") && config.getOtherPrisonersJumpsuitBehavior().equals("onlyTakeOff".toLowerCase()) || config.getOtherPrisonersJumpsuitBehavior().equals("none")) {
+            if (user.getTags().contains("prisoner") && CuffedPlusMain.SERVER_CONFIG.getOtherPrisonersJumpsuitBehavior().equals("onlyTakeOff".toLowerCase()) || CuffedPlusMain.SERVER_CONFIG.getOtherPrisonersJumpsuitBehavior().equals("none")) {
                 user.displayClientMessage(Component.literal("× You are a prisoner!  Prisoners can't put jumpsuits on others ×").withStyle(ChatFormatting.GOLD).withStyle(ChatFormatting.BOLD), true);
                 return InteractionResult.FAIL;
             }
