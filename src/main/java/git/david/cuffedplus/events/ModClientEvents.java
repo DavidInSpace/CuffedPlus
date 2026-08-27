@@ -2,11 +2,10 @@ package git.david.cuffedplus.events;
 
 
 import com.lazrproductions.cuffed.entity.base.IRestrainableEntity;
-import com.lazrproductions.cuffed.restraints.custom.DuckTapeHeadRestraint;
 import git.david.cuffedplus.CuffedPlusMain;
+import git.david.cuffedplus.init.ModMenuTypes;
 import git.david.cuffedplus.items.restraints.custom.HazardTapeHeadRestraint;
 import git.david.cuffedplus.misc.JumpsuitLayer;
-import git.david.cuffedplus.init.ModMenuTypes;
 import git.david.cuffedplus.misc.PoliceUniformLayer;
 import git.david.cuffedplus.screen.CuffTableMenuScreen;
 import net.minecraft.client.Minecraft;
@@ -63,7 +62,7 @@ public class ModClientEvents {
             if(i < words.length - 1)
                 output += " ";
         }
-        System.out.printf("Output Phrase: " + output);
+        //System.out.printf("Output Phrase: " + output);
         return output;
     }
 
@@ -83,7 +82,7 @@ public class ModClientEvents {
             } else
                 output += c;
         }
-        System.out.printf("Output Word: " + output);
+        //System.out.printf("Output Word: " + output);
         return output;
     }
 

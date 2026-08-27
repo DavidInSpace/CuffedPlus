@@ -21,7 +21,7 @@ public class ModifierItem extends Item {
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, @NotNull List<Component> tooltip, @NotNull TooltipFlag flag) {
-        System.out.println(stack.getItem());
+        //System.out.println(stack.getItem());
 
         // Add right tooltip depending on the modifier
         switch (String.valueOf(stack.getItem())) {

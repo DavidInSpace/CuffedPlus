@@ -366,7 +366,7 @@ public class GoldCuffsArmsRestraint extends AbstractArmRestraint implements IBre
         ItemStack restraintStack = playerCap.getArmRestraint().saveToItemStack();
         // System.out.println(restraintStack.getOrCreateTag().getBoolean("Timer") + "  " + config.allowBreakingTimeLockedRestraints());
         long ticks_time = ((IAbstractRestraintAccessor) playerCap.getRestraint(this.getType())).getTicksTime();
-        System.out.println("B TICKS TIME: " + ticks_time);
+        //System.out.println("B TICKS TIME: " + ticks_time);
         if ((restraintStack.getOrCreateTag().getBoolean("Timer") || ticks_time > 0) && !config.allowBreakingTimeLockedRestraints())
             return false;
 
@@ -379,7 +379,7 @@ public class GoldCuffsArmsRestraint extends AbstractArmRestraint implements IBre
         ItemStack restraintStack = playerCap.getArmRestraint().saveToItemStack();
 
         long ticks_time = ((IAbstractRestraintAccessor) playerCap.getRestraint(this.getType())).getTicksTime();
-        System.out.println("L TICKS TIME: " + ticks_time);
+        //System.out.println("L TICKS TIME: " + ticks_time);
         // System.out.println(restraintStack.getOrCreateTag().getBoolean("Timer") + "  " + config.allowLockpickingTimeLockedRestraints());
         if ((restraintStack.getOrCreateTag().getBoolean("Timer") || ticks_time > 0) /*&& !config.allowLockpickingTimeLockedRestraints()*/)
             return false;

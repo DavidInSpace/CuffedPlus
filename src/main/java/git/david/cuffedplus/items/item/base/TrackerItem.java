@@ -98,7 +98,7 @@ public class TrackerItem extends Item {
                 ankleMonitor.getOrCreateTag().remove("targetName");
             }
         }
-        System.out.println(handItem.getOrCreateTag().hasUUID("targetUUID"));
+        //System.out.println(handItem.getOrCreateTag().hasUUID("targetUUID"));
         if (!handItem.getOrCreateTag().hasUUID("targetUUID")) return InteractionResultHolder.fail(stack);
 
         Player targetPlayer = server.getPlayerList().getPlayer(handItem.getOrCreateTag().getUUID("targetUUID"));

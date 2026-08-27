@@ -80,7 +80,7 @@ public class RestraintItem extends AbstractRestraintItem {
             this.seconds = time[0];
             this.minutes = time[1];
             this.hours = time[2];
-            System.out.println(this.seconds + "s : " + this.minutes + "m : " + this.hours);
+            //System.out.println(this.seconds + "s : " + this.minutes + "m : " + this.hours);
             tooltip.add(Component.literal(this.seconds + "s : " + this.minutes + "m : " + this.hours + "h").withStyle(ChatFormatting.YELLOW));
         }
 
