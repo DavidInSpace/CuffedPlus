@@ -1,1 +1,12 @@
-:D
+## Other Prisoners Jumpsuit Behavior
+
+## Other Prisoners Ankle Monitor Behavior
+
+## Prisoners Own Jumpsuit Lock Behavior
+## Prisoners Own Ankle Monitor Lock Behavior
+
+## Other Prisoners Jumpsuit Lock Behavior
+## Other Prisoners Ankle Monitor Lock Behavior
+
+## Prisoners Own Tracker Binding Behavior
+## Other Prisoners Tracker Binding Behavior

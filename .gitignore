@@ -26,10 +26,11 @@ run
 run/log4j2.xml
 blockbench
 
-changelog.txt
+mod_pages_assets/changelog.txt
 howtotestcuffed.txt
 roadmap.txt
 thingsToFix.txt
 
 # Files from Forge MDK
 forge*changelog.txt
+/mod_pages_assets/

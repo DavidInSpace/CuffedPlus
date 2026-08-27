@@ -118,7 +118,6 @@ public class ModItems {
 
     /* JUMPSUIT & Ankle Monitor MODIFICATORS */
 
-    // FIXME: Can not apply lock modifier on jumpsuits ( I havent tested other things)
     public static final RegistryObject<Item> LOCK_MODIFIER = ITEMS.register("lock_modifier",
             () -> new GearModifierItem(new Item.Properties().stacksTo(16).rarity(Rarity.UNCOMMON)));
 
