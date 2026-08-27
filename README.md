@@ -10,4 +10,4 @@ An addon for the mod Cuffed
 
 [Download Cuffed+ On Modrinth](https://modrinth.com/mod/cuffedplus)
 
-> Requires [Cuffed](https://www.curseforge.com/minecraft/mc-mods/cuffed)
+> Requires [Cuffed](https://www.curseforge.com/minecraft/mc-mods/cuffed) (obviously)
