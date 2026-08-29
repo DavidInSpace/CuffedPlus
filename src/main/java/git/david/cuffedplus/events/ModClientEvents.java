@@ -33,20 +33,13 @@ public class ModClientEvents {
 
     @SubscribeEvent
     public void clientChatEvent(ClientChatEvent event) {
-        System.out.println(event.getOriginalMessage() + " " + event.getOriginalMessage().charAt(0) + " " + CuffedPlusMain.SERVER_CONFIG.allowRestrainedPlayersExecuteCommands());
-        char Char = event.getOriginalMessage().charAt(0);
-        if (Char == '/' && !CuffedPlusMain.SERVER_CONFIG.allowRestrainedPlayersExecuteCommands()) {
-            InfoMessagesHandler.sendInfoMessage(Minecraft.getInstance().player, "You can not run commands while restrained", false, false);
-            System.out.println("CANCELING");
-            event.setCanceled(true);
-        }
     }
 
     @SubscribeEvent
     public void commandEvent(CommandEvent event) {
         System.out.println(event.getParseResults().getContext().getSource().getEntity() + " " + event.getParseResults().getReader() + " " + CuffedPlusMain.SERVER_CONFIG.allowRestrainedPlayersExecuteCommands());
         if (event.getParseResults().getContext().getSource().getEntity() instanceof Player && !CuffedPlusMain.SERVER_CONFIG.allowRestrainedPlayersExecuteCommands()) {
-            InfoMessagesHandler.sendInfoMessage(Minecraft.getInstance().player, "You can not run commands while restrained", false, false);
+            InfoMessagesHandler.sendFailMessage(Minecraft.getInstance().player, "You can't perform commands while you're restrained!", false, false);
             System.out.println("CANCELING");
             event.setCanceled(true);
         }
@@ -64,7 +57,7 @@ public class ModClientEvents {
         Minecraft minecraft = Minecraft.getInstance();
         if (Keybindings.INSTANCE.openConfigKey.consumeClick() && minecraft.player != null) {
 
-            minecraft.forceSetScreen(new ConfigScreen(Component.literal("CONFIG SCREEN :D")));
+            minecraft.forceSetScreen(new ConfigScreen());
             minecraft.player.displayClientMessage(Component.literal("OPEN CONFIG MENU KEY PRESSED"), false);
         }
     }

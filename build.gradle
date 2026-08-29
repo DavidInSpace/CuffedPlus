@@ -94,11 +94,11 @@ dependencies {
 
     implementation fg.deobf("curse.maven:cuffed-899770:8094298")
     implementation fg.deobf("curse.maven:lazrs-lib-1048285:5654672")
-    implementation fg.deobf("curse.maven:quick-skin-1323980:7718934")
+    // implementation fg.deobf("curse.maven:quick-skin-1323980:7718934")
     // implementation fg.deobf("curse.maven:architectury-api-419699:5137938")
     implementation fg.deobf("curse.maven:jei-238222:8526990")
     // implementation fg.deobf("curse.maven:create-328085:7178761")
-    // implementation fg.deobf("curse.maven:customskinloader-286924:7822525")
+    implementation fg.deobf("curse.maven:customskinloader-286924:7822525")
 
 
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'

@@ -3,6 +3,7 @@ package git.david.cuffedplus.mixin;
 import com.lazrproductions.cuffed.api.CuffedAPI;
 import com.lazrproductions.cuffed.cap.RestrainableCapability;
 
+import com.lazrproductions.cuffed.restraints.base.AbstractRestraint;
 import com.lazrproductions.cuffed.restraints.base.RestraintType;
 
 import git.david.cuffedplus.init.ModItems;
@@ -18,11 +19,14 @@ import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.GameType;
+import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 
-// @Mixin(AbstractRestraint.class)
+@Mixin(AbstractRestraint.class)
 public abstract class AbstractRestraintMixin implements IAbstractRestraintAccessor {
 
     boolean cuffedplus$time_locked = false;
@@ -88,7 +92,7 @@ public abstract class AbstractRestraintMixin implements IAbstractRestraintAccess
 
     }
 
-    //@Inject(method = "onEquippedServer", at = @At("TAIL"), remap = false)
+    @Inject(method = "onEquippedServer", at = @At("TAIL"), remap = false)
     public void onEquippedServer(ServerPlayer player, ServerPlayer captor, CallbackInfo ci) {
         RestrainableCapability playerCap = (RestrainableCapability) CuffedAPI.Capabilities.getRestrainableCapability(player);
         assert playerCap.getArmRestraint() != null;
@@ -101,7 +105,7 @@ public abstract class AbstractRestraintMixin implements IAbstractRestraintAccess
         }
     }
 
-    // @Inject(method = "onTickServer", at = @At("TAIL"), remap = false)
+    @Inject(method = "onTickServer", at = @At("TAIL"), remap = false)
     public void onTickServer(ServerPlayer player, CallbackInfo ci) {
         RestrainableCapability playerCap = (RestrainableCapability) CuffedAPI.Capabilities.getRestrainableCapability(player);
         assert playerCap.getArmRestraint() != null;

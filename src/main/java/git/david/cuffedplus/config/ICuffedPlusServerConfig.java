@@ -1,6 +1,6 @@
 package git.david.cuffedplus.config;
 
-public interface ICuffedPlusServerConfigMixin {
+public interface ICuffedPlusServerConfig {
 
     // (Options: "none", "onlyPutOn", "onlyTakeOff", "both")
     // (Options: "none", "onlyLock", "onlyUnlock", "both")

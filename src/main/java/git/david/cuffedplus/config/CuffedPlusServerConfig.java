@@ -6,7 +6,7 @@ import com.lazrproductions.lazrslib.common.config.LazrConfig;
 import net.minecraftforge.fml.config.ModConfig;
 
 
-public class CuffedPlusServerConfig extends LazrConfig {
+public class CuffedPlusServerConfig extends LazrConfig implements ICuffedPlusServerConfig {
 
     ConfigCategory CUFFED_PLUS_SETTINGS;
     ConfigCategory GENERAL_SETTINGS;
@@ -53,20 +53,16 @@ public class CuffedPlusServerConfig extends LazrConfig {
 
     ConfigProperty<String> OTHER_PRISONERS_JUMPSUIT_BEHAVIOR;
     ConfigProperty<String> OTHER_PRISONERS_OWN_ANKLE_MONITOR_BEHAVIOR;
-    ConfigProperty<String> OTHER_PRISONERS_GEAR_MESSAGE_BEHAVIOR;
 
     ConfigProperty<String> PRISONERS_OWN_JUMPSUIT_LOCK_BEHAVIOR;
     ConfigProperty<String> PRISONERS_OWN_ANKLE_MONITOR_LOCK_BEHAVIOR;
-    ConfigProperty<String> PRISONERS_OWN_LOCK_MESSAGE_BEHAVIOR;
+
 
     ConfigProperty<String> OTHER_PRISONERS_JUMPSUIT_LOCK_BEHAVIOR;
     ConfigProperty<String> OTHER_PRISONERS_ANKLE_MONITOR_LOCK_BEHAVIOR;
-    ConfigProperty<String> OTHER_PRISONERS_LOCK_MESSAGE_BEHAVIOR;
 
     ConfigProperty<String> PRISONERS_OWN_TRACKER_BINDING_BEHAVIOR;
-    ConfigProperty<String> PRISONERS_OWN_BINDING_MESSAGE_BEHAVIOR;
     ConfigProperty<String> OTHER_PRISONERS_TRACKER_BINDING_BEHAVIOR;
-    ConfigProperty<String> OTHER_PRISONERS_BINDING_MESSAGE_BEHAVIOR;
 
     public CuffedPlusServerConfig(String name, ModConfig.Type type) {
         super(name, type);
@@ -89,7 +85,7 @@ public class CuffedPlusServerConfig extends LazrConfig {
                 SHOW_SUCCESS_MESSAGES = c5.putProperty(new ConfigProperty<Boolean>(this, "Show Success Messages", "Whether to show (green) success message when doing certain interactions (not fully implemented)", true));
                 SHOW_FAIL_MESSAGES = c5.putProperty(new ConfigProperty<Boolean>(this, "Show Fail Messages", "Whether to show (red) fail message when doing certain interactions (not fully implemented)", true));
                 PUT_PLAYERS_IN_CREATIVE_WHEN_ANTIGOD_RESTRAINTS_TIME_LOCK_RUNS_OUT = c5.putProperty(new ConfigProperty<Boolean>(this, "Put Players In To Creative When Anti God Restraint Time Lock Runs Out", "Whether to turn the player back in to creative when a time lock on a restraint which has the Anti-God modifier runs out", true));
-                ALLOW_RESTRAINED_PLAYERS_EXECUTE_COMMANDS = c5.putProperty(new ConfigProperty<Boolean>(this, "Allow Restrained Players Execute Commands", "Whether to turn the player back in to creative when a time lock on a restraint which has the Anti-God modifier runs out", false));
+                ALLOW_RESTRAINED_PLAYERS_EXECUTE_COMMANDS = c5.putProperty(new ConfigProperty<Boolean>(this, "Allow Restrained Players Execute Commands", "Whether to restrained players can execute commands", true));
             });
 
 
@@ -134,6 +130,10 @@ public class CuffedPlusServerConfig extends LazrConfig {
 
 
     public boolean keepLockedGearOnDeath() {return KEEP_LOCKED_GEAR_ON_DEATH.get();}
+
+    @Override public boolean applyRoleDependingOnUniformWorn() {
+        return false;
+    }
 
     public int increaseReinforcedBlockStrength() {return INCREASE_REINFORCED_BLOCKS_STRENGTH.get();}
 
