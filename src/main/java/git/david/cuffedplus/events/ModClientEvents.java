@@ -5,11 +5,12 @@ import com.lazrproductions.cuffed.entity.base.IRestrainableEntity;
 import git.david.cuffedplus.CuffedPlusMain;
 import git.david.cuffedplus.client.Keybindings;
 import git.david.cuffedplus.init.ModMenuTypes;
+import git.david.cuffedplus.init.ModNetwork;
 import git.david.cuffedplus.items.restraints.custom.HazardTapeHeadRestraint;
 import git.david.cuffedplus.misc.JumpsuitLayer;
 import git.david.cuffedplus.misc.PoliceUniformLayer;
-import git.david.cuffedplus.screen.ConfigScreen;
 import git.david.cuffedplus.screen.CuffTableMenuScreen;
+import git.david.cuffedplus.screen.config.GeneralConfigScreen;
 import git.david.cuffedplus.utils.InfoMessagesHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.MenuScreens;
@@ -24,6 +25,7 @@ import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
+import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 
 import java.util.Random;
 
@@ -57,7 +59,7 @@ public class ModClientEvents {
         Minecraft minecraft = Minecraft.getInstance();
         if (Keybindings.INSTANCE.openConfigKey.consumeClick() && minecraft.player != null) {
 
-            minecraft.forceSetScreen(new ConfigScreen());
+            minecraft.forceSetScreen(new GeneralConfigScreen());
             minecraft.player.displayClientMessage(Component.literal("OPEN CONFIG MENU KEY PRESSED"), false);
         }
     }
@@ -78,6 +80,14 @@ public class ModClientEvents {
     public static void onClientSetup(FMLClientSetupEvent event) {
         event.enqueueWork(() -> {
             MenuScreens.register(ModMenuTypes.CUFF_TABLE_MENU.get(), CuffTableMenuScreen::new);
+        });
+    }
+
+    @SubscribeEvent
+    public static void commonSetup(FMLCommonSetupEvent event) {
+        event.enqueueWork(() -> {
+            ModNetwork.register();
+
         });
     }
 

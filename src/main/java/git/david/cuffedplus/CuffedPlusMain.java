@@ -6,7 +6,9 @@ import com.lazrproductions.cuffed.restraints.base.AbstractRestraint;
 import git.david.cuffedplus.client.Keybindings;
 import git.david.cuffedplus.command.CuffedPlusCommand;
 import git.david.cuffedplus.config.AttackBehavior;
+import git.david.cuffedplus.config.Config;
 import git.david.cuffedplus.config.CuffedPlusServerConfig;
+import git.david.cuffedplus.config.base.ConfigDescriptions;
 import git.david.cuffedplus.events.ModClientEvents;
 import git.david.cuffedplus.init.*;
 import git.david.cuffedplus.logic.*;
@@ -24,7 +26,6 @@ import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.ForgeRegistries.Keys;
@@ -130,6 +131,21 @@ public class CuffedPlusMain {
 
         modEventBus.addListener(this::onRegister);
         modEventBus.addListener(this::commonSetup);
+
+        Config.RegisterConfig();
+        ConfigDescriptions.initDescriptions();
+
+        ;
+        ;
+        ;
+        ;
+        ;
+        ;
+        ;
+        ;
+        ;
+        ;
+        ;
         ;
 
     }
@@ -154,7 +170,6 @@ public class CuffedPlusMain {
         DispenserBlock.registerBehavior(ModItems.GOLD_CUFFS.get(), dispenseitembehavior);
         DispenserBlock.registerBehavior(ModItems.DIAMOND_CUFFS.get(), dispenseitembehavior);
         DispenserBlock.registerBehavior(ModItems.NETHERITE_CUFFS.get(), dispenseitembehavior);
-        ModNetwork.register();
     }
 
     private void onRegister(RegisterEvent event) {
@@ -183,16 +198,6 @@ public class CuffedPlusMain {
             System.out.println("REGISTERING KEYS ");
             event.register(Keybindings.INSTANCE.openConfigKey);
             event.register(Keybindings.INSTANCE.examplePacketKey);
-        }
-
-
-        @SubscribeEvent
-        public static void onClientSetup(FMLClientSetupEvent event) {
-            System.out.println("ON CLIENT SETUP Cuffed+ ");
-            /* ModLoadingContext.get().registerExtensionPoint(
-                    ConfigScreenHandler.ConfigScreenFactory.class,
-                    () -> new ConfigScreenHandler.ConfigScreenFactory((mc, prevScreen) -> new ConfigScreen(){})
-            ); */
         }
 
         @SubscribeEvent

@@ -1,4 +1,4 @@
-package git.david.cuffedplus.blockentitie;
+package git.david.cuffedplus.blockentities;
 
 
 import git.david.cuffedplus.CuffedPlusMain;

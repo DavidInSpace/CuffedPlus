@@ -89,7 +89,6 @@ public class TakeOffLogic {
         if (!event.getEntity().getMainHandItem().isEmpty()) return; // Player must have an empty hand
 
         ItemStack currentChest = player.getItemBySlot(EquipmentSlot.FEET);
-
         if (!(currentChest.getItem() instanceof AnkleMonitorItem)) return;
 
         if (currentChest.getOrCreateTag().getBoolean("Locked")) {
@@ -136,5 +135,7 @@ public class TakeOffLogic {
         target.getItemBySlot(EquipmentSlot.FEET).setCount(0);
         if (!added) user.drop(targetFeet, false);
     }
+
+    // TODO: Need to create custom packets so the client can tell the server that to change the config
 
 }

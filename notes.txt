@@ -1,12 +1,8 @@
-## Other Prisoners Jumpsuit Behavior
-
-## Other Prisoners Ankle Monitor Behavior
-
-## Prisoners Own Jumpsuit Lock Behavior
-## Prisoners Own Ankle Monitor Lock Behavior
-
-## Other Prisoners Jumpsuit Lock Behavior
-## Other Prisoners Ankle Monitor Lock Behavior
-
-## Prisoners Own Tracker Binding Behavior
-## Other Prisoners Tracker Binding Behavior
+        PRISONERS_OPTIONS.add(new ConfigOption("OTHER_PRISONERS_JUMPSUIT_BEHAVIOR", "Other Prisoners Jumpsuit Behavior", 4,  0, INTERACTION_BEHAVIOR_OPTIONS));
+        PRISONERS_OPTIONS.add(new ConfigOption("OTHER_PRISONERS_ANKLE_MONITOR_BEHAVIOR", "Other Prisoners ankle Monitor Behavior", 4, 2, INTERACTION_BEHAVIOR_OPTIONS));
+        PRISONERS_OPTIONS.add(new ConfigOption("PRISONERS_OWN_JUMPSUIT_LOCK_BEHAVIOR", "Prisoners Own Jumpsuit Lock Behavior", 4,  2, LOCK_BEHAVIOR_OPTIONS));
+        PRISONERS_OPTIONS.add(new ConfigOption("PRISONERS_OWN_ANKLE_MONITOR_LOCK_BEHAVIOR", "Prisoners Own Ankle Monitor Lock Behavior", 4,  0, LOCK_BEHAVIOR_OPTIONS));
+        PRISONERS_OPTIONS.add(new ConfigOption("OTHER_PRISONERS_JUMPSUIT_LOCK_BEHAVIOR", "Other Prisoners Jumpsuit Lock Behavior", 4, 2, LOCK_BEHAVIOR_OPTIONS));
+        PRISONERS_OPTIONS.add(new ConfigOption("OTHER_PRISONERS_ANKLE_MONITOR_LOCK_BEHAVIOR", "Other Prisoners Ankle Monitor Lock Behavior", 4,  2, LOCK_BEHAVIOR_OPTIONS));
+        PRISONERS_OPTIONS.add(new ConfigOption("PRISONERS_OWN_TRACKER_BINDING_BEHAVIOR", "Prisoners Own Tracker Binding Behavior", 4,  0, BINDING_BEHAVIOR_OPTIONS));
+        PRISONERS_OPTIONS.add(new ConfigOption("OTHER_PRISONERS_TRACKER_BINDING_BEHAVIOR", "Other Prisoners Tracker Binding Behavior", 4, 2, BINDING_BEHAVIOR_OPTIONS));

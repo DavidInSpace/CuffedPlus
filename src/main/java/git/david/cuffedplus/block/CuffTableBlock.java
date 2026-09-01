@@ -1,6 +1,6 @@
 package git.david.cuffedplus.block;
 
-import git.david.cuffedplus.blockentitie.CuffTableBlockEntity;
+import git.david.cuffedplus.blockentities.CuffTableBlockEntity;
 import git.david.cuffedplus.init.ModBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerPlayer;

@@ -2,10 +2,8 @@ package git.david.cuffedplus.screen;
 
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import git.david.cuffedplus.init.ModNetwork;
 import git.david.cuffedplus.items.item.base.JumpsuitItem;
 import git.david.cuffedplus.menu.CuffTableMenu;
-import git.david.cuffedplus.net.ApplyJumpsuitSettingsPacket;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.ImageButton;
@@ -102,7 +100,7 @@ public class CuffTableMenuScreen extends AbstractContainerScreen<CuffTableMenu> 
         //canCraft = false;
         // if (!(stack.getItem() instanceof JumpsuitItem)) return;
 
-        ModNetwork.INSTANCE.sendToServer(new ApplyJumpsuitSettingsPacket(number));
+        //ModNetwork.INSTANCE.sendToServer(new ApplyJumpsuitSettingsPacket(number));
         //System.out.println("Item: " + item.getDescriptionId());
     }
 

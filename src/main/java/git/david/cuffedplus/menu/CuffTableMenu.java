@@ -1,7 +1,7 @@
 package git.david.cuffedplus.menu;
 
 
-import git.david.cuffedplus.blockentitie.CuffTableBlockEntity;
+import git.david.cuffedplus.blockentities.CuffTableBlockEntity;
 import git.david.cuffedplus.init.ModBlock;
 import git.david.cuffedplus.init.ModMenuTypes;
 import net.minecraft.network.FriendlyByteBuf;

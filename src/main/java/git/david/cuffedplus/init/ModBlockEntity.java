@@ -1,7 +1,7 @@
 package git.david.cuffedplus.init;
 
 import git.david.cuffedplus.CuffedPlusMain;
-import git.david.cuffedplus.blockentitie.CuffTableBlockEntity;
+import git.david.cuffedplus.blockentities.CuffTableBlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
