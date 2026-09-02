@@ -68,8 +68,6 @@ public class CuffTableMenuScreen extends AbstractContainerScreen<CuffTableMenu> 
         ));
 
 
-
-
         this.addRenderableWidget(Button.builder(
                 Component.literal("Apply"),
                 btn -> applySettings()
@@ -115,8 +113,8 @@ public class CuffTableMenuScreen extends AbstractContainerScreen<CuffTableMenu> 
 
         if (item instanceof JumpsuitItem) {
             if (number > 0 && number < backTitle.length) {
-                 //guiGraphics.drawString(this.font, String.valueOf(number), this.leftPos + 23, this.topPos + 18, 0xFFFFFF, true);
-                 guiGraphics.drawString(this.font, backTitle[number], this.leftPos + 23, this.topPos + 30, 0xFFFFFF, true);
+                //guiGraphics.drawString(this.font, String.valueOf(number), this.leftPos + 23, this.topPos + 18, 0xFFFFFF, true);
+                guiGraphics.drawString(this.font, backTitle[number], this.leftPos + 23, this.topPos + 30, 0xFFFFFF, true);
             } else {
                 guiGraphics.drawString(this.font, "-", this.leftPos + 23, this.topPos + 18, 0xFFFFFF, true);
             }
@@ -129,8 +127,8 @@ public class CuffTableMenuScreen extends AbstractContainerScreen<CuffTableMenu> 
     public void render(@NotNull GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
 
         ItemStack stack = this.menu.getSlot(0).getItem();
-            Item item = stack.getItem();
-            // System.out.println("Item in slot 0: " + item.getDescriptionId());
+        Item item = stack.getItem();
+        // System.out.println("Item in slot 0: " + item.getDescriptionId());
 
         this.renderBackground(guiGraphics);
         super.render(guiGraphics, mouseX, mouseY, partialTick);

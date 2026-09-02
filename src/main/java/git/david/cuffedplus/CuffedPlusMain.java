@@ -99,6 +99,8 @@ import javax.annotation.Nonnull;
 @Mod(CuffedPlusMain.MODID)
 public class CuffedPlusMain {
 
+    public static final boolean DEBUG = true;
+
     public static final String MODID = "cuffedplus";
     public static final Logger LOGGER = LogManager.getLogger(CuffedPlusMain.MODID);
     //public static final CuffedPlusServerConfig CuffedPlusMain.SERVER_CONFIG = new CuffedPlusServerConfig(MODID, ModCuffedPlusMain.SERVER_CONFIG.Type.SERVER);
@@ -167,8 +169,8 @@ public class CuffedPlusMain {
 
         // Temporary fix for Cuffed not recognizing custom registries
         IForgeRegistry<?> r = event.getForgeRegistry();
-        if(r != null && !r.getValues().isEmpty() && r.getValues().toArray()[0] instanceof AbstractRestraint) {
-            if(r.getRegistryName().getNamespace().equals(MODID))
+        if (r != null && !r.getValues().isEmpty() && r.getValues().toArray()[0] instanceof AbstractRestraint) {
+            if (r.getRegistryName().getNamespace().equals(MODID))
                 RestraintAPI.Registries.register(r);
         }
     }

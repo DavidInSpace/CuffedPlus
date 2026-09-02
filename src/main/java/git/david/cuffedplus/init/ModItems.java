@@ -17,8 +17,8 @@ import net.minecraftforge.registries.RegistryObject;
  */
 
 public class ModItems {
-        public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS,
-                        CuffedPlusMain.MODID);
+    public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS,
+            CuffedPlusMain.MODID);
 
 
     // WOOD
@@ -133,28 +133,28 @@ public class ModItems {
             () -> new GearModifierItem(new Item.Properties().stacksTo(16).rarity(Rarity.UNCOMMON)));
 
 
-
     public static final RegistryObject<BlockItem> CUFF_TABLE = ITEMS.register("cuff_table",
             () -> new BlockItem(ModBlock.CUFF_TABLE_BLOCK.get(), new Item.Properties()));
 
 
     /* ANKLE MONITOR */
 
-    /**    public static final RegistryObject<Item> ANKLE_MONITOR_CLEAN = ITEMS.register("ankle_monitor_clean",
-            () -> new RestraintItem(new Item.Properties().stacksTo(4).rarity(Rarity.COMMON)));
-
-
-    * WILL RETURN TO THAT ONCE I FIGURE OUT HOW TO MAKE A NORMAL ANKLE MONITOR
-    * public static final RegistryObject<Item> ANKLE_MONITOR_CLEAN_KEY = ITEMS.register("ankle_monitor_clean_key",
-            () -> new AbstractRestraintKeyItem(new Item.Properties().stacksTo(4).rarity(Rarity.COMMON)));
-
-    public static final RegistryObject<Item> ANKLE_MONITOR_DIRTY = ITEMS.register("ankle_monitor_dirty",
-            () -> new AbstractRestraintKeyItem(new Item.Properties().stacksTo(4).rarity(Rarity.COMMON)));
+    /**
+     * public static final RegistryObject<Item> ANKLE_MONITOR_CLEAN = ITEMS.register("ankle_monitor_clean",
+     * () -> new RestraintItem(new Item.Properties().stacksTo(4).rarity(Rarity.COMMON)));
+     * <p>
+     * <p>
+     * WILL RETURN TO THAT ONCE I FIGURE OUT HOW TO MAKE A NORMAL ANKLE MONITOR
+     * public static final RegistryObject<Item> ANKLE_MONITOR_CLEAN_KEY = ITEMS.register("ankle_monitor_clean_key",
+     * () -> new AbstractRestraintKeyItem(new Item.Properties().stacksTo(4).rarity(Rarity.COMMON)));
+     * <p>
+     * public static final RegistryObject<Item> ANKLE_MONITOR_DIRTY = ITEMS.register("ankle_monitor_dirty",
+     * () -> new AbstractRestraintKeyItem(new Item.Properties().stacksTo(4).rarity(Rarity.COMMON)));
      */
 
 
-   public static final RegistryObject<Item> ANKLE_MONITOR = ITEMS.register("ankle_monitor",
-           () -> new AnkleMonitorItem(ModArmorMaterials.ANKLE_MONITOR, ArmorItem.Type.BOOTS, new Item.Properties().defaultDurability(-1)));
+    public static final RegistryObject<Item> ANKLE_MONITOR = ITEMS.register("ankle_monitor",
+            () -> new AnkleMonitorItem(ModArmorMaterials.ANKLE_MONITOR, ArmorItem.Type.BOOTS, new Item.Properties().defaultDurability(-1)));
 
     public static final RegistryObject<Item> ANKLE_MONITOR_TRACKER = ITEMS.register("ankle_monitor_tracker",
             () -> new TrackerItem(new Item.Properties().stacksTo(1)));
@@ -171,6 +171,6 @@ public class ModItems {
 
 
     public static void register(IEventBus bus) {
-                ITEMS.register(bus);
-        }
+        ITEMS.register(bus);
+    }
 }

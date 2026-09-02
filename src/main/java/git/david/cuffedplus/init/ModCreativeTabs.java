@@ -65,8 +65,6 @@ public class ModCreativeTabs {
                         //output.accept(ModItems.GLOW_MODIFIER.get());
 
 
-
-
                     }).build());
 
     public static void register(IEventBus bus) {

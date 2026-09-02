@@ -38,7 +38,8 @@ public class AnkleMonitorKey extends Item {
 
         if (!player.isCrouching()) return InteractionResultHolder.fail(itemInHand);
         if (level.isClientSide) return InteractionResultHolder.fail(itemInHand);
-        if (!(currentFeet.getItem() instanceof AnkleMonitorItem) || !currentFeet.getOrCreateTag().getBoolean("CanBeLocked")) return InteractionResultHolder.fail(itemInHand);
+        if (!(currentFeet.getItem() instanceof AnkleMonitorItem) || !currentFeet.getOrCreateTag().getBoolean("CanBeLocked"))
+            return InteractionResultHolder.fail(itemInHand);
 
         if (currentFeet.getOrCreateTag().getBoolean("Locked")) {
 
@@ -88,7 +89,8 @@ public class AnkleMonitorKey extends Item {
 
         if (user.isCrouching()) return InteractionResult.FAIL;
         if (user.level().isClientSide && !(target instanceof Player)) return InteractionResult.FAIL;
-        if (!(targetFeet.getItem() instanceof AnkleMonitorItem) || !(targetFeet.getOrCreateTag().getBoolean("CanBeLocked"))) return InteractionResult.FAIL;
+        if (!(targetFeet.getItem() instanceof AnkleMonitorItem) || !(targetFeet.getOrCreateTag().getBoolean("CanBeLocked")))
+            return InteractionResult.FAIL;
         if (!(target instanceof Player)) return InteractionResult.FAIL;
 
         if (targetFeet.getOrCreateTag().getBoolean("Locked")) {

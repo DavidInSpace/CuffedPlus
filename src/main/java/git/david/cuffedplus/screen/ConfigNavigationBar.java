@@ -11,12 +11,11 @@ import net.minecraft.network.chat.Component;
 import org.slf4j.Logger;
 
 public class ConfigNavigationBar extends LinearLayout {
-    private final static Logger LOGGER = LogUtils.getLogger();
-    private static String pressedButton = "";
-
     final static byte CATEGORIES_AMOUNT = 5;
     final static int BUTTON_HEIGHT = 20;
     final static int SPACE = 10;
+    private final static Logger LOGGER = LogUtils.getLogger();
+    private static String pressedButton = "";
 
     public ConfigNavigationBar(int x, int y, int width, int height) {
         super(x, y, width, height / 8, Orientation.HORIZONTAL);

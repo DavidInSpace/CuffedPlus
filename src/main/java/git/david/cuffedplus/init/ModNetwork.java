@@ -17,6 +17,7 @@ import static git.david.cuffedplus.CuffedPlusMain.MODID;
 
 public class ModNetwork {
     private final static Logger LOGGER = LogUtils.getLogger();
+
     private static final String PROTOCOL_VERSION = "1.0";
 
     public static final SimpleChannel INSTANCE = NetworkRegistry.ChannelBuilder
@@ -41,7 +42,7 @@ public class ModNetwork {
 
         INSTANCE.messageBuilder(ConfigSyncPacket.class, 2)
                 .encoder(ConfigSyncPacket::encode)
-                .decoder(ConfigSyncPacket::new)
+                .decoder(ConfigSyncPacket::decode)
                 .consumerMainThread(ConfigSyncPacket::handle)
                 .add();
     }

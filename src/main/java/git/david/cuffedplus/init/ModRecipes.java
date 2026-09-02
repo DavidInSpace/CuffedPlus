@@ -1,8 +1,8 @@
 package git.david.cuffedplus.init;
 
 import git.david.cuffedplus.recipes.CuffsModifierRecipe;
-import git.david.cuffedplus.recipes.serializer.CuffsModifierSerializer;
 import git.david.cuffedplus.recipes.GearModifierRecipe;
+import git.david.cuffedplus.recipes.serializer.CuffsModifierSerializer;
 import git.david.cuffedplus.recipes.serializer.GearModifierSerializer;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.item.crafting.RecipeSerializer;

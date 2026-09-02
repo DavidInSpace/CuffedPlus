@@ -34,42 +34,8 @@ import java.util.Random;
 
 @Mod.EventBusSubscriber(modid = CuffedPlusMain.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ModClientEvents {
+    static final String[] variants = new String[]{"mph", "mhm", "hmm", "fmp", "mpr", "mrp"};
     private final static Logger LOGGER = LogUtils.getLogger();
-    @SubscribeEvent
-    public void clientChatEvent(ClientChatEvent event) {
-    }
-
-    @SubscribeEvent
-    public void commandEvent(CommandEvent event) {
-        System.out.println(event.getParseResults().getContext().getSource().getEntity() + " " + event.getParseResults().getReader() + " " + CuffedPlusMain.SERVER_CONFIG.allowRestrainedPlayersExecuteCommands());
-        if (event.getParseResults().getContext().getSource().getEntity() instanceof Player && !CuffedPlusMain.SERVER_CONFIG.allowRestrainedPlayersExecuteCommands()) {
-            InfoMessagesHandler.sendFailMessage(Minecraft.getInstance().player, "You can't perform commands while you're restrained!", false, false);
-            System.out.println("CANCELING");
-            event.setCanceled(true);
-        }
-    }
-
-
-    @SubscribeEvent
-    public void onPlayerLogIn(PlayerEvent.PlayerLoggedInEvent event) {
-
-    }
-
-    // Event is on the Forge event bus only on the physical client
-    @SubscribeEvent
-    public void onClientTick(TickEvent.ClientTickEvent event) {
-        Minecraft minecraft = Minecraft.getInstance();
-        if (Keybindings.INSTANCE.testKey.consumeClick() && minecraft.player != null) {
-            System.out.println("TEST KEY PRESSED");
-            //ModNetwork.sendToServer(new C2SConfigPacket("TEST", null, "get"));
-        }
-
-        if (Keybindings.INSTANCE.openConfigKey.consumeClick() && minecraft.player != null) {
-
-            minecraft.forceSetScreen(new GeneralConfigScreen());
-            minecraft.player.displayClientMessage(Component.literal("OPEN CONFIG MENU KEY PRESSED"), false);
-        }
-    }
 
     @SubscribeEvent
     public static void onAddLayers(EntityRenderersEvent.AddLayers event) {
@@ -97,17 +63,48 @@ public class ModClientEvents {
         });
     }
 
+    @SubscribeEvent
+    public void clientChatEvent(ClientChatEvent event) {
+    }
 
+    @SubscribeEvent
+    public void commandEvent(CommandEvent event) {
+        System.out.println(event.getParseResults().getContext().getSource().getEntity() + " " + event.getParseResults().getReader() + " " + CuffedPlusMain.SERVER_CONFIG.allowRestrainedPlayersExecuteCommands());
+        if (event.getParseResults().getContext().getSource().getEntity() instanceof Player && !CuffedPlusMain.SERVER_CONFIG.allowRestrainedPlayersExecuteCommands()) {
+            InfoMessagesHandler.sendFailMessage(Minecraft.getInstance().player, "You can't perform commands while you're restrained!", false, false);
+            System.out.println("CANCELING");
+            event.setCanceled(true);
+        }
+    }
+
+    @SubscribeEvent
+    public void onPlayerLogIn(PlayerEvent.PlayerLoggedInEvent event) {
+
+    }
+
+    // Event is on the Forge event bus only on the physical client
+    @SubscribeEvent
+    public void onClientTick(TickEvent.ClientTickEvent event) {
+        Minecraft minecraft = Minecraft.getInstance();
+        if (Keybindings.INSTANCE.testKey.consumeClick() && minecraft.player != null) {
+            System.out.println("TEST KEY PRESSED");
+            //ModNetwork.sendToServer(new C2SConfigPacket("TEST", null, "get"));
+        }
+
+        if (Keybindings.INSTANCE.openConfigKey.consumeClick() && minecraft.player != null) {
+
+            minecraft.forceSetScreen(new GeneralConfigScreen());
+            minecraft.player.displayClientMessage(Component.literal("OPEN CONFIG MENU KEY PRESSED"), false);
+        }
+    }
 
     @SubscribeEvent
     public void chat(ClientChatEvent event) {
         Minecraft instance = Minecraft.getInstance();
-        if(instance.player instanceof IRestrainableEntity e)
-            if(e.getHeadRestraintId().equals(HazardTapeHeadRestraint.ID))
+        if (instance.player instanceof IRestrainableEntity e)
+            if (e.getHeadRestraintId().equals(HazardTapeHeadRestraint.ID))
                 event.setMessage(mufflifyPhrase(event.getMessage()));
     }
-
-    static final String[] variants = new String[] { "mph", "mhm", "hmm", "fmp", "mpr", "mrp" };
 
     String mufflifyPhrase(String message) {
         String[] words = message.split(" ");
@@ -115,7 +112,7 @@ public class ModClientEvents {
         String output = "";
         for (int i = 0; i < words.length; i++) {
             output += mufflifyWord(words[i]);
-            if(i < words.length - 1)
+            if (i < words.length - 1)
                 output += " ";
         }
         //System.out.printf("Output Phrase: " + output);
@@ -128,10 +125,10 @@ public class ModClientEvents {
         String output = "";
         for (int i = 0; i < word.length(); i++) {
             char c = word.charAt(i);
-            if(Character.isLetter(c)) {
-                if(i == word.length()-1)
+            if (Character.isLetter(c)) {
+                if (i == word.length() - 1)
                     output += myVariant.charAt(2);
-                else if(i == word.length()-2)
+                else if (i == word.length() - 2)
                     output += myVariant.charAt(1);
                 else
                     output += myVariant.charAt(0);

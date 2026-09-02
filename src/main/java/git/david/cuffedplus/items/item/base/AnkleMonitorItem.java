@@ -58,8 +58,9 @@ public class AnkleMonitorItem extends ArmorItem {
         return stack.getOrCreateTag().getBoolean("HighVisibility");
     }
 
-    public static void setGlowing(ItemStack stack, int value)  {stack.getOrCreateTag().putInt("Glowing", value);}
-    public static int getGlowing(ItemStack stack) { return stack.getOrCreateTag().getInt("Glowing");}
+    public static void setGlowing(ItemStack stack, int value) {stack.getOrCreateTag().putInt("Glowing", value);}
+
+    public static int getGlowing(ItemStack stack) {return stack.getOrCreateTag().getInt("Glowing");}
 
     // TODO: Add a way to unbind ankle monitors
     @Override

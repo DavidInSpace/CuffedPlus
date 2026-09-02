@@ -10,6 +10,8 @@ import org.slf4j.Logger;
 
 import java.util.ArrayList;
 
+import static git.david.cuffedplus.CuffedPlusMain.DEBUG;
+
 public class Config {
 
 
@@ -54,7 +56,7 @@ public class Config {
     public static ArrayList<ConfigOption> MISC_OPTIONS = new ArrayList<>();
 
     public static void RegisterConfig() {
-        LOGGER.debug("Initializing Config");
+        if (DEBUG) LOGGER.debug("Initializing Config");
         RegisterGeneralConfig();
         RegisterRolesConfig();
         RegisterPlayersConfig();
@@ -65,30 +67,30 @@ public class Config {
         OPTIONS.addAll(PLAYERS_OPTIONS);
         OPTIONS.addAll(PRISONERS_OPTIONS);
         OPTIONS.addAll(MISC_OPTIONS);
-        LOGGER.info("Finished Initializing Config");
+        if (DEBUG) LOGGER.info("Finished Initializing Config");
     }
 
 
     private static void RegisterGeneralConfig() {
-        LOGGER.debug("Initializing General Config");
+        if (DEBUG) LOGGER.debug("Initializing General Config");
         GENERAL_OPTIONS.add(new ConfigOption("KEEP_LOCKED_GEAR_ON_DEATH", "Keep Locked Gear On Death", 2, 0, BOOL_OPTIONS));
-        GENERAL_OPTIONS.add(new ConfigOption("PLAYERS_ATTACK_BEHAVIOR", "Players Attack Behavior", 4, 2, ROLES_PLAYERS_OPTIONS));
-        GENERAL_OPTIONS.add(new ConfigOption("PRISONERS_ATTACK_BEHAVIOR", "Prisoners Attack Behavior", 4, 2, ROLES_PLAYERS_OPTIONS));
+        GENERAL_OPTIONS.add(new ConfigOption("PLAYERS_ATTACK_BEHAVIOR", "Players Attack Behavior", 4, 0, ROLES_PLAYERS_OPTIONS));
+        GENERAL_OPTIONS.add(new ConfigOption("PRISONERS_ATTACK_BEHAVIOR", "Prisoners Attack Behavior", 4, 0, ROLES_PLAYERS_OPTIONS));
         GENERAL_OPTIONS.add(new ConfigOption("CAN_PRISONER_ATTACK_PLAYERS_WITHOUT_ROLE", "Can Prisoners Attack Players Without Role", 2, 1, BOOL_OPTIONS));
-        GENERAL_OPTIONS.add(new ConfigOption("ALLOW_BREAKING_TIME_LOCKED_RESTRAINTS", "Allow Breaking Time Locked Restraints", 2, 2, BOOL_OPTIONS));
+        GENERAL_OPTIONS.add(new ConfigOption("ALLOW_BREAKING_TIME_LOCKED_RESTRAINTS", "Allow Breaking Time Locked Restraints", 2, 0, BOOL_OPTIONS));
         GENERAL_OPTIONS.add(new ConfigOption("SHOW_INFO_MESSAGES", "Show Info Messages", 2, 0, BOOL_OPTIONS));
         GENERAL_OPTIONS.add(new ConfigOption("SHOW_SUCCESS_MESSAGES ", "Show Success Messages", 2, 0, BOOL_OPTIONS));
         GENERAL_OPTIONS.add(new ConfigOption("SHOW_FAIL_MESSAGES", "Show Fail Messages", 2, 0, BOOL_OPTIONS));
-        GENERAL_OPTIONS.add(new ConfigOption("PUT_PLAYERS_IN_CREATIVE_WHEN_ANTIGOD_RESTRAINTS_TIME_LOCK_RUNS_OUT", "Put Players In Creative When Antigod Restraints Time Lock Runs Out", 4, 2, BOOL_OPTIONS));
+        GENERAL_OPTIONS.add(new ConfigOption("PUT_PLAYERS_IN_CREATIVE_WHEN_ANTIGOD_RESTRAINTS_TIME_LOCK_RUNS_OUT", "Put Players In Creative When Antigod Restraints Time Lock Runs Out", 2, 0, BOOL_OPTIONS));
 
     }
 
     private static void RegisterRolesConfig() {
-        LOGGER.debug("Initializing Roles Config");
-        ROLES_OPTIONS.add(new ConfigOption("SHOW_ROLE_PREFIX", "Show Role Prefixes", 4, 0, BOOL_OPTIONS));
-        ROLES_OPTIONS.add(new ConfigOption("ROLE_PREFIX_BOLD", "Bold Role Prefixes", 4, 0, BOOL_OPTIONS));
+        if (DEBUG) LOGGER.debug("Initializing Roles Config");
+        ROLES_OPTIONS.add(new ConfigOption("SHOW_ROLE_PREFIX", "Show Role Prefixes", 2, 0, BOOL_OPTIONS));
+        ROLES_OPTIONS.add(new ConfigOption("ROLE_PREFIX_BOLD", "Bold Role Prefixes", 2, 0, BOOL_OPTIONS));
         ROLES_OPTIONS.add(new ConfigOption("PRISONER_ROLE_PREFIX", "Prisoner Role Prefix", 4, 0, new Component[]{Component.literal("[INMATE]").setStyle(Styles.getPrisonStyle(true)), Component.literal("[PRISONER]").setStyle(Styles.getPrisonStyle(true)), Component.literal("[CONVICT]").setStyle(Styles.getPrisonStyle(true)), Component.literal("[D-CLASS]").setStyle(Styles.getPrisonStyle(true))}));
-        ROLES_OPTIONS.add(new ConfigOption("OFFICER_ROLE_PREFIX", "Officer Role Prefix", 4, 0, new Component[]{Component.literal("[OFFICER]").setStyle(Styles.getOfficerStyle(true)), Component.literal("[POLICE]").setStyle(Styles.getOfficerStyle(true))}));
+        ROLES_OPTIONS.add(new ConfigOption("OFFICER_ROLE_PREFIX", "Officer Role Prefix", 2, 0, new Component[]{Component.literal("[OFFICER]").setStyle(Styles.getOfficerStyle(true)), Component.literal("[POLICE]").setStyle(Styles.getOfficerStyle(true))}));
     }
 
     private static void RegisterPlayersConfig() {
@@ -104,7 +106,7 @@ public class Config {
     }
 
     private static void RegisterPrisonersConfig() {
-        LOGGER.debug("Initializing Prisoners Config");
+        if (DEBUG) LOGGER.debug("Initializing Prisoners Config");
         PRISONERS_OPTIONS.add(new ConfigOption("OTHER_PRISONERS_JUMPSUIT_BEHAVIOR", "Other Prisoners Jumpsuit Behavior", 4, 0, INTERACTION_BEHAVIOR_OPTIONS));
         PRISONERS_OPTIONS.add(new ConfigOption("OTHER_PRISONERS_ANKLE_MONITOR_BEHAVIOR", "Other Prisoners ankle Monitor Behavior", 4, 2, INTERACTION_BEHAVIOR_OPTIONS));
         PRISONERS_OPTIONS.add(new ConfigOption("PRISONERS_OWN_JUMPSUIT_LOCK_BEHAVIOR", "Prisoners Own Jumpsuit Lock Behavior", 4, 2, LOCK_BEHAVIOR_OPTIONS));
@@ -116,7 +118,7 @@ public class Config {
     }
 
     private static void RegisterMiscConfig() {
-        LOGGER.debug("Initializing Misc Config");
+        if (DEBUG) LOGGER.debug("Initializing Misc Config");
         MISC_OPTIONS.add(new ConfigOption("Test", "Test", 4, 0, new Component[]{Component.literal("Test1"), Component.literal("Test2"), Component.literal("Test3"), Component.literal("Test4")}));
     }
 

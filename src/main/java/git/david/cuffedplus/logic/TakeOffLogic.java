@@ -65,7 +65,7 @@ public class TakeOffLogic {
 
         if (CuffedPlusMain.SERVER_CONFIG.getOtherPlayersJumpsuitBehavior().equals("onlyPutOn".toLowerCase()) || (CuffedPlusMain.SERVER_CONFIG.getOtherPlayersJumpsuitBehavior().equals("none"))) {
             user.displayClientMessage(Component.literal("× You can not take jumpsuits off other players ×").withStyle(ChatFormatting.RED), true);
-            return ;
+            return;
         }
 
         if (user.getTags().contains("prisoner") && CuffedPlusMain.SERVER_CONFIG.getOtherPrisonersJumpsuitBehavior().equals("onlyPutOn".toLowerCase()) || CuffedPlusMain.SERVER_CONFIG.getOtherPrisonersJumpsuitBehavior().equals("none")) {
@@ -121,7 +121,7 @@ public class TakeOffLogic {
 
         if (CuffedPlusMain.SERVER_CONFIG.getOtherPlayersAnkleMonitorBehavior().equals("onlyPutOn".toLowerCase()) || (CuffedPlusMain.SERVER_CONFIG.getOtherPlayersAnkleMonitorBehavior().equals("none"))) {
             user.displayClientMessage(Component.literal("× You can not take ankle monitors off other players ×").withStyle(ChatFormatting.RED), true);
-            return ;
+            return;
         }
 
         if (user.getTags().contains("prisoner") && CuffedPlusMain.SERVER_CONFIG.getOtherPrisonersAnkleMonitorBehavior().equals("onlyPutOn".toLowerCase()) || CuffedPlusMain.SERVER_CONFIG.getOtherPrisonersAnkleMonitorBehavior().equals("none")) {

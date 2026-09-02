@@ -39,10 +39,12 @@ public class KeepLockedGearOnDeathLogic {
         if (event.getEntity().getServer() == null) return;
         if (keepItem == null) return;
         if (!(keepItem.getItem() instanceof JumpsuitItem) && !(keepItem.getItem() instanceof AnkleMonitorItem)) return;
-        if (!(keepItem.getOrCreateTag().getBoolean("CanBeLocked")) || !(keepItem.getOrCreateTag().getBoolean("Locked"))) return;
+        if (!(keepItem.getOrCreateTag().getBoolean("CanBeLocked")) || !(keepItem.getOrCreateTag().getBoolean("Locked")))
+            return;
         if (!CuffedPlusMain.SERVER_CONFIG.keepLockedGearOnDeath()) return;
         GameRules.Value<GameRules.BooleanValue> isKeepInventoryOn = Objects.requireNonNull(event.getEntity().getServer()).getGameRules().getRule(GameRules.RULE_KEEPINVENTORY);
-        if (Boolean.parseBoolean(String.valueOf(String.valueOf(isKeepInventoryOn).equals("true")))) return; // if keep inventory is on then return since it already does the job
+        if (Boolean.parseBoolean(String.valueOf(String.valueOf(isKeepInventoryOn).equals("true"))))
+            return; // if keep inventory is on then return since it already does the job
 
         event.getEntity().setItemSlot(EquipmentSlot.CHEST, keepItem);
     }
@@ -54,10 +56,12 @@ public class KeepLockedGearOnDeathLogic {
         if (keepItem == null) return;
         if (!(event.getEntity() instanceof Player)) return;
         if (!(keepItem.getItem() instanceof JumpsuitItem) && !(keepItem.getItem() instanceof AnkleMonitorItem)) return;
-        if (!(keepItem.getOrCreateTag().getBoolean("CanBeLocked")) || !(keepItem.getOrCreateTag().getBoolean("Locked"))) return; // If the jumpsuit isnt locked return
+        if (!(keepItem.getOrCreateTag().getBoolean("CanBeLocked")) || !(keepItem.getOrCreateTag().getBoolean("Locked")))
+            return; // If the jumpsuit isnt locked return
         if (!CuffedPlusMain.SERVER_CONFIG.keepLockedGearOnDeath()) return;
         GameRules.Value<GameRules.BooleanValue> isKeepInventoryOn = Objects.requireNonNull(event.getEntity().getServer()).getGameRules().getRule(GameRules.RULE_KEEPINVENTORY);
-        if (Boolean.parseBoolean(String.valueOf(String.valueOf(isKeepInventoryOn).equals("true")))) return; // if keep inventory is on then return since it already does the job
+        if (Boolean.parseBoolean(String.valueOf(String.valueOf(isKeepInventoryOn).equals("true"))))
+            return; // if keep inventory is on then return since it already does the job
 
         for (ItemEntity drop : event.getDrops()) {
             if (drop.getItem().getItem() instanceof JumpsuitItem) {

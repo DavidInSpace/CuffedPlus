@@ -11,7 +11,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
 
-@Mod.EventBusSubscriber(modid ="cuffedplus", value = Dist.CLIENT)
+@Mod.EventBusSubscriber(modid = "cuffedplus", value = Dist.CLIENT)
 public class JumpsuitRenderHandler {
 
     @SubscribeEvent

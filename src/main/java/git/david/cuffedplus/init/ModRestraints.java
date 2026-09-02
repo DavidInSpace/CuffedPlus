@@ -42,35 +42,27 @@ import net.minecraftforge.registries.RegistryObject;
  */
 
 public class ModRestraints {
-    // this isn't required, it just can help a bit when developing in case things go awry.
-    private static boolean isInitialized = false;
-
     // Create your custom registry to hold your restraint classes
     public static final DeferredRegister<AbstractRestraint> RESTRAINTS = DeferredRegister.create(ResourceLocation.fromNamespaceAndPath(CuffedPlusMain.MODID, "restraints"), CuffedPlusMain.MODID);
-
     // Register your restraints to the register
     // WOOD
     public static final RegistryObject<AbstractRestraint> WOOD_CUFFS_ARMS = RESTRAINTS.register("wood_cuffs_arms", WoodCuffsArmsRestraint::new);
     public static final RegistryObject<AbstractRestraint> WOOD_CUFFS_LEGS = RESTRAINTS.register("wood_cuffs_legs", WoodCuffsLegsRestraint::new);
-
     // GOLD
     public static final RegistryObject<AbstractRestraint> GOLD_CUFFS_ARMS = RESTRAINTS.register("gold_cuffs_arms", GoldCuffsArmsRestraint::new);
     public static final RegistryObject<AbstractRestraint> GOLD_CUFFS_LEGS = RESTRAINTS.register("gold_cuffs_legs", GoldCuffsLegsRestraint::new);
-
     // DIAMOND
     public static final RegistryObject<AbstractRestraint> DIAMOND_CUFFS_ARMS = RESTRAINTS.register("diamond_cuffs_arms", DiamondCuffsArmsRestraint::new);
     public static final RegistryObject<AbstractRestraint> DIAMOND_CUFFS_LEGS = RESTRAINTS.register("diamond_cuffs_legs", DiamondCuffsLegsRestraint::new);
-
     // NETHERITE
     public static final RegistryObject<AbstractRestraint> NETHERITE_CUFFS_ARMS = RESTRAINTS.register("netherite_cuffs_arms", NetheriteCuffsArmsRestraint::new);
     public static final RegistryObject<AbstractRestraint> NETHERITE_CUFFS_LEGS = RESTRAINTS.register("netherite_cuffs_legs", NetheriteCuffsLegsRestraint::new);
-
     public static final RegistryObject<AbstractRestraint> HAZARD_TAPE_HEAD = RESTRAINTS.register("hazard_tape_head", HazardTapeHeadRestraint::new);
     public static final RegistryObject<AbstractRestraint> HAZARD_TAPE_ARMS = RESTRAINTS.register("hazard_tape_arms", HazardTapeArmsRestraint::new);
     public static final RegistryObject<AbstractRestraint> HAZARD_TAPE_LEGS = RESTRAINTS.register("hazard_tape_legs", HazardTapeLegsRestraint::new);
-
     public static final RegistryObject<AbstractRestraint> EXAMPLE_HEAD_RESTRAINT = RESTRAINTS.register("example_head_restraint", ExampleHeadRestraint::new);
-
+    // this isn't required, it just can help a bit when developing in case things go awry.
+    private static boolean isInitialized = false;
 
     public static void register(final IEventBus modEventBus) {
         if (isInitialized)

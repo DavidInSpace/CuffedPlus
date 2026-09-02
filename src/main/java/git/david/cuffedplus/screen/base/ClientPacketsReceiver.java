@@ -7,19 +7,21 @@ import git.david.cuffedplus.net.ConfigSyncPacket;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.network.PacketDistributor;
 import org.slf4j.Logger;
+
+import static git.david.cuffedplus.CuffedPlusMain.DEBUG;
 
 public class ClientPacketsReceiver {
     private final static Logger LOGGER = LogUtils.getLogger();
 
     @SubscribeEvent
-    public static void onPlayerLogin(PlayerEvent.PlayerLoggedInEvent event) {
+    public void onPlayerLogin(PlayerEvent.PlayerLoggedInEvent event) {
+        if (DEBUG) LOGGER.debug("Cuffed+  PlayerLoginEvent Called");
         if (!(event.getEntity() instanceof ServerPlayer player)) return;
-
+        if (DEBUG) LOGGER.debug("Player " + player.getName().getString() + " logged in");
         ConfigSaveData data = ConfigSaveData.compute(player.serverLevel());
 
-        ModNetwork.INSTANCE.send(PacketDistributor.PLAYER.with(() -> player), new ConfigSyncPacket(data.getOptions()));
+        ModNetwork.sendToAllClients(new ConfigSyncPacket(data.getOptions()));
 
     }
 

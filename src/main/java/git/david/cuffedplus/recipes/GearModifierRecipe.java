@@ -1,8 +1,6 @@
 package git.david.cuffedplus.recipes;
 
 import git.david.cuffedplus.init.ModRecipes;
-import git.david.cuffedplus.items.item.base.JumpsuitItem;
-import git.david.cuffedplus.items.item.base.RestraintItem;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.Container;
@@ -49,7 +47,7 @@ public record GearModifierRecipe(ResourceLocation id, Ingredient template, Ingre
                     break;
                 case "cuffedplus:glowing_modifier":
                     if (baseItem.getOrCreateTag().getInt("Glowing") < 15) {
-                        baseItem.getOrCreateTag().putInt("Glowing",baseItem.getOrCreateTag().getInt("Glowing") + 1);
+                        baseItem.getOrCreateTag().putInt("Glowing", baseItem.getOrCreateTag().getInt("Glowing") + 1);
                     }
                     break;
                 default:
@@ -66,7 +64,7 @@ public record GearModifierRecipe(ResourceLocation id, Ingredient template, Ingre
                     break;
                 case "cuffedplus:glowing_modifier":
                     if (baseItem.getOrCreateTag().getInt("Glowing") > 0) {
-                        baseItem.getOrCreateTag().putInt("Glowing",baseItem.getOrCreateTag().getInt("Glowing") - 1);
+                        baseItem.getOrCreateTag().putInt("Glowing", baseItem.getOrCreateTag().getInt("Glowing") - 1);
                     }
                     break;
                 default:

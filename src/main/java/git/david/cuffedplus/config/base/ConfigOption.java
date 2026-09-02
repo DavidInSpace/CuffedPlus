@@ -10,12 +10,12 @@ different types for config options but it was just crazy complex and I couldn't 
 so after like 10 hours of trying (no joke) I just gave up and made all options a string
  */
 public class ConfigOption {
-    Logger LOGGER = LogUtils.getLogger();
     private final String id;
     private final String name;
     private final int defaultValue;
     private final Component[] values;
     private final int description_num;
+    Logger LOGGER = LogUtils.getLogger();
 
     public ConfigOption(String id, String name, int description_num, int defaultValue, Component[] values) {
         if (defaultValue > values.length) {
@@ -57,8 +57,6 @@ public class ConfigOption {
         if (i >= values.length) {return Component.literal("ERROR: value out of range");}
         return this.values[i];
     }
-
-
 
 
 }

@@ -31,8 +31,8 @@ public class C2SConfigPacket {
     }
 
     public static C2SConfigPacket decode(FriendlyByteBuf buf) {
-        String optionID = buf.readComponent().toString();
-        String optionValue = buf.readComponent().toString();
+        String optionID = buf.readComponent().getString();
+        String optionValue = buf.readComponent().getString();
         return new C2SConfigPacket(optionID, optionValue);
     }
 
@@ -42,11 +42,13 @@ public class C2SConfigPacket {
             LOGGER.debug("RECEIVED OPTION ID PACKET: {}", packet.optionID);
             LOGGER.debug("RECEIVED OPTION VALUE PACKET: {}", packet.optionValue);
 
+            assert serverPlayer != null;
+            LOGGER.warn("C2SConfigPacket Server level is NOT null! :D");
             ConfigSaveData data = ConfigSaveData.compute(serverPlayer.serverLevel());
             data.setOption(packet.optionID, packet.optionValue);
 
-            });
-            ctx.get().setPacketHandled(true);
+        });
+        ctx.get().setPacketHandled(true);
     }
 }
 

@@ -28,23 +28,45 @@ public class RestraintItem extends AbstractRestraintItem {
     }
 
     public static void enableTimer(ItemStack stack, boolean value) {stack.getOrCreateTag().putBoolean("Timer", value);}
+
     public static boolean getTimerEnabled(ItemStack stack) {return stack.getOrCreateTag().getBoolean("Timer");}
+
     public static void setTimerTicks(ItemStack stack, long time) {stack.getOrCreateTag().putLong("Time", time);}
 
 
     public static void setSaturationModifier(ItemStack stack, boolean value) {stack.getOrCreateTag().putBoolean("SaturationModifier", value);}
+
     public static void setHungerModifier(ItemStack stack, int value) {stack.getOrCreateTag().putInt("HungerModifier", value);}
+
     public static void setAntiGodModifier(ItemStack stack, int value) {stack.getOrCreateTag().putInt("AntiGodModifier", value);}
+
     public static void setJumpModifier(ItemStack stack, boolean value) {stack.getOrCreateTag().putBoolean("JumpModifier", value);}
+
     public static void setCanBeBrokenOutOf(ItemStack stack, boolean value) {stack.getOrCreateTag().putBoolean("CanBeBrokenOutOf", value);}
+
     public static void setLockpickable(ItemStack stack, boolean value) {stack.getOrCreateTag().putBoolean("Lockpickable", value);}
 
     public static boolean getSaturationModifier(ItemStack stack) {return stack.getOrCreateTag().getBoolean("SaturationModifier");}
+
     public static int getHungerModifier(ItemStack stack) {return stack.getOrCreateTag().getInt("HungerModifier");}
+
     public static int getAntiGodModifier(ItemStack stack) {return stack.getOrCreateTag().getInt("AntiGodModifier");}
+
     public static boolean getJumpModifier(ItemStack stack) {return stack.getOrCreateTag().getBoolean("JumpModifier");}
+
     public static boolean canBeBrokenOutOf(ItemStack stack) {return stack.getOrCreateTag().getBoolean("CanBeBrokenOutOf");}
+
     public static boolean isLockpickable(ItemStack stack) {return stack.getOrCreateTag().getBoolean("Lockpickable");}
+
+    public static int[] ticksToTime(long ticks) {
+        int total_seconds = (int) ticks / 20;
+        int seconds = total_seconds % 60;
+        int minutes = total_seconds / 60;
+        int hours = minutes / 60;
+        minutes = (minutes - (hours * 60));
+
+        return new int[]{seconds, minutes, hours};
+    }
 
     @Override
     public @NotNull InteractionResult interactLivingEntity(@NotNull ItemStack stack, Player user, @NotNull LivingEntity target, @NotNull InteractionHand hand) {
@@ -54,19 +76,6 @@ public class RestraintItem extends AbstractRestraintItem {
 
         return InteractionResult.PASS;
     }
-
-
-
-    public static int[] ticksToTime(long ticks) {
-        int total_seconds = (int) ticks / 20;
-        int seconds = total_seconds % 60;
-        int minutes = total_seconds / 60;
-        int hours = minutes / 60;
-        minutes = (minutes - (hours * 60));
-
-        return new int[] {seconds , minutes, hours};
-    }
-
 
     @Override
     public void appendHoverText(@NotNull ItemStack stack, @Nullable Level level, List<Component> tooltip, @NotNull TooltipFlag flag) {

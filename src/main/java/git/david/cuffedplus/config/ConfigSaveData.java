@@ -12,17 +12,18 @@ import org.slf4j.Logger;
 
 import java.util.HashMap;
 
+import static git.david.cuffedplus.CuffedPlusMain.DEBUG;
 import static git.david.cuffedplus.config.Config.OPTIONS;
 
 public class ConfigSaveData extends SavedData {
     private final static Logger LOGGER = LogUtils.getLogger();
-
-
     private HashMap<String, String> options = new HashMap<>();
 
     private ConfigSaveData(HashMap<String, String> list) {
         this.options = list;
         this.setDirty();
+        if (DEBUG) LOGGER.debug("creative ConfigSaveData ConfigSyncPacket with options {}", this.options);
+        ModNetwork.sendToAllClients(new ConfigSyncPacket(this.options));
     }
 
     public ConfigSaveData() {
@@ -49,7 +50,7 @@ public class ConfigSaveData extends SavedData {
 
     public String getOptionByID(String id) {
         System.out.println("SEARCHING FOR: " + id + " OPTIONS SIZE: " + this.options.size());
-        return this.options.get(id);
+        return this.options.getOrDefault(id, Config.getOptionById(id).getValues()[Config.getOptionById(id).getDefaultValue()].getString());
     }
 
     public HashMap<String, String> getOptions() {
@@ -61,6 +62,7 @@ public class ConfigSaveData extends SavedData {
             this.options.replace(configOption.getID(), configOption.getValues()[configOption.getDefaultValue()].getString());
         }
         this.setDirty();
+        if (DEBUG) LOGGER.debug("sending ConfigSyncPacket with options {}", this.options);
         ModNetwork.sendToAllClients(new ConfigSyncPacket(this.options));
     }
 
@@ -97,8 +99,9 @@ public class ConfigSaveData extends SavedData {
 
 
     public void setOption(String id, String value) {
-        this.options.replace(id, value);
+        this.options.put(id, value);
         this.setDirty();
+        if (DEBUG) LOGGER.debug("setOption ConfigSyncPacket with options {}", this.options);
         ModNetwork.sendToAllClients(new ConfigSyncPacket(this.options));
     }
 
@@ -110,6 +113,7 @@ public class ConfigSaveData extends SavedData {
                 ConfigSaveData::new,
                 "cuffedplus_config"
         );
+        if (DEBUG) LOGGER.debug("compute ConfigSyncPacket with options {}", data.getOptions());
         ModNetwork.sendToAllClients(new ConfigSyncPacket(data.getOptions()));
         return data;
     }

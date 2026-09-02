@@ -26,73 +26,21 @@ import static git.david.cuffedplus.config.Config.getOptionById;
 import static git.david.cuffedplus.config.base.ConfigDescriptions.DESCRIPTIONS;
 
 public abstract class AbstractConfigScreen extends Screen {
-    private final static Logger LOGGER = LogUtils.getLogger();
-
     protected final static int COL_AMOUNT = 5;
+    private final static Logger LOGGER = LogUtils.getLogger();
     private final static int CYCLE_BUTTON_X = 20;
     private final static int CYCLE_BUTTON_Y = 20;
     private final static int CYCLE_BUTTON_HEIGHT = 20;
     private final static int CYCLE_BUTTON_WIDTH = 200;
-    public boolean isActive = false;
     protected static ConfigNavigationBar configNavigationBar;
-
     private static int WIDTH;
+    public boolean isActive = false;
 
 
     protected AbstractConfigScreen(Component pTitle) {
         super(pTitle);
         WIDTH = this.width;
         configNavigationBar = new ConfigNavigationBar(0, 0, this.width, this.height);
-    }
-
-    @Override
-    public void init() {
-        super.init();
-        configNavigationBar = new ConfigNavigationBar(0, 0, this.width, this.height);
-        configNavigationBar.visitWidgets(this::addRenderableWidget);
-        configNavigationBar.arrangeElements();
-    }
-
-    protected CycleButton<?> createCycleButton(Component name, String type, String id) {
-        CycleButton cycleButton;
-        ConfigOption configOption = getOptionById(id);
-        Component[] options = configOption.getValues();
-        String defaultOption;
-        try {
-            defaultOption = options[configOption.getDefaultValue()].getString();
-        } catch (IndexOutOfBoundsException e) {
-            defaultOption = options[0].getString();
-        }
-
-        Collection<String> values = new ArrayList<>(Collections.emptyList());
-
-        for (Component option : options) {
-            values.add(option.getString());
-        }
-
-        // FIXME: The string cycle buttons seem to be stuck at the only value "none" and can not be cycled
-        if (type.equalsIgnoreCase("string")) {
-            cycleButton = CycleButton.builder(Component::literal)
-                    .withValues(values).withInitialValue(ClientConfig.getValue(id))
-                    .create(0, 0, CYCLE_BUTTON_WIDTH, CYCLE_BUTTON_HEIGHT, name, (btn, str) -> {
-                        ModNetwork.sendToServer(new C2SConfigPacket(id, str));
-                        btn.setTooltip(Tooltip.create(Component.literal(configOption.getName() + "\n\n").withStyle(ChatFormatting.BOLD).append(getDescription(id, configOption.getDescriptionNum()))));
-                    });
-            cycleButton.setTooltip(Tooltip.create(Component.literal(configOption.getName() + "\n\n").withStyle(ChatFormatting.BOLD).append(getDescription(id, configOption.getDescriptionNum()))));
-        } else if (type.equalsIgnoreCase("boolean")) {
-            cycleButton = CycleButton.booleanBuilder(Component.literal("True").setStyle(Styles.getTrueStyle(true)), Component.literal("False").setStyle(Styles.getFalseStyle(true)))
-                    .withInitialValue(Boolean.valueOf(ClientConfig.getValue(id)))
-                    .create(0, 0, CYCLE_BUTTON_WIDTH, CYCLE_BUTTON_HEIGHT, name, (btn, bool) -> {
-                        ModNetwork.sendToServer(new C2SConfigPacket(id, bool.toString()));
-                        btn.setTooltip(Tooltip.create(Component.literal(configOption.getName() + "\n\n").withStyle(ChatFormatting.BOLD).append(getDescription(id, configOption.getDescriptionNum()))));
-                    });
-            cycleButton.setTooltip(Tooltip.create(Component.literal(configOption.getName() + "\n\n").withStyle(ChatFormatting.BOLD).append(getDescription(id, configOption.getDescriptionNum()))));
-        } else {
-            return CycleButton.builder(Component::literal)
-                    .withValues(Arrays.toString(options)).withInitialValue(defaultOption)
-                    .create(0, 0, CYCLE_BUTTON_WIDTH, CYCLE_BUTTON_HEIGHT, Component.literal("ERROR BUTTON").withStyle(ChatFormatting.RED).withStyle(ChatFormatting.BOLD));
-        }
-        return cycleButton;
     }
 
     public static Component getDescription(String id, int number) {
@@ -123,6 +71,57 @@ public abstract class AbstractConfigScreen extends Screen {
 
     protected static int getColXPos(int col) {
         return ((WIDTH / COL_AMOUNT + 20) * col);
+    }
+
+    @Override
+    public void init() {
+        super.init();
+        configNavigationBar = new ConfigNavigationBar(0, 0, this.width, this.height);
+        configNavigationBar.visitWidgets(this::addRenderableWidget);
+        configNavigationBar.arrangeElements();
+    }
+
+    protected CycleButton<?> createCycleButton(Component name, String type, String id) {
+        CycleButton cycleButton;
+        ConfigOption configOption = getOptionById(id);
+        Component[] options = configOption.getValues();
+        String defaultOption;
+        try {
+            defaultOption = options[configOption.getDefaultValue()].getString();
+        } catch (IndexOutOfBoundsException e) {
+            defaultOption = options[0].getString();
+        }
+
+        Collection<String> values = new ArrayList<>(Collections.emptyList());
+
+        for (Component option : options) {
+            values.add(option.getString());
+        }
+
+        ClientConfig.getValues();
+
+        if (type.equalsIgnoreCase("string")) {
+            cycleButton = CycleButton.builder(Component::literal)
+                    .withValues(values).withInitialValue(ClientConfig.getValue(id))
+                    .create(0, 0, CYCLE_BUTTON_WIDTH, CYCLE_BUTTON_HEIGHT, name, (btn, str) -> {
+                        ModNetwork.sendToServer(new C2SConfigPacket(id, str));
+                        btn.setTooltip(Tooltip.create(Component.literal(configOption.getName() + "\n\n").withStyle(ChatFormatting.BOLD).append(getDescription(id, configOption.getDescriptionNum()))));
+                    });
+            cycleButton.setTooltip(Tooltip.create(Component.literal(configOption.getName() + "\n\n").withStyle(ChatFormatting.BOLD).append(getDescription(id, configOption.getDescriptionNum()))));
+        } else if (type.equalsIgnoreCase("boolean")) {
+            cycleButton = CycleButton.booleanBuilder(Component.literal("True").setStyle(Styles.getTrueStyle(true)), Component.literal("False").setStyle(Styles.getFalseStyle(true)))
+                    .withInitialValue(Boolean.valueOf(ClientConfig.getValue(id)))
+                    .create(0, 0, CYCLE_BUTTON_WIDTH, CYCLE_BUTTON_HEIGHT, name, (btn, bool) -> {
+                        ModNetwork.sendToServer(new C2SConfigPacket(id, bool.toString()));
+                        btn.setTooltip(Tooltip.create(Component.literal(configOption.getName() + "\n\n").withStyle(ChatFormatting.BOLD).append(getDescription(id, configOption.getDescriptionNum()))));
+                    });
+            cycleButton.setTooltip(Tooltip.create(Component.literal(configOption.getName() + "\n\n").withStyle(ChatFormatting.BOLD).append(getDescription(id, configOption.getDescriptionNum()))));
+        } else {
+            return CycleButton.builder(Component::literal)
+                    .withValues(Arrays.toString(options)).withInitialValue(defaultOption)
+                    .create(0, 0, CYCLE_BUTTON_WIDTH, CYCLE_BUTTON_HEIGHT, Component.literal("ERROR BUTTON").withStyle(ChatFormatting.RED).withStyle(ChatFormatting.BOLD));
+        }
+        return cycleButton;
     }
 
     @Override
