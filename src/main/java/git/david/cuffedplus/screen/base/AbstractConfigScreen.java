@@ -43,6 +43,14 @@ public abstract class AbstractConfigScreen extends Screen {
         configNavigationBar = new ConfigNavigationBar(0, 0, this.width, this.height);
     }
 
+    @Override
+    public void init() {
+        super.init();
+        configNavigationBar = new ConfigNavigationBar(0, 0, this.width, this.height);
+        configNavigationBar.visitWidgets(this::addRenderableWidget);
+        configNavigationBar.arrangeElements();
+    }
+
     public static Component getDescription(String id, int number) {
         LOGGER.debug("Getting Description of {}  Description Number: {}", id, number);
         if (number > 4) {
@@ -73,13 +81,6 @@ public abstract class AbstractConfigScreen extends Screen {
         return ((WIDTH / COL_AMOUNT + 20) * col);
     }
 
-    @Override
-    public void init() {
-        super.init();
-        configNavigationBar = new ConfigNavigationBar(0, 0, this.width, this.height);
-        configNavigationBar.visitWidgets(this::addRenderableWidget);
-        configNavigationBar.arrangeElements();
-    }
 
     protected CycleButton<?> createCycleButton(Component name, String type, String id) {
         CycleButton cycleButton;

@@ -14,7 +14,6 @@ import static git.david.cuffedplus.CuffedPlusMain.DEBUG;
 
 public class Config {
 
-
     private final static Logger LOGGER = LogUtils.getLogger();
     private static final Style TRUE_BOOL_STYLE = Style.EMPTY.withColor(ChatFormatting.GREEN).withBold(true);
     private static final Style FALSE_BOOL_STYLE = Style.EMPTY.withColor(ChatFormatting.RED).withBold(true);
@@ -34,13 +33,6 @@ public class Config {
             Component.literal("both").setStyle(Styles.getDarkGreenStyle(true))
     };
 
-    private final static Component[] BINDING_BEHAVIOR_OPTIONS = {
-            Component.literal("none").setStyle(Styles.getDarkRedStyle(true)),
-            Component.literal("onlyBind").withStyle(ChatFormatting.BOLD),
-            Component.literal("onlyUnbind").withStyle(ChatFormatting.BOLD),
-            Component.literal("both").setStyle(Styles.getDarkGreenStyle(true))
-    };
-
     private final static Component[] LOCK_BEHAVIOR_OPTIONS = {
             Component.literal("none").setStyle(Styles.getDarkRedStyle(true)),
             Component.literal("onlyLock").withStyle(ChatFormatting.BOLD),
@@ -48,10 +40,18 @@ public class Config {
             Component.literal("both").setStyle(Styles.getDarkGreenStyle(true))
     };
 
+    private final static Component[] BINDING_BEHAVIOR_OPTIONS = {
+            Component.literal("none").setStyle(Styles.getDarkRedStyle(true)),
+            Component.literal("onlyBind").withStyle(ChatFormatting.BOLD),
+            Component.literal("onlyUnbind").withStyle(ChatFormatting.BOLD),
+            Component.literal("both").setStyle(Styles.getDarkGreenStyle(true))
+    };
+
     public static ArrayList<ConfigOption> OPTIONS = new ArrayList<>();
     public static ArrayList<ConfigOption> GENERAL_OPTIONS = new ArrayList<>();
     public static ArrayList<ConfigOption> ROLES_OPTIONS = new ArrayList<>();
     public static ArrayList<ConfigOption> PLAYERS_OPTIONS = new ArrayList<>();
+    public static ArrayList<ConfigOption> OFFICERS_OPTIONS = new ArrayList<>();
     public static ArrayList<ConfigOption> PRISONERS_OPTIONS = new ArrayList<>();
     public static ArrayList<ConfigOption> MISC_OPTIONS = new ArrayList<>();
 
@@ -79,7 +79,7 @@ public class Config {
         GENERAL_OPTIONS.add(new ConfigOption("CAN_PRISONER_ATTACK_PLAYERS_WITHOUT_ROLE", "Can Prisoners Attack Players Without Role", 2, 1, BOOL_OPTIONS));
         GENERAL_OPTIONS.add(new ConfigOption("ALLOW_BREAKING_TIME_LOCKED_RESTRAINTS", "Allow Breaking Time Locked Restraints", 2, 0, BOOL_OPTIONS));
         GENERAL_OPTIONS.add(new ConfigOption("SHOW_INFO_MESSAGES", "Show Info Messages", 2, 0, BOOL_OPTIONS));
-        GENERAL_OPTIONS.add(new ConfigOption("SHOW_SUCCESS_MESSAGES ", "Show Success Messages", 2, 0, BOOL_OPTIONS));
+        GENERAL_OPTIONS.add(new ConfigOption("SHOW_SUCCESS_MESSAGES", "Show Success Messages", 2, 0, BOOL_OPTIONS));
         GENERAL_OPTIONS.add(new ConfigOption("SHOW_FAIL_MESSAGES", "Show Fail Messages", 2, 0, BOOL_OPTIONS));
         GENERAL_OPTIONS.add(new ConfigOption("PUT_PLAYERS_IN_CREATIVE_WHEN_ANTIGOD_RESTRAINTS_TIME_LOCK_RUNS_OUT", "Put Players In Creative When Antigod Restraints Time Lock Runs Out", 2, 0, BOOL_OPTIONS));
 
@@ -90,7 +90,7 @@ public class Config {
         ROLES_OPTIONS.add(new ConfigOption("SHOW_ROLE_PREFIX", "Show Role Prefixes", 2, 0, BOOL_OPTIONS));
         ROLES_OPTIONS.add(new ConfigOption("ROLE_PREFIX_BOLD", "Bold Role Prefixes", 2, 0, BOOL_OPTIONS));
         ROLES_OPTIONS.add(new ConfigOption("PRISONER_ROLE_PREFIX", "Prisoner Role Prefix", 4, 0, new Component[]{Component.literal("[INMATE]").setStyle(Styles.getPrisonStyle(true)), Component.literal("[PRISONER]").setStyle(Styles.getPrisonStyle(true)), Component.literal("[CONVICT]").setStyle(Styles.getPrisonStyle(true)), Component.literal("[D-CLASS]").setStyle(Styles.getPrisonStyle(true))}));
-        ROLES_OPTIONS.add(new ConfigOption("OFFICER_ROLE_PREFIX", "Officer Role Prefix", 2, 0, new Component[]{Component.literal("[OFFICER]").setStyle(Styles.getOfficerStyle(true)), Component.literal("[POLICE]").setStyle(Styles.getOfficerStyle(true))}));
+        ROLES_OPTIONS.add(new ConfigOption("OFFICER_ROLE_PREFIX", "Officer Role Prefix", 2, 0, new Component[]{Component.literal("[OFFICER]").setStyle(Styles.getOfficerStyle(true)), Component.literal("[POLICE]").setStyle(Styles.getOfficerStyle(true)), Component.literal("[COP]").setStyle(Styles.getOfficerStyle(true)), Component.literal("[GUARD]").setStyle(Styles.getOfficerStyle(true))}));
     }
 
     private static void RegisterPlayersConfig() {

@@ -7,13 +7,14 @@ import net.minecraft.network.chat.TextColor;
 public class Styles {
 
     private static final Style prisonStyle = Style.EMPTY.withColor(TextColor.fromRgb(0xff8800));
-    private static final Style officerStyle = Style.EMPTY.withColor(TextColor.fromRgb(0xff8800));
+    private static final Style officerStyle = Style.EMPTY.withColor(TextColor.fromRgb(0x5050ff));
 
     private static final Style TRUE_BOOL_STYLE = Style.EMPTY.withColor(ChatFormatting.GREEN);
     private static final Style FALSE_BOOL_STYLE = Style.EMPTY.withColor(ChatFormatting.RED);
 
     private static final Style DARK_GREEN_STYLE = Style.EMPTY.withColor(ChatFormatting.DARK_GREEN);
     private static final Style DARK_RED_STYLE = Style.EMPTY.withColor(ChatFormatting.RED);
+    private static final Style WHITE_STYLE = Style.EMPTY.withColor(ChatFormatting.WHITE);
 
 
     public static Style getPrisonStyle(boolean bold) {
@@ -38,6 +39,10 @@ public class Styles {
 
     public static Style getDarkRedStyle(boolean bold) {
         return DARK_RED_STYLE.withBold(bold);
+    }
+
+    public static Style getWhiteStyle(boolean bold) {
+        return WHITE_STYLE.withBold(bold);
     }
 
 }

@@ -43,7 +43,7 @@ import javax.annotation.Nonnull;
     This is the main mod class that every forge mod needs to be able to run. For a Cuffed addon there must be some things implement here.
 
 
-    FIRTLY, you need to register your custom restraints in the constructor for your mod, just like any other registry.
+    FIRSTLY, you need to register your custom restraints in the constructor for your mod, just like any other registry.
 
     OPTIONALLY, you can make your restraints dispensable by adding the following to the common setup fml event:
 

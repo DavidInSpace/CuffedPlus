@@ -3,8 +3,11 @@ package git.david.cuffedplus.screen.config;
 import com.mojang.logging.LogUtils;
 import git.david.cuffedplus.config.base.ConfigOption;
 import git.david.cuffedplus.screen.base.AbstractConfigScreen;
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.CycleButton;
+import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.layouts.LinearLayout;
 import net.minecraft.network.chat.Component;
 import org.jetbrains.annotations.NotNull;
@@ -23,6 +26,14 @@ public class GeneralConfigScreen extends AbstractConfigScreen {
 
     @Override public void init() {
         super.init();
+
+        // Add info button
+        this.addRenderableWidget(
+                Button.builder(Component.literal("i").withStyle(ChatFormatting.BOLD), b -> {
+                        })
+                        .bounds(20, 20, 20, 20)
+                        .tooltip(Tooltip.create(Component.literal("General Configs Info")))
+                        .build());
 
         // Create main layout
         LinearLayout layout = new LinearLayout(0, 0, width, height, LinearLayout.Orientation.HORIZONTAL);
