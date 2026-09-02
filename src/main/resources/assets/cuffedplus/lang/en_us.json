@@ -77,5 +77,6 @@
 
   "stat.cuffedplus.prison_jumpsuits_locked": "Prison Jumpsuits Locked",
   "stat.cuffedplus.prison_jumpsuits_unlocked": "Prison Jumpsuits Unlocked",
-  "stat.cuffedplus.prison_jumpsuits_put_on_others": "Prison Jumpsuits Put On Others"
+  "stat.cuffedplus.prison_jumpsuits_put_on_others": "Prison Jumpsuits Put On Others",
+  "key.cuffedplus.config_menu.test": "TEST KEY"
 }

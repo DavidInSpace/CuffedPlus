@@ -1,5 +1,6 @@
 package git.david.cuffedplus.screen.config;
 
+import com.mojang.logging.LogUtils;
 import git.david.cuffedplus.config.base.ConfigOption;
 import git.david.cuffedplus.screen.base.AbstractConfigScreen;
 import net.minecraft.client.gui.GuiGraphics;
@@ -7,11 +8,12 @@ import net.minecraft.client.gui.components.CycleButton;
 import net.minecraft.client.gui.layouts.LinearLayout;
 import net.minecraft.network.chat.Component;
 import org.jetbrains.annotations.NotNull;
+import org.slf4j.Logger;
 
 import static git.david.cuffedplus.config.Config.GENERAL_OPTIONS;
 
 public class GeneralConfigScreen extends AbstractConfigScreen {
-
+    private final static Logger LOGGER = LogUtils.getLogger();
     private static final Component SCREEN_TITLE = Component.literal("General Config Screen");
 
 

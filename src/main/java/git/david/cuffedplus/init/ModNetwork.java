@@ -1,22 +1,25 @@
 package git.david.cuffedplus.init;
 
+import com.mojang.logging.LogUtils;
 import git.david.cuffedplus.net.ApplyJumpsuitSettingsPacket;
 import git.david.cuffedplus.net.C2SConfigPacket;
-import git.david.cuffedplus.net.S2CConfigPacket;
+import git.david.cuffedplus.net.ConfigSyncPacket;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.network.NetworkRegistry;
 import net.minecraftforge.network.PacketDistributor;
 import net.minecraftforge.network.simple.SimpleChannel;
+import org.slf4j.Logger;
 
 import java.util.function.Supplier;
 
 import static git.david.cuffedplus.CuffedPlusMain.MODID;
 
 public class ModNetwork {
+    private final static Logger LOGGER = LogUtils.getLogger();
     private static final String PROTOCOL_VERSION = "1.0";
 
-    private static final SimpleChannel INSTANCE = NetworkRegistry.ChannelBuilder
+    public static final SimpleChannel INSTANCE = NetworkRegistry.ChannelBuilder
             .named(ResourceLocation.fromNamespaceAndPath(MODID, "main"))
             .serverAcceptedVersions(PROTOCOL_VERSION::equals)
             .clientAcceptedVersions(PROTOCOL_VERSION::equals)
@@ -36,10 +39,10 @@ public class ModNetwork {
                 .consumerMainThread(C2SConfigPacket::handle)
                 .add();
 
-        INSTANCE.messageBuilder(S2CConfigPacket.class, 2)
-                .encoder(S2CConfigPacket::encode)
-                .decoder(S2CConfigPacket::decode)
-                .consumerMainThread(S2CConfigPacket::handle)
+        INSTANCE.messageBuilder(ConfigSyncPacket.class, 2)
+                .encoder(ConfigSyncPacket::encode)
+                .decoder(ConfigSyncPacket::new)
+                .consumerMainThread(ConfigSyncPacket::handle)
                 .add();
     }
 
@@ -54,4 +57,6 @@ public class ModNetwork {
     public static void sendToAllClients(Object msg) {
         INSTANCE.send(PacketDistributor.ALL.noArg(), msg);
     }
+
+
 }

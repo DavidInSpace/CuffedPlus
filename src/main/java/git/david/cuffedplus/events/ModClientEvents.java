@@ -2,6 +2,7 @@ package git.david.cuffedplus.events;
 
 
 import com.lazrproductions.cuffed.entity.base.IRestrainableEntity;
+import com.mojang.logging.LogUtils;
 import git.david.cuffedplus.CuffedPlusMain;
 import git.david.cuffedplus.client.Keybindings;
 import git.david.cuffedplus.init.ModMenuTypes;
@@ -26,13 +27,14 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
+import org.slf4j.Logger;
 
 import java.util.Random;
 
 
 @Mod.EventBusSubscriber(modid = CuffedPlusMain.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ModClientEvents {
-
+    private final static Logger LOGGER = LogUtils.getLogger();
     @SubscribeEvent
     public void clientChatEvent(ClientChatEvent event) {
     }
@@ -57,6 +59,11 @@ public class ModClientEvents {
     @SubscribeEvent
     public void onClientTick(TickEvent.ClientTickEvent event) {
         Minecraft minecraft = Minecraft.getInstance();
+        if (Keybindings.INSTANCE.testKey.consumeClick() && minecraft.player != null) {
+            System.out.println("TEST KEY PRESSED");
+            //ModNetwork.sendToServer(new C2SConfigPacket("TEST", null, "get"));
+        }
+
         if (Keybindings.INSTANCE.openConfigKey.consumeClick() && minecraft.player != null) {
 
             minecraft.forceSetScreen(new GeneralConfigScreen());
@@ -87,7 +94,6 @@ public class ModClientEvents {
     public static void commonSetup(FMLCommonSetupEvent event) {
         event.enqueueWork(() -> {
             ModNetwork.register();
-
         });
     }
 

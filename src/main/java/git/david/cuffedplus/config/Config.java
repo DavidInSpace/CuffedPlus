@@ -11,6 +11,8 @@ import org.slf4j.Logger;
 import java.util.ArrayList;
 
 public class Config {
+
+
     private final static Logger LOGGER = LogUtils.getLogger();
     private static final Style TRUE_BOOL_STYLE = Style.EMPTY.withColor(ChatFormatting.GREEN).withBold(true);
     private static final Style FALSE_BOOL_STYLE = Style.EMPTY.withColor(ChatFormatting.RED).withBold(true);

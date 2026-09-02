@@ -1,5 +1,6 @@
 package git.david.cuffedplus.screen;
 
+import com.mojang.logging.LogUtils;
 import git.david.cuffedplus.constants.Styles;
 import git.david.cuffedplus.screen.config.*;
 import net.minecraft.ChatFormatting;
@@ -7,8 +8,10 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.layouts.LinearLayout;
 import net.minecraft.network.chat.Component;
+import org.slf4j.Logger;
 
 public class ConfigNavigationBar extends LinearLayout {
+    private final static Logger LOGGER = LogUtils.getLogger();
     private static String pressedButton = "";
 
     final static byte CATEGORIES_AMOUNT = 5;

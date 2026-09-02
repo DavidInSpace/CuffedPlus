@@ -13,6 +13,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import org.jetbrains.annotations.NotNull;
 
 public class CuffTableMenuScreen extends AbstractContainerScreen<CuffTableMenu> {
     private static final ResourceLocation MENU_TEXTURE = ResourceLocation.fromNamespaceAndPath("cuffedplus", "textures/gui/menus/cuffs_menu.png");
@@ -106,7 +107,7 @@ public class CuffTableMenuScreen extends AbstractContainerScreen<CuffTableMenu> 
 
 
     @Override
-    protected void renderBg(GuiGraphics guiGraphics, float partialTick, int mouseX, int mouseY) {
+    protected void renderBg(@NotNull GuiGraphics guiGraphics, float partialTick, int mouseX, int mouseY) {
         RenderSystem.setShaderTexture(0, MENU_TEXTURE);
 
         ItemStack stack = this.menu.getSlot(0).getItem(); // Slot 0 = block slot
@@ -125,7 +126,7 @@ public class CuffTableMenuScreen extends AbstractContainerScreen<CuffTableMenu> 
     }
 
     @Override
-    public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
+    public void render(@NotNull GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
 
         ItemStack stack = this.menu.getSlot(0).getItem();
             Item item = stack.getItem();

@@ -1,16 +1,23 @@
 package git.david.cuffedplus.config;
 
+import com.mojang.logging.LogUtils;
 import git.david.cuffedplus.config.base.ConfigOption;
+import git.david.cuffedplus.init.ModNetwork;
+import git.david.cuffedplus.net.ConfigSyncPacket;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.saveddata.SavedData;
 import org.jetbrains.annotations.NotNull;
+import org.slf4j.Logger;
 
 import java.util.HashMap;
 
 import static git.david.cuffedplus.config.Config.OPTIONS;
 
 public class ConfigSaveData extends SavedData {
+    private final static Logger LOGGER = LogUtils.getLogger();
+
+
     private HashMap<String, String> options = new HashMap<>();
 
     private ConfigSaveData(HashMap<String, String> list) {
@@ -54,30 +61,57 @@ public class ConfigSaveData extends SavedData {
             this.options.replace(configOption.getID(), configOption.getValues()[configOption.getDefaultValue()].getString());
         }
         this.setDirty();
+        ModNetwork.sendToAllClients(new ConfigSyncPacket(this.options));
     }
 
-    public void resetToDefault(String id) {
+    public void resetCategoryToDefault(String category) {
+        if (category.equals("general")) {
+
+        } else if (category.equals("roles")) {
+
+        }
+        if (category.equals("prisoners")) {
+
+        }
+        if (category.equals("players")) {
+
+        }
+        if (category.equals("misc")) {
+
+        }
+
+
+        this.setDirty();
+        ModNetwork.sendToAllClients(new ConfigSyncPacket(this.options));
+    }
+
+    public void resetOptionToDefault(String id) {
         for (ConfigOption configOption : OPTIONS) {
             if (configOption.getID().equals(id)) {
                 this.options.replace(configOption.getID(), configOption.getID());
             }
         }
         this.setDirty();
+        ModNetwork.sendToAllClients(new ConfigSyncPacket(this.options));
     }
 
 
     public void setOption(String id, String value) {
         this.options.replace(id, value);
         this.setDirty();
+        ModNetwork.sendToAllClients(new ConfigSyncPacket(this.options));
     }
 
 
     public static ConfigSaveData compute(ServerLevel level) {
-        return level.getDataStorage().computeIfAbsent(
+
+        ConfigSaveData data = level.getDataStorage().computeIfAbsent(
                 ConfigSaveData::load,
                 ConfigSaveData::new,
                 "cuffedplus_config"
         );
+        ModNetwork.sendToAllClients(new ConfigSyncPacket(data.getOptions()));
+        return data;
     }
 
 

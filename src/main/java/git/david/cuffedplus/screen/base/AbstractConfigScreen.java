@@ -1,10 +1,10 @@
 package git.david.cuffedplus.screen.base;
 
 import com.mojang.logging.LogUtils;
-import git.david.cuffedplus.config.ConfigSaveData;
 import git.david.cuffedplus.config.base.ConfigOption;
 import git.david.cuffedplus.config.base.DescriptionHolder;
 import git.david.cuffedplus.constants.Styles;
+import git.david.cuffedplus.events.ClientConfig;
 import git.david.cuffedplus.init.ModNetwork;
 import git.david.cuffedplus.net.C2SConfigPacket;
 import git.david.cuffedplus.screen.ConfigNavigationBar;
@@ -14,11 +14,13 @@ import net.minecraft.client.gui.components.CycleButton;
 import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
-import net.minecraft.server.level.ServerLevel;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 
 import static git.david.cuffedplus.config.Config.getOptionById;
 import static git.david.cuffedplus.config.base.ConfigDescriptions.DESCRIPTIONS;
@@ -33,14 +35,6 @@ public abstract class AbstractConfigScreen extends Screen {
     private final static int CYCLE_BUTTON_WIDTH = 200;
     public boolean isActive = false;
     protected static ConfigNavigationBar configNavigationBar;
-    private static ServerLevel serverLevel;
-
-    public static void setServerLevel(ServerLevel SL) {
-        serverLevel = SL;
-
-
-    }
-
 
     private static int WIDTH;
 
@@ -59,35 +53,40 @@ public abstract class AbstractConfigScreen extends Screen {
         configNavigationBar.arrangeElements();
     }
 
-
     protected CycleButton<?> createCycleButton(Component name, String type, String id) {
         CycleButton cycleButton;
         ConfigOption configOption = getOptionById(id);
         Component[] options = configOption.getValues();
         String defaultOption;
-        ModNetwork.sendToServer(new C2SConfigPacket(id, null, "get"));
-
-
-        ConfigSaveData data = ConfigSaveData.compute(serverLevel);
         try {
             defaultOption = options[configOption.getDefaultValue()].getString();
         } catch (IndexOutOfBoundsException e) {
             defaultOption = options[0].getString();
         }
+
+        Collection<String> values = new ArrayList<>(Collections.emptyList());
+
+        for (Component option : options) {
+            values.add(option.getString());
+        }
+
+        // FIXME: The string cycle buttons seem to be stuck at the only value "none" and can not be cycled
         if (type.equalsIgnoreCase("string")) {
             cycleButton = CycleButton.builder(Component::literal)
-                    .withValues(Arrays.stream(options).iterator().next().getString()).withInitialValue(data.getOptionByID(id))
+                    .withValues(values).withInitialValue(ClientConfig.getValue(id))
                     .create(0, 0, CYCLE_BUTTON_WIDTH, CYCLE_BUTTON_HEIGHT, name, (btn, str) -> {
-                        ModNetwork.sendToServer(new C2SConfigPacket(id, str, "put"));
+                        ModNetwork.sendToServer(new C2SConfigPacket(id, str));
                         btn.setTooltip(Tooltip.create(Component.literal(configOption.getName() + "\n\n").withStyle(ChatFormatting.BOLD).append(getDescription(id, configOption.getDescriptionNum()))));
                     });
+            cycleButton.setTooltip(Tooltip.create(Component.literal(configOption.getName() + "\n\n").withStyle(ChatFormatting.BOLD).append(getDescription(id, configOption.getDescriptionNum()))));
         } else if (type.equalsIgnoreCase("boolean")) {
             cycleButton = CycleButton.booleanBuilder(Component.literal("True").setStyle(Styles.getTrueStyle(true)), Component.literal("False").setStyle(Styles.getFalseStyle(true)))
-                    .withInitialValue(Boolean.valueOf(data.getOptionByID(id)))
+                    .withInitialValue(Boolean.valueOf(ClientConfig.getValue(id)))
                     .create(0, 0, CYCLE_BUTTON_WIDTH, CYCLE_BUTTON_HEIGHT, name, (btn, bool) -> {
-                        ModNetwork.sendToServer(new C2SConfigPacket(id, bool.toString(), "put"));
+                        ModNetwork.sendToServer(new C2SConfigPacket(id, bool.toString()));
                         btn.setTooltip(Tooltip.create(Component.literal(configOption.getName() + "\n\n").withStyle(ChatFormatting.BOLD).append(getDescription(id, configOption.getDescriptionNum()))));
                     });
+            cycleButton.setTooltip(Tooltip.create(Component.literal(configOption.getName() + "\n\n").withStyle(ChatFormatting.BOLD).append(getDescription(id, configOption.getDescriptionNum()))));
         } else {
             return CycleButton.builder(Component::literal)
                     .withValues(Arrays.toString(options)).withInitialValue(defaultOption)
@@ -97,9 +96,7 @@ public abstract class AbstractConfigScreen extends Screen {
     }
 
     public static Component getDescription(String id, int number) {
-        LOGGER.debug("Config ID: {}   Number: {}", id, number);
-
-        // Minus 1 so the index wont be out of bounce
+        LOGGER.debug("Getting Description of {}  Description Number: {}", id, number);
         if (number > 4) {
             return Component.literal("There can only be 4 values at most").withStyle(ChatFormatting.RED).withStyle(ChatFormatting.BOLD);
         } // There can only be 4 descriptions at most
@@ -128,17 +125,9 @@ public abstract class AbstractConfigScreen extends Screen {
         return ((WIDTH / COL_AMOUNT + 20) * col);
     }
 
-
     @Override
     public void render(@NotNull GuiGraphics graphics, int mouseX, int mouseY, float partialTick) {
-        // Background is typically rendered first
         this.renderBackground(graphics);
-
-        // Render things here before widgets (background textures)
-
-        // Then the widgets if this is a direct child of the Screen
         super.render(graphics, mouseX, mouseY, partialTick);
-
-
     }
 }

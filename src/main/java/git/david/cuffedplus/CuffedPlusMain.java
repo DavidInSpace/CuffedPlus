@@ -12,6 +12,7 @@ import git.david.cuffedplus.config.base.ConfigDescriptions;
 import git.david.cuffedplus.events.ModClientEvents;
 import git.david.cuffedplus.init.*;
 import git.david.cuffedplus.logic.*;
+import git.david.cuffedplus.screen.base.ClientPacketsReceiver;
 import net.minecraft.core.BlockSource;
 import net.minecraft.core.dispenser.DispenseItemBehavior;
 import net.minecraft.core.dispenser.OptionalDispenseItemBehavior;
@@ -97,6 +98,7 @@ import javax.annotation.Nonnull;
 
 @Mod(CuffedPlusMain.MODID)
 public class CuffedPlusMain {
+
     public static final String MODID = "cuffedplus";
     public static final Logger LOGGER = LogManager.getLogger(CuffedPlusMain.MODID);
     //public static final CuffedPlusServerConfig CuffedPlusMain.SERVER_CONFIG = new CuffedPlusServerConfig(MODID, ModCuffedPlusMain.SERVER_CONFIG.Type.SERVER);
@@ -128,26 +130,13 @@ public class CuffedPlusMain {
         MinecraftForge.EVENT_BUS.register(new TakeOffLogic());
         MinecraftForge.EVENT_BUS.register(new GearModifiersLogic());
         MinecraftForge.EVENT_BUS.register(new AttackBehavior());
+        MinecraftForge.EVENT_BUS.register(new ClientPacketsReceiver());
 
         modEventBus.addListener(this::onRegister);
         modEventBus.addListener(this::commonSetup);
 
         Config.RegisterConfig();
         ConfigDescriptions.initDescriptions();
-
-        ;
-        ;
-        ;
-        ;
-        ;
-        ;
-        ;
-        ;
-        ;
-        ;
-        ;
-        ;
-
     }
 
     private void commonSetup(final FMLCommonSetupEvent event) {
@@ -195,9 +184,9 @@ public class CuffedPlusMain {
 
         @SubscribeEvent
         public static void registerKeys(RegisterKeyMappingsEvent event) {
-            System.out.println("REGISTERING KEYS ");
+            LOGGER.info("Cuffed Plus: Registering Keys");
             event.register(Keybindings.INSTANCE.openConfigKey);
-            event.register(Keybindings.INSTANCE.examplePacketKey);
+            event.register(Keybindings.INSTANCE.testKey);
         }
 
         @SubscribeEvent
