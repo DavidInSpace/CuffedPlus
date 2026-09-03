@@ -1,6 +1,6 @@
 package git.david.cuffedplus.items.item.base;
 
-import git.david.cuffedplus.CuffedPlusMain;
+import git.david.cuffedplus.config.ConfigHandler;
 import git.david.cuffedplus.init.ModStatistics;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
@@ -42,17 +42,15 @@ public class AnkleMonitorKey extends Item {
             return InteractionResultHolder.fail(itemInHand);
 
         if (currentFeet.getOrCreateTag().getBoolean("Locked")) {
+            // UNLOCKING
 
-
-            // TODO: Make a helper function to check whether players can do a certain action instead of reusing code
-            if (CuffedPlusMain.SERVER_CONFIG.getPlayersOwnAnkleMonitorLockBehavior().equals("onlyLock") || CuffedPlusMain.SERVER_CONFIG.getPlayersOwnAnkleMonitorLockBehavior().equals("none")) {
+            if (ConfigHandler.handleOwnAnkleMonitorLockBehavior(player, "unlock")) {
                 player.playSound(SoundEvents.IRON_DOOR_CLOSE, 1, (float) Math.random() * 1.5F);
                 player.displayClientMessage(Component.literal("🔒 You can not unlock your own ankle monitor 🔒").withStyle(ChatFormatting.RED), true);
                 return InteractionResultHolder.fail(itemInHand);
             }
 
-            // TODO: Make a helper function to check whether prisoners can do a certain action instead of reusing code
-            if (player.getTags().contains("prisoner") && CuffedPlusMain.SERVER_CONFIG.getPrisonersOwnAnkleMonitorLockBehavior().equals("onlyLock".toLowerCase()) || (CuffedPlusMain.SERVER_CONFIG.getPrisonersOwnAnkleMonitorLockBehavior().equals("none"))) {
+            if (ConfigHandler.handleOwnAnkleMonitorLockBehavior(player, "unlock")) {
                 player.playSound(SoundEvents.IRON_DOOR_CLOSE, 1, (float) Math.random() * 1.5F);
                 player.displayClientMessage(Component.literal("🔒 You are a prisoner!  Prisoners can not unlock their own ankle monitor 🔒").withStyle(ChatFormatting.RED), true);
                 return InteractionResultHolder.fail(itemInHand);
@@ -63,13 +61,13 @@ public class AnkleMonitorKey extends Item {
             currentFeet.getOrCreateTag().putBoolean("Locked", false);
             ModStatistics.awardGearUnlocked((ServerPlayer) player, itemInHand.getItem());
         } else if (!currentFeet.getOrCreateTag().getBoolean("Locked")) {
-
-            if (CuffedPlusMain.SERVER_CONFIG.getPlayersOwnAnkleMonitorLockBehavior().equals("onlyUnlock".toLowerCase()) || CuffedPlusMain.SERVER_CONFIG.getPlayersOwnAnkleMonitorLockBehavior().equals("none")) {
+            // LOCKING
+            if (ConfigHandler.handleOwnAnkleMonitorLockBehavior(player, "lock")) {
                 player.displayClientMessage(Component.literal("× You can not lock your own ankle monitor ×").withStyle(ChatFormatting.RED), true);
                 return InteractionResultHolder.fail(itemInHand);
             }
 
-            if (player.getTags().contains("prisoner") && CuffedPlusMain.SERVER_CONFIG.getPrisonersOwnAnkleMonitorLockBehavior().equals("onlyUnlock".toLowerCase()) || (CuffedPlusMain.SERVER_CONFIG.getPrisonersOwnAnkleMonitorLockBehavior().equals("none"))) {
+            if (ConfigHandler.handleOwnAnkleMonitorLockBehavior(player, "lock")) {
                 player.displayClientMessage(Component.literal("× ️️You are a prisoner!  Prisoners can not lock their own ankle monitor ×").withStyle(ChatFormatting.RED), true);
                 return InteractionResultHolder.fail(itemInHand);
             }
@@ -94,34 +92,20 @@ public class AnkleMonitorKey extends Item {
         if (!(target instanceof Player)) return InteractionResult.FAIL;
 
         if (targetFeet.getOrCreateTag().getBoolean("Locked")) {
-
-            if (CuffedPlusMain.SERVER_CONFIG.getOtherPlayersAnkleMonitorLockBehavior().equals("onlyLock") || CuffedPlusMain.SERVER_CONFIG.getOtherPlayersAnkleMonitorLockBehavior().equals("none")) {
+            // UNLOCK
+            if (ConfigHandler.handleOthersAnkleMonitorLockBehavior(user, "unlock")) {
                 user.playSound(SoundEvents.IRON_DOOR_CLOSE, 1, (float) Math.random() * 1.5F);
-                user.displayClientMessage(Component.literal("🔒 You can not unlock other players ankle monitor 🔒").withStyle(ChatFormatting.RED), true);
                 return InteractionResult.FAIL;
             }
 
-            if (user.getTags().contains("prisoner") && CuffedPlusMain.SERVER_CONFIG.getOtherPrisonersAnkleMonitorLockBehavior().equals("onlyLock".toLowerCase()) || (CuffedPlusMain.SERVER_CONFIG.getOtherPrisonersAnkleMonitorLockBehavior().equals("none"))) {
-                user.playSound(SoundEvents.IRON_DOOR_CLOSE, 1, (float) Math.random() * 1.5F);
-                user.displayClientMessage(Component.literal("🔒 You are a prisoner!  Prisoners can not unlock other players ankle monitor 🔒").withStyle(ChatFormatting.RED), true);
-                return InteractionResult.FAIL;
-            }
 
             target.playSound(SoundEvents.ARMOR_EQUIP_CHAIN, 1, 1.5F);
             user.playSound(SoundEvents.ARMOR_EQUIP_CHAIN, 1, 1.5F);
             targetFeet.getOrCreateTag().putBoolean("Locked", false);
             ModStatistics.awardGearUnlocked((ServerPlayer) user, user.getItemInHand(hand).getItem());
         } else if (!targetFeet.getOrCreateTag().getBoolean("Locked")) {
-
-            if (CuffedPlusMain.SERVER_CONFIG.getOtherPlayersAnkleMonitorLockBehavior().equals("onlyUnlock") || CuffedPlusMain.SERVER_CONFIG.getOtherPlayersAnkleMonitorLockBehavior().equals("none")) {
-                user.playSound(SoundEvents.IRON_DOOR_CLOSE, 1, (float) Math.random() * 1.5F);
-                user.displayClientMessage(Component.literal("× You can not lock other players ankle monitor ×").withStyle(ChatFormatting.RED), true);
-                return InteractionResult.FAIL;
-            }
-
-            if (user.getTags().contains("prisoner") && CuffedPlusMain.SERVER_CONFIG.getOtherPrisonersAnkleMonitorLockBehavior().equals("onlyUnlock".toLowerCase()) || (CuffedPlusMain.SERVER_CONFIG.getOtherPrisonersAnkleMonitorLockBehavior().equals("none"))) {
-                user.playSound(SoundEvents.IRON_DOOR_CLOSE, 1, (float) Math.random() * 1.5F);
-                user.displayClientMessage(Component.literal(" You are a prisoner!  Prisoners can not lock other players ankle monitor ").withStyle(ChatFormatting.RED), true);
+            // LOCK
+            if (ConfigHandler.handleOthersAnkleMonitorLockBehavior(user, "lock")) {
                 return InteractionResult.FAIL;
             }
 

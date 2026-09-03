@@ -53,8 +53,18 @@ public class ConfigSaveData extends SavedData {
         return this.options.getOrDefault(id, Config.getOptionById(id).getValues()[Config.getOptionById(id).getDefaultValue()].getString());
     }
 
-    public HashMap<String, String> getOptions() {
-        return this.options;
+    public HashMap<String, String> getOptions(boolean fillEmpty) {
+
+
+        HashMap<String, String> optionsMap = new HashMap<>();
+        for (ConfigOption option : OPTIONS) {
+            String id = option.getID();
+            optionsMap.put(id, this.options.get(id));
+            if (fillEmpty && (this.options.get(id).isEmpty() || this.options.get(id) == null || this.options.get(id).isBlank())) {
+                optionsMap.put(id, option.getValue(option.getDefaultValue()).getString());
+            }
+        }
+        return optionsMap;
     }
 
     public void resetAllToDefault() {
@@ -113,8 +123,8 @@ public class ConfigSaveData extends SavedData {
                 ConfigSaveData::new,
                 "cuffedplus_config"
         );
-        if (DEBUG) LOGGER.debug("compute ConfigSyncPacket with options {}", data.getOptions());
-        ModNetwork.sendToAllClients(new ConfigSyncPacket(data.getOptions()));
+        if (DEBUG) LOGGER.debug("compute ConfigSyncPacket with options {}", data.getOptions(false));
+        ModNetwork.sendToAllClients(new ConfigSyncPacket(data.getOptions(true)));
         return data;
     }
 

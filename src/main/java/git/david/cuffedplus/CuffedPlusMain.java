@@ -7,12 +7,11 @@ import git.david.cuffedplus.client.Keybindings;
 import git.david.cuffedplus.command.CuffedPlusCommand;
 import git.david.cuffedplus.config.AttackBehavior;
 import git.david.cuffedplus.config.Config;
-import git.david.cuffedplus.config.CuffedPlusServerConfig;
 import git.david.cuffedplus.config.base.ConfigDescriptions;
+import git.david.cuffedplus.events.LoginEvent;
 import git.david.cuffedplus.events.ModClientEvents;
 import git.david.cuffedplus.init.*;
 import git.david.cuffedplus.logic.*;
-import git.david.cuffedplus.screen.base.ClientPacketsReceiver;
 import net.minecraft.core.BlockSource;
 import net.minecraft.core.dispenser.DispenseItemBehavior;
 import net.minecraft.core.dispenser.OptionalDispenseItemBehavior;
@@ -26,7 +25,6 @@ import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.ForgeRegistries.Keys;
@@ -104,7 +102,6 @@ public class CuffedPlusMain {
     public static final String MODID = "cuffedplus";
     public static final Logger LOGGER = LogManager.getLogger(CuffedPlusMain.MODID);
     //public static final CuffedPlusServerConfig CuffedPlusMain.SERVER_CONFIG = new CuffedPlusServerConfig(MODID, ModCuffedPlusMain.SERVER_CONFIG.Type.SERVER);
-    public static final CuffedPlusServerConfig SERVER_CONFIG = new CuffedPlusServerConfig(MODID, ModConfig.Type.SERVER);
 
     public CuffedPlusMain(FMLJavaModLoadingContext ctx) {
         LOGGER.info("Cuffed Plus: Running CuffedPlusMain");
@@ -121,8 +118,6 @@ public class CuffedPlusMain {
         ModStatistics.register(modEventBus);
         ModRecipes.SERIALIZERS.register(modEventBus);
 
-        CuffedPlusMain.SERVER_CONFIG.registerConfig(ctx);
-
         MinecraftForge.EVENT_BUS.register(this);
 
         MinecraftForge.EVENT_BUS.register(new KeepLockedGearOnDeathLogic());
@@ -132,13 +127,14 @@ public class CuffedPlusMain {
         MinecraftForge.EVENT_BUS.register(new TakeOffLogic());
         MinecraftForge.EVENT_BUS.register(new GearModifiersLogic());
         MinecraftForge.EVENT_BUS.register(new AttackBehavior());
-        MinecraftForge.EVENT_BUS.register(new ClientPacketsReceiver());
+        MinecraftForge.EVENT_BUS.register(new LoginEvent());
 
         modEventBus.addListener(this::onRegister);
         modEventBus.addListener(this::commonSetup);
 
         Config.RegisterConfig();
         ConfigDescriptions.initDescriptions();
+        Config.printAllOptions();
     }
 
     private void commonSetup(final FMLCommonSetupEvent event) {

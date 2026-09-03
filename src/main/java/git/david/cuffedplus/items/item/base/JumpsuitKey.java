@@ -1,6 +1,6 @@
 package git.david.cuffedplus.items.item.base;
 
-import git.david.cuffedplus.CuffedPlusMain;
+import git.david.cuffedplus.config.ConfigHandler;
 import git.david.cuffedplus.init.ModStatistics;
 import git.david.cuffedplus.utils.GeneralUtils;
 import net.minecraft.ChatFormatting;
@@ -43,18 +43,10 @@ public class JumpsuitKey extends Item {
 
 
         if (currentChest.getOrCreateTag().getBoolean("Locked")) {
+            // UNLOCK
 
-            // TODO: Make a helper function to check whether players can do a certain action instead of reusing code
-            if (CuffedPlusMain.SERVER_CONFIG.getPlayersOwnJumpsuitLockBehavior().equals("onlyLock".toLowerCase()) || CuffedPlusMain.SERVER_CONFIG.getPlayersOwnJumpsuitLockBehavior().equals("none")) {
+            if (ConfigHandler.handleOwnJumpsuitLockBehavior(player, "unlock")) {
                 player.playSound(SoundEvents.IRON_DOOR_CLOSE, 1, (float) Math.random() * 1.5F);
-                player.displayClientMessage(Component.literal("🔒 You can not unlock your own jumpsuit 🔒").withStyle(ChatFormatting.RED), true);
-                return InteractionResultHolder.fail(itemInHand);
-            }
-
-            // TODO: Make a helper function to check whether prisoners can do a certain action instead of reusing code
-            if (player.getTags().contains("prisoner") && CuffedPlusMain.SERVER_CONFIG.getPrisonersOwnJumpsuitLockBehavior().equals("onlyLock".toLowerCase()) || (CuffedPlusMain.SERVER_CONFIG.getPrisonersOwnJumpsuitLockBehavior().equals("none"))) {
-                player.playSound(SoundEvents.IRON_DOOR_CLOSE, 1, (float) Math.random() * 1.5F);
-                player.displayClientMessage(Component.literal("🔒 You are a prisoner!  Prisoners can not unlock their own jumpsuit 🔒").withStyle(ChatFormatting.RED), true);
                 return InteractionResultHolder.fail(itemInHand);
             }
 
@@ -63,14 +55,9 @@ public class JumpsuitKey extends Item {
             currentChest.getOrCreateTag().putBoolean("Locked", false);
             ModStatistics.awardGearUnlocked((ServerPlayer) player, itemInHand.getItem());
         } else if (!currentChest.getOrCreateTag().getBoolean("Locked")) {
+            // LOCK
 
-            if (CuffedPlusMain.SERVER_CONFIG.getPlayersOwnJumpsuitLockBehavior().equals("onlyUnlock".toLowerCase()) || CuffedPlusMain.SERVER_CONFIG.getPlayersOwnJumpsuitLockBehavior().equals("none")) {
-                player.displayClientMessage(Component.literal("× You can not lock your own jumpsuit ×").withStyle(ChatFormatting.RED), true);
-                return InteractionResultHolder.fail(itemInHand);
-            }
-
-            if (player.getTags().contains("prisoner") && CuffedPlusMain.SERVER_CONFIG.getPrisonersOwnJumpsuitLockBehavior().equals("onlyUnlock".toLowerCase()) || (CuffedPlusMain.SERVER_CONFIG.getPrisonersOwnJumpsuitLockBehavior().equals("none"))) {
-                player.displayClientMessage(Component.literal("× ️️You are a prisoner!  Prisoners can not lock their own jumpsuit ×").withStyle(ChatFormatting.RED), true);
+            if (ConfigHandler.handleOwnJumpsuitLockBehavior(player, "lock")) {
                 return InteractionResultHolder.fail(itemInHand);
             }
 
@@ -95,16 +82,9 @@ public class JumpsuitKey extends Item {
 
 
         if (targetChest.getOrCreateTag().getBoolean("Locked")) {
-
-            if (CuffedPlusMain.SERVER_CONFIG.getOtherPlayersJumpsuitLockBehavior().equals("onlyLock") || CuffedPlusMain.SERVER_CONFIG.getOtherPlayersJumpsuitLockBehavior().equals("none")) {
+            // UNLOCK
+            if (ConfigHandler.handleOthersAnkleMonitorLockBehavior(user, "unlock")) {
                 user.playSound(SoundEvents.IRON_DOOR_CLOSE, 1, (float) Math.random() * 1.5F);
-                user.displayClientMessage(Component.literal("🔒 You can not unlock other players jumpsuit 🔒").withStyle(ChatFormatting.RED), true);
-                return InteractionResult.FAIL;
-            }
-
-            if (user.getTags().contains("prisoner") && CuffedPlusMain.SERVER_CONFIG.getOtherPrisonersJumpsuitLockBehavior().equals("onlyLock".toLowerCase()) || (CuffedPlusMain.SERVER_CONFIG.getOtherPrisonersJumpsuitLockBehavior().equals("none"))) {
-                user.playSound(SoundEvents.IRON_DOOR_CLOSE, 1, (float) Math.random() * 1.5F);
-                user.displayClientMessage(Component.literal("🔒 You are a prisoner!  Prisoners can not unlock other players jumpsuit 🔒").withStyle(ChatFormatting.RED), true);
                 return InteractionResult.FAIL;
             }
 
@@ -115,16 +95,9 @@ public class JumpsuitKey extends Item {
             targetChest.getOrCreateTag().putBoolean("Locked", false);
             ModStatistics.awardGearUnlocked((ServerPlayer) user, user.getItemInHand(hand).getItem());
         } else if (!targetChest.getOrCreateTag().getBoolean("Locked")) {
-
-            if (CuffedPlusMain.SERVER_CONFIG.getOtherPlayersJumpsuitLockBehavior().equals("onlyUnlock") || CuffedPlusMain.SERVER_CONFIG.getOtherPlayersJumpsuitLockBehavior().equals("none")) {
+            // LOCK
+            if (ConfigHandler.handleOthersAnkleMonitorLockBehavior(user, "lock")) {
                 user.playSound(SoundEvents.IRON_DOOR_CLOSE, 1, (float) Math.random() * 1.5F);
-                user.displayClientMessage(Component.literal("× You can not lock other players jumpsuit ×").withStyle(ChatFormatting.RED), true);
-                return InteractionResult.FAIL;
-            }
-
-            if (user.getTags().contains("prisoner") && CuffedPlusMain.SERVER_CONFIG.getOtherPrisonersJumpsuitLockBehavior().equals("onlyUnlock".toLowerCase()) || (CuffedPlusMain.SERVER_CONFIG.getOtherPrisonersJumpsuitLockBehavior().equals("none"))) {
-                user.playSound(SoundEvents.IRON_DOOR_CLOSE, 1, (float) Math.random() * 1.5F);
-                user.displayClientMessage(Component.literal(" You are a prisoner!  Prisoners can not lock other players jumpsuit ").withStyle(ChatFormatting.RED), true);
                 return InteractionResult.FAIL;
             }
 

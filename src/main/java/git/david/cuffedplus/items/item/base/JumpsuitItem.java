@@ -1,7 +1,7 @@
 package git.david.cuffedplus.items.item.base;
 
 
-import git.david.cuffedplus.CuffedPlusMain;
+import git.david.cuffedplus.config.ConfigHandler;
 import git.david.cuffedplus.init.ModStatistics;
 import git.david.cuffedplus.utils.GeneralUtils;
 import net.minecraft.ChatFormatting;
@@ -82,16 +82,11 @@ public class JumpsuitItem extends Item {
         if (user.level().isClientSide && !(target instanceof Player)) return InteractionResult.FAIL;
 
         if (!target.hasItemInSlot(EquipmentSlot.CHEST)) {
-
-            if (CuffedPlusMain.SERVER_CONFIG.getOtherPlayersJumpsuitBehavior().equals("onlyTakeOff".toLowerCase()) || (CuffedPlusMain.SERVER_CONFIG.getOtherPlayersJumpsuitBehavior().equals("none"))) {
-                user.displayClientMessage(Component.literal("× You can't put jumpsuits on others ×").withStyle(ChatFormatting.GOLD).withStyle(ChatFormatting.BOLD), true);
+            // PUT ON
+            if (ConfigHandler.handleOthersJumpsuitBehavior(user, "putOn")) {
                 return InteractionResult.FAIL;
             }
 
-            if (user.getTags().contains("prisoner") && CuffedPlusMain.SERVER_CONFIG.getOtherPrisonersJumpsuitBehavior().equals("onlyTakeOff".toLowerCase()) || CuffedPlusMain.SERVER_CONFIG.getOtherPrisonersJumpsuitBehavior().equals("none")) {
-                user.displayClientMessage(Component.literal("× You are a prisoner!  Prisoners can't put jumpsuits on others ×").withStyle(ChatFormatting.GOLD).withStyle(ChatFormatting.BOLD), true);
-                return InteractionResult.FAIL;
-            }
 
             ItemStack jumpsuit = stack.copy();
             jumpsuit.setCount(1);
@@ -101,7 +96,6 @@ public class JumpsuitItem extends Item {
 
         } else if (targetChest.getItem() instanceof JumpsuitItem) {
 
-            user.displayClientMessage(Component.literal("Trying to take off"), false);
             if (targetChest.getOrCreateTag().getBoolean("CanBeLocked") && targetChest.getOrCreateTag().getBoolean("Locked")) {
                 user.displayClientMessage(Component.literal("🔒 " + GeneralUtils.extractPlayerName(String.valueOf(target.getName())) + "'s jumpsuit is locked on him! 🔒").withStyle(ChatFormatting.RED), true);
                 return InteractionResult.FAIL;

@@ -1,4 +1,4 @@
-package git.david.cuffedplus.events;
+package git.david.cuffedplus.client;
 
 import com.mojang.logging.LogUtils;
 import org.slf4j.Logger;
@@ -17,10 +17,23 @@ public class ClientConfig {
         VALUES.put(id, value);
     }
 
-    public static String getValue(String id) {
+    public static String getStringValue(String id) {
         if (DEBUG) LOGGER.debug("Getting Client Config value {} which is {}", id, VALUES.get(id));
         return VALUES.get(id);
     }
+
+
+    public static Boolean getBoolValue(String id) {
+        String value = VALUES.get(id);
+
+        if (value == null) return false;
+
+        if (value.equalsIgnoreCase("true") || value.equalsIgnoreCase("false"))
+            LOGGER.warn("Trying to get boolean client config id {} which is {} (not a bool)  ({})", id, VALUES.get(id), value);
+
+        return Boolean.parseBoolean(value);
+    }
+
 
     public static HashMap<String, String> getValues() {
         if (DEBUG) LOGGER.debug("Getting all Client Config values which are {}", VALUES);

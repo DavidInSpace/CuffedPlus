@@ -3,6 +3,7 @@ package git.david.cuffedplus.config.base;
 import git.david.cuffedplus.constants.Styles;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.Style;
 
 import java.util.ArrayList;
 
@@ -26,29 +27,37 @@ public record ConfigDescriptions() {
                 Component.literal("onlyOfficers: ").setStyle(Styles.getOfficerStyle(true)).append(Component.literal("Prisoners can only attack officers").setStyle(Styles.getOfficerStyle(false))),
                 Component.literal("✓ both: ").setStyle(Styles.getDarkGreenStyle(true)).append(Component.literal("Prisoners can attack prisoners and officers").setStyle(Styles.getDarkGreenStyle(false)))));
 
-        DESCRIPTIONS.add(new DescriptionHolder("CAN_PRISONERS_ATTACK_PLAYERS_WITHOUT_ROLE",
-                getTrueBooleanTooltip("Prisoners will be able to attack players that dont have a role").copy().withStyle(ChatFormatting.UNDERLINE),
+        DESCRIPTIONS.add(new DescriptionHolder("CAN_PRISONER_ATTACK_PLAYERS_WITHOUT_ROLE",
+                getTrueBooleanTooltip("Prisoners will be able to attack players that dont have a role").copy().setStyle(Style.EMPTY.withUnderlined(true)),
                 getFalseBooleanTooltip("Prisoners wont be able to attack players that dont have a role")));
 
         DESCRIPTIONS.add(new DescriptionHolder("ALLOW_BREAKING_TIME_LOCKED_RESTRAINTS",
                 getTrueBooleanTooltip("Restraints that are time locked can be broken but wont drop"),
-                getFalseBooleanTooltip("Restraints that are time locked will be unbreakable").copy().withStyle(ChatFormatting.UNDERLINE)));
+                getFalseBooleanTooltip("Restraints that are time locked will be unbreakable").copy().setStyle(Style.EMPTY.withUnderlined(true))));
 
         DESCRIPTIONS.add(new DescriptionHolder("SHOW_INFO_MESSAGES",
-                getTrueBooleanTooltip("Shows info messages (yellow) when interacting with certain items").copy().withStyle(ChatFormatting.UNDERLINE),
-                getFalseBooleanTooltip("Doesnt shows info messages (yellow) when interacting with certain items")));
+                getTrueBooleanTooltip("Shows info messages (usually yellow) when interacting with certain items").copy().setStyle(Style.EMPTY.withUnderlined(true)),
+                getFalseBooleanTooltip("Doesnt shows info messages (usually yellow) when interacting with certain items")));
 
         DESCRIPTIONS.add(new DescriptionHolder("SHOW_SUCCESS_MESSAGES",
-                getTrueBooleanTooltip("Shows success messages (green) when an interaction is successful").copy().withStyle(ChatFormatting.UNDERLINE),
-                getFalseBooleanTooltip("Doesnt show success messages (green) when an interaction is successful")));
+                getTrueBooleanTooltip("Shows success messages (usually green) when an interaction is successful").copy().setStyle(Style.EMPTY.withUnderlined(true)),
+                getFalseBooleanTooltip("Doesnt show success messages (usually green) when an interaction is successful")));
 
         DESCRIPTIONS.add(new DescriptionHolder("SHOW_FAIL_MESSAGES",
-                getTrueBooleanTooltip("Shows fail messages (red) when an interaction fails").copy().withStyle(ChatFormatting.UNDERLINE),
-                getFalseBooleanTooltip("Doesnt shows fail messages (red) when an interaction fails")));
+                getTrueBooleanTooltip("Shows fail messages (usually red) when an interaction fails").copy().setStyle(Style.EMPTY.withUnderlined(true)),
+                getFalseBooleanTooltip("Doesnt shows fail messages (usually red) when an interaction fails")));
 
         DESCRIPTIONS.add(new DescriptionHolder("PUT_PLAYERS_IN_CREATIVE_WHEN_ANTIGOD_RESTRAINTS_TIME_LOCK_RUNS_OUT",
-                getTrueBooleanTooltip("Once the time lock on a restraint which has the Anti-God modifier runs out the player will be put in to creative mode").copy().withStyle(ChatFormatting.UNDERLINE),
+                getTrueBooleanTooltip("Once the time lock on a restraint which has the Anti-God modifier runs out the player will be put in to creative mode").copy().setStyle(Style.EMPTY.withUnderlined(true)),
                 getFalseBooleanTooltip("Once the time lock on a restraint which has the Anti-God modifier runs out the player will stay in surival mode")));
+
+        DESCRIPTIONS.add(new DescriptionHolder("ALLOW_EXECUTE_COMMANDS_WHILE_RESTRAINED",
+                getTrueBooleanTooltip("While restrained players will be able to use commands like normal"),
+                getFalseBooleanTooltip("While restrained players wont able to execute any type of commands").copy().withStyle(Style.EMPTY.withUnderlined(true))));
+
+        DESCRIPTIONS.add(new DescriptionHolder("ALLOW_PRISONERS_EXECUTE_COMMANDS",
+                getTrueBooleanTooltip("While restrained players will be able to use commands like normal"),
+                getFalseBooleanTooltip("While restrained players wont able to execute any type of commands").copy().withStyle(Style.EMPTY.withUnderlined(true))));
 
 
         /* -- PREFIX SETTINGS DESCRIPTIONS -- */

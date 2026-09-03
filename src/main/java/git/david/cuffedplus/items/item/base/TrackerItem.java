@@ -1,6 +1,6 @@
 package git.david.cuffedplus.items.item.base;
 
-import git.david.cuffedplus.CuffedPlusMain;
+import git.david.cuffedplus.config.ConfigHandler;
 import git.david.cuffedplus.utils.GeneralUtils;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
@@ -52,16 +52,9 @@ public class TrackerItem extends Item {
             assert handItem.getTag() != null;
             assert ankleMonitor.getTag() != null;
             if (!handItem.getOrCreateTag().hasUUID("targetUUID") && !ankleMonitor.getOrCreateTag().hasUUID("ownerUUID")) {
+                // BIND
 
-                if (CuffedPlusMain.SERVER_CONFIG.getPlayersOwnTrackerBindingBehavior().equals("onlyUnbind".toLowerCase()) || (CuffedPlusMain.SERVER_CONFIG.getPlayersOwnTrackerBindingBehavior().equals("none"))) {
-                    player.displayClientMessage(Component.literal("× You can't bind the tracker to yourself ×").withStyle(ChatFormatting.GOLD).withStyle(ChatFormatting.BOLD), true);
-                    return InteractionResultHolder.fail(stack);
-                }
-
-                if (player.getTags().contains("prisoner") && CuffedPlusMain.SERVER_CONFIG.getPrisonersOwnTrackerBindingBehavior().equals("onlyUnbind".toLowerCase()) || CuffedPlusMain.SERVER_CONFIG.getPrisonersOwnTrackerBindingBehavior().equals("none")) {
-                    player.displayClientMessage(Component.literal("× You are a prisoner!  Prisoners can't bind the tracker to themselves ×").withStyle(ChatFormatting.GOLD).withStyle(ChatFormatting.BOLD), true);
-                    return InteractionResultHolder.fail(stack);
-                }
+                if (ConfigHandler.handleOwnBindingBehavior(player, "bind")) return InteractionResultHolder.fail(stack);
 
 
                 Minecraft.getInstance().player.displayClientMessage(Component.literal("Ankle monitor bound to " + extractPlayerName(String.valueOf(player.getName()))).withStyle(ChatFormatting.GREEN), false);
@@ -76,17 +69,10 @@ public class TrackerItem extends Item {
                 handItem.getOrCreateTag().putString("targetName", playerName);
 
             } else if (handItem.getOrCreateTag().getUUID("targetUUID") == ankleMonitor.getOrCreateTag().getUUID("ownerUUID")) {
+                // UNBIND
 
-                if (CuffedPlusMain.SERVER_CONFIG.getPlayersOwnTrackerBindingBehavior().equals("onlyBind".toLowerCase()) || (CuffedPlusMain.SERVER_CONFIG.getPlayersOwnTrackerBindingBehavior().equals("none"))) {
-                    player.displayClientMessage(Component.literal("× You can't unbind your own tracker ×").withStyle(ChatFormatting.GOLD).withStyle(ChatFormatting.BOLD), true);
+                if (ConfigHandler.handleOwnBindingBehavior(player, "unbind"))
                     return InteractionResultHolder.fail(stack);
-                }
-
-                if (player.getTags().contains("prisoner") && CuffedPlusMain.SERVER_CONFIG.getPrisonersOwnTrackerBindingBehavior().equals("onlyBind".toLowerCase()) || CuffedPlusMain.SERVER_CONFIG.getPrisonersOwnTrackerBindingBehavior().equals("none")) {
-                    player.displayClientMessage(Component.literal("× You are a prisoner!  Prisoners can't unbind their own tracker ×").withStyle(ChatFormatting.GOLD).withStyle(ChatFormatting.BOLD), true);
-                    return InteractionResultHolder.fail(stack);
-                }
-
 
                 Minecraft.getInstance().player.displayClientMessage(Component.literal("Ankle monitor unbound").withStyle(ChatFormatting.RED), false);
 
@@ -125,46 +111,42 @@ public class TrackerItem extends Item {
 
         if (user.isCrouching()) return InteractionResult.FAIL;
         if (user.level().isClientSide && !(target instanceof Player)) return InteractionResult.FAIL;
+        ItemStack handItem = user.getItemInHand(hand);
+        if (!(ankleMonitor.getItem() instanceof AnkleMonitorItem)) return InteractionResult.FAIL;
 
-        if (ankleMonitor.getItem() instanceof AnkleMonitorItem) {
-            if (!stack.getOrCreateTag().hasUUID("targetUUID") && !ankleMonitor.getOrCreateTag().hasUUID("ownerUUID")) {
-                if (CuffedPlusMain.SERVER_CONFIG.getOtherPlayersTrackerBindingBehavior().equals("onlyUnbind".toLowerCase()) || (CuffedPlusMain.SERVER_CONFIG.getOtherPlayersTrackerBindingBehavior().equals("none"))) {
-                    user.displayClientMessage(Component.literal("× You can't put bind trackers to others ×").withStyle(ChatFormatting.GOLD).withStyle(ChatFormatting.BOLD), true);
-                    return InteractionResult.FAIL;
-                }
+        if (!stack.getOrCreateTag().hasUUID("targetUUID") && !ankleMonitor.getOrCreateTag().hasUUID("ownerUUID")) {
 
-                if (user.getTags().contains("prisoner") && CuffedPlusMain.SERVER_CONFIG.getOtherPrisonersTrackerBindingBehavior().equals("onlyUnbind".toLowerCase()) || CuffedPlusMain.SERVER_CONFIG.getOtherPrisonersTrackerBindingBehavior().equals("none")) {
-                    user.displayClientMessage(Component.literal("× You are a prisoner!  Prisoners can't bind trackers to others ×").withStyle(ChatFormatting.GOLD).withStyle(ChatFormatting.BOLD), true);
-                    return InteractionResult.FAIL;
-                }
-
-                assert Minecraft.getInstance().player != null;
-                Minecraft.getInstance().player.displayClientMessage(Component.literal("Ankle monitor bound to " + extractPlayerName(String.valueOf(target.getName()))).withStyle(ChatFormatting.GREEN), false);
-                ItemStack handItem = user.getItemInHand(hand);
-
-                String targetName = target.getName().toString();
-
-                UUID targetUUID = target.getUUID();
-                String userName = target.getName().toString();
-                UUID userUUID = target.getUUID();
-
-                ankleMonitor.getOrCreateTag().putUUID("ownerUUID", userUUID);
-                ankleMonitor.getOrCreateTag().putString("ownerName", userName);
-
-                handItem.getOrCreateTag().putUUID("targetUUID", targetUUID);
-                handItem.getOrCreateTag().putString("targetName", targetName);
-            } else if (stack.getOrCreateTag().getUUID("targetUUID") == ankleMonitor.getOrCreateTag().getUUID("ownerUUID")) {
-                if (CuffedPlusMain.SERVER_CONFIG.getOtherPlayersTrackerBindingBehavior().equals("onlyBind".toLowerCase()) || (CuffedPlusMain.SERVER_CONFIG.getOtherPlayersTrackerBindingBehavior().equals("none"))) {
-                    user.displayClientMessage(Component.literal("× You can't put unbind others trackers ×").withStyle(ChatFormatting.GOLD).withStyle(ChatFormatting.BOLD), true);
-                    return InteractionResult.FAIL;
-                }
-
-                if (user.getTags().contains("prisoner") && CuffedPlusMain.SERVER_CONFIG.getOtherPrisonersTrackerBindingBehavior().equals("onlyBind".toLowerCase()) || CuffedPlusMain.SERVER_CONFIG.getOtherPrisonersTrackerBindingBehavior().equals("none")) {
-                    user.displayClientMessage(Component.literal("× You are a prisoner!  Prisoners can't unbind others trackers ×").withStyle(ChatFormatting.GOLD).withStyle(ChatFormatting.BOLD), true);
-                    return InteractionResult.FAIL;
-                }
+            if (ConfigHandler.handleOthersBindingBehavior(user, "bind")) {
+                return InteractionResult.FAIL;
             }
+
+            assert Minecraft.getInstance().player != null;
+            Minecraft.getInstance().player.displayClientMessage(Component.literal("Ankle monitor bound to " + extractPlayerName(String.valueOf(target.getName()))).withStyle(ChatFormatting.GREEN), false);
+
+            String targetName = target.getName().toString();
+
+            UUID targetUUID = target.getUUID();
+            String userName = target.getName().toString();
+            UUID userUUID = target.getUUID();
+
+            ankleMonitor.getOrCreateTag().putUUID("ownerUUID", userUUID);
+            ankleMonitor.getOrCreateTag().putString("ownerName", userName);
+
+            handItem.getOrCreateTag().putUUID("targetUUID", targetUUID);
+            handItem.getOrCreateTag().putString("targetName", targetName);
+        } else if (stack.getOrCreateTag().getUUID("targetUUID") == ankleMonitor.getOrCreateTag().getUUID("ownerUUID")) {
+            // UNBIND
+            if (ConfigHandler.handleOthersBindingBehavior(user, "unbind")) {
+                return InteractionResult.FAIL;
+            }
+
+            ankleMonitor.getOrCreateTag().remove("ownerUUID");
+            ankleMonitor.getOrCreateTag().remove("ownerName");
+
+            handItem.getOrCreateTag().remove("targetUUID");
+            handItem.getOrCreateTag().remove("targetName");
         }
+
         return InteractionResult.SUCCESS;
     }
 

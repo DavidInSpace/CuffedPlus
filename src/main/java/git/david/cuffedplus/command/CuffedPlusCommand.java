@@ -37,6 +37,11 @@ public class CuffedPlusCommand {
                                                                 .then(Commands.argument("hours", IntegerArgumentType.integer(0))
                                                                         .executes(this::TimeLockRestraint)))))))
                         .then(Commands.literal("plus")
+                                .then(Commands.literal("modifier")
+                                        .then(Commands.literal("set")
+                                                .then(Commands.literal("INSERT MODIFER TYPE: ") // TODO: Make this accept an enum or something
+                                                        .then(Commands.argument("level", IntegerArgumentType.integer(0, 20)))
+
                                 .then(Commands.literal("time_lock")
                                         .then(Commands.literal("set")
                                                 .then(Commands.argument("seconds", IntegerArgumentType.integer(0, 60))
@@ -54,7 +59,7 @@ public class CuffedPlusCommand {
                                                         .then(Commands.literal("officer")
                                                                 .executes(this::executeApplyOfficerRole))
                                                         .then(Commands.literal("none")
-                                                                .executes(this::executeApplyNoneRole)))))));
+                                                                .executes(this::executeApplyNoneRole))))))))));
     }
 
 

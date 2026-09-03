@@ -1,6 +1,6 @@
 package git.david.cuffedplus.items.item.base;
 
-import git.david.cuffedplus.CuffedPlusMain;
+import git.david.cuffedplus.config.ConfigHandler;
 import git.david.cuffedplus.init.ModModelLayers;
 import git.david.cuffedplus.items.restraints.client.model.AnkleMonitorModel;
 import git.david.cuffedplus.utils.GeneralUtils;
@@ -93,14 +93,13 @@ public class AnkleMonitorItem extends ArmorItem {
         if (user.level().isClientSide && !(target instanceof Player)) return InteractionResult.FAIL;
 
         if (!target.hasItemInSlot(EquipmentSlot.FEET)) {
+            // PUT ON
 
-            if (CuffedPlusMain.SERVER_CONFIG.getOtherPlayersAnkleMonitorBehavior().equals("onlyTakeOff".toLowerCase()) || (CuffedPlusMain.SERVER_CONFIG.getOtherPlayersAnkleMonitorBehavior().equals("none"))) {
-                user.displayClientMessage(Component.literal("× You can't put ankle monitors on others ×").withStyle(ChatFormatting.GOLD).withStyle(ChatFormatting.BOLD), true);
+            if (ConfigHandler.handleOthersAnkleMonitorBehavior(user, "putOn")) {
                 return InteractionResult.FAIL;
             }
 
-            if (user.getTags().contains("prisoner") && CuffedPlusMain.SERVER_CONFIG.getOtherPrisonersAnkleMonitorBehavior().equals("onlyTakeOff".toLowerCase()) || CuffedPlusMain.SERVER_CONFIG.getOtherPrisonersAnkleMonitorBehavior().equals("none")) {
-                user.displayClientMessage(Component.literal("× You are a prisoner!  Prisoners can't put ankle monitors on others ×").withStyle(ChatFormatting.GOLD).withStyle(ChatFormatting.BOLD), true);
+            if (ConfigHandler.handleOthersAnkleMonitorBehavior(user, "putOn")) {
                 return InteractionResult.FAIL;
             }
 
@@ -112,7 +111,7 @@ public class AnkleMonitorItem extends ArmorItem {
 
         } else if (targetFeet.getItem() instanceof AnkleMonitorItem) {
 
-            user.displayClientMessage(Component.literal("Trying to take off"), false);
+            // TAKE OFF
             if (targetFeet.getOrCreateTag().getBoolean("CanBeLocked") && targetFeet.getOrCreateTag().getBoolean("Locked")) {
                 user.displayClientMessage(Component.literal("🔒 " + GeneralUtils.extractPlayerName(String.valueOf(target.getName())) + "'s ankle monitor is locked on them! 🔒").withStyle(ChatFormatting.RED), true);
                 return InteractionResult.FAIL;
@@ -131,7 +130,6 @@ public class AnkleMonitorItem extends ArmorItem {
             if (!user.getAbilities().instabuild) stack.shrink(1);
             target.setItemSlot(EquipmentSlot.FEET, monitor);
 
-
         }
         return InteractionResult.SUCCESS;
     }
@@ -148,7 +146,6 @@ public class AnkleMonitorItem extends ArmorItem {
 
                     model.rightLeg.copyFrom(defaultModel.rightLeg);
 
-                    // Only show right leg
                     model.head.visible = true;
                     model.body.visible = true;
                     model.leftArm.visible = true;

@@ -1,6 +1,7 @@
 package git.david.cuffedplus.logic;
 
-import git.david.cuffedplus.CuffedPlusMain;
+import git.david.cuffedplus.client.ClientConfig;
+import git.david.cuffedplus.constants.ConfigIDS;
 import git.david.cuffedplus.items.item.base.AnkleMonitorItem;
 import git.david.cuffedplus.items.item.base.JumpsuitItem;
 import net.minecraft.world.entity.Entity;
@@ -41,7 +42,7 @@ public class KeepLockedGearOnDeathLogic {
         if (!(keepItem.getItem() instanceof JumpsuitItem) && !(keepItem.getItem() instanceof AnkleMonitorItem)) return;
         if (!(keepItem.getOrCreateTag().getBoolean("CanBeLocked")) || !(keepItem.getOrCreateTag().getBoolean("Locked")))
             return;
-        if (!CuffedPlusMain.SERVER_CONFIG.keepLockedGearOnDeath()) return;
+        if (!ClientConfig.getBoolValue(ConfigIDS.KEEP_LOCKED_GEAR_ON_DEATH)) return;
         GameRules.Value<GameRules.BooleanValue> isKeepInventoryOn = Objects.requireNonNull(event.getEntity().getServer()).getGameRules().getRule(GameRules.RULE_KEEPINVENTORY);
         if (Boolean.parseBoolean(String.valueOf(String.valueOf(isKeepInventoryOn).equals("true"))))
             return; // if keep inventory is on then return since it already does the job
@@ -58,7 +59,7 @@ public class KeepLockedGearOnDeathLogic {
         if (!(keepItem.getItem() instanceof JumpsuitItem) && !(keepItem.getItem() instanceof AnkleMonitorItem)) return;
         if (!(keepItem.getOrCreateTag().getBoolean("CanBeLocked")) || !(keepItem.getOrCreateTag().getBoolean("Locked")))
             return; // If the jumpsuit isnt locked return
-        if (!CuffedPlusMain.SERVER_CONFIG.keepLockedGearOnDeath()) return;
+        if (!ClientConfig.getBoolValue(ConfigIDS.KEEP_LOCKED_GEAR_ON_DEATH)) return;
         GameRules.Value<GameRules.BooleanValue> isKeepInventoryOn = Objects.requireNonNull(event.getEntity().getServer()).getGameRules().getRule(GameRules.RULE_KEEPINVENTORY);
         if (Boolean.parseBoolean(String.valueOf(String.valueOf(isKeepInventoryOn).equals("true"))))
             return; // if keep inventory is on then return since it already does the job

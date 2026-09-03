@@ -13,12 +13,16 @@ import java.util.ArrayList;
 import static git.david.cuffedplus.CuffedPlusMain.DEBUG;
 
 public class Config {
-
     private final static Logger LOGGER = LogUtils.getLogger();
+
     private static final Style TRUE_BOOL_STYLE = Style.EMPTY.withColor(ChatFormatting.GREEN).withBold(true);
     private static final Style FALSE_BOOL_STYLE = Style.EMPTY.withColor(ChatFormatting.RED).withBold(true);
 
-    private final static Component[] BOOL_OPTIONS = {Component.literal("True").setStyle(TRUE_BOOL_STYLE), Component.literal("False").setStyle(FALSE_BOOL_STYLE)};
+    private final static Component[] BOOL_OPTIONS = {
+            Component.literal("True").setStyle(TRUE_BOOL_STYLE),
+            Component.literal("False").setStyle(FALSE_BOOL_STYLE)
+
+    };
     private final static Component[] ROLES_PLAYERS_OPTIONS = {
             Component.literal("none").setStyle(Styles.getDarkRedStyle(true)),
             Component.literal("onlyPrisoners").setStyle(Styles.getPrisonStyle(true)),
@@ -61,11 +65,13 @@ public class Config {
         RegisterRolesConfig();
         RegisterPlayersConfig();
         RegisterPrisonersConfig();
+        RegisterOfficerConfig();
         RegisterMiscConfig();
         OPTIONS.addAll(GENERAL_OPTIONS);
         OPTIONS.addAll(ROLES_OPTIONS);
         OPTIONS.addAll(PLAYERS_OPTIONS);
         OPTIONS.addAll(PRISONERS_OPTIONS);
+        OPTIONS.addAll(OFFICERS_OPTIONS);
         OPTIONS.addAll(MISC_OPTIONS);
         if (DEBUG) LOGGER.info("Finished Initializing Config");
     }
@@ -74,16 +80,16 @@ public class Config {
     private static void RegisterGeneralConfig() {
         if (DEBUG) LOGGER.debug("Initializing General Config");
         GENERAL_OPTIONS.add(new ConfigOption("KEEP_LOCKED_GEAR_ON_DEATH", "Keep Locked Gear On Death", 2, 0, BOOL_OPTIONS));
-        GENERAL_OPTIONS.add(new ConfigOption("PLAYERS_ATTACK_BEHAVIOR", "Players Attack Behavior", 4, 0, ROLES_PLAYERS_OPTIONS));
-        GENERAL_OPTIONS.add(new ConfigOption("PRISONERS_ATTACK_BEHAVIOR", "Prisoners Attack Behavior", 4, 0, ROLES_PLAYERS_OPTIONS));
         GENERAL_OPTIONS.add(new ConfigOption("CAN_PRISONER_ATTACK_PLAYERS_WITHOUT_ROLE", "Can Prisoners Attack Players Without Role", 2, 1, BOOL_OPTIONS));
         GENERAL_OPTIONS.add(new ConfigOption("ALLOW_BREAKING_TIME_LOCKED_RESTRAINTS", "Allow Breaking Time Locked Restraints", 2, 0, BOOL_OPTIONS));
         GENERAL_OPTIONS.add(new ConfigOption("SHOW_INFO_MESSAGES", "Show Info Messages", 2, 0, BOOL_OPTIONS));
         GENERAL_OPTIONS.add(new ConfigOption("SHOW_SUCCESS_MESSAGES", "Show Success Messages", 2, 0, BOOL_OPTIONS));
         GENERAL_OPTIONS.add(new ConfigOption("SHOW_FAIL_MESSAGES", "Show Fail Messages", 2, 0, BOOL_OPTIONS));
         GENERAL_OPTIONS.add(new ConfigOption("PUT_PLAYERS_IN_CREATIVE_WHEN_ANTIGOD_RESTRAINTS_TIME_LOCK_RUNS_OUT", "Put Players In Creative When Antigod Restraints Time Lock Runs Out", 2, 0, BOOL_OPTIONS));
-
+        GENERAL_OPTIONS.add(new ConfigOption("ALLOW_EXECUTE_COMMANDS_WHILE_RESTRAINED", "Allow Executing Commands While Restrained", 2, 1, BOOL_OPTIONS));
+        GENERAL_OPTIONS.add(new ConfigOption("ALLOW_PRISONERS_EXECUTE_COMMANDS", "Can Prisoners Execute Commands", 2, 0, BOOL_OPTIONS));
     }
+
 
     private static void RegisterRolesConfig() {
         if (DEBUG) LOGGER.debug("Initializing Roles Config");
@@ -95,26 +101,36 @@ public class Config {
 
     private static void RegisterPlayersConfig() {
         LOGGER.debug("Initializing Players Config");
-        PLAYERS_OPTIONS.add(new ConfigOption("OTHER_PLAYERS_JUMPSUIT_BEHAVIOR", "Other Players Jumpsuit Behavior", 4, 0, INTERACTION_BEHAVIOR_OPTIONS));
-        PLAYERS_OPTIONS.add(new ConfigOption("OTHER_PLAYERS_ANKLE_MONITOR_BEHAVIOR", "Other players ankle Monitor Behavior", 4, 2, INTERACTION_BEHAVIOR_OPTIONS));
-        PLAYERS_OPTIONS.add(new ConfigOption("PLAYERS_OWN_JUMPSUIT_LOCK_BEHAVIOR", "Players Own Jumpsuit Lock Behavior", 4, 2, LOCK_BEHAVIOR_OPTIONS));
-        PLAYERS_OPTIONS.add(new ConfigOption("PLAYERS_OWN_ANKLE_MONITOR_LOCK_BEHAVIOR", "Players Own Ankle Monitor Lock Behavior", 4, 0, LOCK_BEHAVIOR_OPTIONS));
-        PLAYERS_OPTIONS.add(new ConfigOption("OTHER_PLAYERS_JUMPSUIT_LOCK_BEHAVIOR", "Other Players Jumpsuit Lock Behavior", 4, 2, LOCK_BEHAVIOR_OPTIONS));
-        PLAYERS_OPTIONS.add(new ConfigOption("OTHER_PLAYERS_ANKLE_MONITOR_LOCK_BEHAVIOR", "Other Players Ankle Monitor Lock Behavior", 4, 2, LOCK_BEHAVIOR_OPTIONS));
-        PLAYERS_OPTIONS.add(new ConfigOption("PLAYERS_OWN_TRACKER_BINDING_BEHAVIOR", "Players Own Tracker Binding Behavior", 4, 0, BINDING_BEHAVIOR_OPTIONS));
-        PLAYERS_OPTIONS.add(new ConfigOption("OTHER_PLAYERS_TRACKER_BINDING_BEHAVIOR", "Other Players Tracker Binding Behavior", 4, 2, BINDING_BEHAVIOR_OPTIONS));
+        PLAYERS_OPTIONS.add(new ConfigOption("OTHER_PLAYERS_JUMPSUIT_BEHAVIOR", "Others Jumpsuit Behavior", 4, 0, INTERACTION_BEHAVIOR_OPTIONS));
+        PLAYERS_OPTIONS.add(new ConfigOption("OTHER_PLAYERS_ANKLE_MONITOR_BEHAVIOR", "Others ankle Monitor Behavior", 4, 2, INTERACTION_BEHAVIOR_OPTIONS));
+        PLAYERS_OPTIONS.add(new ConfigOption("PLAYERS_OWN_JUMPSUIT_LOCK_BEHAVIOR", "Own Jumpsuit Lock Behavior", 4, 2, LOCK_BEHAVIOR_OPTIONS));
+        PLAYERS_OPTIONS.add(new ConfigOption("PLAYERS_OWN_ANKLE_MONITOR_LOCK_BEHAVIOR", "Own Ankle Monitor Lock Behavior", 4, 0, LOCK_BEHAVIOR_OPTIONS));
+        PLAYERS_OPTIONS.add(new ConfigOption("OTHER_PLAYERS_JUMPSUIT_LOCK_BEHAVIOR", "Other Jumpsuit Lock Behavior", 4, 2, LOCK_BEHAVIOR_OPTIONS));
+        PLAYERS_OPTIONS.add(new ConfigOption("OTHER_PLAYERS_ANKLE_MONITOR_LOCK_BEHAVIOR", "Other Ankle Monitor Lock Behavior", 4, 2, LOCK_BEHAVIOR_OPTIONS));
+        PLAYERS_OPTIONS.add(new ConfigOption("PLAYERS_OWN_TRACKER_BINDING_BEHAVIOR", "Own Tracker Binding Behavior", 4, 0, BINDING_BEHAVIOR_OPTIONS));
+        PLAYERS_OPTIONS.add(new ConfigOption("OTHER_PLAYERS_TRACKER_BINDING_BEHAVIOR", "Other Tracker Binding Behavior", 4, 2, BINDING_BEHAVIOR_OPTIONS));
+        PLAYERS_OPTIONS.add(new ConfigOption("PLAYERS_ATTACK_BEHAVIOR", "Attack Behavior", 4, 0, ROLES_PLAYERS_OPTIONS));
     }
+
 
     private static void RegisterPrisonersConfig() {
         if (DEBUG) LOGGER.debug("Initializing Prisoners Config");
-        PRISONERS_OPTIONS.add(new ConfigOption("OTHER_PRISONERS_JUMPSUIT_BEHAVIOR", "Other Prisoners Jumpsuit Behavior", 4, 0, INTERACTION_BEHAVIOR_OPTIONS));
-        PRISONERS_OPTIONS.add(new ConfigOption("OTHER_PRISONERS_ANKLE_MONITOR_BEHAVIOR", "Other Prisoners ankle Monitor Behavior", 4, 2, INTERACTION_BEHAVIOR_OPTIONS));
-        PRISONERS_OPTIONS.add(new ConfigOption("PRISONERS_OWN_JUMPSUIT_LOCK_BEHAVIOR", "Prisoners Own Jumpsuit Lock Behavior", 4, 2, LOCK_BEHAVIOR_OPTIONS));
-        PRISONERS_OPTIONS.add(new ConfigOption("PRISONERS_OWN_ANKLE_MONITOR_LOCK_BEHAVIOR", "Prisoners Own Ankle Monitor Lock Behavior", 4, 0, LOCK_BEHAVIOR_OPTIONS));
-        PRISONERS_OPTIONS.add(new ConfigOption("OTHER_PRISONERS_JUMPSUIT_LOCK_BEHAVIOR", "Other Prisoners Jumpsuit Lock Behavior", 4, 2, LOCK_BEHAVIOR_OPTIONS));
-        PRISONERS_OPTIONS.add(new ConfigOption("OTHER_PRISONERS_ANKLE_MONITOR_LOCK_BEHAVIOR", "Other Prisoners Ankle Monitor Lock Behavior", 4, 2, LOCK_BEHAVIOR_OPTIONS));
-        PRISONERS_OPTIONS.add(new ConfigOption("PRISONERS_OWN_TRACKER_BINDING_BEHAVIOR", "Prisoners Own Tracker Binding Behavior", 4, 0, BINDING_BEHAVIOR_OPTIONS));
-        PRISONERS_OPTIONS.add(new ConfigOption("OTHER_PRISONERS_TRACKER_BINDING_BEHAVIOR", "Other Prisoners Tracker Binding Behavior", 4, 2, BINDING_BEHAVIOR_OPTIONS));
+        PRISONERS_OPTIONS.add(new ConfigOption("OTHER_PRISONERS_JUMPSUIT_BEHAVIOR", "Other Jumpsuit Behavior", 4, 0, INTERACTION_BEHAVIOR_OPTIONS));
+        PRISONERS_OPTIONS.add(new ConfigOption("OTHER_PRISONERS_ANKLE_MONITOR_BEHAVIOR", "Other ankle Monitor Behavior", 4, 2, INTERACTION_BEHAVIOR_OPTIONS));
+        PRISONERS_OPTIONS.add(new ConfigOption("PRISONERS_OWN_JUMPSUIT_LOCK_BEHAVIOR", "Own Jumpsuit Lock Behavior", 4, 2, LOCK_BEHAVIOR_OPTIONS));
+        PRISONERS_OPTIONS.add(new ConfigOption("PRISONERS_OWN_ANKLE_MONITOR_LOCK_BEHAVIOR", "Own Ankle Monitor Lock Behavior", 4, 0, LOCK_BEHAVIOR_OPTIONS));
+        PRISONERS_OPTIONS.add(new ConfigOption("OTHER_PRISONERS_JUMPSUIT_LOCK_BEHAVIOR", "Other Jumpsuit Lock Behavior", 4, 2, LOCK_BEHAVIOR_OPTIONS));
+        PRISONERS_OPTIONS.add(new ConfigOption("OTHER_PRISONERS_ANKLE_MONITOR_LOCK_BEHAVIOR", "Other Ankle Monitor Lock Behavior", 4, 2, LOCK_BEHAVIOR_OPTIONS));
+        PRISONERS_OPTIONS.add(new ConfigOption("PRISONERS_OWN_TRACKER_BINDING_BEHAVIOR", "Own Tracker Binding Behavior", 4, 0, BINDING_BEHAVIOR_OPTIONS));
+        PRISONERS_OPTIONS.add(new ConfigOption("OTHER_PRISONERS_TRACKER_BINDING_BEHAVIOR", "Other Tracker Binding Behavior", 4, 2, BINDING_BEHAVIOR_OPTIONS));
+        PRISONERS_OPTIONS.add(new ConfigOption("PRISONERS_ATTACK_BEHAVIOR", "Attack Behavior", 4, 0, ROLES_PLAYERS_OPTIONS));
+    }
+
+    private static void RegisterOfficerConfig() {
+        LOGGER.debug("Initializing Officer Config");
+        PLAYERS_OPTIONS.add(new ConfigOption("ONLY_ALLOW_OFFICERS_TO_PUT_ON_GEAR", "Only Allow Officers To Put On Gear", 4, 0, INTERACTION_BEHAVIOR_OPTIONS));
+        PLAYERS_OPTIONS.add(new ConfigOption("ONLY_ALLOW_OFFICERS_TO_LOCK_GEAR", "Only Allow Officers To Lock Gear", 4, 2, INTERACTION_BEHAVIOR_OPTIONS));
+        PLAYERS_OPTIONS.add(new ConfigOption("ONLY_ALLOW_OFFICERS_TO_USE_RESTRAINTS", "Only Allow Officers To Use Restraints", 4, 2, LOCK_BEHAVIOR_OPTIONS));
     }
 
     private static void RegisterMiscConfig() {
@@ -133,9 +149,8 @@ public class Config {
 
 
     public static void printAllOptions() {
-        ConfigSaveData data = new ConfigSaveData();
         for (ConfigOption option : OPTIONS) {
-            LOGGER.info("Config ID: {}  Value: {}  Default Value: {}", option.getID(), data.getOptionByID(option.getID()), option.getDefaultValue());
+            System.out.println("public static String " + option.getID() + " = \"" + option.getID() + "\";");
         }
     }
 

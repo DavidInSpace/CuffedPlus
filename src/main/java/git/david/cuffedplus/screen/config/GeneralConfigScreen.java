@@ -31,19 +31,20 @@ public class GeneralConfigScreen extends AbstractConfigScreen {
         this.addRenderableWidget(
                 Button.builder(Component.literal("i").withStyle(ChatFormatting.BOLD), b -> {
                         })
-                        .bounds(20, 20, 20, 20)
-                        .tooltip(Tooltip.create(Component.literal("General Configs Info")))
+                        .bounds(INFO_BUTTON_X, INFO_BUTTON_Y, INFO_BUTTON_WIDTH, INFO_BUTTON_HEIGHT)
+                        .tooltip(Tooltip.create(Component.literal("The underlined option in tooltips is the default option \n\n Here you can change all kinds of things about cuffed+")))
                         .build());
 
+
         // Create main layout
-        LinearLayout layout = new LinearLayout(0, 0, width, height, LinearLayout.Orientation.HORIZONTAL);
+        LinearLayout layout = new LinearLayout(0, height / 10, width, height - height / 10, LinearLayout.Orientation.HORIZONTAL);
 
         // Create columns for the buttons
-        LinearLayout configLayoutCol1 = new LinearLayout(getColXPos(0), configNavigationBar.getHeight(), width / COL_AMOUNT, height - configNavigationBar.getHeight(), LinearLayout.Orientation.VERTICAL);
-        LinearLayout configLayoutCol2 = new LinearLayout(getColXPos(1), configNavigationBar.getHeight(), width / COL_AMOUNT, height - configNavigationBar.getHeight(), LinearLayout.Orientation.VERTICAL);
-        LinearLayout configLayoutCol3 = new LinearLayout(getColXPos(2), configNavigationBar.getHeight(), width / COL_AMOUNT, height - configNavigationBar.getHeight(), LinearLayout.Orientation.VERTICAL);
-        LinearLayout configLayoutCol4 = new LinearLayout(getColXPos(3), configNavigationBar.getHeight(), width / COL_AMOUNT, height - configNavigationBar.getHeight(), LinearLayout.Orientation.VERTICAL);
-        LinearLayout configLayoutCol5 = new LinearLayout(getColXPos(4), configNavigationBar.getHeight(), width / COL_AMOUNT, height - configNavigationBar.getHeight(), LinearLayout.Orientation.VERTICAL);
+        LinearLayout configLayoutCol1 = new LinearLayout(getColXPos(0, width), configNavigationBar.getHeight(), width / COL_AMOUNT, height - configNavigationBar.getHeight(), LinearLayout.Orientation.VERTICAL);
+        LinearLayout configLayoutCol2 = new LinearLayout(getColXPos(1, width), configNavigationBar.getHeight(), width / COL_AMOUNT, height - configNavigationBar.getHeight(), LinearLayout.Orientation.VERTICAL);
+        LinearLayout configLayoutCol3 = new LinearLayout(getColXPos(2, width), configNavigationBar.getHeight(), width / COL_AMOUNT, height - configNavigationBar.getHeight(), LinearLayout.Orientation.VERTICAL);
+        LinearLayout configLayoutCol4 = new LinearLayout(getColXPos(3, width), configNavigationBar.getHeight(), width / COL_AMOUNT, height - configNavigationBar.getHeight(), LinearLayout.Orientation.VERTICAL);
+        LinearLayout configLayoutCol5 = new LinearLayout(getColXPos(4, width), configNavigationBar.getHeight(), width / COL_AMOUNT, height - configNavigationBar.getHeight(), LinearLayout.Orientation.VERTICAL);
 
         configLayoutCol1.defaultChildLayoutSetting().padding(10);
         configLayoutCol2.defaultChildLayoutSetting().padding(10);
@@ -99,6 +100,7 @@ public class GeneralConfigScreen extends AbstractConfigScreen {
         configLayoutCol3.arrangeElements();
         configLayoutCol4.arrangeElements();
         configLayoutCol5.arrangeElements();
+        layout.arrangeElements();
     }
 
     public void render(@NotNull GuiGraphics graphics, int mouseX, int mouseY, float partialTick) {

@@ -5,6 +5,7 @@ import com.lazrproductions.cuffed.entity.base.IRestrainableEntity;
 import com.mojang.logging.LogUtils;
 import git.david.cuffedplus.CuffedPlusMain;
 import git.david.cuffedplus.client.Keybindings;
+import git.david.cuffedplus.config.ConfigHandler;
 import git.david.cuffedplus.init.ModMenuTypes;
 import git.david.cuffedplus.init.ModNetwork;
 import git.david.cuffedplus.items.restraints.custom.HazardTapeHeadRestraint;
@@ -12,7 +13,6 @@ import git.david.cuffedplus.misc.JumpsuitLayer;
 import git.david.cuffedplus.misc.PoliceUniformLayer;
 import git.david.cuffedplus.screen.CuffTableMenuScreen;
 import git.david.cuffedplus.screen.config.GeneralConfigScreen;
-import git.david.cuffedplus.utils.InfoMessagesHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.renderer.entity.player.PlayerRenderer;
@@ -34,7 +34,6 @@ import java.util.Random;
 
 @Mod.EventBusSubscriber(modid = CuffedPlusMain.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ModClientEvents {
-    static final String[] variants = new String[]{"mph", "mhm", "hmm", "fmp", "mpr", "mrp"};
     private final static Logger LOGGER = LogUtils.getLogger();
 
     @SubscribeEvent
@@ -64,16 +63,10 @@ public class ModClientEvents {
     }
 
     @SubscribeEvent
-    public void clientChatEvent(ClientChatEvent event) {
-    }
-
-    @SubscribeEvent
     public void commandEvent(CommandEvent event) {
-        System.out.println(event.getParseResults().getContext().getSource().getEntity() + " " + event.getParseResults().getReader() + " " + CuffedPlusMain.SERVER_CONFIG.allowRestrainedPlayersExecuteCommands());
-        if (event.getParseResults().getContext().getSource().getEntity() instanceof Player && !CuffedPlusMain.SERVER_CONFIG.allowRestrainedPlayersExecuteCommands()) {
-            InfoMessagesHandler.sendFailMessage(Minecraft.getInstance().player, "You can't perform commands while you're restrained!", false, false);
-            System.out.println("CANCELING");
-            event.setCanceled(true);
+        if (event.getParseResults().getContext().getSource().getEntity() instanceof Player) {
+            Player player = (Player) event.getParseResults().getContext().getSource().getEntity();
+            event.setCanceled(!ConfigHandler.handleCommandExecution(player));
         }
     }
 
@@ -82,7 +75,7 @@ public class ModClientEvents {
 
     }
 
-    // Event is on the Forge event bus only on the physical client
+
     @SubscribeEvent
     public void onClientTick(TickEvent.ClientTickEvent event) {
         Minecraft minecraft = Minecraft.getInstance();
@@ -99,13 +92,19 @@ public class ModClientEvents {
     }
 
     @SubscribeEvent
-    public void chat(ClientChatEvent event) {
+    public void onClientChat(ClientChatEvent event) {
         Minecraft instance = Minecraft.getInstance();
+        if (instance.player != null) {
+            System.out.println(instance.player.getDisplayName());
+            instance.player.refreshDisplayName();
+        }
+
         if (instance.player instanceof IRestrainableEntity e)
             if (e.getHeadRestraintId().equals(HazardTapeHeadRestraint.ID))
                 event.setMessage(mufflifyPhrase(event.getMessage()));
     }
 
+    static final String[] muffleVariants = new String[]{"mph", "mhm", "hmm", "fmp", "mpr", "mrp"};
     String mufflifyPhrase(String message) {
         String[] words = message.split(" ");
 
@@ -120,7 +119,7 @@ public class ModClientEvents {
     }
 
     String mufflifyWord(String word) {
-        String myVariant = variants[new Random().nextInt(3)];
+        String myVariant = muffleVariants[new Random().nextInt(3)];
 
         String output = "";
         for (int i = 0; i < word.length(); i++) {

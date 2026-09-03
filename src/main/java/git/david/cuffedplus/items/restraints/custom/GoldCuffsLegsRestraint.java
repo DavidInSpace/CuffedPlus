@@ -15,6 +15,8 @@ import com.lazrproductions.lazrslib.client.screen.ScreenUtilities;
 import com.lazrproductions.lazrslib.client.screen.base.BlitCoordinates;
 import com.mojang.blaze3d.platform.Window;
 import git.david.cuffedplus.CuffedPlusMain;
+import git.david.cuffedplus.client.ClientConfig;
+import git.david.cuffedplus.constants.ConfigIDS;
 import git.david.cuffedplus.init.ModItems;
 import git.david.cuffedplus.init.ModModelLayers;
 import git.david.cuffedplus.init.ModRestraints;
@@ -46,7 +48,6 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 
 import javax.annotation.Nonnull;
 import java.util.Random;
-
 
 import static git.david.cuffedplus.misc.Icons.GOLD_CHAIN_ICON;
 
@@ -386,7 +387,7 @@ public class GoldCuffsLegsRestraint extends AbstractLegRestraint implements IBre
         ItemStack restraintStack = playerCap.getArmRestraint().saveToItemStack();
         // System.out.println(restraintStack.getOrCreateTag().getBoolean("Timer") + "  " + CuffedPlusMain.SERVER_CONFIG.allowBreakingTimeLockedRestraints());
         long ticks_time = ((IAbstractRestraintAccessor) playerCap.getRestraint(this.getType())).getTicksTime();
-        if ((restraintStack.getOrCreateTag().getBoolean("Timer") || ticks_time > 0) && !CuffedPlusMain.SERVER_CONFIG.allowBreakingTimeLockedRestraints())
+        if ((restraintStack.getOrCreateTag().getBoolean("Timer") || ticks_time > 0) && !ClientConfig.getBoolValue(ConfigIDS.ALLOW_BREAKING_TIME_LOCKED_RESTRAINTS))
             return false;
 
         return !restraintStack.getOrCreateTag().getBoolean("CanBeBrokenOutOf");

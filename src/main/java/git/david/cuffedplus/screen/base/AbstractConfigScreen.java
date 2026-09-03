@@ -1,10 +1,10 @@
 package git.david.cuffedplus.screen.base;
 
 import com.mojang.logging.LogUtils;
+import git.david.cuffedplus.client.ClientConfig;
 import git.david.cuffedplus.config.base.ConfigOption;
 import git.david.cuffedplus.config.base.DescriptionHolder;
 import git.david.cuffedplus.constants.Styles;
-import git.david.cuffedplus.events.ClientConfig;
 import git.david.cuffedplus.init.ModNetwork;
 import git.david.cuffedplus.net.C2SConfigPacket;
 import git.david.cuffedplus.screen.ConfigNavigationBar;
@@ -26,20 +26,26 @@ import static git.david.cuffedplus.config.Config.getOptionById;
 import static git.david.cuffedplus.config.base.ConfigDescriptions.DESCRIPTIONS;
 
 public abstract class AbstractConfigScreen extends Screen {
-    protected final static int COL_AMOUNT = 5;
     private final static Logger LOGGER = LogUtils.getLogger();
+
+    protected final static int COL_AMOUNT = 5;
+    protected static int GAP = 50;
     private final static int CYCLE_BUTTON_X = 20;
     private final static int CYCLE_BUTTON_Y = 20;
     private final static int CYCLE_BUTTON_HEIGHT = 20;
     private final static int CYCLE_BUTTON_WIDTH = 200;
     protected static ConfigNavigationBar configNavigationBar;
-    private static int WIDTH;
     public boolean isActive = false;
+
+    protected final static int INFO_BUTTON_X = 10;
+    protected final static int INFO_BUTTON_Y = 10;
+    protected final static int INFO_BUTTON_HEIGHT = 20;
+    protected final static int INFO_BUTTON_WIDTH = 20;
+
 
 
     protected AbstractConfigScreen(Component pTitle) {
         super(pTitle);
-        WIDTH = this.width;
         configNavigationBar = new ConfigNavigationBar(0, 0, this.width, this.height);
     }
 
@@ -57,7 +63,7 @@ public abstract class AbstractConfigScreen extends Screen {
             return Component.literal("There can only be 4 values at most").withStyle(ChatFormatting.RED).withStyle(ChatFormatting.BOLD);
         } // There can only be 4 descriptions at most
         for (DescriptionHolder descriptionHolder : DESCRIPTIONS) {
-            System.out.println("LOOKING FOR: " + id + "  CURRENT: " + descriptionHolder.getID());
+            //System.out.println("LOOKING FOR: " + id + "  CURRENT: " + descriptionHolder.getID());
             if (descriptionHolder.getID().equals(id)) {
                 try {
                     if (number == 1) {
@@ -77,7 +83,7 @@ public abstract class AbstractConfigScreen extends Screen {
         return Component.literal("NO DESCRIPTION FOUND").withStyle(ChatFormatting.RED).withStyle(ChatFormatting.BOLD);
     }
 
-    protected static int getColXPos(int col) {
+    protected static int getColXPos(int col, int WIDTH) {
         return ((WIDTH / COL_AMOUNT + 20) * col);
     }
 
@@ -103,16 +109,18 @@ public abstract class AbstractConfigScreen extends Screen {
 
         if (type.equalsIgnoreCase("string")) {
             cycleButton = CycleButton.builder(Component::literal)
-                    .withValues(values).withInitialValue(ClientConfig.getValue(id))
+                    .withValues(values).withInitialValue(ClientConfig.getStringValue(id))
                     .create(0, 0, CYCLE_BUTTON_WIDTH, CYCLE_BUTTON_HEIGHT, name, (btn, str) -> {
+                        ClientConfig.putValue(id, str);
                         ModNetwork.sendToServer(new C2SConfigPacket(id, str));
                         btn.setTooltip(Tooltip.create(Component.literal(configOption.getName() + "\n\n").withStyle(ChatFormatting.BOLD).append(getDescription(id, configOption.getDescriptionNum()))));
                     });
             cycleButton.setTooltip(Tooltip.create(Component.literal(configOption.getName() + "\n\n").withStyle(ChatFormatting.BOLD).append(getDescription(id, configOption.getDescriptionNum()))));
         } else if (type.equalsIgnoreCase("boolean")) {
             cycleButton = CycleButton.booleanBuilder(Component.literal("True").setStyle(Styles.getTrueStyle(true)), Component.literal("False").setStyle(Styles.getFalseStyle(true)))
-                    .withInitialValue(Boolean.valueOf(ClientConfig.getValue(id)))
+                    .withInitialValue(Boolean.valueOf(ClientConfig.getStringValue(id)))
                     .create(0, 0, CYCLE_BUTTON_WIDTH, CYCLE_BUTTON_HEIGHT, name, (btn, bool) -> {
+                        ClientConfig.putValue(id, bool.toString());
                         ModNetwork.sendToServer(new C2SConfigPacket(id, bool.toString()));
                         btn.setTooltip(Tooltip.create(Component.literal(configOption.getName() + "\n\n").withStyle(ChatFormatting.BOLD).append(getDescription(id, configOption.getDescriptionNum()))));
                     });

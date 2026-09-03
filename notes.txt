@@ -1,47 +1,39 @@
-        DESCRIPTIONS.add(new DescriptionHolder("OTHER_PRISONERS_JUMPSUIT_BEHAVIOR",
-                Component.literal("× none: ").setStyle(Styles.getDarkRedStyle(true)).append(Component.literal("Prisoners can not put on nor take off jumpsuits of other players").setStyle(Styles.getDarkRedStyle(false))).withStyle(ChatFormatting.UNDERLINE),
-                Component.literal("⬆️ onlyPutOn: ").setStyle(Styles.getWhiteStyle(true)).append(Component.literal("Prisoners can only put jumpsuits on other players").setStyle(Styles.getWhiteStyle(false))),
-                Component.literal("⬇️ onlyTakeOff: ").setStyle(Styles.getWhiteStyle(true)).append(Component.literal("Prisoners can only put jumpsuits off other players").setStyle(Styles.getWhiteStyle(false))),
-                Component.literal("✓ both: ").setStyle(Styles.getDarkGreenStyle(true)).append(Component.literal("Prisoners can put jumpsuits on and off other players").setStyle(Styles.getDarkGreenStyle(false)))));
+        if (!player.getTags().contains("prisoner")) {
+            if (ClientConfig.getStringValue(ConfigIDS.OTHER_PLAYERS_JUMPSUIT_LOCK_BEHAVIOR).equalsIgnoreCase("none")) {
+                if (action.equalsIgnoreCase("lock"))
+                    InfoMessagesHandler.sendFailMessage(player, "× You can not lock your others jumpsuits ×", false, true);
+                else
+                    InfoMessagesHandler.sendFailMessage(player, "🔒 You can not unlock others jumpsuits 🔒", false, true);
 
-        DESCRIPTIONS.add(new DescriptionHolder("OTHER_PRISONERS_ANKLE_MONITOR_BEHAVIOR",
-                Component.literal("× none: ").setStyle(Styles.getDarkRedStyle(true)).append(Component.literal("Prisoners can not put ankle monitors on or off other players").setStyle(Styles.getDarkRedStyle(false))).withStyle(ChatFormatting.UNDERLINE),
-                Component.literal("🔓 onlyPutOn: ").setStyle(Styles.getWhiteStyle(true)).append(Component.literal("Prisoners can only put ankle monitors on other players").setStyle(Styles.getWhiteStyle(false))),
-                Component.literal("🔒 onlyTakeOff: ").setStyle(Styles.getWhiteStyle(true)).append(Component.literal("Prisoners can only put ankle monitors off other players").setStyle(Styles.getWhiteStyle(false))),
-                Component.literal("✓ both: ").setStyle(Styles.getDarkGreenStyle(true)).append(Component.literal("Prisoners can put ankle monitors on and off other players").setStyle(Styles.getDarkGreenStyle(false)))));
+                return false;
+            }
 
-        DESCRIPTIONS.add(new DescriptionHolder("PRISONERS_OWN_JUMPSUIT_LOCK_BEHAVIOR",
-                Component.literal("× none: ").setStyle(Styles.getDarkRedStyle(true)).append(Component.literal("Prisoners can not lock nor unlock their own jumpsuit").setStyle(Styles.getDarkRedStyle(false))),
-                Component.literal("🔓 onlyUnlock: ").setStyle(Styles.getWhiteStyle(true)).append(Component.literal("Prisoners can only lock their own jumpsuit").setStyle(Styles.getWhiteStyle(false))),
-                Component.literal("🔒 onlyLock: ").setStyle(Styles.getWhiteStyle(true)).append(Component.literal("Prisoners can only unlock their own jumpsuit").setStyle(Styles.getWhiteStyle(false))),
-                Component.literal("✓ both: ").setStyle(Styles.getDarkGreenStyle(true)).append(Component.literal("Prisoners can lock and unlock their own jumpsuit").setStyle(Styles.getDarkGreenStyle(false))).withStyle(ChatFormatting.UNDERLINE)));
+            if (ClientConfig.getStringValue(ConfigIDS.OTHER_PLAYERS_JUMPSUIT_LOCK_BEHAVIOR).equalsIgnoreCase("onlyLock") && !action.equalsIgnoreCase("lock")) {
+                InfoMessagesHandler.sendFailMessage(player, "🔒 You can not unlock others jumpsuits 🔒", false, true);
+                return false;
+            }
 
-        DESCRIPTIONS.add(new DescriptionHolder("PRISONERS_OWN_ANKLE_MONITOR_LOCK_BEHAVIOR",
-                Component.literal("× none: ").setStyle(Styles.getDarkRedStyle(true)).append(Component.literal("Prisoners can not lock nor unlock their own ankle monitor").setStyle(Styles.getDarkRedStyle(false))),
-                Component.literal("🔓 onlyUnlock: ").setStyle(Styles.getWhiteStyle(true)).append(Component.literal("Prisoners can only lock their own ankle monitor").setStyle(Styles.getWhiteStyle(false))),
-                Component.literal("🔒 onlyLock: ").setStyle(Styles.getWhiteStyle(true)).append(Component.literal("Prisoners can only unlock their own ankle monitor").setStyle(Styles.getWhiteStyle(false))),
-                Component.literal("✓ both: ").setStyle(Styles.getDarkGreenStyle(true)).append(Component.literal("Prisoners can lock and unlock their own ankle monitor").setStyle(Styles.getDarkGreenStyle(false))).withStyle(ChatFormatting.UNDERLINE)));
+            if (ClientConfig.getStringValue(ConfigIDS.OTHER_PLAYERS_JUMPSUIT_LOCK_BEHAVIOR).equalsIgnoreCase("onlyUnlock") && action.equalsIgnoreCase("unlock")) {
+                InfoMessagesHandler.sendFailMessage(player, "× You can not lock others jumpsuits ×", false, true);
+                return false;
+            }
+        } else {
+            if (ClientConfig.getStringValue(ConfigIDS.OTHER_PRISONERS_JUMPSUIT_LOCK_BEHAVIOR).equalsIgnoreCase("none")) {
+                if (action.equalsIgnoreCase("lock"))
+                    InfoMessagesHandler.sendFailMessage(player, "🔒 You are a prisoner!  Prisoners can not unlock others jumpsuits 🔒", false, true);
+                else
+                    InfoMessagesHandler.sendFailMessage(player, "× ️️You are a prisoner!  Prisoners can not lock others jumpsuits ×", false, true);
+                return false;
+            }
 
-        DESCRIPTIONS.add(new DescriptionHolder("OTHER_PRISONERS_JUMPSUIT_LOCK_BEHAVIOR",
-                Component.literal("× none: ").setStyle(Styles.getDarkRedStyle(true)).append(Component.literal("Prisoners can not lock nor unlock the jumpsuit of other players").setStyle(Styles.getDarkRedStyle(false))),
-                Component.literal("🔓 onlyUnlock: ").setStyle(Styles.getWhiteStyle(true)).append(Component.literal("Prisoners can only lock the jumpsuit of other players").setStyle(Styles.getWhiteStyle(false))),
-                Component.literal("🔒 onlyLock: ").setStyle(Styles.getWhiteStyle(true)).append(Component.literal("Prisoners can only unlock the jumpsuit of other players").setStyle(Styles.getWhiteStyle(false))),
-                Component.literal("✓ both: ").setStyle(Styles.getDarkGreenStyle(true)).append(Component.literal("Prisoners can lock and unlock the jumpsuit of other players").setStyle(Styles.getDarkGreenStyle(false))).withStyle(ChatFormatting.UNDERLINE)));
+            if (ClientConfig.getStringValue(ConfigIDS.OTHER_PRISONERS_JUMPSUIT_LOCK_BEHAVIOR).equalsIgnoreCase("onlyLock") && !action.equalsIgnoreCase("lock")) {
+                InfoMessagesHandler.sendFailMessage(player, "🔒 You are a prisoner!  Prisoners can not unlock others jumpsuits 🔒", false, true);
+                return false;
+            }
 
-        DESCRIPTIONS.add(new DescriptionHolder("OTHER_PRISONERS_ANKLE_MONITOR_LOCK_BEHAVIOR",
-                Component.literal("× none: ").setStyle(Styles.getDarkRedStyle(true)).append(Component.literal("Prisoners can not lock nor unlock the ankle monitor of other players").setStyle(Styles.getDarkRedStyle(false))),
-                Component.literal("🔓 onlyUnlock: ").setStyle(Styles.getWhiteStyle(true)).append(Component.literal("Prisoners can only lock the ankle monitor of other players").setStyle(Styles.getWhiteStyle(false))),
-                Component.literal("🔒 onlyLock: ").setStyle(Styles.getWhiteStyle(true)).append(Component.literal("Prisoners can only unlock the ankle monitor of other players").setStyle(Styles.getWhiteStyle(false))),
-                Component.literal("✓ both: ").setStyle(Styles.getDarkGreenStyle(true)).append(Component.literal("Prisoners can lock and unlock the ankle monitor of other players").setStyle(Styles.getDarkGreenStyle(false))).withStyle(ChatFormatting.UNDERLINE)));
-
-        DESCRIPTIONS.add(new DescriptionHolder("PRISONERS_OWN_TRACKER_BINDING_BEHAVIOR",
-                Component.literal("× none: ").setStyle(Styles.getDarkRedStyle(true)).append(Component.literal("Prisoners can not bind nor unbind their own ankle monitor").setStyle(Styles.getDarkRedStyle(false))),
-                Component.literal("🔗 onlyBind: ").setStyle(Styles.getWhiteStyle(true)).append(Component.literal("Prisoners can only bind their own ankle monitor").setStyle(Styles.getWhiteStyle(false))),
-                Component.literal("⛓️‍💥 onlyUnbind: ").setStyle(Styles.getWhiteStyle(true)).append(Component.literal("Prisoners can only unbind their own ankle monitor").setStyle(Styles.getWhiteStyle(false))),
-                Component.literal("✓ both: ").setStyle(Styles.getDarkGreenStyle(true)).append(Component.literal("Prisoners can bind and unbind their own ankle monitor").setStyle(Styles.getDarkGreenStyle(false))).withStyle(ChatFormatting.UNDERLINE)));
-
-        DESCRIPTIONS.add(new DescriptionHolder("OTHER_PRISONERS_TRACKER_BINDING_BEHAVIOR",
-                Component.literal("× none: ").setStyle(Styles.getDarkRedStyle(true)).append(Component.literal("Prisoners can not bind nor unbind the ankle monitor of other players").setStyle(Styles.getDarkRedStyle(false))),
-                Component.literal("🔗 onlyBind: ").setStyle(Styles.getWhiteStyle(true)).append(Component.literal("Prisoners can only bind the ankle monitor of other players").setStyle(Styles.getWhiteStyle(false))),
-                Component.literal("⛓️‍💥 onlyUnbind: ").setStyle(Styles.getWhiteStyle(true)).append(Component.literal("Prisoners can only unbind the ankle monitor of other players").setStyle(Styles.getWhiteStyle(false))),
-                Component.literal("✓ both: ").setStyle(Styles.getDarkGreenStyle(true)).append(Component.literal("Prisoners can bind and unbind the ankle monitor of other players").setStyle(Styles.getDarkGreenStyle(false))).withStyle(ChatFormatting.UNDERLINE)));
+            if (ClientConfig.getStringValue(ConfigIDS.OTHER_PRISONERS_JUMPSUIT_LOCK_BEHAVIOR).equalsIgnoreCase("onlyUnlock") && action.equalsIgnoreCase("unlock")) {
+                InfoMessagesHandler.sendFailMessage(player, "× ️️You are a prisoner!  Prisoners can not lock others jumpsuits ×", false, true);
+                return false;
+            }
+        }
+        return true;

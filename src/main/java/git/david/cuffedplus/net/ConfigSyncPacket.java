@@ -1,12 +1,13 @@
 package git.david.cuffedplus.net;
 
 import com.mojang.logging.LogUtils;
-import git.david.cuffedplus.events.ClientConfig;
+import git.david.cuffedplus.client.ClientConfig;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraftforge.network.NetworkEvent;
 import org.slf4j.Logger;
 
 import java.util.HashMap;
+import java.util.Objects;
 import java.util.function.Supplier;
 
 import static git.david.cuffedplus.CuffedPlusMain.DEBUG;
@@ -31,6 +32,11 @@ public class ConfigSyncPacket {
         }
     }
 
+    public void encode(FriendlyByteBuf buf) {
+        if (DEBUG) LOGGER.debug("Writting ConfigSyncPacket Map");
+        buf.writeMap(this.values, FriendlyByteBuf::writeUtf, FriendlyByteBuf::writeUtf);
+    }
+
     public static ConfigSyncPacket decode(FriendlyByteBuf buf) {
         HashMap<String, String> map = (HashMap<String, String>) buf.readMap(FriendlyByteBuf::readUtf, FriendlyByteBuf::readUtf);
         return new ConfigSyncPacket(map);
@@ -49,14 +55,12 @@ public class ConfigSyncPacket {
                     LOGGER.warn("ConfigSyncPacket ID: {}  Is Empty (Value: {})", id, packet.values.get(id));
                 }
             }
+
+            Objects.requireNonNull(ctx.get().getSender()).refreshDisplayName();
         });
 
         ctx.get().setPacketHandled(true);
     }
 
-    public void encode(FriendlyByteBuf buf) {
-        if (DEBUG) LOGGER.debug("Writting ConfigSyncPacket Map");
-        buf.writeMap(this.values, FriendlyByteBuf::writeUtf, FriendlyByteBuf::writeUtf);
-    }
 
 }

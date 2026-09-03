@@ -1,6 +1,6 @@
 package git.david.cuffedplus.logic;
 
-import git.david.cuffedplus.CuffedPlusMain;
+import git.david.cuffedplus.config.ConfigHandler;
 import git.david.cuffedplus.items.item.base.AnkleMonitorItem;
 import git.david.cuffedplus.items.item.base.JumpsuitItem;
 import git.david.cuffedplus.utils.GeneralUtils;
@@ -63,15 +63,10 @@ public class TakeOffLogic {
             return;
         }
 
-        if (CuffedPlusMain.SERVER_CONFIG.getOtherPlayersJumpsuitBehavior().equals("onlyPutOn".toLowerCase()) || (CuffedPlusMain.SERVER_CONFIG.getOtherPlayersJumpsuitBehavior().equals("none"))) {
-            user.displayClientMessage(Component.literal("× You can not take jumpsuits off other players ×").withStyle(ChatFormatting.RED), true);
+        if (ConfigHandler.handleOthersJumpsuitBehavior(user, "takeOff")) {
             return;
         }
 
-        if (user.getTags().contains("prisoner") && CuffedPlusMain.SERVER_CONFIG.getOtherPrisonersJumpsuitBehavior().equals("onlyPutOn".toLowerCase()) || CuffedPlusMain.SERVER_CONFIG.getOtherPrisonersJumpsuitBehavior().equals("none")) {
-            user.displayClientMessage(Component.literal("× Your are a prisoner!  Prisoners can not take off other players jumpsuit ×").withStyle(ChatFormatting.RED), true);
-            return;
-        }
 
         ItemStack suit = target.getItemBySlot(EquipmentSlot.CHEST).copy();
         suit.setCount(1);
@@ -115,17 +110,10 @@ public class TakeOffLogic {
         if (!(targetFeet.getItem() instanceof AnkleMonitorItem)) return;
 
         if (targetFeet.getOrCreateTag().getBoolean("CanBeLocked") && targetFeet.getOrCreateTag().getBoolean("Locked")) {
-            user.displayClientMessage(Component.literal("🔒 " + GeneralUtils.extractPlayerName(String.valueOf(target.getName())) + "'s ankle monitor is locked on them! 🔒").withStyle(ChatFormatting.RED), true);
             return;
         }
 
-        if (CuffedPlusMain.SERVER_CONFIG.getOtherPlayersAnkleMonitorBehavior().equals("onlyPutOn".toLowerCase()) || (CuffedPlusMain.SERVER_CONFIG.getOtherPlayersAnkleMonitorBehavior().equals("none"))) {
-            user.displayClientMessage(Component.literal("× You can not take ankle monitors off other players ×").withStyle(ChatFormatting.RED), true);
-            return;
-        }
-
-        if (user.getTags().contains("prisoner") && CuffedPlusMain.SERVER_CONFIG.getOtherPrisonersAnkleMonitorBehavior().equals("onlyPutOn".toLowerCase()) || CuffedPlusMain.SERVER_CONFIG.getOtherPrisonersAnkleMonitorBehavior().equals("none")) {
-            user.displayClientMessage(Component.literal("× Your are a prisoner!  Prisoners can not take off other players ankle monitor ×").withStyle(ChatFormatting.RED), true);
+        if (ConfigHandler.handleOthersAnkleMonitorBehavior(user, "takeOff")) {
             return;
         }
 
